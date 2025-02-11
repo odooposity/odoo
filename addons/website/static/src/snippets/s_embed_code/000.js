@@ -14,6 +14,7 @@ const EmbedCodeWidget = publicWidget.Widget.extend({
     async start() {
         this.embedCodeEl = this.el.querySelector(".s_embed_code_embedded");
 
+<<<<<<< HEAD
         // TODO this should not be the widget's job to create this element but
         // the job of the related editor option. This was done as a stable fix
         // and we should make an upgrade script in master to be able to get rid
@@ -25,6 +26,8 @@ const EmbedCodeWidget = publicWidget.Widget.extend({
             this.el.prepend(templateEl);
         }
 
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
         if (this.editableMode && this.embedCodeEl.offsetHeight === 0) {
             // Shows a placeholder message in edit mode to be able to select
             // the snippet if it's visually empty.

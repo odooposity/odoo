@@ -125,8 +125,6 @@ publicWidget.registry.SurveyResultChart = publicWidget.Widget.extend({
                         self.chartConfig = self._getSectionResultsChartConfig();
                         break;
                 }
-                window.addEventListener("afterprint", self._onAfterPrint.bind(self));
-                window.addEventListener("beforeprint", self._onBeforePrint.bind(self));
                 self.chart = self._loadChart();
             }
         });
@@ -142,6 +140,7 @@ publicWidget.registry.SurveyResultChart = publicWidget.Widget.extend({
     },
 
     // -------------------------------------------------------------------------
+<<<<<<< HEAD
     // Handlers
     // -------------------------------------------------------------------------
 
@@ -162,6 +161,8 @@ publicWidget.registry.SurveyResultChart = publicWidget.Widget.extend({
     },
 
     // -------------------------------------------------------------------------
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
     // Private
     // -------------------------------------------------------------------------
 
@@ -480,6 +481,7 @@ publicWidget.registry.SurveyResultWidget = publicWidget.Widget.extend({
         'click a.filter-passed-and-failed': '_onFilterPassedAndFailedClick',
         'click .o_survey_answer_image': '_onAnswerImgClick',
         "click .o_survey_results_print": "_onPrintResultsClick",
+        "click .o_survey_results_data_tab": "_onDataViewChange",
     },
 
     //--------------------------------------------------------------------------
@@ -504,6 +506,11 @@ publicWidget.registry.SurveyResultWidget = publicWidget.Widget.extend({
                     .attachTo($(this)));
             });
 
+            // Set the size of results tables so that they do not resize when switching pages.
+            document.querySelectorAll('.o_survey_results_table_wrapper').forEach((table) => {
+                table.style.height = table.clientHeight + 'px';
+            })
+
             if (allPromises.length !== 0) {
                 return Promise.all(allPromises);
             } else {
@@ -515,6 +522,19 @@ publicWidget.registry.SurveyResultWidget = publicWidget.Widget.extend({
     // -------------------------------------------------------------------------
     // Handlers
     // -------------------------------------------------------------------------
+
+    /**
+     * Recompute the table height as the table could have been hidden when its height was initially computed (see 'start').
+     * @private
+     * @param {Event} ev
+     */
+    _onDataViewChange: function (ev) {
+        const tableWrapper = document.querySelector(`div[id="${ev.currentTarget.getAttribute('aria-controls')}"] .o_survey_results_table_wrapper`);
+        if (tableWrapper) {
+            tableWrapper.style.height = 'auto';
+            tableWrapper.style.height = tableWrapper.clientHeight + 'px';
+        }
+    },
 
     /**
      * Add an answer filter by updating the URL and redirecting.

@@ -3,6 +3,7 @@
 # 	* stock_landed_costs
 # 
 # Translators:
+<<<<<<< HEAD
 # eriiikgt, 2023
 # Óscar Fonseca <tecnico@pyming.com>, 2023
 # Ivan Espinola, 2023
@@ -28,6 +29,34 @@ msgstr ""
 "POT-Creation-Date: 2024-01-29 10:44+0000\n"
 "PO-Revision-Date: 2023-10-26 23:09+0000\n"
 "Last-Translator: marcescu, 2023\n"
+=======
+# eriiikgt, 2024
+# Óscar Fonseca <tecnico@pyming.com>, 2024
+# Ivan Espinola, 2024
+# Albert Parera, 2024
+# Susanna Pujol, 2024
+# 7b9408628f00af852f513eb4f12c005b_f9c6891, 2024
+# jabiri7, 2024
+# Arnau Ros, 2024
+# Sandra Franch <sandra.franch@upc.edu>, 2024
+# Eric Antones <eantones@users.noreply.github.com>, 2024
+# Martin Trigaux, 2024
+# Iván Infantes Castarnado, 2024
+# RGB Consulting <odoo@rgbconsulting.com>, 2024
+# Josep Anton Belchi, 2024
+# Manel Fernandez Ramirez <manelfera@outlook.com>, 2024
+# Quim - coopdevs <quim.rebull@coopdevs.org>, 2024
+# marcescu, 2024
+# Xavier, 2024
+# 
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 18.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2024-09-25 08:39+0000\n"
+"PO-Revision-Date: 2024-09-25 09:42+0000\n"
+"Last-Translator: Xavier, 2024\n"
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 "Language-Team: Catalan (https://app.transifex.com/odoo/teams/41243/ca/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -38,12 +67,17 @@ msgstr ""
 #. module: stock_landed_costs
 #. odoo-python
 #: code:addons/stock_landed_costs/models/stock_landed_cost.py:0
+<<<<<<< HEAD
 #: code:addons/stock_landed_costs/models/stock_landed_cost.py:0
 #: code:addons/stock_landed_costs/models/stock_landed_cost.py:0
 #: code:addons/stock_landed_costs/models/stock_landed_cost.py:0
 #, python-format
 msgid " already out"
 msgstr "ja fora"
+=======
+msgid "%(product)s: %(quantity)s already out"
+msgstr ""
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 #. module: stock_landed_costs
 #: model_terms:ir.ui.view,arch_db:stock_landed_costs.stock_landed_cost_view_kanban
@@ -54,17 +88,6 @@ msgstr "<i class=\"fa fa-clock-o\" title=\"Date\" role=\"img\" aria-label=\"Date
 #: model_terms:ir.ui.view,arch_db:stock_landed_costs.view_stock_landed_cost_form
 msgid "<span class=\"o_stat_text\">Valuation</span>"
 msgstr ""
-
-#. module: stock_landed_costs
-#: model:ir.model.fields,help:stock_landed_costs.field_account_move_line__product_type
-msgid ""
-"A storable product is a product for which you manage stock. The Inventory app has to be installed.\n"
-"A consumable product is a product for which stock is not managed.\n"
-"A service is a non-material product you provide."
-msgstr ""
-"Un producte emmagatzemable és un producte pel qual gestioneu estoc. Cal instal·lar l'aplicació Inventari.\n"
-"Un consumible és un producte pel qual no es gestiona estoc.\n"
-"Un servei és un producte no material que subministreu. "
 
 #. module: stock_landed_costs
 #: model:ir.model.fields,field_description:stock_landed_costs.field_stock_landed_cost_lines__account_id
@@ -194,7 +217,10 @@ msgstr "Línia de cost"
 #. module: stock_landed_costs
 #. odoo-python
 #: code:addons/stock_landed_costs/models/stock_landed_cost.py:0
+<<<<<<< HEAD
 #, python-format
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 msgid ""
 "Cost and adjustments lines do not match. You should maybe recompute the "
 "landed costs."
@@ -320,6 +346,15 @@ msgid "Future Activities"
 msgstr "Activitats futures"
 
 #. module: stock_landed_costs
+#: model:ir.model.fields,help:stock_landed_costs.field_account_move_line__product_type
+msgid ""
+"Goods are tangible materials and merchandise you provide.\n"
+"A service is a non-material product you provide."
+msgstr ""
+"Els béns són materials i mercaderies tangibles que proporcioneu.\n"
+"Un servei és un producte no material que proporcioneu."
+
+#. module: stock_landed_costs
 #: model_terms:ir.ui.view,arch_db:stock_landed_costs.view_stock_landed_cost_search
 msgid "Group By"
 msgstr "Agrupar per"
@@ -371,7 +406,7 @@ msgstr ""
 #. module: stock_landed_costs
 #: model:ir.model.fields,field_description:stock_landed_costs.field_stock_landed_cost__message_is_follower
 msgid "Is Follower"
-msgstr "És seguidor"
+msgstr "És un seguidor"
 
 #. module: stock_landed_costs
 #: model:ir.model.fields,field_description:stock_landed_costs.field_account_move_line__is_landed_costs_line
@@ -417,7 +452,6 @@ msgstr "Cost en destí"
 #: model:ir.actions.act_window,name:stock_landed_costs.action_stock_landed_cost
 #: model:ir.model.fields,field_description:stock_landed_costs.field_account_bank_statement_line__landed_costs_ids
 #: model:ir.model.fields,field_description:stock_landed_costs.field_account_move__landed_costs_ids
-#: model:ir.model.fields,field_description:stock_landed_costs.field_account_payment__landed_costs_ids
 #: model:ir.ui.menu,name:stock_landed_costs.menu_stock_landed_cost
 #: model_terms:ir.ui.view,arch_db:stock_landed_costs.account_view_move_form_inherited
 #: model_terms:ir.ui.view,arch_db:stock_landed_costs.view_stock_landed_cost_form
@@ -430,7 +464,6 @@ msgstr "Costos en destí"
 #. module: stock_landed_costs
 #: model:ir.model.fields,field_description:stock_landed_costs.field_account_bank_statement_line__landed_costs_visible
 #: model:ir.model.fields,field_description:stock_landed_costs.field_account_move__landed_costs_visible
-#: model:ir.model.fields,field_description:stock_landed_costs.field_account_payment__landed_costs_visible
 msgid "Landed Costs Visible"
 msgstr "Costos en destí visibles"
 
@@ -494,9 +527,12 @@ msgstr "Nom"
 #. module: stock_landed_costs
 #. odoo-python
 #: code:addons/stock_landed_costs/models/stock_landed_cost.py:0
+<<<<<<< HEAD
 #: code:addons/stock_landed_costs/models/stock_landed_cost.py:0
 #: code:addons/stock_landed_costs/models/stock_landed_cost.py:0
 #, python-format
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 msgid "New"
 msgstr "Nou"
 
@@ -548,7 +584,6 @@ msgstr "Nombre de missatges amb error d'entrega"
 #. module: stock_landed_costs
 #. odoo-python
 #: code:addons/stock_landed_costs/models/stock_landed_cost.py:0
-#, python-format
 msgid "Only draft landed costs can be validated"
 msgstr "Només costos de projecte descarregats poden ser validats"
 
@@ -565,7 +600,6 @@ msgstr "Albarà"
 #. module: stock_landed_costs
 #. odoo-python
 #: code:addons/stock_landed_costs/models/stock_landed_cost.py:0
-#, python-format
 msgid "Please configure Stock Expense Account for product: %s."
 msgstr ""
 "Configuri per favor el compte de gastos d'existències pel producte: %s."
@@ -573,7 +607,6 @@ msgstr ""
 #. module: stock_landed_costs
 #. odoo-python
 #: code:addons/stock_landed_costs/models/stock_landed_cost.py:0
-#, python-format
 msgid "Please define %s on which those additional costs should apply."
 msgstr ""
 "Si us plau, defineixi %s sobre els quals haurien d'aplicar-se aquests costos"
@@ -651,7 +684,7 @@ msgid ""
 "Planned: Future activities."
 msgstr ""
 "Estat basat en activitats\n"
-"Sobrepassat: La data límit ja ha passat\n"
+"Vençuda: La data límit ja ha passat\n"
 "Avui: La data de l'activitat és avui\n"
 "Planificat: Activitats futures."
 
@@ -666,6 +699,7 @@ msgid "Stock Landed Cost Line"
 msgstr "Línia de cost d'existències desembarcades"
 
 #. module: stock_landed_costs
+#: model:ir.model,name:stock_landed_costs.model_stock_move
 #: model:ir.model.fields,field_description:stock_landed_costs.field_stock_valuation_adjustment_lines__move_id
 msgid "Stock Move"
 msgstr "Moviment d'estoc"
@@ -705,7 +739,10 @@ msgstr "Validar"
 #. module: stock_landed_costs
 #. odoo-python
 #: code:addons/stock_landed_costs/models/stock_landed_cost.py:0
+<<<<<<< HEAD
 #, python-format
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 msgid ""
 "Validated landed costs cannot be cancelled, but you could create negative "
 "landed costs to reverse them"
@@ -752,7 +789,10 @@ msgstr "Pes"
 #. module: stock_landed_costs
 #. odoo-python
 #: code:addons/stock_landed_costs/models/stock_landed_cost.py:0
+<<<<<<< HEAD
 #, python-format
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 msgid ""
 "You cannot apply landed costs on the chosen %s(s). Landed costs can only be "
 "applied for products with FIFO or average costing method."
@@ -764,7 +804,10 @@ msgstr ""
 #. module: stock_landed_costs
 #. odoo-python
 #: code:addons/stock_landed_costs/models/product.py:0
+<<<<<<< HEAD
 #, python-format
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 msgid ""
 "You cannot change the product type or disable landed cost option because the"
 " product is used in an account move line."

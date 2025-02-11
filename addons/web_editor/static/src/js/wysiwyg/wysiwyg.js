@@ -1,6 +1,7 @@
 /** @odoo-module **/
 
 import { session } from "@web/session";
+import { user } from "@web/core/user";
 import { MediaDialog } from "@web_editor/components/media_dialog/media_dialog";
 import { VideoSelector } from "@web_editor/components/media_dialog/video_selector";
 import { browser } from "@web/core/browser/browser";
@@ -13,19 +14,21 @@ import { LinkPopoverWidget } from '@web_editor/js/wysiwyg/widgets/link_popover_w
 import { AltDialog } from '@web_editor/js/wysiwyg/widgets/alt_dialog';
 import { ChatGPTPromptDialog } from '@web_editor/js/wysiwyg/widgets/chatgpt_prompt_dialog';
 import { ChatGPTAlternativesDialog } from '@web_editor/js/wysiwyg/widgets/chatgpt_alternatives_dialog';
+import { ChatGPTTranslateDialog } from "@web_editor/js/wysiwyg/widgets/chatgpt_translate_dialog";
 import { ImageCrop } from '@web_editor/js/wysiwyg/widgets/image_crop';
 
 import * as wysiwygUtils from "@web_editor/js/common/wysiwyg_utils";
 import weUtils from "@web_editor/js/common/utils";
-import { isSelectionInSelectors, peek } from '@web_editor/js/editor/odoo-editor/src/utils/utils';
+import { isIconElement, isSelectionInSelectors, peek } from '@web_editor/js/editor/odoo-editor/src/utils/utils';
 import { PeerToPeer, RequestError } from "@web_editor/js/wysiwyg/PeerToPeer";
+import { rpc } from "@web/core/network/rpc";
 import { uniqueId } from "@web/core/utils/functions";
 import { groupBy } from "@web/core/utils/arrays";
 import { debounce } from "@web/core/utils/timing";
 import { registry } from "@web/core/registry";
 import { FileViewer } from "@web/core/file_viewer/file_viewer";
 import { isMobileOS } from "@web/core/browser/feature_detection";
-import { Mutex } from "@web/core/utils/concurrency";
+import { Deferred, Mutex } from "@web/core/utils/concurrency";
 import { AlertDialog, ConfirmationDialog } from "@web/core/confirmation_dialog/confirmation_dialog";
 import { _t } from "@web/core/l10n/translation";
 import { ConflictDialog } from "./conflict_dialog";
@@ -34,6 +37,7 @@ import { shouldUnlink } from '@web_editor/js/wysiwyg/widgets/link_tools';
 import { LinkDialog } from "./widgets/link_dialog";
 import {
     Component,
+    EventBus,
     useRef,
     useState,
     onWillStart,
@@ -60,9 +64,18 @@ const hasValidSelection = OdooEditorLib.hasValidSelection;
 const parseHTML = OdooEditorLib.parseHTML;
 const closestBlock = OdooEditorLib.closestBlock;
 const getRangePosition = OdooEditorLib.getRangePosition;
+<<<<<<< HEAD
 const fillEmpty = OdooEditorLib.fillEmpty;
 const isVisible = OdooEditorLib.isVisible;
 const getSelectedNodes = OdooEditorLib.getSelectedNodes;
+=======
+const childNodeIndex = OdooEditorLib.childNodeIndex;
+const fillEmpty = OdooEditorLib.fillEmpty;
+const isVisible = OdooEditorLib.isVisible;
+const getSelectedNodes = OdooEditorLib.getSelectedNodes;
+const getDeepestPosition = OdooEditorLib.getDeepestPosition;
+const paragraphRelatedElements = OdooEditorLib.paragraphRelatedElements;
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 function getJqueryFromDocument(doc) {
     if (doc.defaultView && doc.defaultView.$) {
@@ -134,7 +147,10 @@ export class Wysiwyg extends Component {
         }),
     }
     imageCropProps = useState({
+<<<<<<< HEAD
         rpc: this._serviceRpc.bind(this),
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
         showCount: 0,
         media: undefined,
         mimetype: undefined,
@@ -143,15 +159,20 @@ export class Wysiwyg extends Component {
         linkToolProps: false,
         showToolbar: true,
         toolbarProps: {},
+        showSnippetsMenu: false,
+        snippetsMenuFolded: false,
     });
 
     setup() {
         this.orm = useService('orm');
-        this.rpc = useService('rpc');
         this.getColorPickerTemplateService = useService('get_color_picker_template');
         this.notification = useService("notification");
         this.popover = useService("popover");
         this.busService = this.env.services.bus_service;
+        this.user = user;
+        this.snippetsMenuContainer = useRef("snippets-menu-container");
+        this.mutex = new Mutex();
+        this.snippetsMenuBus = new EventBus();
 
         const getColorPickedHandler = (colorType) => {
             return (params) => {
@@ -442,8 +463,19 @@ export class Wysiwyg extends Component {
             getPowerboxElement: () => {
                 const selection = (this.options.document || document).getSelection();
                 if (selection.isCollapsed && selection.rangeCount) {
+<<<<<<< HEAD
                     const baseNode = closestElement(selection.anchorNode, "P:not([t-field]), DIV:not([t-field]):not(.o_not_editable):not([contenteditable='false'])");
                     const fieldContainer = closestElement(selection.anchorNode, '[data-oe-field]');
+=======
+                    const [deepestNode] = getDeepestPosition(selection.anchorNode, selection.anchorOffset);
+                    const elementSelectors = [
+                        'LI:not([t-field])',
+                        "DIV:not([t-field]):not(.o_not_editable):not([contenteditable='false'])",
+                        ...paragraphRelatedElements.map(tag => `${tag}:not([t-field])`),
+                    ];
+                    const baseNode = closestElement(deepestNode, elementSelectors.join(', '));
+                    const fieldContainer = closestElement(deepestNode, '[data-oe-field]');
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
                     if (!baseNode ||
                         (
                             fieldContainer &&
@@ -470,6 +502,7 @@ export class Wysiwyg extends Component {
                     if (record.type === 'attributes'
                             && record.attributeName === 'aria-describedby') {
                         const value = (record.oldValue || record.target.getAttribute(record.attributeName));
+<<<<<<< HEAD
                         if (value && value.startsWith('popover')) {
                             // TODO maybe we should just always return false at
                             // this point: never considering the
@@ -478,6 +511,12 @@ export class Wysiwyg extends Component {
                             return !popoverData
                                 || popoverData.tip.id !== value
                                 || !popoverData.tip.classList.contains('o_edit_menu_popover');
+=======
+                        if (value && ['popover', 'tooltip'].some(type => value.startsWith(type))) {
+                            // E.g. prevents to consider the mutation due to
+                            // the 'o_edit_menu_popover' popover being shown.
+                            return false;
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
                         }
                     }
                     return !(
@@ -521,10 +560,14 @@ export class Wysiwyg extends Component {
         }
 
         this._initialValue = this.getValue();
-        const $wrapwrap = $('#wrapwrap');
-        if ($wrapwrap.length) {
-            $wrapwrap[0].addEventListener('scroll', this.odooEditor.multiselectionRefresh, { passive: true });
-            this.$root = this.$root || $wrapwrap;
+
+        // TODO this code should be reviewed. Previously, it searched for the
+        // wrapwrap and added some scroll handler if found... we are now
+        // continuing to search for it, but it is not clear why. As the wrapwrap
+        // will be removed, this code will not stay for too long anyway.
+        if ($('wrapwrap').length) {
+            this.multiSelectionTarget = $().getScrollingTarget(this.odooEditor.document);
+            this.multiSelectionTarget.addEventListener('scroll', this.odooEditor.multiselectionRefresh, { passive: true });
         }
 
         this.$editable.on('click', '[data-oe-field][data-oe-sanitize-prevent-edition]', () => {
@@ -585,6 +628,19 @@ export class Wysiwyg extends Component {
         );
 
         this.$editable.on('click', '.o_image, .media_iframe_video', e => e.preventDefault());
+
+        let closeBannerEmojiPicker;
+        this.$editable.on('click', '.o_editor_banner_icon', event => {
+            if (closeBannerEmojiPicker) {
+                closeBannerEmojiPicker();
+            }
+            closeBannerEmojiPicker = this.popover.add(event.target, EmojiPicker, {
+                onSelect: emoji => {
+                    event.target.innerText = emoji;
+                }
+            }, { position: 'bottom' });
+        });
+
         this.showTooltip = true;
         this.$editable.on('dblclick', mediaSelector, ev => {
             const targetEl = ev.currentTarget;
@@ -616,9 +672,9 @@ export class Wysiwyg extends Component {
         });
 
         if (options.snippets) {
-            $(this.odooEditor.document.body).addClass('editor_enable');
-            this.snippetsMenu = await this._createSnippetsMenuInstance(options);
+            this.snippetsMenuComponent = await this.getSnippetsMenuClass(options);
             await this._insertSnippetMenu();
+            $(this.odooEditor.document.body).addClass('editor_enable');
 
             this._onBeforeUnload = (event) => {
                 if (this.isDirty()) {
@@ -642,7 +698,7 @@ export class Wysiwyg extends Component {
         // Ensure the Toolbar always have the correct layout in note.
         this._updateEditorUI();
 
-        this.$root.on('click', (ev) => {
+        this.$editable.on('click.Wysiwyg', (ev) => {
             const $target = $(ev.target).closest('a');
 
             // Keep popover open if clicked inside it, but not on a button
@@ -667,11 +723,11 @@ export class Wysiwyg extends Component {
                     // editor panel (like originally intended but...) / ...
                     (async () => {
                         let container;
-                        if (this.snippetsMenu) {
+                        if (this.state.showSnippetsMenu) {
                             // Await for the editor panel to be fully updated
                             // as some buttons of the link popover we create
                             // here relies on clicking in that editor panel...
-                            await this.snippetsMenu._mutex.exec(() => null);
+                            await this.mutex.exec(() => null);
                             container = this.options.document.getElementById('oe_manipulators');
                         }
                         this.linkPopover = LinkPopoverWidget.createFor({
@@ -689,7 +745,11 @@ export class Wysiwyg extends Component {
                 // resets the selection inside that element if no selection
                 // exists.
                 $target.closest('[contenteditable=true]').focus();
+<<<<<<< HEAD
                 if ($target.closest('#wrapwrap').length && this.snippetsMenu) {
+=======
+                if ($target.closest('#wrapwrap').length && this.state.showSnippetsMenu) {
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
                     this.toggleLinkTools({
                         forceOpen: true,
                         link: $target[0],
@@ -701,7 +761,9 @@ export class Wysiwyg extends Component {
 
         this._onSelectionChange = this._onSelectionChange.bind(this);
         this.odooEditor.document.addEventListener('selectionchange', this._onSelectionChange);
-        this.setCSSVariables(this.snippetsMenu ? this.snippetsMenu.el : this.toolbarEl);
+        if (!this.state.showSnippetsMenu) {
+            this.setCSSVariables(this.toolbarEl);
+        }
 
         this.odooEditor.addEventListener('preObserverActive', () => {
             // The onPostSanitize will be called right after the
@@ -737,27 +799,24 @@ export class Wysiwyg extends Component {
         this._historyStepsBuffer = [];
         Wysiwyg.activeCollaborationChannelNames.add(channelName);
 
-        const collaborationBusListener = ({ detail: notifications}) => {
-            for (const { payload, type } of notifications) {
-                if (
-                    type === 'editor_collaboration' &&
-                    payload.model_name === modelName &&
-                    payload.field_name === fieldName &&
-                    payload.res_id === resId
-                ) {
-                    if (payload.notificationName === 'html_field_write') {
-                        this._onServerLastIdUpdate(payload.notificationPayload.last_step_id);
-                    } else if (this._ptpJoined) {
-                        this._peerToPeerLoading.then(() => this.ptp.handleNotification(payload));
-                    }
+        const collaborationBusListener = (payload) => {
+            if (
+                payload.model_name === modelName &&
+                payload.field_name === fieldName &&
+                payload.res_id === resId
+            ) {
+                if (payload.notificationName === 'html_field_write') {
+                    this._onServerLastIdUpdate(payload.notificationPayload.last_step_id);
+                } else if (this._ptpJoined) {
+                    this._peerToPeerLoading.then(() => this.ptp.handleNotification(payload));
                 }
             }
         }
-        this.busService.addEventListener('notification', collaborationBusListener);
+        this.busService.subscribe('editor_collaboration', collaborationBusListener);
         this.busService.addChannel(this._collaborationChannelName);
         this._collaborationStopBus = () => {
             Wysiwyg.activeCollaborationChannelNames.delete(this._collaborationChannelName);
-            this.busService.removeEventListener('notification', collaborationBusListener);
+            this.busService.unsubscribe('editor_collaboration', collaborationBusListener);
             this.busService.deleteChannel(this._collaborationChannelName);
         }
 
@@ -874,9 +933,6 @@ export class Wysiwyg extends Component {
             this.odooEditor.document.removeEventListener('selectionchange', this._onSelectionChange);
             this.odooEditor.destroy();
         }
-        if (this.snippetsMenu) {
-            this.snippetsMenu.destroy();
-        }
         // If peer to peer is initializing, wait for properly closing it.
         if (this._peerToPeerLoading) {
             this._peerToPeerLoading.then(()=> {
@@ -890,11 +946,8 @@ export class Wysiwyg extends Component {
         const $body = $(document.body);
         $body.off('mousemove', this.resizerMousemove);
         $body.off('mouseup', this.resizerMouseup);
-        const $wrapwrap = $('#wrapwrap');
-        if ($wrapwrap.length && this.odooEditor) {
-            $('#wrapwrap')[0].removeEventListener('scroll', this.odooEditor.multiselectionRefresh, { passive: true });
-        }
-        $(this.$root).off('click');
+        this.multiSelectionTarget?.removeEventListener('scroll', this.odooEditor.multiselectionRefresh, { passive: true });
+        this.$editable?.off('.Wysiwyg');
         this.toolbarEl?.remove();
         this.imageCropEL?.remove();
         if (this.linkPopover) {
@@ -924,7 +977,6 @@ export class Wysiwyg extends Component {
             this.$editable.attr('contenteditable', true);
         }
 
-        this.$root = this.$editable;
         if (this.options.height) {
             this.$editable.height(this.options.height);
         }
@@ -936,7 +988,6 @@ export class Wysiwyg extends Component {
         }
         if (this.options.resizable && !isMobileOS()) {
             const $wrapper = $('<div class="o_wysiwyg_wrapper odoo-editor">');
-            this.$root = $wrapper;
             $wrapper.append(this.$editable);
             this.$resizer = $(`<div class="o_wysiwyg_resizer">
                 <div class="o_wysiwyg_resizer_hook"></div>
@@ -1207,8 +1258,10 @@ export class Wysiwyg extends Component {
             this._attachHistoryIds(editable);
         }
 
-        if (this.snippetsMenu) {
-            await this.snippetsMenu.cleanForSave();
+        if (this.state.showSnippetsMenu) {
+            const cleanedProms = [];
+            this.snippetsMenuBus.trigger("CLEAN_FOR_SAVE", { proms: cleanedProms });
+            await Promise.all(cleanedProms);
         }
     }
     isSelectionInEditable() {
@@ -1232,7 +1285,7 @@ export class Wysiwyg extends Component {
                 observerData.observer.observe(observerData.field, observerOptions);
             }
         } else {
-            const odooFieldSelector = '[data-oe-model], [data-oe-translation-initial-sha]';
+            const odooFieldSelector = '[data-oe-model], [data-oe-translation-source-sha]';
             const $odooFields = this.$editable.find(odooFieldSelector);
             const renderingClassesSelector = this.odooEditor.options.renderingClasses
                 .map(className => `.${className}`).join(", ");
@@ -1262,8 +1315,8 @@ export class Wysiwyg extends Component {
                             .filter('[data-oe-field="' + $node.data('oe-field') + '"]');
                     }
 
-                    if ($node.data('oe-translation-initial-sha')) {
-                        $nodes = $nodes.filter('[data-oe-translation-initial-sha="' + $node.data('oe-translation-initial-sha') + '"]');
+                    if ($node.data('oe-translation-source-sha')) {
+                        $nodes = $nodes.filter('[data-oe-translation-source-sha="' + $node.data('oe-translation-source-sha') + '"]');
                     }
                     if ($node.data('oe-type')) {
                         $nodes = $nodes.filter('[data-oe-type="' + $node.data('oe-type') + '"]');
@@ -1303,7 +1356,11 @@ export class Wysiwyg extends Component {
                         // Exclude inner translation fields observers. They
                         // still handle translation synchronization inside the
                         // targeted field.
+<<<<<<< HEAD
                         observerData => !observerData.field.dataset.oeTranslationInitialSha ||
+=======
+                        observerData => !observerData.field.dataset.oeTranslationSourceSha ||
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
                             !field.contains(observerData.field)
                     );
                     this._pauseOdooFieldObservers();
@@ -1402,16 +1459,14 @@ export class Wysiwyg extends Component {
         if (linkEl && (!linkEl.matches(this.customizableLinksSelector) || !linkEl.isContentEditable)) {
             return;
         }
-        if (this.snippetsMenu && !options.forceDialog) {
+        if (this.state.showSnippetsMenu && !options.forceDialog) {
             if (options.link && options.link.querySelector(mediaSelector) &&
                     !options.link.textContent.trim() && wysiwygUtils.isImg(this.lastElement)) {
                 // If the link contains a media without text, the link is
                 // editable in the media options instead.
                 if (options.shoudFocusUrl) {
                     // Wait for the editor panel to be fully updated.
-                    this.snippetsMenu._mutex.exec(() => {
-                        // This is needed to focus the URL input when clicking
-                        // on the "Edit link" of the popover.
+                    this.mutex.exec(() => {
                         this.odooEditor.dispatchEvent(new Event('activate_image_link_tool'));
                     });
                 }
@@ -1470,24 +1525,34 @@ export class Wysiwyg extends Component {
                 }
                 // update the shouldFocusUrl prop to focus on url when double click and click edit link
                 this.state.linkToolProps.shouldFocusUrl = shouldFocusUrl;
+<<<<<<< HEAD
                 const _onClick = ev => {
                     const selection = this.odooEditor.document.getSelection();
                     const isFocusOnInput = selection.anchorNode?.closest?.('.o_url_input');
                     if (
                         !ev.target.closest('#create-link') &&
                         (!ev.target.closest('.oe-toolbar') || (!ev.target.closest('we-customizeblock-option') && isFocusOnInput)) &&
+=======
+                this.odooEditor.document.removeEventListener('click', this._onClick, true);
+                document.removeEventListener('click', this._onClick, true);
+                this._onClick = ev => {
+                    if (
+                        !ev.target.closest('#create-link') &&
+                        !ev.target.closest(".o_technical_modal") &&
+                        !ev.target.closest('.oe-toolbar') &&
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
                         !ev.target.closest('.ui-autocomplete') &&
                         (!this.state.linkToolProps || ![ev.target, ...wysiwygUtils.ancestors(ev.target)].includes(this.linkToolsInfos.link))
                     ) {
                         // Destroy the link tools on click anywhere outside the
                         // toolbar if the target is the orgiginal target not in the original target.
                         this.destroyLinkTools();
-                        this.odooEditor.document.removeEventListener('click', _onClick, true);
-                        document.removeEventListener('click', _onClick, true);
+                        this.odooEditor.document.removeEventListener('click', this._onClick, true);
+                        document.removeEventListener('click', this._onClick, true);
                     }
                 };
-                this.odooEditor.document.addEventListener('click', _onClick, true);
-                document.addEventListener('click', _onClick, true);
+                this.odooEditor.document.addEventListener('click', this._onClick, true);
+                document.addEventListener('click', this._onClick, true);
             } else {
                 this.destroyLinkTools();
             }
@@ -1521,8 +1586,13 @@ export class Wysiwyg extends Component {
                     this.odooEditor.historyUnpauseSteps();
                     this.odooEditor.historyStep();
                     const link = data.linkDialog.$link[0];
+<<<<<<< HEAD
                     setSelection(link, 0, link, link.childNodes.length, false);
                     link.focus();
+=======
+                    const linkIndex = childNodeIndex(link);
+                    setSelection(link.parentElement, linkIndex+1, link.parentElement, linkIndex+1, false);
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
                 },
                 onClose: () => {
                     this.odooEditor.historyUnpauseSteps();
@@ -1534,9 +1604,11 @@ export class Wysiwyg extends Component {
     /**
      * Open one of the ChatGPTDialogs to generate or modify content.
      *
-     * @param {'prompt'|'alternatives'} [mode='prompt']
+     * @param {'prompt'|'alternatives'|'translate'} [mode='prompt']
+     * @param {object} options
+     * @param {String} [options.language]
      */
-    openChatGPTDialog(mode = 'prompt') {
+    openChatGPTDialog(mode = 'prompt', options={}) {
         const restore = preserveCursor(this.odooEditor.document);
         const params = {
             insert: content => {
@@ -1577,12 +1649,15 @@ export class Wysiwyg extends Component {
                 }
             },
         };
-        if (mode === 'alternatives') {
+        if (mode === 'alternatives' || mode === 'translate') {
             params.originalText = this.odooEditor.document.getSelection().toString() || '';
+        }
+        if (mode === 'translate') {
+            params.language = options.language;
         }
         this.odooEditor.document.getSelection().collapseToEnd();
         this.env.services.dialog.add(
-            mode === 'prompt' ? ChatGPTPromptDialog : ChatGPTAlternativesDialog,
+            mode === 'prompt' ? ChatGPTPromptDialog : mode === 'translate' ? ChatGPTTranslateDialog : ChatGPTAlternativesDialog,
             params,
             { onClose: restore },
         );
@@ -1591,9 +1666,8 @@ export class Wysiwyg extends Component {
      * Removes the current Link.
      */
     removeLink() {
-        if (this.snippetsMenu && wysiwygUtils.isImg(this.lastElement)) {
-            this.snippetsMenu._mutex.exec(() => {
-                // Wait for the editor panel to be fully updated.
+        if (this.state.showSnippetsMenu && wysiwygUtils.isImg(this.lastElement)) {
+            this.mutex.exec(() => {
                 this.odooEditor.dispatchEvent(new Event('deactivate_image_link_tool'));
             });
         } else {
@@ -1748,7 +1822,12 @@ export class Wysiwyg extends Component {
         const stylesToCopy = weUtils.EDITOR_COLOR_CSS_VARIABLES;
 
         for (const style of stylesToCopy) {
-            element.style.setProperty(`--we-cp-${style}`, weUtils.getCSSVariableValue(style));
+            let value = weUtils.getCSSVariableValue(style);
+            if (value.startsWith("'") && value.endsWith("'")) {
+                // Gradient values are recovered within a string.
+                value = value.substring(1, value.length - 1);
+            }
+            element.style.setProperty(`--we-cp-${style}`, value);
         }
 
         element.classList.toggle('o_we_has_btn_outline_primary',
@@ -1769,8 +1848,7 @@ export class Wysiwyg extends Component {
         }
 
         if (params.node) {
-            const isIcon = (el) => el.matches('i.fa, span.fa');
-            const changedIcon = isIcon(params.node) && isIcon(element);
+            const changedIcon = isIconElement(params.node) && isIconElement(element);
             if (changedIcon) {
                 // Preserve tag name when changing an icon and not recreate the
                 // editors unnecessarily.
@@ -1781,6 +1859,33 @@ export class Wysiwyg extends Component {
                 params.node.replaceWith(element);
             }
             this.odooEditor.unbreakableStepUnactive();
+<<<<<<< HEAD
+
+            if (params.node.matches(".oe_unremovable")) {
+                // The "oe_unremovable" class prevents element deletion and must
+                // be removed during the "historyStep" to allow media
+                // replacement. If the class remains, the "sanitize" function in
+                // "historyStep" will block the replacement.
+                params.node.classList.remove("oe_unremovable");
+                element.classList.remove("oe_unremovable");
+                this.odooEditor.historyStep();
+                this.odooEditor.observerUnactive("unremovable");
+                element.classList.add("oe_unremovable");
+                this.odooEditor.observerActive("unremovable");
+            } else {
+                this.odooEditor.historyStep();
+            }
+
+            // Refocus again to save updates when calling `_onWysiwygBlur`
+            this.odooEditor.editable.focus();
+        } else {
+            const result = this.odooEditor.execCommand('insert', element);
+            // Refocus again to save updates when calling `_onWysiwygBlur`
+            this.odooEditor.editable.focus();
+            return result;
+        }
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
             if (params.node.matches(".oe_unremovable")) {
                 // The "oe_unremovable" class prevents element deletion and must
@@ -1806,10 +1911,13 @@ export class Wysiwyg extends Component {
             return result;
         }
 
-        if (this.snippetsMenu) {
-            this.snippetsMenu.activateSnippet($(element)).then(() => {
-                if (element.tagName === 'IMG') {
-                    $(element).trigger('image_changed');
+        if (this.state.showSnippetsMenu) {
+            this.snippetsMenuBus.trigger("ACTIVATE_SNIPPET", {
+                $snippet: $(element),
+                onSuccess: () => {
+                    if (element.tagName === 'IMG') {
+                        $(element).trigger('image_changed');
+                    }
                 }
             });
         }
@@ -1824,8 +1932,8 @@ export class Wysiwyg extends Component {
      * @returns {Promise}
      */
     waitForEmptyMutexAction() {
-        if (this.snippetsMenu) {
-            return this.snippetsMenu.execWithLoadingEffect(() => null, false);
+        if (this.state.showSnippetsMenu) {
+            return this.mutex.exec(() => null);
         }
         return Promise.resolve();
     }
@@ -1848,16 +1956,20 @@ export class Wysiwyg extends Component {
     /**
      * Returns an instance of the snippets menu.
      *
-     * @param {Object} [options]
-     * @returns {widget}
+     * @returns {Promise<Component>}
      */
-    async _createSnippetsMenuInstance(options={}) {
+    async getSnippetsMenuClass() {
         const snippetsEditor = await odoo.loader.modules.get('@web_editor/js/editor/snippets.editor')[Symbol.for('default')];
         const { SnippetsMenu } = snippetsEditor;
-        return new SnippetsMenu(this, Object.assign({
+        return SnippetsMenu;
+    }
+    get snippetsMenuOptions() {
+        return {
+            ...this.options,
             wysiwyg: this,
             selectorEditableArea: '.o_editable',
-        }, options));
+            mutex: this.mutex,
+        };
     }
     _setToolbarProps() {
         this.state.toolbarProps = {
@@ -1866,7 +1978,8 @@ export class Wysiwyg extends Component {
             onColorpaletteDropdownHide: this.onColorpaletteDropdownHide.bind(this),
             textColorPaletteProps: this.colorPalettesProps.text,
             backgroundColorPaletteProps: this.colorPalettesProps.background,
-        }
+            showRemoveFormat: this.state.snippetsMenuFolded || !this.options.snippets,
+        };
     }
     _configureToolbar(options) {
         const $toolbar = $(this.toolbarEl);
@@ -1935,10 +2048,17 @@ export class Wysiwyg extends Component {
                 return;
             }
             this.showImageFullscreen(this.lastMediaClicked.src);
-    })
+        });
         $toolbar.find('#media-insert, #media-replace, #media-description').click(openTools);
         $toolbar.find('#create-link').click(openTools);
         $toolbar.find('#open-chatgpt').click(openTools);
+        $toolbar.on('click', '#translate .lang', (e) => {
+            e.preventDefault();
+            e.stopImmediatePropagation();
+            e.stopPropagation();
+            const language = e.target.dataset.value;
+            this.openChatGPTDialog('translate', { language });
+        });
         $toolbar.find('#image-shape div, #fa-spin').click(e => {
             if (!this.lastMediaClicked) {
                 return;
@@ -2139,18 +2259,27 @@ export class Wysiwyg extends Component {
                 // Make it important so it has priority over selection color.
                 td.style.setProperty(propName, td.style[propName], previewMode ? 'important' : '');
             }
-        } else if (!this.lastMediaClicked && coloredElements && coloredElements.length && Array.isArray(coloredElements)) {
+        } else if (color && !this.lastMediaClicked && coloredElements && coloredElements.length && Array.isArray(coloredElements)) {
             // Ensure the selection in the fonts tags, otherwise an undetermined
             // race condition could generate a wrong selection later.
             const first = coloredElements[0];
             const last = coloredElements[coloredElements.length - 1];
 
             const sel = this.odooEditor.document.getSelection();
-            sel.removeAllRanges();
-            const range = new Range();
+            const range = sel.getRangeAt(0);
+            const isSelForward = sel.anchorNode === range.startContainer && sel.anchorOffset === range.startOffset;
             range.setStart(first, 0);
             range.setEnd(...endPos(last));
+<<<<<<< HEAD
             sel.addRange(getDeepRange(this.odooEditor.editable, { range }));
+=======
+                const { startContainer, startOffset, endContainer, endOffset } = getDeepRange(this.odooEditor.editable, { range });
+            if (isSelForward) {
+                sel.setBaseAndExtent(startContainer, startOffset, endContainer, endOffset);
+            } else {
+                sel.setBaseAndExtent(endContainer, endOffset, startContainer, startOffset);
+            }
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
         }
 
         const hexColor = this._colorToHex(color);
@@ -2245,7 +2374,7 @@ export class Wysiwyg extends Component {
         }
         // The image replace button is in the image options when the sidebar
         // exists.
-        if (this.snippetsMenu && !this.snippetsMenu.folded && $target.is('img')) {
+        if (this.state.showSnippetsMenu && !this.state.snippetsMenuFolded && $target.is('img')) {
             this.toolbarEl.querySelector('#media-replace')?.classList.toggle('d-none', true);
         }
         // Only show the image-transform, image-crop and media-description
@@ -2269,6 +2398,10 @@ export class Wysiwyg extends Component {
             '#colorInputButtonGroup',
             '#media-insert', // "Insert media" should be replaced with "Replace media".
             '#chatgpt', // Chatgpt should be removed when media is in selection.
+<<<<<<< HEAD
+=======
+            '#translate' // Translate button should be removed when media is in selection.
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
         ].join(','))){
             el.classList.toggle('d-none', isInMedia);
         }
@@ -2289,8 +2422,11 @@ export class Wysiwyg extends Component {
                 el.classList.toggle('d-none', true);
             }
         }
+<<<<<<< HEAD
         // Toggle the toolbar arrow.
         this.toolbarEl.classList.toggle('noarrow', isInMedia);
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
         // Unselect all media.
         this.$editable.find('.o_we_selected_image').removeClass('o_we_selected_image');
         if (isInMedia) {
@@ -2404,7 +2540,7 @@ export class Wysiwyg extends Component {
 
         return finalOptions;
     }
-    _getBannerCommand(title, alertClass, iconClass, description, priority) {
+    _getBannerCommand(title, emoji, alertClass, iconClass, description, priority) {
         return {
             category: _t('Banners'),
             name: title,
@@ -2415,7 +2551,11 @@ export class Wysiwyg extends Component {
             callback: () => {
                 const bannerElement = parseHTML(this.odooEditor.document, `
                     <div class="o_editor_banner o_not_editable lh-1 d-flex align-items-center alert alert-${alertClass} pb-0 pt-3" role="status" data-oe-protected="true">
+<<<<<<< HEAD
                         <i class="fs-4 fa ${iconClass} mb-3" aria-label="${_t(title)}"></i>
+=======
+                        <i class="o_editor_banner_icon mb-3 fst-normal" aria-label="${_t(title)}">${emoji}</i>
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
                         <div class="w-100 px-3" data-oe-protected="false">
                             <p><br></p>
                         </div>
@@ -2427,8 +2567,11 @@ export class Wysiwyg extends Component {
             },
         }
     }
-    _insertSnippetMenu() {
-        return this.snippetsMenu.insertBefore(this.$el);
+    async _insertSnippetMenu() {
+        const snippetsMenuMountedProm = new Deferred();
+        this.state.snippetsMenuMountedProm = snippetsMenuMountedProm;
+        this.state.showSnippetsMenu = true;
+        await snippetsMenuMountedProm;
     }
     /**
      * If the element holds a translation, saves it. Otherwise, fallback to the
@@ -2437,22 +2580,20 @@ export class Wysiwyg extends Component {
      * @override
      */
     _saveTranslationElement($el, context, withLang = true) {
-        if ($el.data('oe-translation-initial-sha')) {
+        if ($el.data('oe-translation-source-sha')) {
             const $els = $el;
             const translations = {};
             translations[context.lang] = Object.assign({}, ...$els.toArray().map(
                 (x) => ({
-                    [$(x).data('oe-translation-initial-sha')]: this._getEscapedElement($(x)).html()
+                    [$(x).data('oe-translation-source-sha')]: this._getEscapedElement($(x)).html()
                 })
             ));
-            return this.orm.call(
-                $els.data('oe-model'),
-                'update_field_translations_sha',
-                [
-                    [+$els.data('oe-id')],
-                    $els.data('oe-field'),
-                    translations,
-                ], { context });
+            return rpc('/web_editor/field/translation/update', {
+                model: $els.data('oe-model'),
+                record_id: [+$els.data('oe-id')],  
+                field_name: $els.data('oe-field'),
+                translations,                
+            });
         } else {
             var viewID = $el.data('oe-id');
             if (!viewID) {
@@ -2474,10 +2615,10 @@ export class Wysiwyg extends Component {
         const editorOptions = this.options;
         const categories = [{ name: _t('Banners'), priority: 65 },];
         const commands = [
-            this._getBannerCommand(_t('Banner Info'), 'info', 'fa-info-circle', _t('Insert an info banner'), 24),
-            this._getBannerCommand(_t('Banner Success'), 'success', 'fa-check-circle', _t('Insert a success banner'), 23),
-            this._getBannerCommand(_t('Banner Warning'), 'warning', 'fa-exclamation-triangle', _t('Insert a warning banner'), 22),
-            this._getBannerCommand(_t('Banner Danger'), 'danger', 'fa-exclamation-circle', _t('Insert a danger banner'), 21),
+            this._getBannerCommand(_t('Banner Info'), '💡', 'info', 'fa-info-circle', _t('Insert an info banner'), 24),
+            this._getBannerCommand(_t('Banner Success'), '✅', 'success', 'fa-check-circle', _t('Insert a success banner'), 23),
+            this._getBannerCommand(_t('Banner Warning'), '⚠️', 'warning', 'fa-exclamation-triangle', _t('Insert a warning banner'), 22),
+            this._getBannerCommand(_t('Banner Danger'), '❌', 'danger', 'fa-exclamation-circle', _t('Insert a danger banner'), 21),
             {
                 category: _t('Structure'),
                 name: _t('Quote'),
@@ -2507,14 +2648,20 @@ export class Wysiwyg extends Component {
                 fontawesome: 'fa-pencil-square-o',
                 isDisabled: () => !this.odooEditor.isSelectionInBlockRoot(),
                 callback: async () => {
+<<<<<<< HEAD
                     const uid = (Array.isArray(session.user_id) ? session.user_id[0] : session.user_id)  | session.uid;
                     const [user] = await this.orm.read(
                         'res.users',
                         [uid],
+=======
+                    const [currentUser] = await this.orm.read(
+                        'res.users',
+                        [this.user.userId],
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
                         ['signature'],
                     );
-                    if (user && user.signature) {
-                        this.odooEditor.execCommand('insert', parseHTML(this.odooEditor.document, user.signature));
+                    if (currentUser && currentUser.signature) {
+                        this.odooEditor.execCommand('insert', parseHTML(this.odooEditor.document, currentUser.signature));
                     }
                 },
             },
@@ -2629,7 +2776,12 @@ export class Wysiwyg extends Component {
                         this.toggleLinkTools({forceDialog: true});
                         // Force the button style after the link modal is open.
                         setTimeout(() => {
-                            $(".o_link_dialog .link-style[value=primary]").click();
+                            const selectEl = document.querySelector('.o_link_dialog .form-select');
+                            selectEl.value = 'primary';
+                            // Dynamically changing value of select option
+                            // doesn't trigger a change event. Trigger
+                            // listeners by dispatching the event manually.
+                            selectEl.dispatchEvent(new Event('change'));
                         }, 150);
                     },
                 },
@@ -2643,7 +2795,7 @@ export class Wysiwyg extends Component {
                 category: _t('Media'),
                 name: _t('Image'),
                 priority: 40,
-                description: _t('Insert an image'),
+                description: _t('Insert a picture'),
                 fontawesome: 'fa-file-image-o',
                 callback: () => {
                     this.openMediaDialog();
@@ -2665,8 +2817,8 @@ export class Wysiwyg extends Component {
         if (editorOptions.powerboxCategories) {
             categories.push(...editorOptions.powerboxCategories);
         }
-        if (editorOptions.powerboxCommands) {
-            commands.push(...editorOptions.powerboxCommands);
+        if (editorOptions.powerboxItems) {
+            commands.push(...editorOptions.powerboxItems);
         }
         return {commands, categories};
     }
@@ -2863,7 +3015,7 @@ export class Wysiwyg extends Component {
      * @returns {Promise} (never resolved, the page is reloading anyway)
      */
     _reload() {
-        window.location.hash = 'scrollTop=' + window.document.body.scrollTop;
+        window.location.search = 'scrollTop=' + window.document.body.scrollTop;
         if (window.location.search.indexOf('enable_editor') >= 0) {
             window.location.href = window.location.href.replace(/&?enable_editor(=[^&]*)?/g, '');
         } else {
@@ -2916,6 +3068,10 @@ export class Wysiwyg extends Component {
         }
         const closestDialog = e.target.closest('.o_dialog, .o_web_editor_dialog');
         if (
+<<<<<<< HEAD
+=======
+            e.target.closest("#oe_snippets") ||
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
             e.target.closest(this._getDelayBlurSelectors().join(",")) ||
             (closestDialog && closestDialog.querySelector('.o_select_media_dialog, .o_link_dialog'))
         ) {
@@ -3025,18 +3181,8 @@ export class Wysiwyg extends Component {
             },
             onRequest: {
                 get_start_time: () => this._startCollaborationTime,
-                get_client_name: async () => {
-                    if (!this._userName) {
-                        const [user] = await this.orm.read(
-                            'res.users',
-                            [session.uid],
-                            ['name'],
-                        );
-                        this._userName = user.name;
-                    }
-                    return this._userName;
-                },
-                get_client_avatar: () => `${browser.location.origin}/web/image?model=res.users&field=avatar_128&id=${encodeURIComponent(session.uid)}`,
+                get_client_name: () => user.name,
+                get_client_avatar: () => `${browser.location.origin}/web/image?model=res.users&field=avatar_128&id=${encodeURIComponent(user.userId)}`,
                 get_missing_steps: (params) => this.odooEditor.historyGetMissingSteps(params.requestPayload),
                 get_history_from_snapshot: () => this._getHistorySnapshot(),
                 get_collaborative_selection: () => this.odooEditor.getCurrentCollaborativeSelection(),
@@ -3126,7 +3272,7 @@ export class Wysiwyg extends Component {
         });
     }
     _getCollaborationClientAvatarUrl() {
-        return `${browser.location.origin}/web/image?model=res.users&field=avatar_128&id=${encodeURIComponent(session.uid)}`
+        return `${browser.location.origin}/web/image?model=res.users&field=avatar_128&id=${encodeURIComponent(user.userId)}`
     }
     _stopPeerToPeer() {
         this._joiningPtp = false;
@@ -3508,7 +3654,7 @@ export class Wysiwyg extends Component {
 
     _hasICEServers() {
         // Hack: check if mail module is installed.
-        return session.notification_type;
+        return this.env.services['mail.store'];
     }
     _isCollaborationEnabled(options) {
         return options.collaborationChannel && options.collaborationChannel.collaborationResId && this._hasICEServers() && this.busService;
@@ -3668,11 +3814,11 @@ export class Wysiwyg extends Component {
         }
         if (params && params.kwargs) {
             params.kwargs.context = {
-                ...this.env.services.user.context,
+                ...user.context,
                 ...params.kwargs.context,
             };
         }
-        return this.rpc(route, params, {
+        return rpc(route, params, {
             silent: settings.shadow,
             xhr: settings.xhr,
         });

@@ -23,17 +23,23 @@
     background-color:  $primary !important;
 }
 
-@media screen and (max-width: 640px) {
+.buttons {
+    grid-area: buttons;
+}
+
+.pos-search-bar {
+    grid-area: search;
+}
+
+.item {
+    grid-area: pagination;
+}
+
+@include media-breakpoint-down(sm) {
     .screen-full-width {
         flex-direction: column;
         height: auto;
         min-height: 100%;
-    }
-    .controls {
-        position: sticky;
-        top: 0;
-        background: $gray-300;
-        z-index: 100;
     }
 
     .ticket-screen .order,
@@ -47,9 +53,20 @@
     .pos .orders {
         position: sticky;
     }
+
+    .controls {
+        grid-template-columns: auto auto;
+        grid-template-areas: 
+            "buttons pagination"
+            "search search";
+    }
 }
 
+<<<<<<< HEAD
 @media screen and (min-width: 992px) {
+=======
+@include media-breakpoint-up(lg){
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
     .order-row {
         display: flex;
         cursor: pointer;
@@ -62,16 +79,24 @@
     .order-row:nth-child(even) {
         background: white;
     }
+
+    .pos .orders .col.end {
+        justify-content: flex-end;
+    }
 }
 
+<<<<<<< HEAD
 @media screen and (max-width: 992px) {
+=======
+@include media-breakpoint-down(lg) {
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
     .order-row {
         margin: 5px;
         border: 1px solid #C9CCD2; /* $border-color */
         background: white; /* $o-view-background-color */
     }
-}
 
+<<<<<<< HEAD
 @media screen and (min-width: 992px) {
     .pos .orders .col.end {
         justify-content: flex-end;
@@ -79,6 +104,8 @@
 }
 
 @media screen and (max-width: 992px) {
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
     .pos .orders .order-row > .col > div:first-child {
         font-weight: bold;
     }
@@ -89,6 +116,7 @@
         background: #d23f3a /* o-text-color('danger') */ ;
         color: white;
     }
+
     .ticket-screen .order-row .delete-button .fa-trash {
         margin-right: 5px;
     }

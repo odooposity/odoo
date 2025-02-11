@@ -42,8 +42,43 @@ msgstr ""
 
 #. module: stock
 #. odoo-python
+<<<<<<< HEAD
+=======
+#: code:addons/stock/models/stock_move.py:0
+msgid ""
+"\n"
+"\n"
+"%s --> Product UoM is %s (%s) - Move UoM is %s (%s)"
+msgstr ""
+"\n"
+"\n"
+"%s --> واحد اندازه‌گیری محصول %s (%s) است- واحد اندازه‌گیری انتقال %s (%sاست)"
+
+#. module: stock
+#. odoo-python
+#: code:addons/stock/models/stock_move.py:0
+msgid ""
+"\n"
+"\n"
+"Blocking: %s"
+msgstr ""
+
+#. module: stock
+#. odoo-python
 #: code:addons/stock/models/stock_picking.py:0
-#, python-format
+msgid ""
+"\n"
+"\n"
+"Transfers %s: You cannot validate these transfers if no quantities are reserved nor done. To force these transfers, switch in edit more and encode the done quantities."
+msgstr ""
+"\n"
+"\n"
+"انتقال‌ها %s: اگر هیچ مقداری رزرو یا انجام نشود، نمی‌توانید این انتقال‌ها را تأیید کنید. برای اجبار این انتقال ها، ویرایش را بیشتر کنید و مقادیر انجام شده را رمزگذاری کنید."
+
+#. module: stock
+#. odoo-python
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
+#: code:addons/stock/models/stock_picking.py:0
 msgid ""
 "\n"
 "\n"
@@ -56,7 +91,6 @@ msgstr ""
 #. module: stock
 #. odoo-python
 #: code:addons/stock/models/stock_move.py:0
-#, python-format
 msgid ""
 "\n"
 "(%s) exists in location %s"
@@ -67,7 +101,6 @@ msgstr ""
 #. module: stock
 #. odoo-python
 #: code:addons/stock/models/stock_move.py:0
-#, python-format
 msgid ""
 "\n"
 "The quantity done for the product %s doesn't respect the rounding precision defined on the unit of measure %s.\n"
@@ -105,7 +138,6 @@ msgstr ""
 #. module: stock
 #. odoo-python
 #: code:addons/stock/models/stock_lot.py:0
-#, python-format
 msgid " - Product: %s, Serial Number: %s"
 msgstr " - محصول: %s، شماره سریال: %s"
 
@@ -145,7 +177,6 @@ msgstr ""
 #. module: stock
 #. odoo-python
 #: code:addons/stock/models/stock_warehouse.py:0
-#, python-format
 msgid "%(warehouse)s: Supply Product from %(supplier)s"
 msgstr "%(warehouse)s: تامین محصول از %(supplier)s"
 
@@ -158,8 +189,11 @@ msgstr "%(warehouse)s: تامین محصول از %(supplier)s"
 #: code:addons/stock/models/stock_picking.py:0
 #: code:addons/stock/models/stock_rule.py:0
 #: code:addons/stock/models/stock_storage_category.py:0
+<<<<<<< HEAD
 #: code:addons/stock/models/stock_warehouse.py:0
 #, python-format
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 msgid "%s (copy)"
 msgstr "%s (کپی)"
 
@@ -173,17 +207,26 @@ msgstr "%s --> واحد محصول %s (%s) - واحد انتقال %s (%s)"
 #. module: stock
 #. odoo-python
 #: code:addons/stock/models/stock_move_line.py:0
-#, python-format
 msgid "%s [reverted]"
 msgstr "[بازگشت] %s"
 
 #. module: stock
 #. odoo-python
 #: code:addons/stock/models/stock_warehouse.py:0
+<<<<<<< HEAD
 #, python-format
 msgid ""
 "%s use default source or destination locations from warehouse %s that will "
 "be archived."
+=======
+msgid "%s use default source or destination locations from warehouse %s that will be archived."
+msgstr "%s از مکان‌های منبع یا مقصد پیش‌فرض از انبار %s استفاده می‌کند که بایگانی خواهد شد."
+
+#. module: stock
+#: model_terms:ir.ui.view,arch_db:stock.view_backorder_confirmation
+#: model_terms:ir.ui.view,arch_db:stock.view_immediate_transfer
+msgid "&gt;"
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 msgstr ""
 "%s از مکان‌های منبع یا مقصد پیش‌فرض از انبار %s استفاده می‌کند که بایگانی "
 "خواهد شد."
@@ -229,7 +272,6 @@ msgstr ""
 #. module: stock
 #. odoo-python
 #: code:addons/stock/models/stock_lot.py:0
-#, python-format
 msgid "(copy of) %s"
 msgstr "(رونوشت %s)"
 
@@ -296,8 +338,11 @@ msgstr ""
 #. module: stock
 #. odoo-python
 #: code:addons/stock/models/stock_rule.py:0
+<<<<<<< HEAD
 #: code:addons/stock/models/stock_rule.py:0
 #, python-format
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 msgid "+ %d day(s)"
 msgstr "+ %d روز"
 
@@ -416,7 +461,6 @@ msgstr ""
 #. module: stock
 #. odoo-python
 #: code:addons/stock/models/stock_scrap.py:0
-#, python-format
 msgid ": Insufficient Quantity To Scrap"
 msgstr ": مقدار ناکافی برای ضایعات"
 
@@ -432,6 +476,7 @@ msgstr ""
 #. module: stock
 #. odoo-python
 #: code:addons/stock/models/stock_rule.py:0
+<<<<<<< HEAD
 #, python-format
 msgid ""
 "<br>A need is created in <b>%s</b> and a rule will be triggered to fulfill "
@@ -439,10 +484,15 @@ msgid ""
 msgstr ""
 "<br>یک نیاز در <b>%s</b> ایجاد می‌شود و قانونی برای برآورده کردن آن فعال "
 "می‌شود."
+=======
+msgid "<br>A need is created in <b>%s</b> and a rule will be triggered to fulfill it."
+msgstr "<br>یک نیاز در <b>%s</b> ایجاد می‌شود و قانونی برای برآورده کردن آن فعال می‌شود."
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 #. module: stock
 #. odoo-python
 #: code:addons/stock/models/stock_rule.py:0
+<<<<<<< HEAD
 #, python-format
 msgid ""
 "<br>If the products are not available in <b>%s</b>, a rule will be triggered"
@@ -450,6 +500,10 @@ msgid ""
 msgstr ""
 "<br>اگر محصولات در <b>%s</b> در دسترس نباشند، قانونی برای آوردن محصولات به "
 "این مکان اعمال می‌شود."
+=======
+msgid "<br>If the products are not available in <b>%s</b>, a rule will be triggered to bring products in this location."
+msgstr "<br>اگر محصولات در <b>%s</b> در دسترس نباشند، قانونی برای آوردن محصولات به این مکان اعمال می‌شود."
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 #. module: stock
 #: model:mail.template,body_html:stock.mail_template_data_delivery_confirmation
@@ -836,7 +890,17 @@ msgstr "? این ممکن است منجر به ناهماهنگی در موجو�
 #. module: stock
 #: model:ir.model.constraint,message:stock.constraint_stock_package_type_barcode_uniq
 msgid "A barcode can only be assigned to one package type!"
+<<<<<<< HEAD
 msgstr "یک بارکد فقط می‌تواند به یک نوع بسته اختصاص یابد!"
+=======
+msgstr ""
+
+#. module: stock
+#. odoo-python
+#: code:addons/stock/models/stock_move_line.py:0
+msgid "A done move line should never have a reserved quantity."
+msgstr "یک سطر انتقال انجام شده هرگز نباید مقدار رزرو شده داشته باشد."
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 #. module: stock
 #: model:ir.model.constraint,message:stock.constraint_stock_warehouse_orderpoint_product_location_check
@@ -1046,7 +1110,6 @@ msgstr "همه انتقالات"
 #. module: stock
 #. odoo-javascript
 #: code:addons/stock/static/src/views/search/stock_report_search_panel.xml:0
-#, python-format
 msgid "All Warehouses"
 msgstr "همه انبارها"
 
@@ -1123,10 +1186,14 @@ msgstr ""
 #. module: stock
 #. odoo-python
 #: code:addons/stock/models/stock_location.py:0
+<<<<<<< HEAD
 #, python-format
 msgid ""
 "Another parent/sub replenish location %s exists, if you wish to change it, "
 "uncheck it first"
+=======
+msgid "Another parent/sub replenish location %s exists, if you wish to change it, uncheck it first"
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 msgstr ""
 "یک مکان تامین والد/فرعی دیگر %s وجود دارد، اگر مایل به تغییر آن هستید، ابتدا"
 " آن را از حالت انتخاب خارج کنید."
@@ -1171,7 +1238,6 @@ msgstr "اعمال"
 #. module: stock
 #. odoo-javascript
 #: code:addons/stock/static/src/views/list/inventory_report_list.xml:0
-#, python-format
 msgid "Apply All"
 msgstr "اعمال بر همه"
 
@@ -1221,7 +1287,6 @@ msgstr "پرسیدن"
 #. module: stock
 #. odoo-javascript
 #: code:addons/stock/static/src/components/reception_report_line/stock_reception_report_line.xml:0
-#, python-format
 msgid "Assign"
 msgstr "واگذار کردن"
 
@@ -1230,7 +1295,6 @@ msgstr "واگذار کردن"
 #: code:addons/stock/static/src/components/reception_report_main/stock_reception_report_main.xml:0
 #: code:addons/stock/static/src/components/reception_report_table/stock_reception_report_table.xml:0
 #: code:addons/stock/static/src/xml/report_stock_reception.xml:0
-#, python-format
 msgid "Assign All"
 msgstr "همه واگذاری"
 
@@ -1351,8 +1415,11 @@ msgstr "خودکار بدون مرحله اضافه شده"
 #: code:addons/stock/static/src/widgets/forecast_widget.xml:0
 #: model:ir.model.fields.selection,name:stock.selection__stock_move__state__assigned
 #: model:ir.model.fields.selection,name:stock.selection__stock_picking__products_availability_state__available
+<<<<<<< HEAD
 #: model_terms:ir.ui.view,arch_db:stock.view_stock_quant_tree_simple
 #, python-format
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 msgid "Available"
 msgstr "در دسترس"
 
@@ -1373,7 +1440,6 @@ msgstr "مقدار در دسترس"
 #. module: stock
 #. odoo-python
 #: code:addons/stock/models/product.py:0
-#, python-format
 msgid "Available quantity should be set to zero before changing type"
 msgstr "مقدار موجود باید قبل از تغییر نوع روی صفر تنظیم شود"
 
@@ -1535,14 +1601,12 @@ msgstr "نمایش تقویمی"
 #. module: stock
 #. odoo-python
 #: code:addons/stock/models/stock_warehouse.py:0
-#, python-format
 msgid "Can't find any customer or supplier location."
 msgstr "هیچ مکان مشتری یا تامین کننده ای پیدا نمی شود."
 
 #. module: stock
 #. odoo-python
 #: code:addons/stock/models/stock_warehouse.py:0
-#, python-format
 msgid "Can't find any generic route %s."
 msgstr "هیچ مسیر عمومی %s پیدا نمی شود."
 
@@ -1572,6 +1636,26 @@ msgid "Cancelled"
 msgstr "لغو شد"
 
 #. module: stock
+<<<<<<< HEAD
+=======
+#: model_terms:ir.ui.view,arch_db:stock.view_picking_internal_search
+msgid "Cancelled Moves"
+msgstr "انتقالات لغو شده"
+
+#. module: stock
+#. odoo-python
+#: code:addons/stock/wizard/stock_quant_reserve.py:0
+msgid "Cannot reserve more quantity than available!"
+msgstr ""
+
+#. module: stock
+#. odoo-python
+#: code:addons/stock/models/stock_move.py:0
+msgid "Cannot set the done quantity from this stock move, work directly with the move lines."
+msgstr "نمی توان مقدار انجام شده را از این انتقال موجودی تنظیم کرد، مستقیما با سطرهای انتقال کار کنید."
+
+#. module: stock
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 #: model:ir.model.fields,field_description:stock.field_stock_storage_category__capacity_ids
 msgid "Capacity"
 msgstr "ظرفیت"
@@ -1654,6 +1738,7 @@ msgstr ""
 #: code:addons/stock/models/stock_orderpoint.py:0
 #: code:addons/stock/models/stock_picking.py:0
 #: code:addons/stock/models/stock_warehouse.py:0
+<<<<<<< HEAD
 #, python-format
 msgid ""
 "Changing the company of this record is forbidden at this point, you should "
@@ -1661,18 +1746,20 @@ msgid ""
 msgstr ""
 "تغییر شرکت این رکورد در این مرحله ممنوع است، بهتر است آن را بایگانی کنید و "
 "یک رکورد جدید ایجاد کنید."
+=======
+msgid "Changing the company of this record is forbidden at this point, you should rather archive it and create a new one."
+msgstr "تغییر شرکت این رکورد در این مرحله ممنوع است، بهتر است آن را بایگانی کنید و یک رکورد جدید ایجاد کنید."
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 #. module: stock
 #. odoo-python
 #: code:addons/stock/models/stock_picking.py:0
-#, python-format
 msgid "Changing the operation type of this record is forbidden at this point."
 msgstr "تغییر نوع عملکرد این رکورد در این مرحله ممنوع است."
 
 #. module: stock
 #. odoo-python
 #: code:addons/stock/models/stock_move_line.py:0
-#, python-format
 msgid "Changing the product is only allowed in 'Draft' state."
 msgstr "تغییر محصول فقط در حالت \"پیش نویس\" مجاز است."
 
@@ -1712,14 +1799,12 @@ msgstr ""
 #. odoo-python
 #: code:addons/stock/models/stock_picking.py:0
 #: code:addons/stock/wizard/stock_label_type.py:0
-#, python-format
 msgid "Choose Labels Layout"
 msgstr "انتخاب چیدمان لیبل ها"
 
 #. module: stock
 #. odoo-python
 #: code:addons/stock/models/stock_picking.py:0
-#, python-format
 msgid "Choose Type of Labels To Print"
 msgstr "انتخاب نوع برچسب‌ها برای چاپ"
 
@@ -1732,7 +1817,6 @@ msgstr "تاریخ را برای دریافت موجودی در آن تاریخ 
 #. module: stock
 #. odoo-python
 #: code:addons/stock/models/stock_picking.py:0
-#, python-format
 msgid "Choose destination location"
 msgstr "انتخاب مکان مقصد"
 
@@ -1897,7 +1981,6 @@ msgstr "تضاد در موجودی"
 #. module: stock
 #. odoo-python
 #: code:addons/stock/models/stock_quant.py:0
-#, python-format
 msgid "Conflict in Inventory Adjustment"
 msgstr "تضاد در تعدیل موجودی"
 
@@ -1954,7 +2037,6 @@ msgstr "ادامه"
 #. odoo-javascript
 #: code:addons/stock/static/src/client_actions/stock_traceability_report_backend.xml:0
 #: code:addons/stock/static/src/components/reception_report_main/stock_reception_report_main.xml:0
-#, python-format
 msgid "Control panel buttons"
 msgstr "دکمه‌های کنترل پنل"
 
@@ -1976,6 +2058,15 @@ msgid "Corridor (X)"
 msgstr "راهرو (X)"
 
 #. module: stock
+<<<<<<< HEAD
+=======
+#. odoo-python
+#: code:addons/stock/wizard/stock_immediate_transfer.py:0
+msgid "Could not reserve all requested products. Please use the 'Mark as Todo' button to handle the reservation manually."
+msgstr "امکان رزرو همه محصولات درخواستی وجود ندارد. لطفاً از دکمه \"علامت گذاری به عنوان لیست انجام کار\" برای انجام رزرو به صورت دستی استفاده کنید."
+
+#. module: stock
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 #: model:ir.model.fields,field_description:stock.field_stock_request_count__set_count
 msgid "Count"
 msgstr "تعداد"
@@ -2014,7 +2105,6 @@ msgstr "شمارش برداشت در انتظار"
 #. odoo-javascript
 #: code:addons/stock/static/src/views/list/inventory_report_list_controller.js:0
 #: model:ir.actions.report,name:stock.action_report_inventory
-#, python-format
 msgid "Count Sheet"
 msgstr "شمارش برگه"
 
@@ -2038,7 +2128,6 @@ msgstr "ایجاد سفارش معوق"
 #. module: stock
 #. odoo-python
 #: code:addons/stock/models/stock_picking.py:0
-#, python-format
 msgid "Create Backorder?"
 msgstr "ایجاد سفارش معوق؟"
 
@@ -2200,12 +2289,17 @@ msgstr "ایجادشده در"
 #. module: stock
 #. odoo-python
 #: code:addons/stock/models/stock_warehouse.py:0
+<<<<<<< HEAD
 #, python-format
 msgid ""
 "Creating a new warehouse will automatically activate the Storage Locations "
 "setting"
 msgstr ""
 "ایجاد یک انبار جدید به طور خودکار تنظیمات مکان های ذخیره سازی را فعال می کند"
+=======
+msgid "Creating a new warehouse will automatically activate the Storage Locations setting"
+msgstr "ایجاد یک انبار جدید به طور خودکار تنظیمات مکان های ذخیره سازی را فعال می کند"
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 #. module: stock
 #: model:ir.model.fields,field_description:stock.field_stock_picking__date
@@ -2227,7 +2321,6 @@ msgstr "تاریخ ایجاد"
 #. module: stock
 #. odoo-python
 #: code:addons/stock/models/stock_warehouse.py:0
-#, python-format
 msgid "Cross-Dock"
 msgstr "مرکز پردازش کالا"
 
@@ -2348,7 +2441,6 @@ msgstr "کانکتور DHL Express"
 #: model_terms:ir.ui.view,arch_db:stock.report_stock_body_print
 #: model_terms:ir.ui.view,arch_db:stock.stock_move_line_view_search
 #: model_terms:ir.ui.view,arch_db:stock.view_move_search
-#, python-format
 msgid "Date"
 msgstr "تاریخ"
 
@@ -2449,7 +2541,6 @@ msgstr "آخرین مهلت تمام شد و/یا توسط برنامه ریزی
 #. module: stock
 #. odoo-python
 #: code:addons/stock/models/stock_move.py:0
-#, python-format
 msgid "Deadline updated due to delay on %s"
 msgstr "مهلت به دلیل تأخیر در %s بروز شد"
 
@@ -2580,7 +2671,6 @@ msgstr "تاریخ هشدار تاخیر"
 #. module: stock
 #. odoo-python
 #: code:addons/stock/models/stock_rule.py:0
-#, python-format
 msgid "Delay on %s"
 msgstr "تاخیر در %s"
 
@@ -2592,28 +2682,24 @@ msgstr "تحویل مستقیم کالا (1 مرحله)"
 #. module: stock
 #. odoo-python
 #: code:addons/stock/models/stock_warehouse.py:0
-#, python-format
 msgid "Deliver in 1 step (ship)"
 msgstr "تحویل در 1 مرحله (حمل)"
 
 #. module: stock
 #. odoo-python
 #: code:addons/stock/models/stock_warehouse.py:0
-#, python-format
 msgid "Deliver in 2 steps (pick + ship)"
 msgstr "تحویل در 2 مرحله (برداشت + حمل)"
 
 #. module: stock
 #. odoo-python
 #: code:addons/stock/models/stock_warehouse.py:0
-#, python-format
 msgid "Deliver in 3 steps (pick + pack + ship)"
 msgstr "تحویل در 3 مرحله (برداشت + بسته بندی + حمل)"
 
 #. module: stock
 #. odoo-python
 #: code:addons/stock/models/product.py:0
-#, python-format
 msgid "Delivered Qty"
 msgstr "تعداد تحویل داده شده"
 
@@ -2636,7 +2722,6 @@ msgstr ""
 #: code:addons/stock/static/src/stock_forecasted/forecasted_details.xml:0
 #: model:ir.model.fields.selection,name:stock.selection__stock_picking_type__code__outgoing
 #: model:ir.ui.menu,name:stock.menu_delivery
-#, python-format
 msgid "Delivery"
 msgstr "تحویل"
 
@@ -2655,7 +2740,6 @@ msgstr "روش های تحویل"
 #: code:addons/stock/models/stock_warehouse.py:0
 #: model:stock.picking.type,name:stock.chi_picking_type_out
 #: model:stock.picking.type,name:stock.picking_type_out
-#, python-format
 msgid "Delivery Orders"
 msgstr "سفارشات تحویل"
 
@@ -2693,7 +2777,6 @@ msgstr "تعداد سفارش تحویل"
 #. module: stock
 #. odoo-python
 #: code:addons/stock/models/stock_lot.py:0
-#, python-format
 msgid "Delivery orders of %s"
 msgstr "سفارشات تحویل %s"
 
@@ -2830,7 +2913,6 @@ msgstr "نشانی مقصد "
 #: model:ir.model.fields,field_description:stock.field_stock_picking__location_dest_id
 #: model:ir.model.fields,field_description:stock.field_stock_rule__location_dest_id
 #: model_terms:ir.ui.view,arch_db:stock.view_move_search
-#, python-format
 msgid "Destination Location"
 msgstr "مکان مقصد"
 
@@ -2876,8 +2958,12 @@ msgstr "مسیر مقصد"
 #. module: stock
 #. odoo-python
 #: code:addons/stock/models/stock_move.py:0
+<<<<<<< HEAD
 #: code:addons/stock/models/stock_picking.py:0
 #, python-format
+=======
+#: model_terms:ir.ui.view,arch_db:stock.view_picking_form
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 msgid "Detailed Operations"
 msgstr "عملیات تفصیلی"
 
@@ -3090,13 +3176,13 @@ msgstr "درگاه ایزی پست"
 #. module: stock
 #. odoo-python
 #: code:addons/stock/models/stock_orderpoint.py:0
-#, python-format
 msgid "Edit Product"
 msgstr "ویرایش محصول"
 
 #. module: stock
 #. odoo-python
 #: code:addons/stock/models/stock_quant.py:0
+<<<<<<< HEAD
 #, python-format
 msgid ""
 "Editing quantities in an Inventory Adjustment location is forbidden,those "
@@ -3104,6 +3190,10 @@ msgid ""
 msgstr ""
 "ویرایش مقادیر در یک مکان تنظیم موجودی ممنوع است، از آن مکان ها به عنوان "
 "همکار در هنگام تصحیح مقادیر استفاده می شود."
+=======
+msgid "Editing quantities in an Inventory Adjustment location is forbidden,those locations are used as counterpart when correcting the quantities."
+msgstr "ویرایش مقادیر در یک مکان تنظیم موجودی ممنوع است، از آن مکان ها به عنوان همکار در هنگام تصحیح مقادیر استفاده می شود."
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 #. module: stock
 #: model_terms:ir.ui.view,arch_db:stock.view_picking_form
@@ -3184,7 +3274,16 @@ msgstr "استثنا(ها):"
 #. module: stock
 #. odoo-python
 #: code:addons/stock/models/stock_move.py:0
+<<<<<<< HEAD
 #, python-format
+=======
+msgid "Existing Serial Numbers (%s). Please correct the serial numbers encoded."
+msgstr "شماره های سریال موجود (%s). لطفا شماره سریال های کدگذاری شده را تصحیح کنید."
+
+#. module: stock
+#. odoo-python
+#: code:addons/stock/models/stock_move.py:0
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 msgid "Existing Serial numbers. Please correct the serial numbers encoded:"
 msgstr ""
 "شماره های سریال موجود. لطفا شماره سریال های کدگذاری شده را تصحیح کنید:"
@@ -3192,14 +3291,12 @@ msgstr ""
 #. module: stock
 #. odoo-javascript
 #: code:addons/stock/static/src/widgets/forecast_widget.xml:0
-#, python-format
 msgid "Exp"
 msgstr "اکسپ"
 
 #. module: stock
 #. odoo-python
 #: code:addons/stock/models/stock_picking.py:0
-#, python-format
 msgid "Exp %s"
 msgstr "انقضا %s"
 
@@ -3212,7 +3309,6 @@ msgstr "مورد انتظار"
 #. odoo-javascript
 #: code:addons/stock/static/src/components/reception_report_table/stock_reception_report_table.xml:0
 #: model_terms:ir.ui.view,arch_db:stock.report_reception_body
-#, python-format
 msgid "Expected Delivery:"
 msgstr "تحویل مورد انتظار:"
 
@@ -3359,16 +3455,18 @@ msgstr ""
 #. odoo-javascript
 #: code:addons/stock/static/src/stock_forecasted/forecasted_header.xml:0
 #: model_terms:ir.ui.view,arch_db:stock.product_product_stock_tree
+<<<<<<< HEAD
 #: model_terms:ir.ui.view,arch_db:stock.view_stock_product_template_tree
 #: model_terms:ir.ui.view,arch_db:stock.view_stock_product_tree
 #, python-format
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 msgid "Forecasted"
 msgstr "پیش بینی شده"
 
 #. module: stock
 #. odoo-javascript
 #: code:addons/stock/static/src/widgets/json_widget.xml:0
-#, python-format
 msgid "Forecasted Date"
 msgstr "تاریخ پیش بینی شده"
 
@@ -3385,7 +3483,6 @@ msgstr "تاریخ مورد انتظار پیش بینی شده"
 #. module: stock
 #. odoo-javascript
 #: code:addons/stock/static/src/stock_forecasted/forecasted_details.xml:0
-#, python-format
 msgid "Forecasted Inventory"
 msgstr "موجودی پیش بینی شده"
 
@@ -3396,7 +3493,11 @@ msgstr "موجودی پیش بینی شده"
 #: model:ir.model.fields,field_description:stock.field_product_replenish__forecasted_quantity
 #: model:ir.model.fields,field_description:stock.field_product_template__virtual_available
 #: model:ir.model.fields,field_description:stock.field_stock_move__availability
+<<<<<<< HEAD
 #, python-format
+=======
+#: model_terms:ir.ui.view,arch_db:stock.view_stock_product_tree
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 msgid "Forecasted Quantity"
 msgstr "تعداد پیش بینی شده"
 
@@ -3411,7 +3512,6 @@ msgstr "دریافت های پیش بینی شده"
 #: code:addons/stock/static/src/widgets/forecast_widget.xml:0
 #: model:ir.actions.client,name:stock.stock_forecasted_product_product_action
 #: model:ir.actions.client,name:stock.stock_forecasted_product_template_action
-#, python-format
 msgid "Forecasted Report"
 msgstr "گزارش پیش بینی شده"
 
@@ -3428,7 +3528,6 @@ msgstr "وزن پیش بینی شده"
 #. module: stock
 #. odoo-javascript
 #: code:addons/stock/static/src/stock_forecasted/forecasted_details.xml:0
-#, python-format
 msgid "Forecasted with Pending"
 msgstr "پیش بینی شده با در انتظار"
 
@@ -3446,14 +3545,12 @@ msgstr "مقدار آزاد"
 #. module: stock
 #. odoo-javascript
 #: code:addons/stock/static/src/stock_forecasted/forecasted_details.xml:0
-#, python-format
 msgid "Free Stock"
 msgstr "موجودی آزاد"
 
 #. module: stock
 #. odoo-javascript
 #: code:addons/stock/static/src/stock_forecasted/forecasted_details.xml:0
-#, python-format
 msgid "Free Stock in Transit"
 msgstr "حواله‌های آزاد در حال انتقال"
 
@@ -3476,7 +3573,6 @@ msgstr "آزاد جهت استفاده"
 #: model_terms:ir.ui.view,arch_db:stock.report_stock_body_print
 #: model_terms:ir.ui.view,arch_db:stock.view_move_tree
 #: model_terms:ir.ui.view,arch_db:stock.vpicktree
-#, python-format
 msgid "From"
 msgstr "از"
 
@@ -3498,28 +3594,24 @@ msgstr "فعالیت های آینده"
 #. module: stock
 #. odoo-python
 #: code:addons/stock/models/product.py:0
-#, python-format
 msgid "Future Deliveries"
 msgstr "تحویل های آینده"
 
 #. module: stock
 #. odoo-python
 #: code:addons/stock/models/product.py:0
-#, python-format
 msgid "Future P&L"
 msgstr "آینده سود و زیان"
 
 #. module: stock
 #. odoo-python
 #: code:addons/stock/models/product.py:0
-#, python-format
 msgid "Future Productions"
 msgstr "تولیدات آینده"
 
 #. module: stock
 #. odoo-python
 #: code:addons/stock/models/product.py:0
-#, python-format
 msgid "Future Receipts"
 msgstr "رسیدهای آینده"
 
@@ -3575,7 +3667,6 @@ msgstr "دنباله این خط را هنگام نمایش انبارها می 
 #. module: stock
 #. odoo-python
 #: code:addons/stock/models/stock_rule.py:0
-#, python-format
 msgid "Global Visibility Days"
 msgstr "روزهای دید جهانی"
 
@@ -3695,7 +3786,6 @@ msgstr "پنهان کردن روش رزرو"
 #: model_terms:ir.ui.view,arch_db:stock.product_product_stock_tree
 #: model_terms:ir.ui.view,arch_db:stock.view_stock_quant_tree_editable
 #: model_terms:ir.ui.view,arch_db:stock.view_stock_quant_tree_inventory_editable
-#, python-format
 msgid "History"
 msgstr "تاریخچه"
 
@@ -4025,10 +4115,16 @@ msgstr "انتقال فوری"
 
 #. module: stock
 #. odoo-python
+<<<<<<< HEAD
 #: code:addons/stock/models/stock_quant.py:0
 #, python-format
 msgid "Import"
 msgstr "ورود"
+=======
+#: code:addons/stock/models/stock_picking.py:0
+msgid "Immediate Transfer?"
+msgstr "انتقال فوری؟"
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 #. module: stock
 #. odoo-javascript
@@ -4038,16 +4134,22 @@ msgid "Import Lots"
 msgstr "وارد کردن شماره‌های سریال"
 
 #. module: stock
+<<<<<<< HEAD
 #. odoo-javascript
 #: code:addons/stock/static/src/widgets/lots_dialog.xml:0
 #, python-format
 msgid "Import Serials/Lots"
 msgstr "ایمپورت سریال‌ها/بچ‌ها"
+=======
+#. odoo-python
+#: code:addons/stock/models/stock_quant.py:0
+msgid "Import"
+msgstr "ورود"
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 #. module: stock
 #. odoo-python
 #: code:addons/stock/models/stock_quant.py:0
-#, python-format
 msgid "Import Template for Inventory Adjustments"
 msgstr "قالب واردات برای تنظیمات موجودی انبار"
 
@@ -4077,7 +4179,6 @@ msgstr ""
 #: model:ir.model.fields,field_description:stock.field_product_template__incoming_qty
 #: model_terms:ir.ui.view,arch_db:stock.stock_move_line_view_search
 #: model_terms:ir.ui.view,arch_db:stock.view_move_search
-#, python-format
 msgid "Incoming"
 msgstr "پیش رو"
 
@@ -4089,7 +4190,6 @@ msgstr "تاریخ ورودی"
 #. module: stock
 #. odoo-javascript
 #: code:addons/stock/static/src/stock_forecasted/forecasted_details.xml:0
-#, python-format
 msgid "Incoming Draft Transfer"
 msgstr "انتقال پیش نویس دریافتی"
 
@@ -4126,7 +4226,6 @@ msgstr "تقاضای اولیه"
 #. module: stock
 #. odoo-python
 #: code:addons/stock/models/stock_warehouse.py:0
-#, python-format
 msgid "Input"
 msgstr "ورودی"
 
@@ -4138,7 +4237,6 @@ msgstr "مکان ورودی"
 #. module: stock
 #. odoo-python
 #: code:addons/stock/models/res_company.py:0
-#, python-format
 msgid "Inter-warehouse transit"
 msgstr "ترانزیت بین انباری"
 
@@ -4176,7 +4274,6 @@ msgstr "انتقال داخلی"
 #: code:addons/stock/models/stock_warehouse.py:0
 #: model:ir.actions.act_window,name:stock.action_picking_tree_internal
 #: model:stock.picking.type,name:stock.picking_type_internal
-#, python-format
 msgid "Internal Transfers"
 msgstr "انتقالات داخلی"
 
@@ -4213,32 +4310,45 @@ msgstr ""
 #. module: stock
 #. odoo-python
 #: code:addons/stock/models/product.py:0
-#, python-format
 msgid "Invalid domain left operand %s"
 msgstr "عملگر چپ دامنه نامعتبر %s"
 
 #. module: stock
 #. odoo-python
+<<<<<<< HEAD
 #: code:addons/stock/models/product.py:0 code:addons/stock/models/product.py:0
 #: code:addons/stock/models/stock_lot.py:0
 #, python-format
+=======
+#: code:addons/stock/models/product.py:0
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 msgid "Invalid domain operator %s"
 msgstr "اپراتور دامنه نامعتبر %s"
 
 #. module: stock
 #. odoo-python
+<<<<<<< HEAD
 #: code:addons/stock/models/product.py:0 code:addons/stock/models/product.py:0
 #: code:addons/stock/models/stock_lot.py:0
 #, python-format
 msgid "Invalid domain right operand '%s'. It must be of type Integer/Float"
 msgstr "اپراتور صحیح حوزه نامعتبر '%s'. باید از نوع عدد صحیح/اعشاری باشد"
+=======
+#: code:addons/stock/models/product.py:0
+msgid "Invalid domain right operand %s"
+msgstr ""
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 #. module: stock
 #. odoo-python
 #: code:addons/stock/models/product.py:0
+<<<<<<< HEAD
 #, python-format
 msgid ""
 "Invalid rule's configuration, the following rule causes an endless loop: %s"
+=======
+msgid "Invalid rule's configuration, the following rule causes an endless loop: %s"
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 msgstr ""
 "پیکربندی قانون نامعتبر، قانون زیر باعث ایجاد یک حلقه بی‌پایان می‌شود: %s"
 
@@ -4281,7 +4391,6 @@ msgstr "هشدار تعدیل موجودی"
 #. module: stock
 #. odoo-python
 #: code:addons/stock/models/stock_quant.py:0
-#, python-format
 msgid "Inventory Adjustments"
 msgstr "انبارگردانی ها"
 
@@ -4320,8 +4429,11 @@ msgstr "از دست دادن موجودی"
 #. module: stock
 #. odoo-javascript
 #: code:addons/stock/static/src/stock_forecasted/forecasted_details.xml:0
+<<<<<<< HEAD
 #: code:addons/stock/static/src/stock_forecasted/forecasted_details.xml:0
 #, python-format
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 msgid "Inventory On Hand"
 msgstr "موجودی در دست"
 
@@ -4425,9 +4537,13 @@ msgstr "آیا مقدار انجام شده قابل ویرایش است"
 #. module: stock
 #. odoo-python
 #: code:addons/stock/models/stock_quant.py:0
+<<<<<<< HEAD
 #, python-format
 msgid ""
 "It is not possible to unreserve more products of %s than you have in stock."
+=======
+msgid "It is not possible to unreserve more products of %s than you have in stock."
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 msgstr "امکان لغو رزرو محصولات %s بیشتر از آنچه در انبار دارید وجود ندارد."
 
 #. module: stock
@@ -4458,7 +4574,6 @@ msgstr "روزهای هدایت جیسون"
 #. module: stock
 #. odoo-javascript
 #: code:addons/stock/static/src/widgets/json_widget.js:0
-#, python-format
 msgid "Json Popup"
 msgstr "پاپ‌آپ JSON"
 
@@ -4701,7 +4816,6 @@ msgstr "زمان سرنخ"
 #. module: stock
 #. odoo-javascript
 #: code:addons/stock/static/src/widgets/json_widget.xml:0
-#, python-format
 msgid "Lead Times"
 msgstr "زمان های تحویل"
 
@@ -4842,7 +4956,6 @@ msgstr "مکان: زمان رسیدن به"
 #: model_terms:ir.ui.view,arch_db:stock.stock_storage_category_form
 #: model_terms:ir.ui.view,arch_db:stock.view_picking_type_form
 #: model_terms:ir.ui.view,arch_db:stock.view_warehouse
-#, python-format
 msgid "Locations"
 msgstr "مکان‌ها"
 
@@ -4906,7 +5019,6 @@ msgstr "سری/سریال"
 #. odoo-javascript
 #: code:addons/stock/static/src/client_actions/stock_traceability_report_backend.xml:0
 #: model_terms:ir.ui.view,arch_db:stock.report_stock_body_print
-#, python-format
 msgid "Lot/Serial #"
 msgstr "سری/سریال #"
 
@@ -5062,8 +5174,11 @@ msgstr "عملیات دستی"
 #. module: stock
 #. odoo-python
 #: code:addons/stock/wizard/product_replenish.py:0
+<<<<<<< HEAD
 #: code:addons/stock/wizard/product_replenish.py:0
 #, python-format
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 msgid "Manual Replenishment"
 msgstr "جایگزینی دستی"
 
@@ -5353,15 +5468,17 @@ msgstr "هرگز"
 #: code:addons/stock/models/stock_scrap.py:0
 #: model:ir.model.fields.selection,name:stock.selection__stock_move__state__draft
 #: model:ir.model.fields.selection,name:stock.selection__stock_package_level__state__new
+<<<<<<< HEAD
 #: model_terms:ir.ui.view,arch_db:stock.stock_picking_type_kanban
 #, python-format
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 msgid "New"
 msgstr "جدید"
 
 #. module: stock
 #. odoo-python
 #: code:addons/stock/models/stock_move_line.py:0
-#, python-format
 msgid "New Move:"
 msgstr "انتقال جدید:"
 
@@ -5417,7 +5534,6 @@ msgstr "انتقال(های) بعدی تحت تاثیر قرار گرفته:"
 #. module: stock
 #. odoo-python
 #: code:addons/stock/report/report_stock_reception.py:0
-#, python-format
 msgid "No %s selected or a delivery order selected"
 msgstr "هیچ %s انتخاب نشده و یا یک سفارش تحویل انتخاب شده است"
 
@@ -5434,7 +5550,6 @@ msgstr "بدون پیام"
 #. module: stock
 #. odoo-python
 #: code:addons/stock/models/stock_quant.py:0
-#, python-format
 msgid "No Stock On Hand"
 msgstr "عدم موجودی در دست"
 
@@ -5447,7 +5562,6 @@ msgstr "بدون رهگیری"
 #. odoo-javascript
 #: code:addons/stock/static/src/components/reception_report_main/stock_reception_report_main.xml:0
 #: model_terms:ir.ui.view,arch_db:stock.report_reception_body
-#, python-format
 msgid "No allocation need found."
 msgstr "هیچ تخصیصی لازم نیست پیدا شود."
 
@@ -5464,14 +5578,12 @@ msgstr "هیچ انتقال داخلی یافت نشد. بیایید یکی بس
 #. module: stock
 #. odoo-python
 #: code:addons/stock/models/stock_move_line.py:0
-#, python-format
 msgid "No negative quantities allowed"
 msgstr "مقادیر منفی مجاز نیست"
 
 #. module: stock
 #. odoo-javascript
 #: code:addons/stock/static/src/client_actions/stock_traceability_report_backend.xml:0
-#, python-format
 msgid "No operation made on this lot."
 msgstr "هیچ عملیاتی در این قطعه انجام نشده است."
 
@@ -5495,6 +5607,7 @@ msgstr "محصولی یافت نشد بیایید یکی ایجاد کنیم!"
 #. module: stock
 #. odoo-python
 #: code:addons/stock/wizard/stock_picking_return.py:0
+<<<<<<< HEAD
 #, python-format
 msgid ""
 "No products to return (only lines in Done state and not fully returned yet "
@@ -5502,6 +5615,10 @@ msgid ""
 msgstr ""
 "هیچ محصولی برای بازگشت وجود ندارد (فقط سطرهای در حالت انجام شده و هنوز به "
 "طور کامل بازگردانده نشده، قابل بازگرداندن هستند)."
+=======
+msgid "No products to return (only lines in Done state and not fully returned yet can be returned)."
+msgstr "هیچ محصولی برای بازگشت وجود ندارد (فقط سطرهای در حالت انجام شده و هنوز به طور کامل بازگردانده نشده، قابل بازگرداندن هستند)."
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 #. module: stock
 #: model_terms:ir.actions.act_window,help:stock.action_putaway_tree
@@ -5521,7 +5638,6 @@ msgstr "هیچ قانون سفارش مجدد یافت نشد"
 #. module: stock
 #. odoo-python
 #: code:addons/stock/models/stock_rule.py:0
-#, python-format
 msgid ""
 "No rule has been found to replenish %r in %r.\n"
 "Verify the routes configuration on the product."
@@ -5532,7 +5648,6 @@ msgstr ""
 #. module: stock
 #. odoo-python
 #: code:addons/stock/models/stock_rule.py:0
-#, python-format
 msgid "No source location defined on stock rule: %s!"
 msgstr "هیچ مکان منبعی در قانون موجودی تعریف نشده است: %s!"
 
@@ -5570,7 +5685,6 @@ msgstr "عادی"
 #: code:addons/stock/models/stock_picking.py:0
 #: code:addons/stock/static/src/stock_forecasted/forecasted_details.xml:0
 #: code:addons/stock/static/src/widgets/forecast_widget.xml:0
-#, python-format
 msgid "Not Available"
 msgstr "در دسترس نیست"
 
@@ -5592,7 +5706,6 @@ msgstr "یادداشت‌ها"
 #. module: stock
 #. odoo-python
 #: code:addons/stock/models/stock_picking.py:0
-#, python-format
 msgid "Nothing to check the availability for."
 msgstr "چیزی برای بررسی در دسترس بودن وجود ندارد."
 
@@ -5682,11 +5795,14 @@ msgstr "صندلی اداری"
 #: model:ir.model.fields,field_description:stock.field_stock_warehouse_orderpoint__qty_on_hand
 #: model_terms:ir.ui.view,arch_db:stock.product_product_stock_tree
 #: model_terms:ir.ui.view,arch_db:stock.quant_search_view
+<<<<<<< HEAD
 #: model_terms:ir.ui.view,arch_db:stock.search_product_lot_filter
 #: model_terms:ir.ui.view,arch_db:stock.view_stock_product_template_tree
 #: model_terms:ir.ui.view,arch_db:stock.view_stock_product_tree
 #: model_terms:ir.ui.view,arch_db:stock.view_stock_quant_tree_simple
 #, python-format
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 msgid "On Hand"
 msgstr "موجود"
 
@@ -5723,7 +5839,6 @@ msgstr "به ازای هر واحد"
 #. module: stock
 #. odoo-python
 #: code:addons/stock/models/stock_quant.py:0
-#, python-format
 msgid "Only a stock manager can validate an inventory adjustment."
 msgstr "فقط یک مدیر موجودی می تواند تعدیل موجودی را تأیید کند."
 
@@ -5742,7 +5857,6 @@ msgstr "مقادیر عملیات"
 #: model_terms:ir.ui.view,arch_db:stock.view_move_search
 #: model_terms:ir.ui.view,arch_db:stock.view_picking_internal_search
 #: model_terms:ir.ui.view,arch_db:stock.view_pickingtype_filter
-#, python-format
 msgid "Operation Type"
 msgstr "نوع عملیات"
 
@@ -5762,7 +5876,6 @@ msgstr "انواع عملیات"
 #. module: stock
 #. odoo-python
 #: code:addons/stock/models/stock_quant.py:0
-#, python-format
 msgid "Operation not supported"
 msgstr "عملیات پشتیبانی نمی شود"
 
@@ -5843,7 +5956,6 @@ msgstr "گزینه‌ها"
 #. odoo-javascript
 #: code:addons/stock/static/src/views/stock_orderpoint_list_buttons.xml:0
 #: model_terms:ir.ui.view,arch_db:stock.replenishment_option_warning_view
-#, python-format
 msgid "Order"
 msgstr "سفارش"
 
@@ -5862,14 +5974,12 @@ msgstr "سفارش به حداکثر"
 #. module: stock
 #. odoo-python
 #: code:addons/stock/models/stock_picking.py:0
-#, python-format
 msgid "Order signed"
 msgstr "سفارش امضا شده"
 
 #. module: stock
 #. odoo-python
 #: code:addons/stock/models/stock_picking.py:0
-#, python-format
 msgid "Order signed by %s"
 msgstr "سفارش امضا شده توسط %s"
 
@@ -5937,14 +6047,12 @@ msgstr "نوع خروج"
 #: model:ir.model.fields,field_description:stock.field_product_template__outgoing_qty
 #: model_terms:ir.ui.view,arch_db:stock.stock_move_line_view_search
 #: model_terms:ir.ui.view,arch_db:stock.view_move_search
-#, python-format
 msgid "Outgoing"
 msgstr "خروجی"
 
 #. module: stock
 #. odoo-javascript
 #: code:addons/stock/static/src/stock_forecasted/forecasted_details.xml:0
-#, python-format
 msgid "Outgoing Draft Transfer"
 msgstr "انتقال پیش نویس خروجی"
 
@@ -5961,7 +6069,6 @@ msgstr "محموله های خروجی"
 #. module: stock
 #. odoo-python
 #: code:addons/stock/models/stock_warehouse.py:0
-#, python-format
 msgid "Output"
 msgstr "خروجی"
 
@@ -5999,7 +6106,6 @@ msgstr "مالک:"
 #. module: stock
 #. odoo-python
 #: code:addons/stock/models/product.py:0
-#, python-format
 msgid "P&L Qty"
 msgstr "تعداد سود و زیان"
 
@@ -6011,7 +6117,6 @@ msgstr "PDF"
 #. module: stock
 #. odoo-python
 #: code:addons/stock/models/stock_warehouse.py:0
-#, python-format
 msgid "Pack"
 msgstr "بسته بندی"
 
@@ -6087,8 +6192,11 @@ msgstr "ظرفیت بسته"
 #. module: stock
 #. odoo-python
 #: code:addons/stock/models/stock_package_level.py:0
+<<<<<<< HEAD
 #: model_terms:ir.ui.view,arch_db:stock.view_picking_type_form
 #, python-format
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 msgid "Package Content"
 msgstr "محتویات بسته"
 
@@ -6228,7 +6336,6 @@ msgstr "مکان بسته بندی"
 #. module: stock
 #. odoo-python
 #: code:addons/stock/models/stock_warehouse.py:0
-#, python-format
 msgid "Packing Zone"
 msgstr "حوضه بسته"
 
@@ -6289,7 +6396,11 @@ msgstr "فهرست فیزیکی"
 #. odoo-python
 #: code:addons/stock/models/stock_warehouse.py:0
 #: model:ir.model.fields,field_description:stock.field_stock_backorder_confirmation__pick_ids
+<<<<<<< HEAD
 #, python-format
+=======
+#: model:ir.model.fields,field_description:stock.field_stock_immediate_transfer__pick_ids
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 msgid "Pick"
 msgstr "برداشت"
 
@@ -6352,7 +6463,6 @@ msgstr "فهرست برداشت"
 #. module: stock
 #. odoo-javascript
 #: code:addons/stock/static/src/widgets/stock_rescheduling_popover.xml:0
-#, python-format
 msgid "Planning Issue"
 msgstr "مسائل برنامه ریزی"
 
@@ -6362,6 +6472,7 @@ msgid "Planning Issues"
 msgstr "مسائل برنامه ریزی"
 
 #. module: stock
+<<<<<<< HEAD
 #: model_terms:ir.ui.view,arch_db:stock.report_return_slip
 msgid ""
 "Please put this document inside your return parcel.<br/>\n"
@@ -6369,11 +6480,22 @@ msgid ""
 msgstr ""
 "لطفا این سند را داخل بسته‌ی بازگشتی خود قرار دهید.<br/>\n"
 "بسته شما باید به این آدرس ارسال شود:"
+=======
+#. odoo-python
+#: code:addons/stock/models/stock_picking.py:0
+msgid "Please add 'Done' quantities to the picking to create a new pack."
+msgstr "لطفا مقادیر «انجام شد» را به برداشت اضافه کنید تا یک بسته جدید ایجاد کنید."
+
+#. module: stock
+#. odoo-python
+#: code:addons/stock/models/stock_picking.py:0
+msgid "Please add some items to move."
+msgstr "لطفاً چند مورد برای جابجایی اضافه کنید."
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 #. module: stock
 #. odoo-python
 #: code:addons/stock/wizard/stock_picking_return.py:0
-#, python-format
 msgid "Please specify at least one non-zero quantity."
 msgstr "لطفا حداقل یک مقدار غیر صفر را مشخص کنید."
 
@@ -6386,7 +6508,6 @@ msgstr "پیش‌پر کردن عملیات‌های دقیق"
 #. module: stock
 #. odoo-javascript
 #: code:addons/stock/static/src/widgets/stock_rescheduling_popover.xml:0
-#, python-format
 msgid "Preceding operations"
 msgstr "عملیات قبلی"
 
@@ -6408,10 +6529,14 @@ msgstr "وجود به نوع عملیات بستگی دارد."
 #. module: stock
 #. odoo-python
 #: code:addons/stock/models/stock_quant.py:0
+<<<<<<< HEAD
 #, python-format
 msgid ""
 "Press the CREATE button to define quantity for each product in your stock or"
 " import them from a spreadsheet throughout Favorites"
+=======
+msgid "Press the CREATE button to define quantity for each product in your stock or import them from a spreadsheet throughout Favorites"
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 msgstr ""
 "برای تعریف مقدار برای هر محصول در انبار خود، دکمه ایجاد را فشار دهید یا آنها"
 " را از طریق گزینه‌های مورد علاقه از یک صفحه‌گسترده وارد کنید."
@@ -6422,7 +6547,6 @@ msgstr ""
 #: code:addons/stock/static/src/components/reception_report_main/stock_reception_report_main.xml:0
 #: code:addons/stock/static/src/components/reception_report_main/stock_reception_report_main.xml:0
 #: model_terms:ir.ui.view,arch_db:stock.view_picking_form
-#, python-format
 msgid "Print"
 msgstr "چاپ"
 
@@ -6440,7 +6564,6 @@ msgstr "چاپ بارکدهای GS1 برای دسته‌ها و شماره‌ه�
 #. odoo-javascript
 #: code:addons/stock/static/src/components/reception_report_line/stock_reception_report_line.xml:0
 #: model:ir.model.fields,field_description:stock.field_stock_picking_type__print_label
-#, python-format
 msgid "Print Label"
 msgstr "چاپ لیبل"
 
@@ -6450,7 +6573,6 @@ msgstr "چاپ لیبل"
 #: code:addons/stock/static/src/components/reception_report_table/stock_reception_report_table.xml:0
 #: code:addons/stock/static/src/xml/report_stock_reception.xml:0
 #: model_terms:ir.ui.view,arch_db:stock.view_picking_form
-#, python-format
 msgid "Print Labels"
 msgstr "چاپ لیبل ها"
 
@@ -6532,7 +6654,6 @@ msgstr "خط تولید"
 #. module: stock
 #. odoo-python
 #: code:addons/stock/models/product.py:0
-#, python-format
 msgid "Produced Qty"
 msgstr "تعداد تولید شده"
 
@@ -6572,7 +6693,6 @@ msgstr "تعداد تولید شده"
 #: model_terms:ir.ui.view,arch_db:stock.stock_scrap_search_view
 #: model_terms:ir.ui.view,arch_db:stock.view_move_search
 #: model_terms:ir.ui.view,arch_db:stock.warehouse_orderpoint_search
-#, python-format
 msgid "Product"
 msgstr "محصول"
 
@@ -6658,14 +6778,12 @@ msgstr "بسته بندی محصولات"
 #. module: stock
 #. odoo-python
 #: code:addons/stock/models/stock_quant.py:0
-#, python-format
 msgid "Product Quantity Confirmed"
 msgstr "مقدار محصول تایید شد"
 
 #. module: stock
 #. odoo-python
 #: code:addons/stock/models/stock_quant.py:0
-#, python-format
 msgid "Product Quantity Updated"
 msgstr "مقدار محصول به روز شد"
 
@@ -6678,7 +6796,6 @@ msgstr "محصول منتقل شد"
 #. odoo-javascript
 #: code:addons/stock/static/src/stock_forecasted/forecasted_buttons.js:0
 #: model:ir.model,name:stock.model_product_replenish
-#, python-format
 msgid "Product Replenish"
 msgstr "محصول تجدید موجودی"
 
@@ -6733,7 +6850,6 @@ msgstr "گونه های محصول"
 #. module: stock
 #. odoo-python
 #: code:addons/stock/report/product_label_report.py:0
-#, python-format
 msgid "Product model not defined, Please contact your administrator."
 msgstr "مدل محصول تعریف نشده است، لطفا با راهبر سیستم خود تماس بگیرید."
 
@@ -6785,7 +6901,6 @@ msgstr "مکان های تولید"
 #: model:ir.ui.menu,name:stock.menu_stock_inventory_control
 #: model_terms:ir.ui.view,arch_db:stock.res_config_settings_view_form
 #: model_terms:ir.ui.view,arch_db:stock.stock_location_route_form_view
-#, python-format
 msgid "Products"
 msgstr "محصولات"
 
@@ -6804,7 +6919,6 @@ msgstr "محصولات ابتدا برای انتقالات با بالاتری�
 #. module: stock
 #. odoo-python
 #: code:addons/stock/models/product.py:0
-#, python-format
 msgid "Products: %(location)s"
 msgstr "محصولات: %(location)s"
 
@@ -6898,7 +7012,6 @@ msgstr "قانون جانمایی"
 #: model_terms:ir.ui.view,arch_db:stock.stock_putaway_list
 #: model_terms:ir.ui.view,arch_db:stock.view_location_form
 #: model_terms:ir.ui.view,arch_db:stock.view_putaway_search
-#, python-format
 msgid "Putaway Rules"
 msgstr "قوانین قرارگیری"
 
@@ -6925,7 +7038,6 @@ msgstr "کیفیت"
 #. module: stock
 #. odoo-python
 #: code:addons/stock/models/stock_warehouse.py:0
-#, python-format
 msgid "Quality Control"
 msgstr "کنترل کیفیت"
 
@@ -6953,28 +7065,24 @@ msgstr "کوانت"
 #. module: stock
 #. odoo-python
 #: code:addons/stock/models/stock_quant.py:0
-#, python-format
 msgid "Quant's creation is restricted, you can't do this operation."
 msgstr "ایجاد موجودیت محدود شده است، شما نمی‌توانید این عملیات را انجام دهید."
 
 #. module: stock
 #. odoo-python
 #: code:addons/stock/models/stock_quant.py:0
-#, python-format
 msgid "Quant's editing is restricted, you can't do this operation."
 msgstr "ویرایش موجودی محدود است، شما نمی‌توانید این عملیات را انجام دهید."
 
 #. module: stock
 #. odoo-python
 #: code:addons/stock/models/stock_quant.py:0
-#, python-format
 msgid "Quantities Already Set"
 msgstr "مقادیر از قبل تنظیم شده است"
 
 #. module: stock
 #. odoo-python
 #: code:addons/stock/models/stock_quant.py:0
-#, python-format
 msgid "Quantities To Reset"
 msgstr "مقادیر برای تنظیم مجدد"
 
@@ -7006,11 +7114,14 @@ msgstr "کمیت‌ها باز شده‌اند"
 #: model_terms:ir.ui.view,arch_db:stock.view_move_line_tree
 #: model_terms:ir.ui.view,arch_db:stock.view_move_line_tree_detailed
 #: model_terms:ir.ui.view,arch_db:stock.view_move_tree
+<<<<<<< HEAD
 #: model_terms:ir.ui.view,arch_db:stock.view_picking_form
 #: model_terms:ir.ui.view,arch_db:stock.view_picking_move_tree
 #: model_terms:ir.ui.view,arch_db:stock.view_stock_move_line_kanban
 #: model_terms:ir.ui.view,arch_db:stock.view_stock_move_line_operation_tree
 #, python-format
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 msgid "Quantity"
 msgstr "تعداد"
 
@@ -7041,14 +7152,12 @@ msgstr "تعداد رزرو شد"
 #. module: stock
 #. odoo-python
 #: code:addons/stock/wizard/stock_replenishment_info.py:0
-#, python-format
 msgid "Quantity available too low"
 msgstr "مقدار موجودی بسیار کم است"
 
 #. module: stock
 #. odoo-python
 #: code:addons/stock/wizard/stock_change_product_qty.py:0
-#, python-format
 msgid "Quantity cannot be negative."
 msgstr "مقدار نمی تواند منفی باشد."
 
@@ -7148,10 +7257,14 @@ msgstr "کوانت‌ها"
 #. module: stock
 #. odoo-python
 #: code:addons/stock/models/stock_quant.py:0
+<<<<<<< HEAD
 #, python-format
 msgid ""
 "Quants are auto-deleted when appropriate. If you must manually delete them, "
 "please ask a stock manager to do it."
+=======
+msgid "Quants are auto-deleted when appropriate. If you must manually delete them, please ask a stock manager to do it."
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 msgstr ""
 "کوانت‌ها به‌طور خودکار در زمان مناسب حذف می‌شوند. اگر نیاز است که آنها را به"
 " صورت دستی حذف کنید، لطفاً از یک مدیر انبار بخواهید این کار را انجام دهد."
@@ -7159,7 +7272,6 @@ msgstr ""
 #. module: stock
 #. odoo-python
 #: code:addons/stock/models/stock_quant.py:0
-#, python-format
 msgid "Quants cannot be created for consumables or services."
 msgstr "کوانت‌ها نمی‌توانند برای مواد مصرفی یا خدمات ایجاد شوند."
 
@@ -7202,7 +7314,6 @@ msgstr "دلیل جابجایی"
 #. odoo-javascript
 #: code:addons/stock/static/src/stock_forecasted/forecasted_details.xml:0
 #: model:ir.model.fields.selection,name:stock.selection__stock_picking_type__code__incoming
-#, python-format
 msgid "Receipt"
 msgstr "رسید"
 
@@ -7219,7 +7330,6 @@ msgstr "مسیر رسید"
 #: model:stock.picking.type,name:stock.chi_picking_type_in
 #: model:stock.picking.type,name:stock.picking_type_in
 #: model_terms:ir.ui.view,arch_db:stock.view_picking_internal_search
-#, python-format
 msgid "Receipts"
 msgstr "رسیدها"
 
@@ -7251,28 +7361,24 @@ msgstr "دریافت کالا به صورت ورودی، سپس کنترل کی�
 #. module: stock
 #. odoo-python
 #: code:addons/stock/models/stock_warehouse.py:0
-#, python-format
 msgid "Receive in 1 step (stock)"
 msgstr "دریافت در 1 مرحله (موجودی)"
 
 #. module: stock
 #. odoo-python
 #: code:addons/stock/models/stock_warehouse.py:0
-#, python-format
 msgid "Receive in 2 steps (input + stock)"
 msgstr "دریافت در 2 مرحله (ورودی + موجودی)"
 
 #. module: stock
 #. odoo-python
 #: code:addons/stock/models/stock_warehouse.py:0
-#, python-format
 msgid "Receive in 3 steps (input + quality + stock)"
 msgstr "دریافت در 3 مرحله (ورودی + کنترل کیفیت + موجودی)"
 
 #. module: stock
 #. odoo-python
 #: code:addons/stock/models/product.py:0
-#, python-format
 msgid "Received Qty"
 msgstr "تعداد دریافت شده"
 
@@ -7309,7 +7415,6 @@ msgstr "برچسب‌های گزارش دریافت"
 #: model_terms:ir.ui.view,arch_db:stock.view_move_line_tree
 #: model_terms:ir.ui.view,arch_db:stock.view_move_search
 #: model_terms:ir.ui.view,arch_db:stock.view_move_tree_receipt_picking
-#, python-format
 msgid "Reference"
 msgstr "مرجع‌"
 
@@ -7368,7 +7473,6 @@ msgstr "استراتژی برداشت"
 #. module: stock
 #. odoo-python
 #: code:addons/stock/models/stock_quant.py:0
-#, python-format
 msgid "Removal strategy %s not implemented."
 msgstr "استراتژی حذف %s پیاده‌سازی نشده است."
 
@@ -7412,7 +7516,6 @@ msgstr "جستجو قوانین سفارش مجدد"
 #: model_terms:ir.ui.view,arch_db:stock.product_form_view_procurement_button
 #: model_terms:ir.ui.view,arch_db:stock.product_product_view_form_easy_inherit_stock
 #: model_terms:ir.ui.view,arch_db:stock.product_template_form_view_procurement_button
-#, python-format
 msgid "Replenish"
 msgstr "جایگزین"
 
@@ -7431,7 +7534,6 @@ msgstr "تکمیل مقادیر"
 #: code:addons/stock/models/stock_warehouse.py:0
 #: code:addons/stock/models/stock_warehouse.py:0
 #: model:stock.route,name:stock.route_warehouse0_mto
-#, python-format
 msgid "Replenish on Order (MTO)"
 msgstr "پر کردن به سفارش (ساخت به سفارش)"
 
@@ -7448,7 +7550,6 @@ msgstr "جادوی نوسازی"
 #: model:ir.ui.menu,name:stock.menu_reordering_rules_replenish
 #: model_terms:ir.ui.view,arch_db:stock.product_product_stock_tree
 #: model_terms:ir.ui.view,arch_db:stock.view_stock_quant_tree_editable
-#, python-format
 msgid "Replenishment"
 msgstr "شارژ مجدد"
 
@@ -7466,14 +7567,12 @@ msgstr "اطلاعات تکمیل موجودی"
 #. module: stock
 #. odoo-python
 #: code:addons/stock/models/stock_orderpoint.py:0
-#, python-format
 msgid "Replenishment Information for %s in %s"
 msgstr "اطلاعات شارژ مجدد برای %s در %s"
 
 #. module: stock
 #. odoo-python
 #: code:addons/stock/models/stock_orderpoint.py:0
-#, python-format
 msgid "Replenishment Report"
 msgstr "گزارش جایگزینی"
 
@@ -7530,7 +7629,11 @@ msgstr "رزرو"
 #. module: stock
 #. odoo-javascript
 #: code:addons/stock/static/src/stock_forecasted/forecasted_details.xml:0
+<<<<<<< HEAD
 #, python-format
+=======
+#: model:ir.model.fields,field_description:stock.field_stock_quant_reserve_line__reserve_id
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 msgid "Reserve"
 msgstr "رزرو"
 
@@ -7564,6 +7667,21 @@ msgid "Reserve before scheduled date"
 msgstr "قبل از تاریخ برنامه ریزی شده رزرو کنید"
 
 #. module: stock
+<<<<<<< HEAD
+=======
+#: model_terms:ir.ui.view,arch_db:stock.view_stock_move_line_operation_tree
+msgid "Reserve stock"
+msgstr ""
+
+#. module: stock
+#. odoo-python
+#: code:addons/stock/models/stock_move_line.py:0
+msgid "Reserve stock: %(product)s"
+msgstr ""
+
+#. module: stock
+#: model:ir.model.fields,field_description:stock.field_stock_move_line__reserved_uom_qty
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 #: model:ir.model.fields.selection,name:stock.selection__stock_package_level__state__assigned
 msgid "Reserved"
 msgstr "رزرو شده"
@@ -7582,7 +7700,6 @@ msgstr "تعداد رزرو شده"
 #. module: stock
 #. odoo-python
 #: code:addons/stock/models/stock_move_line.py:0
-#, python-format
 msgid "Reserving a negative quantity is not allowed."
 msgstr "رزرو مقدار منفی مجاز نمی باشد."
 
@@ -7649,7 +7766,6 @@ msgstr "بازگشت از"
 #. module: stock
 #. odoo-python
 #: code:addons/stock/wizard/stock_picking_return.py:0
-#, python-format
 msgid "Return of %s"
 msgstr "بازگشت از %s"
 
@@ -7661,16 +7777,20 @@ msgstr "برگه بازگشت"
 #. module: stock
 #. odoo-python
 #: code:addons/stock/wizard/stock_picking_return.py:0
-#, python-format
 msgid "Returned Picking"
 msgstr "برداشت برگشت شده"
 
 #. module: stock
 #. odoo-python
+<<<<<<< HEAD
 #: code:addons/stock/models/stock_picking.py:0
 #: model:ir.model.fields,field_description:stock.field_stock_picking__return_ids
 #: model_terms:ir.ui.view,arch_db:stock.view_picking_form
 #, python-format
+=======
+#: code:addons/stock/models/stock_warehouse.py:0
+#: model:stock.picking.type,name:stock.picking_type_return
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 msgid "Returns"
 msgstr "بازگشت ها"
 
@@ -7854,7 +7974,6 @@ msgstr "شرایط و ضوابط فروش"
 #. module: stock
 #. odoo-javascript
 #: code:addons/stock/static/src/widgets/json_widget.xml:0
-#, python-format
 msgid "Sales History"
 msgstr "تاریخچه فروش"
 
@@ -7896,6 +8015,10 @@ msgstr ""
 #: model:ir.ui.menu,name:stock.menu_stock_scrap
 #: model_terms:ir.ui.view,arch_db:stock.stock_scrap_form_view
 #: model_terms:ir.ui.view,arch_db:stock.stock_scrap_form_view2
+<<<<<<< HEAD
+=======
+#: model_terms:ir.ui.view,arch_db:stock.view_picking_form
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 msgid "Scrap"
 msgstr "اسقاط"
 
@@ -8038,7 +8161,6 @@ msgstr "سپتامبر"
 #: model:ir.model.fields,field_description:stock.field_stock_warehouse__sequence
 #: model_terms:ir.ui.view,arch_db:stock.stock_location_route_form_view
 #: model_terms:ir.ui.view,arch_db:stock.view_stock_rule_form
-#, python-format
 msgid "Sequence"
 msgstr "دنباله"
 
@@ -8050,37 +8172,42 @@ msgstr "پیشوند دنباله"
 #. module: stock
 #. odoo-python
 #: code:addons/stock/models/stock_warehouse.py:0
-#, python-format
 msgid "Sequence in"
 msgstr "دنباله ورودی"
 
 #. module: stock
 #. odoo-python
 #: code:addons/stock/models/stock_warehouse.py:0
-#, python-format
 msgid "Sequence internal"
 msgstr "دنباله داخلی"
 
 #. module: stock
 #. odoo-python
 #: code:addons/stock/models/stock_warehouse.py:0
-#, python-format
 msgid "Sequence out"
 msgstr "دنباله خروجی"
 
 #. module: stock
 #. odoo-python
 #: code:addons/stock/models/stock_warehouse.py:0
-#, python-format
 msgid "Sequence packing"
 msgstr "ترتیب بسته‌بندی"
 
 #. module: stock
 #. odoo-python
 #: code:addons/stock/models/stock_warehouse.py:0
-#, python-format
 msgid "Sequence picking"
+<<<<<<< HEAD
 msgstr "انتخاب توالی"
+=======
+msgstr ""
+
+#. module: stock
+#. odoo-python
+#: code:addons/stock/models/stock_warehouse.py:0
+msgid "Sequence return"
+msgstr ""
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 #. module: stock
 #: model:ir.model.fields,field_description:stock.field_stock_move__lot_ids
@@ -8090,6 +8217,7 @@ msgstr "شماره های سریال"
 #. module: stock
 #. odoo-python
 #: code:addons/stock/models/stock_move_line.py:0
+<<<<<<< HEAD
 #, python-format
 msgid ""
 "Serial number (%s) already exists in location(s): %s. Please correct the "
@@ -8097,11 +8225,14 @@ msgid ""
 msgstr ""
 "شماره سریال (%s) از قبل در مکان(ها) وجود دارد: %s. لطفا شماره سریال کدگذاری "
 "شده را تصحیح کنید."
+=======
+msgid "Serial number (%s) already exists in location(s): %s. Please correct the serial number encoded."
+msgstr "شماره سریال (%s) از قبل در مکان(ها) وجود دارد: %s. لطفا شماره سریال کدگذاری شده را تصحیح کنید."
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 #. module: stock
 #. odoo-python
 #: code:addons/stock/models/stock_quant.py:0
-#, python-format
 msgid ""
 "Serial number (%s) is not located in %s, but is located in location(s): %s.\n"
 "\n"
@@ -8114,7 +8245,6 @@ msgstr ""
 #. module: stock
 #. odoo-python
 #: code:addons/stock/models/stock_quant.py:0
-#, python-format
 msgid ""
 "Serial number (%s) is not located in %s, but is located in location(s): %s.\n"
 "\n"
@@ -8128,7 +8258,6 @@ msgstr ""
 #. odoo-javascript
 #: code:addons/stock/static/src/views/list/inventory_report_list_controller.js:0
 #: model_terms:ir.ui.view,arch_db:stock.view_stock_quant_tree_inventory_editable
-#, python-format
 msgid "Set"
 msgstr "تنظیم کنید"
 
@@ -8388,7 +8517,6 @@ msgstr "اندازه: طول × عرض × ارتفاع"
 #: model:ir.actions.act_window,name:stock.action_orderpoint_snooze
 #: model_terms:ir.ui.view,arch_db:stock.view_stock_orderpoint_snooze
 #: model_terms:ir.ui.view,arch_db:stock.view_warehouse_orderpoint_tree_editable
-#, python-format
 msgid "Snooze"
 msgstr "تعویق"
 
@@ -8441,7 +8569,6 @@ msgstr "مدرک مبدا"
 #: model:ir.model.fields,field_description:stock.field_stock_rule__location_src_id
 #: model:ir.model.fields,field_description:stock.field_stock_scrap__location_id
 #: model_terms:ir.ui.view,arch_db:stock.view_move_search
-#, python-format
 msgid "Source Location"
 msgstr "محل منبع"
 
@@ -8519,7 +8646,6 @@ msgstr ""
 #: code:addons/stock/models/stock_warehouse.py:0
 #: model:ir.actions.act_window,name:stock.action_product_stock_view
 #: model:ir.ui.menu,name:stock.menu_product_stock
-#, python-format
 msgid "Stock"
 msgstr "موجودی کالا"
 
@@ -8531,7 +8657,6 @@ msgstr "موجودی واگذاری شماره سریال"
 #. module: stock
 #. odoo-javascript
 #: code:addons/stock/static/src/stock_forecasted/forecasted_details.xml:0
-#, python-format
 msgid "Stock In Transit"
 msgstr "موجودی در حال حمل"
 
@@ -8702,6 +8827,7 @@ msgstr "محصول قابل انبار"
 #. module: stock
 #. odoo-python
 #: code:addons/stock/models/product.py:0
+<<<<<<< HEAD
 #, python-format
 msgid ""
 "Storable products are physical items for which you manage the inventory "
@@ -8709,6 +8835,10 @@ msgid ""
 msgstr ""
 "محصولات قابل ذخیره سازی اقلام فیزیکی هستند که سطح موجودی آنها را مدیریت می "
 "کنید."
+=======
+msgid "Storable products are physical items for which you manage the inventory level."
+msgstr "محصولات قابل ذخیره سازی اقلام فیزیکی هستند که سطح موجودی آنها را مدیریت می کنید."
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 #. module: stock
 #: model_terms:ir.ui.view,arch_db:stock.product_form_view_procurement_button
@@ -8855,7 +8985,6 @@ msgstr ""
 #. module: stock
 #. odoo-python
 #: code:addons/stock/models/stock_quant.py:0
-#, python-format
 msgid ""
 "The Serial Number (%s) is already used in these location(s): %s.\n"
 "\n"
@@ -8868,7 +8997,6 @@ msgstr ""
 #. module: stock
 #. odoo-python
 #: code:addons/stock/models/stock_picking.py:0
-#, python-format
 msgid "The backorder %s has been created."
 msgstr "سفارش بازگشت %s ایجاد شده است."
 
@@ -8892,7 +9020,6 @@ msgstr ""
 #. module: stock
 #. odoo-python
 #: code:addons/stock/models/stock_lot.py:0
-#, python-format
 msgid ""
 "The combination of serial number and product must be unique across a company.\n"
 "Following combination contains duplicates:\n"
@@ -8908,7 +9035,6 @@ msgstr "شرکت به طور خودکار از روی تنظیمات کاربر 
 #. module: stock
 #. odoo-python
 #: code:addons/stock/models/stock_move.py:0
-#, python-format
 msgid "The deadline has been automatically updated due to a delay on %s."
 msgstr "موعد نهایی به دلیل تأخیر در %s به‌طور خودکار به‌روزرسانی شده است."
 
@@ -8940,21 +9066,18 @@ msgstr "مقدار پیش‌بینی شده از"
 #. module: stock
 #. odoo-javascript
 #: code:addons/stock/static/src/widgets/json_widget.xml:0
-#, python-format
 msgid "The forecasted stock on the"
 msgstr "موجودی پیش بینی شده در"
 
 #. module: stock
 #. odoo-python
 #: code:addons/stock/models/stock_orderpoint.py:0
-#, python-format
 msgid "The inter-warehouse transfers have been generated"
 msgstr "انتقال بین انبارها ایجاد شده است"
 
 #. module: stock
 #. odoo-python
 #: code:addons/stock/models/stock_move_line.py:0
-#, python-format
 msgid "The inventory adjustments have been reverted."
 msgstr "اصلاحات موجودی بازگردانده شده‌اند."
 
@@ -8971,7 +9094,6 @@ msgstr "نام انبار باید برای هر شرکت منحصر به فرد
 #. module: stock
 #. odoo-python
 #: code:addons/stock/wizard/stock_assign_serial_numbers.py:0
-#, python-format
 msgid "The number of Serial Numbers to generate must be greater than zero."
 msgstr "تعداد شماره‌های سریال برای تولید باید بیشتر از صفر باشد."
 
@@ -9022,6 +9144,7 @@ msgid "The product's counted quantity."
 msgstr "مقدار شمارش شده محصول"
 
 #. module: stock
+<<<<<<< HEAD
 #: model_terms:ir.ui.view,arch_db:stock.stock_quant_relocate_view_form
 msgid ""
 "The quantities selected do not all belong to the same location.\n"
@@ -9050,6 +9173,23 @@ msgstr ""
 msgid ""
 "The requested operation cannot be processed because of a programming error "
 "setting the `product_qty` field instead of the `product_uom_qty`."
+=======
+#. odoo-python
+#: code:addons/stock/models/stock_move_line.py:0
+msgid "The quantity done for the product \"%s\" doesn't respect the rounding precision defined on the unit of measure \"%s\". Please change the quantity done or the rounding precision of your unit of measure."
+msgstr "مقدار انجام شده برای محصول \"%s\" به دقت گرد کردن تعریف شده در واحد اندازه گیری \"%s\" احترام نمی گذارد. لطفاً مقدار انجام شده یا دقت گرد کردن واحد اندازه گیری خود را تغییر دهید."
+
+#. module: stock
+#. odoo-python
+#: code:addons/stock/models/stock_move.py:0
+msgid "The requested operation cannot be processed because of a programming error setting the `product_qty` field instead of the `product_uom_qty`."
+msgstr "عملیات درخواستی نمی‌تواند پردازش شود زیرا خطای برنامه‌نویسی در تنظیم فیلد \"product_qty\" به جای \"product_uom_qty\" وجود دارد."
+
+#. module: stock
+#. odoo-python
+#: code:addons/stock/models/stock_move_line.py:0
+msgid "The requested operation cannot be processed because of a programming error setting the `reserved_qty` field instead of the `reserved_uom_qty`."
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 msgstr ""
 "عملیات درخواستی نمی‌تواند پردازش شود زیرا خطای برنامه‌نویسی در تنظیم فیلد "
 "\"product_qty\" به جای \"product_uom_qty\" وجود دارد."
@@ -9057,17 +9197,21 @@ msgstr ""
 #. module: stock
 #. odoo-python
 #: code:addons/stock/models/stock_location.py:0
+<<<<<<< HEAD
 #, python-format
 msgid ""
 "The selected Inventory Frequency (Days) creates a date too far into the "
 "future."
 msgstr ""
 "فرکانس موجودی انتخاب شده (روزها) تاریخی بسیار دور از آینده ایجاد می کند."
+=======
+msgid "The selected Inventory Frequency (Days) creates a date too far into the future."
+msgstr "فرکانس موجودی انتخاب شده (روزها) تاریخی بسیار دور از آینده ایجاد می کند."
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 #. module: stock
 #. odoo-python
 #: code:addons/stock/models/stock_quant.py:0
-#, python-format
 msgid ""
 "The serial number has already been assigned: \n"
 " Product: %s, Serial Number: %s"
@@ -9128,7 +9272,6 @@ msgstr ""
 #. module: stock
 #. odoo-python
 #: code:addons/stock/models/stock_move_line.py:0
-#, python-format
 msgid "There are no inventory adjustments to revert."
 msgstr "هیچ تعدیل موجودی برای بازگرداندن وجود ندارد."
 
@@ -9171,6 +9314,7 @@ msgstr ""
 #. module: stock
 #. odoo-python
 #: code:addons/stock/models/stock_quant.py:0
+<<<<<<< HEAD
 #, python-format
 msgid ""
 "This analysis gives you an overview of the current stock level of your "
@@ -9182,6 +9326,9 @@ msgstr "این تحلیل به شما نمای کلی از سطح موجودی �
 msgid ""
 "This checkbox is just indicative, it doesn't validate or generate any "
 "product moves."
+=======
+msgid "This analysis gives you an overview of the current stock level of your products."
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 msgstr ""
 "این چک‌باکس صرفاً اطلاع‌رسانی است و هیچ حرکتی در محصولات را تأیید یا ایجاد "
 "نمی‌کند."
@@ -9251,18 +9398,27 @@ msgstr ""
 #. module: stock
 #. odoo-python
 #: code:addons/stock/models/stock_location.py:0
+<<<<<<< HEAD
 #, python-format
 msgid ""
 "This location's usage cannot be changed to view as it contains products."
 msgstr ""
 "استفاده از این مکان را نمی توان برای مشاهده تغییر داد زیرا حاوی محصولات است."
+=======
+msgid "This location's usage cannot be changed to view as it contains products."
+msgstr "استفاده از این مکان را نمی توان برای مشاهده تغییر داد زیرا حاوی محصولات است."
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 #. module: stock
 #. odoo-python
 #: code:addons/stock/models/stock_move_line.py:0
+<<<<<<< HEAD
 #, python-format
 msgid ""
 "This lot %(lot_name)s is incompatible with this product %(product_name)s"
+=======
+msgid "This lot %(lot_name)s is incompatible with this product %(product_name)s"
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 msgstr "این سری ساخت %(lot_name)s با این محصول %(product_name)s ناسازگار است"
 
 #. module: stock
@@ -9329,6 +9485,7 @@ msgstr ""
 #. module: stock
 #. odoo-python
 #: code:addons/stock/models/product.py:0
+<<<<<<< HEAD
 #, python-format
 msgid ""
 "This product has been used in at least one inventory movement. It is not "
@@ -9339,14 +9496,22 @@ msgstr ""
 "این محصول حداقل در یک جابجایی موجودی مورد استفاده قرار گرفته است. تغییر نوع "
 "محصول توصیه نمی شود زیرا ممکن است منجر به ناهماهنگی شود. راه حل بهتر می "
 "تواند آرشیو کردن محصول و ایجاد یک محصول جدید باشد."
+=======
+msgid "This product has been used in at least one inventory movement. It is not advised to change the Product Type since it can lead to inconsistencies. A better solution could be to archive the product and create a new one instead."
+msgstr "این محصول حداقل در یک جابجایی موجودی مورد استفاده قرار گرفته است. تغییر نوع محصول توصیه نمی شود زیرا ممکن است منجر به ناهماهنگی شود. راه حل بهتر می تواند آرشیو کردن محصول و ایجاد یک محصول جدید باشد."
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 #. module: stock
 #. odoo-python
 #: code:addons/stock/models/product.py:0
+<<<<<<< HEAD
 #, python-format
 msgid ""
 "This product's company cannot be changed as long as there are quantities of "
 "it belonging to another company."
+=======
+msgid "This product's company cannot be changed as long as there are quantities of it belonging to another company."
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 msgstr ""
 "تا زمانی که مقادیری از این محصول متعلق به شرکت دیگری باشد، شرکت این محصول "
 "نمی تواند تغییر کند."
@@ -9354,10 +9519,14 @@ msgstr ""
 #. module: stock
 #. odoo-python
 #: code:addons/stock/models/product.py:0
+<<<<<<< HEAD
 #, python-format
 msgid ""
 "This product's company cannot be changed as long as there are stock moves of"
 " it belonging to another company."
+=======
+msgid "This product's company cannot be changed as long as there are stock moves of it belonging to another company."
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 msgstr ""
 "تا زمانی که جابجایی‌های موجودی این محصول متعلق به شرکت دیگری باشد، شرکت این "
 "محصول قابل تغییر نیست."
@@ -9370,15 +9539,18 @@ msgstr "این مقدار در واحد اندازه گیری پیش فرض مح
 
 #. module: stock
 #. odoo-javascript
+<<<<<<< HEAD
 #: code:addons/stock/static/src/views/list/inventory_report_list_model.js:0
 #, python-format
+=======
+#: code:addons/stock/static/src/views/list/inventory_report_list_controller.js:0
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 msgid "This record already exists."
 msgstr "این رکورد از قبل وجود دارد."
 
 #. module: stock
 #. odoo-python
 #: code:addons/stock/report/report_stock_reception.py:0
-#, python-format
 msgid "This report cannot be used for done and not done %s at the same time"
 msgstr ""
 "استفاده از این گزارش برای %s انجام شده و انجام نشده به طور همزمان ممکن نیست"
@@ -9459,7 +9631,6 @@ msgstr "نکته: سرعت عملیات موجودی را با بارکد افز
 #: model_terms:ir.ui.view,arch_db:stock.report_stock_body_print
 #: model_terms:ir.ui.view,arch_db:stock.view_move_tree
 #: model_terms:ir.ui.view,arch_db:stock.vpicktree
-#, python-format
 msgid "To"
 msgstr "تا"
 
@@ -9516,7 +9687,6 @@ msgstr "برای سفارش مجدد"
 #. module: stock
 #. odoo-javascript
 #: code:addons/stock/static/src/widgets/json_widget.xml:0
-#, python-format
 msgid "Today"
 msgstr "امروز"
 
@@ -9586,7 +9756,6 @@ msgstr "قابلیت رهگیری"
 #: model:ir.actions.client,name:stock.action_stock_report
 #: model:ir.model,name:stock.model_stock_traceability_report
 #: model_terms:ir.ui.view,arch_db:stock.report_stock_body_print
-#, python-format
 msgid "Traceability Report"
 msgstr "گزارش رهگیری"
 
@@ -9623,7 +9792,6 @@ msgstr "با ایجاد محصولات قابل انبار، مقادیر موج
 #. module: stock
 #. odoo-python
 #: code:addons/stock/models/stock_quant.py:0
-#, python-format
 msgid "Tracked Products in Inventory Adjustment"
 msgstr "محصولات ردیابی شده در تنظیم موجودی"
 
@@ -9672,7 +9840,6 @@ msgstr "انتقالات"
 #. module: stock
 #. odoo-python
 #: code:addons/stock/models/stock_picking.py:0
-#, python-format
 msgid "Transfers %s: Please add some items to move."
 msgstr "انتقالات %s: لطفا مواردی را برای جابجایی اضافه کنید."
 
@@ -9738,7 +9905,6 @@ msgstr "آخرین بروزرسانی دستی"
 #. module: stock
 #. odoo-javascript
 #: code:addons/stock/static/src/stock_forecasted/stock_forecasted.js:0
-#, python-format
 msgid "Try to add some incoming or outgoing transfers."
 msgstr "سعی کنید برخی از انتقالات ورودی یا خروجی را اضافه کنید."
 
@@ -9783,15 +9949,17 @@ msgstr "درگاه USPS"
 #. module: stock
 #. odoo-javascript
 #: code:addons/stock/static/src/components/reception_report_line/stock_reception_report_line.xml:0
-#, python-format
 msgid "Unassign"
 msgstr "لغو تخصیص"
 
 #. module: stock
 #. odoo-javascript
 #: code:addons/stock/static/src/client_actions/stock_traceability_report_backend.xml:0
+<<<<<<< HEAD
 #: code:addons/stock/static/src/client_actions/stock_traceability_report_backend.xml:0
 #, python-format
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 msgid "Unfold"
 msgstr "باز کردن"
 
@@ -9869,7 +10037,6 @@ msgstr "وحدت اندازه گیری"
 #. module: stock
 #. odoo-python
 #: code:addons/stock/models/stock_quant.py:0
-#, python-format
 msgid "Unknown Pack"
 msgstr "پک ناشناخته"
 
@@ -9883,14 +10050,12 @@ msgstr "بازکردن بسته‌بندی"
 #: code:addons/stock/static/src/stock_forecasted/forecasted_details.xml:0
 #: model:ir.actions.server,name:stock.action_unreserve_picking
 #: model_terms:ir.ui.view,arch_db:stock.vpicktree
-#, python-format
 msgid "Unreserve"
 msgstr "لغو رزرو"
 
 #. module: stock
 #. odoo-python
 #: code:addons/stock/models/stock_move.py:0
-#, python-format
 msgid "Unsafe unit of measure"
 msgstr "واحد اندازه‌گیری غیرایمن"
 
@@ -9933,7 +10098,6 @@ msgstr "بروزرسانی مقادیر"
 #: model_terms:ir.ui.view,arch_db:stock.product_form_view_procurement_button
 #: model_terms:ir.ui.view,arch_db:stock.product_product_view_form_easy_inherit_stock
 #: model_terms:ir.ui.view,arch_db:stock.product_template_form_view_procurement_button
-#, python-format
 msgid "Update Quantity"
 msgstr "بروزرسانی مقدار"
 
@@ -9982,7 +10146,6 @@ msgstr "از مسیرهای خود استفاده کنید"
 #. module: stock
 #. odoo-javascript
 #: code:addons/stock/static/src/stock_forecasted/forecasted_details.xml:0
-#, python-format
 msgid "Used by"
 msgstr "استفاده شده توسط"
 
@@ -10014,7 +10177,6 @@ msgstr "تایید اعتبار"
 #. module: stock
 #. odoo-javascript
 #: code:addons/stock/static/src/xml/inventory_lines.xml:0
-#, python-format
 msgid "Validate Inventory"
 msgstr "ارزش گذاری موجودی"
 
@@ -10188,14 +10350,12 @@ msgstr "مکان نمای انبار"
 #. module: stock
 #. odoo-python
 #: code:addons/stock/models/stock_warehouse.py:0
-#, python-format
 msgid "Warehouse's Routes"
 msgstr "مسیرهای انبار"
 
 #. module: stock
 #. odoo-javascript
 #: code:addons/stock/static/src/stock_forecasted/forecasted_warehouse_filter.xml:0
-#, python-format
 msgid "Warehouse:"
 msgstr "انبارها:"
 
@@ -10208,7 +10368,6 @@ msgstr "انبارها:"
 #: model:ir.ui.menu,name:stock.menu_action_warehouse_form
 #: model_terms:ir.ui.view,arch_db:stock.stock_location_route_form_view
 #: model_terms:ir.ui.view,arch_db:stock.view_stock_replenishment_info
-#, python-format
 msgid "Warehouses"
 msgstr "انبارها"
 
@@ -10230,14 +10389,12 @@ msgstr "هشدار به مقدار ناکافی اسقاط"
 #: code:addons/stock/models/stock_scrap.py:0
 #: code:addons/stock/models/stock_warehouse.py:0
 #: model:ir.model.fields.selection,name:stock.selection__res_partner__picking_warn__warning
-#, python-format
 msgid "Warning"
 msgstr "هشدار"
 
 #. module: stock
 #. odoo-python
 #: code:addons/stock/models/stock_quant.py:0
-#, python-format
 msgid "Warning Duplicated SN"
 msgstr "هشدار: شماره سریال تکراری"
 
@@ -10253,8 +10410,12 @@ msgstr "هشدار در برداشت"
 
 #. module: stock
 #. odoo-python
+<<<<<<< HEAD
 #: code:addons/stock/models/product.py:0 code:addons/stock/models/product.py:0
 #, python-format
+=======
+#: code:addons/stock/models/product.py:0
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 msgid "Warning!"
 msgstr "هشدار!"
 
@@ -10358,6 +10519,7 @@ msgstr "زمانی که محصول وارد می شود"
 #. module: stock
 #. odoo-python
 #: code:addons/stock/models/stock_rule.py:0
+<<<<<<< HEAD
 #, python-format
 msgid ""
 "When products are needed in <b>%s</b>, <br/> <b>%s</b> are created from "
@@ -10365,10 +10527,15 @@ msgid ""
 msgstr ""
 "هنگامی که محصولات در <b>%s</b> مورد نیاز است، <br/> <b>%s</b> از <b>%s</b> "
 "برای رفع نیاز ایجاد می‌شود."
+=======
+msgid "When products are needed in <b>%s</b>, <br/> <b>%s</b> are created from <b>%s</b> to fulfill the need."
+msgstr "هنگامی که محصولات در <b>%s</b> مورد نیاز است، <br/> <b>%s</b> از <b>%s</b> برای رفع نیاز ایجاد می‌شود."
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 #. module: stock
 #. odoo-python
 #: code:addons/stock/models/stock_rule.py:0
+<<<<<<< HEAD
 #, python-format
 msgid ""
 "When products arrive in <b>%s</b>, <br/> <b>%s</b> are created to send them "
@@ -10376,6 +10543,10 @@ msgid ""
 msgstr ""
 "وقتی محصولات در <b>%s</b> می‌رسند، <br/> <b>%s</b> ایجاد می‌شود تا آنها را "
 "در <b>%s</b> ارسال کنند."
+=======
+msgid "When products arrive in <b>%s</b>, <br/> <b>%s</b> are created to send them in <b>%s</b>."
+msgstr "وقتی محصولات در <b>%s</b> می‌رسند، <br/> <b>%s</b> ایجاد می‌شود تا آنها را در <b>%s</b> ارسال کنند."
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 #. module: stock
 #: model:ir.model.fields,help:stock.field_stock_picking__is_locked
@@ -10502,6 +10673,7 @@ msgstr "شما خوب هستید، نیازی به تأمین مجدد نیست!
 #. module: stock
 #. odoo-python
 #: code:addons/stock/models/stock_lot.py:0
+<<<<<<< HEAD
 #, python-format
 msgid ""
 "You are not allowed to change the product linked to a serial or lot number "
@@ -10511,10 +10683,15 @@ msgstr ""
 "اگر برخی از انتقالات موجودی قبلا با آن شماره ایجاد شده باشد، مجاز به تغییر "
 "محصول مرتبط با شماره سریال یا سری نیستید. این منجر به ناهماهنگی در موجودی "
 "شما می شود."
+=======
+msgid "You are not allowed to change the product linked to a serial or lot number if some stock moves have already been created with that number. This would lead to inconsistencies in your stock."
+msgstr "اگر برخی از انتقالات موجودی قبلا با آن شماره ایجاد شده باشد، مجاز به تغییر محصول مرتبط با شماره سریال یا سری نیستید. این منجر به ناهماهنگی در موجودی شما می شود."
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 #. module: stock
 #. odoo-python
 #: code:addons/stock/models/stock_lot.py:0
+<<<<<<< HEAD
 #, python-format
 msgid ""
 "You are not allowed to create a lot or serial number with this operation "
@@ -10524,6 +10701,10 @@ msgstr ""
 "شما مجاز به ایجاد سری ساخت یا شماره سریال با این نوع عملیات نیستید. برای "
 "تغییر این مورد، به نوع عملیات بروید و کادر \"ایجاد سری/سریال جدید\" را علامت"
 " بزنید."
+=======
+msgid "You are not allowed to create a lot or serial number with this operation type. To change this, go on the operation type and tick the box \"Create New Lots/Serial Numbers\"."
+msgstr "شما مجاز به ایجاد سری ساخت یا شماره سریال با این نوع عملیات نیستید. برای تغییر این مورد، به نوع عملیات بروید و کادر \"ایجاد سری/سریال جدید\" را علامت بزنید."
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 #. module: stock
 #: model_terms:ir.ui.view,arch_db:stock.stock_package_destination_form_view
@@ -10537,6 +10718,7 @@ msgstr ""
 #. module: stock
 #. odoo-python
 #: code:addons/stock/models/stock_move.py:0
+<<<<<<< HEAD
 #, python-format
 msgid ""
 "You are using a unit of measure smaller than the one you are using in order "
@@ -10550,6 +10732,10 @@ msgstr ""
 " شود. شما باید از واحد اندازه گیری کوچکتر ممکن برای ارزش گذاری موجودی خود "
 "استفاده کنید یا دقت گرد کردن آن را به مقدار کوچکتر تغییر دهید (مثال: "
 "0.00001)."
+=======
+msgid "You are using a unit of measure smaller than the one you are using in order to stock your product. This can lead to rounding problem on reserved quantity. You should use the smaller unit of measure possible in order to valuate your stock or change its rounding precision to a smaller value (example: 0.00001)."
+msgstr "شما از واحد اندازه گیری کوچکتر از واحدی که استفاده می کنید برای انبار کردن محصول خود استفاده می کنید. این می تواند منجر به مشکل گرد کردن مقدار رزرو شده شود. شما باید از واحد اندازه گیری کوچکتر ممکن برای ارزش گذاری موجودی خود استفاده کنید یا دقت گرد کردن آن را به مقدار کوچکتر تغییر دهید (مثال: 0.00001)."
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 #. module: stock
 #: model_terms:ir.actions.act_window,help:stock.action_routes_form
@@ -10572,6 +10758,7 @@ msgstr "شما می توانید:"
 #. module: stock
 #. odoo-python
 #: code:addons/stock/models/product.py:0
+<<<<<<< HEAD
 #, python-format
 msgid ""
 "You can not change the type of a product that is currently reserved on a "
@@ -10581,11 +10768,14 @@ msgstr ""
 "شما نمی توانید نوع محصولی را که در حال حاضر رزرو شده است در انتقال موجودی "
 "تغییر دهید. اگر نیاز به تغییر نوع دارید، ابتدا باید انتقال موجودی را لغو "
 "رزرو کنید."
+=======
+msgid "You can not change the type of a product that is currently reserved on a stock move. If you need to change the type, you should first unreserve the stock move."
+msgstr "شما نمی توانید نوع محصولی را که در حال حاضر رزرو شده است در انتقال موجودی تغییر دهید. اگر نیاز به تغییر نوع دارید، ابتدا باید انتقال موجودی را لغو رزرو کنید."
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 #. module: stock
 #. odoo-python
 #: code:addons/stock/models/product.py:0
-#, python-format
 msgid "You can not change the type of a product that was already used."
 msgstr ""
 "شما نمی‌توانید نوع محصولی که قبلاً مورد استفاده قرار گرفته است را تغییر "
@@ -10609,6 +10799,7 @@ msgstr "شما نمی‌توانید حرکاتی که به عملیات دیگ�
 #. module: stock
 #. odoo-python
 #: code:addons/stock/models/stock_move_line.py:0
+<<<<<<< HEAD
 #, python-format
 msgid ""
 "You can not delete product moves if the picking is done. You can only "
@@ -10616,16 +10807,20 @@ msgid ""
 msgstr ""
 "اگر برداشت انجام شده باشد، نمی توانید انتقالات محصول را حذف کنید. شما فقط می"
 " توانید مقادیر انجام شده را اصلاح کنید."
+=======
+msgid "You can not delete product moves if the picking is done. You can only correct the done quantities."
+msgstr "اگر برداشت انجام شده باشد، نمی توانید انتقالات محصول را حذف کنید. شما فقط می توانید مقادیر انجام شده را اصلاح کنید."
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 #. module: stock
 #. odoo-python
 #: code:addons/stock/models/stock_move_line.py:0
-#, python-format
 msgid "You can not enter negative quantities."
 msgstr "شما نمی توانید مقادیر منفی را وارد کنید."
 
 #. module: stock
 #. odoo-python
+<<<<<<< HEAD
 #: code:addons/stock/models/stock_scrap.py:0
 #, python-format
 msgid "You can only enter positive quantities."
@@ -10638,17 +10833,26 @@ msgstr "شما فقط می‌توانید مقادیر مثبت وارد کنی�
 msgid ""
 "You can only move a lot/serial to a new location if it exists in a single "
 "location."
+=======
+#: code:addons/stock/models/stock_move.py:0
+msgid "You can only delete draft or cancelled moves."
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 msgstr ""
 "شما فقط می‌توانید یک سری/شماره قطعه را به یک مکان جدید منتقل کنید اگر در یک "
 "مکان واحد وجود داشته باشد."
 
 #. module: stock
 #. odoo-python
+<<<<<<< HEAD
 #: code:addons/stock/models/stock_quant.py:0
 #, python-format
 msgid ""
 "You can only move positive quantities stored in locations used by a single "
 "company per relocation."
+=======
+#: code:addons/stock/models/stock_scrap.py:0
+msgid "You can only enter positive quantities."
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 msgstr ""
 "شما فقط می‌توانید مقادیر مثبتی را جابجا کنید که در مکان‌هایی ذخیره شده‌اند "
 "که توسط یک شرکت هنگام جابجایی استفاده می‌شوند."
@@ -10656,7 +10860,6 @@ msgstr ""
 #. module: stock
 #. odoo-python
 #: code:addons/stock/models/stock_move_line.py:0
-#, python-format
 msgid "You can only process 1.0 %s of products with unique serial number."
 msgstr ""
 "شما فقط می توانید 1.0 %s از محصولات با شماره سریال منحصر به فرد را پردازش "
@@ -10674,10 +10877,14 @@ msgstr ""
 #. module: stock
 #. odoo-python
 #: code:addons/stock/models/res_config_settings.py:0
+<<<<<<< HEAD
 #, python-format
 msgid ""
 "You can't deactivate the multi-location if you have more than once warehouse"
 " by company"
+=======
+msgid "You can't deactivate the multi-location if you have more than once warehouse by company"
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 msgstr ""
 "شما نمی‌توانید چند مکان را غیرفعال کنید، اگر بیش از یک انبار در هر شرکت "
 "داشته باشید."
@@ -10693,7 +10900,6 @@ msgstr ""
 #. module: stock
 #. odoo-python
 #: code:addons/stock/models/stock_location.py:0
-#, python-format
 msgid "You cannot archive the location %s as it is used by your warehouse %s"
 msgstr ""
 "شما نمی توانید مکان %s را بایگانی کنید زیرا توسط انبار %s شما استفاده می شود"
@@ -10701,6 +10907,7 @@ msgstr ""
 #. module: stock
 #. odoo-python
 #: code:addons/stock/models/stock_move.py:0
+<<<<<<< HEAD
 #, python-format
 msgid ""
 "You cannot cancel a stock move that has been set to 'Done'. Create a return "
@@ -10708,11 +10915,14 @@ msgid ""
 msgstr ""
 "شما نمی توانید انتقال موجودی را که روی \"انجام شد\" تنظیم شده است لغو کنید. "
 "برای معکوس کردن انتقال انجام شده یک بازگشت ایجاد کنید."
+=======
+msgid "You cannot cancel a stock move that has been set to 'Done'. Create a return in order to reverse the moves which took place."
+msgstr "شما نمی توانید انتقال موجودی را که روی \"انجام شد\" تنظیم شده است لغو کنید. برای معکوس کردن انتقال انجام شده یک بازگشت ایجاد کنید."
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 #. module: stock
 #. odoo-python
 #: code:addons/stock/models/stock_move.py:0
-#, python-format
 msgid "You cannot change a cancelled stock move, create a new line instead."
 msgstr ""
 "نمی‌توانید یک حرکت انبار لغو شده را تغییر دهید، به جای آن یک خط جدید ایجاد "
@@ -10721,7 +10931,6 @@ msgstr ""
 #. module: stock
 #. odoo-python
 #: code:addons/stock/models/stock_picking.py:0
-#, python-format
 msgid "You cannot change the Scheduled Date on a done or cancelled transfer."
 msgstr ""
 "شما نمی توانید تاریخ برنامه ریزی شده را در انتقال انجام شده یا لغو شده تغییر"
@@ -10730,16 +10939,22 @@ msgstr ""
 #. module: stock
 #. odoo-python
 #: code:addons/stock/models/stock_move.py:0
+<<<<<<< HEAD
 #, python-format
 msgid ""
 "You cannot change the UoM for a stock move that has been set to 'Done'."
 msgstr ""
 "نمی‌توانید UoM را برای جابه‌جایی انتقال که روی «انجام شد» تنظیم شده است، "
 "تغییر دهید."
+=======
+msgid "You cannot change the UoM for a stock move that has been set to 'Done'."
+msgstr "نمی‌توانید UoM را برای جابه‌جایی انتقال که روی «انجام شد» تنظیم شده است، تغییر دهید."
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 #. module: stock
 #. odoo-python
 #: code:addons/stock/models/stock_location.py:0
+<<<<<<< HEAD
 #, python-format
 msgid ""
 "You cannot change the location type or its use as a scrap location as there "
@@ -10747,10 +10962,15 @@ msgid ""
 msgstr ""
 "شما نمی توانید نوع مکان یا استفاده از آن را به عنوان مکان ضایعات تغییر دهید "
 "زیرا محصولاتی در این مکان رزرو شده اند. لطفا ابتدا محصولات را لغو رزرو کنید."
+=======
+msgid "You cannot change the location type or its use as a scrap location as there are products reserved in this location. Please unreserve the products first."
+msgstr "شما نمی توانید نوع مکان یا استفاده از آن را به عنوان مکان ضایعات تغییر دهید زیرا محصولاتی در این مکان رزرو شده اند. لطفا ابتدا محصولات را لغو رزرو کنید."
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 #. module: stock
 #. odoo-python
 #: code:addons/stock/models/product.py:0
+<<<<<<< HEAD
 #, python-format
 msgid ""
 "You cannot change the ratio of this unit of measure as some products with "
@@ -10758,10 +10978,15 @@ msgid ""
 msgstr ""
 "شما نمی توانید نسبت این واحد اندازه گیری را تغییر دهید زیرا برخی از محصولات "
 "با این UoM قبلاً منتقل شده اند یا در حال حاضر رزرو شده اند."
+=======
+msgid "You cannot change the ratio of this unit of measure as some products with this UoM have already been moved or are currently reserved."
+msgstr "شما نمی توانید نسبت این واحد اندازه گیری را تغییر دهید زیرا برخی از محصولات با این UoM قبلاً منتقل شده اند یا در حال حاضر رزرو شده اند."
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 #. module: stock
 #. odoo-python
 #: code:addons/stock/models/product.py:0
+<<<<<<< HEAD
 #, python-format
 msgid ""
 "You cannot change the unit of measure as there are already stock moves for "
@@ -10771,11 +10996,14 @@ msgstr ""
 "شما نمی توانید واحد اندازه گیری را تغییر دهید زیرا از قبل جابجایی موجودی "
 "برای این محصول وجود دارد. اگر می خواهید واحد اندازه گیری را تغییر دهید، بهتر"
 " است این محصول را بایگانی کنید و یک محصول جدید ایجاد کنید."
+=======
+msgid "You cannot change the unit of measure as there are already stock moves for this product. If you want to change the unit of measure, you should rather archive this product and create a new one."
+msgstr "شما نمی توانید واحد اندازه گیری را تغییر دهید زیرا از قبل جابجایی موجودی برای این محصول وجود دارد. اگر می خواهید واحد اندازه گیری را تغییر دهید، بهتر است این محصول را بایگانی کنید و یک محصول جدید ایجاد کنید."
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 #. module: stock
 #. odoo-python
 #: code:addons/stock/models/stock_scrap.py:0
-#, python-format
 msgid "You cannot delete a scrap which is done."
 msgstr "شما نمی توانید ضایعاتی را که انجام شده است حذف کنید."
 
@@ -10799,13 +11027,13 @@ msgstr ""
 #. module: stock
 #. odoo-python
 #: code:addons/stock/models/stock_quant.py:0
-#, python-format
 msgid "You cannot modify inventory loss quantity"
 msgstr "شما نمی توانید مقدار از دست دادن موجودی را تغییر دهید"
 
 #. module: stock
 #. odoo-python
 #: code:addons/stock/models/stock_move.py:0
+<<<<<<< HEAD
 #, python-format
 msgid ""
 "You cannot move the same package content more than once in the same transfer"
@@ -10824,10 +11052,15 @@ msgid ""
 msgstr ""
 "شما نمی‌توانید محصولاتی را در یک بسته‌بندی قرار دهید وقتی که آن‌ها از "
 "انتقال‌های متفاوت با نوع عملیات‌های مختلف هستند."
+=======
+msgid "You cannot move the same package content more than once in the same transfer or split the same package into two location."
+msgstr "شما نمی توانید محتوای یک بسته را بیش از یک بار در یک انتقال منتقل کنید یا همان بسته را به دو مکان تقسیم کنید."
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 #. module: stock
 #. odoo-python
 #: code:addons/stock/models/stock_move.py:0
+<<<<<<< HEAD
 #, python-format
 msgid ""
 "You cannot perform the move because the unit of measure has a different "
@@ -10835,14 +11068,22 @@ msgid ""
 msgstr ""
 "شما نمی توانید انتقال را انجام دهید زیرا واحد اندازه گیری دارای دسته بندی "
 "متفاوتی با واحد اندازه گیری محصول است."
+=======
+msgid "You cannot perform the move because the unit of measure has a different category as the product unit of measure."
+msgstr "شما نمی توانید انتقال را انجام دهید زیرا واحد اندازه گیری دارای دسته بندی متفاوتی با واحد اندازه گیری محصول است."
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 #. module: stock
 #. odoo-python
 #: code:addons/stock/models/stock_location.py:0
+<<<<<<< HEAD
 #, python-format
 msgid ""
 "You cannot set a location as a scrap location when it assigned as a "
 "destination location for a manufacturing type operation."
+=======
+msgid "You cannot set a location as a scrap location when it assigned as a destination location for a manufacturing type operation."
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 msgstr ""
 "نمی‌توانید یک مکان را به عنوان مکان ضایعات تنظیم کنید زمانی که به عنوان مکان"
 " مقصد برای یک عملیات نوع تولید اختصاص داده شده باشد."
@@ -10850,10 +11091,14 @@ msgstr ""
 #. module: stock
 #. odoo-python
 #: code:addons/stock/models/stock_picking.py:0
+<<<<<<< HEAD
 #, python-format
 msgid ""
 "You cannot set a scrap location as the destination location for a "
 "manufacturing type operation."
+=======
+msgid "You cannot set a scrap location as the destination location for a manufacturing type operation."
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 msgstr ""
 "شما نمی‌توانید یک مکان ضایعاتی را به عنوان مکان مقصد برای یک عملیات از نوع "
 "تولید تنظیم کنید."
@@ -10861,7 +11106,6 @@ msgstr ""
 #. module: stock
 #. odoo-python
 #: code:addons/stock/models/stock_move.py:0
-#, python-format
 msgid "You cannot split a draft move. It needs to be confirmed first."
 msgstr ""
 "شما نمی توانید یک انتقال پیش نویس را تقسیم کنید. ابتدا باید تایید شود."
@@ -10869,15 +11113,21 @@ msgstr ""
 #. module: stock
 #. odoo-python
 #: code:addons/stock/models/stock_move.py:0
+<<<<<<< HEAD
 #, python-format
 msgid "You cannot split a stock move that has been set to 'Done' or 'Cancel'."
 msgstr ""
 "شما نمی‌توانید یک جابجایی انبار که به 'انجام شده' یا 'لغو شده' تنظیم شده است"
 " را تقسیم کنید."
+=======
+msgid "You cannot split a stock move that has been set to 'Done'."
+msgstr "شما نمی توانید یک جابجایی موجودی را که روی \"انجام شد\" تنظیم شده است تقسیم کنید."
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 #. module: stock
 #. odoo-python
 #: code:addons/stock/models/stock_quant.py:0
+<<<<<<< HEAD
 #, python-format
 msgid ""
 "You cannot take products from or deliver products to a location of type "
@@ -10885,11 +11135,14 @@ msgid ""
 msgstr ""
 "شما نمی توانید محصولات را از یک مکان از نوع \"view\" (%s) بگیرید یا محصولات "
 "را تحویل دهید."
+=======
+msgid "You cannot take products from or deliver products to a location of type \"view\" (%s)."
+msgstr "شما نمی توانید محصولات را از یک مکان از نوع \"view\" (%s) بگیرید یا محصولات را تحویل دهید."
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 #. module: stock
 #. odoo-python
 #: code:addons/stock/models/stock_move.py:0
-#, python-format
 msgid "You cannot unreserve a stock move that has been set to 'Done'."
 msgstr ""
 "شما نمی توانید انتقال موجودی را که روی \"انجام شد\" تنظیم شده است لغو رزرو "
@@ -10898,6 +11151,7 @@ msgstr ""
 #. module: stock
 #. odoo-python
 #: code:addons/stock/models/stock_move_line.py:0
+<<<<<<< HEAD
 #: code:addons/stock/models/stock_move_line.py:0
 #, python-format
 msgid ""
@@ -10906,10 +11160,15 @@ msgid ""
 msgstr ""
 "شما نمی توانید از یک شماره سریال دو بار استفاده کنید. لطفا شماره سریال های "
 "کدگذاری شده را تصحیح کنید."
+=======
+msgid "You cannot use the same serial number twice. Please correct the serial numbers encoded."
+msgstr "شما نمی توانید از یک شماره سریال دو بار استفاده کنید. لطفا شماره سریال های کدگذاری شده را تصحیح کنید."
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 #. module: stock
 #. odoo-python
 #: code:addons/stock/models/stock_picking.py:0
+<<<<<<< HEAD
 #, python-format
 msgid ""
 "You cannot validate a transfer if no quantities are reserved. To force the "
@@ -10928,6 +11187,16 @@ msgid ""
 msgstr ""
 "شما نمی‌توانید یک جابجایی خالی را تایید کنید. لطفاً قبل از ادامه، برخی "
 "محصولات را برای جابجایی اضافه کنید."
+=======
+msgid "You cannot validate a transfer if no quantities are reserved nor done. To force the transfer, switch in edit mode and encode the done quantities."
+msgstr "اگر مقداری رزرو یا انجام نشده باشد، نمی‌توانید انتقالی را تایید کنید. برای انتقال اجباری، در حالت ویرایش قرار بگیرید و مقادیر انجام شده را رمزگذاری کنید."
+
+#. module: stock
+#. odoo-python
+#: code:addons/stock/wizard/stock_picking_return.py:0
+msgid "You have manually created product lines, please delete them to proceed."
+msgstr "شما سطرهای محصول را به صورت دستی ایجاد کرده اید، لطفا برای ادامه آنها را حذف کنید."
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 #. module: stock
 #. odoo-python
@@ -10958,6 +11227,7 @@ msgstr ""
 #. module: stock
 #. odoo-python
 #: code:addons/stock/models/product.py:0
+<<<<<<< HEAD
 #, python-format
 msgid ""
 "You have product(s) in stock that have no lot/serial number. You can assign "
@@ -10965,10 +11235,15 @@ msgid ""
 msgstr ""
 "شما محصول(هایی) در انبار دارید که شماره سریال/سری ندارند. می‌توانید با انجام"
 " یک تنظیم موجودی، شماره‌های سری/سریال را اختصاص دهید."
+=======
+msgid "You have product(s) in stock that have no lot/serial number. You can assign lot/serial numbers by doing an inventory adjustment."
+msgstr "شما محصول(هایی) در انبار دارید که شماره سریال/سری ندارند. می‌توانید با انجام یک تنظیم موجودی، شماره‌های سری/سریال را اختصاص دهید."
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 #. module: stock
 #. odoo-python
 #: code:addons/stock/models/stock_orderpoint.py:0
+<<<<<<< HEAD
 #, python-format
 msgid ""
 "You have to select a product unit of measure that is in the same category as"
@@ -10976,31 +11251,33 @@ msgid ""
 msgstr ""
 "شما باید یک واحد اندازه گیری محصول را انتخاب کنید که در همان دسته واحد "
 "اندازه گیری پیش فرض محصول باشد"
+=======
+msgid "You have to select a product unit of measure that is in the same category as the default unit of measure of the product"
+msgstr "شما باید یک واحد اندازه گیری محصول را انتخاب کنید که در همان دسته واحد اندازه گیری پیش فرض محصول باشد"
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 #. module: stock
 #. odoo-python
 #: code:addons/stock/wizard/stock_picking_return.py:0
-#, python-format
 msgid "You may only return Done pickings."
 msgstr "شما فقط می توانید برداشت های انجام شده را برگردانید."
 
 #. module: stock
 #. odoo-python
 #: code:addons/stock/wizard/stock_picking_return.py:0
-#, python-format
 msgid "You may only return one picking at a time."
 msgstr "شما می توانید فقط یک برداشت را در یک زمان برگردانید."
 
 #. module: stock
 #. odoo-python
 #: code:addons/stock/models/stock_picking.py:0
-#, python-format
 msgid "You might want to update the locations of this transfer's operations"
 msgstr "ممکن است بخواهید مکان های عملیات این انتقال را به‌روزرسانی کنید."
 
 #. module: stock
 #. odoo-python
 #: code:addons/stock/models/stock_picking.py:0
+<<<<<<< HEAD
 #, python-format
 msgid ""
 "You need to activate storage locations to be able to do internal operation "
@@ -11015,11 +11292,20 @@ msgstr ""
 #, python-format
 msgid "You need to select a route to replenish your products"
 msgstr "شما نیاز دارید یک مسیر را انتخاب کنید تا محصولاتتان را تکمیل کنید"
+=======
+msgid "You need to activate storage locations to be able to do internal operation types."
+msgstr "برای اینکه بتوانید انواع عملیات داخلی را انجام دهید، باید مکان های ذخیره سازی را فعال کنید."
+
+#. module: stock
+#. odoo-python
+#: code:addons/stock/models/stock_move.py:0
+msgid "You need to set a Serial Number before generating more."
+msgstr "قبل از تولید بیشتر باید یک شماره سریال تنظیم کنید."
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 #. module: stock
 #. odoo-python
 #: code:addons/stock/models/stock_move_line.py:0
-#, python-format
 msgid ""
 "You need to supply a Lot/Serial Number for product: \n"
 " - "
@@ -11030,7 +11316,6 @@ msgstr ""
 #. module: stock
 #. odoo-python
 #: code:addons/stock/models/stock_picking.py:0
-#, python-format
 msgid "You need to supply a Lot/Serial number for products %s."
 msgstr "شما باید یک سری/سریال برای محصولات %s ارائه دهید."
 
@@ -11042,13 +11327,13 @@ msgstr "شما باید این سند را به‌روزرسانی کنید تا
 #. module: stock
 #. odoo-python
 #: code:addons/stock/models/stock_warehouse.py:0
-#, python-format
 msgid "You still have ongoing operations for picking types %s in warehouse %s"
 msgstr "شما هنوز عملیات در حال انجام برای انتخاب انواع %s در انبار %s دارید"
 
 #. module: stock
 #. odoo-python
 #: code:addons/stock/models/product.py:0
+<<<<<<< HEAD
 #, python-format
 msgid ""
 "You still have some active reordering rules on this product. Please archive "
@@ -11064,6 +11349,21 @@ msgstr ""
 msgid ""
 "You tried to create a record that already exists. The existing record was "
 "modified instead."
+=======
+msgid "You still have some active reordering rules on this product. Please archive or delete them first."
+msgstr "هنوز قوانین سفارش مجدد فعال در این محصول را دارید. لطفا ابتدا آنها را بایگانی یا حذف کنید."
+
+#. module: stock
+#. odoo-python
+#: code:addons/stock/models/stock_location.py:0
+msgid "You still have some product in locations %s"
+msgstr "هنوز محصولی در مکان‌های %s دارید"
+
+#. module: stock
+#. odoo-javascript
+#: code:addons/stock/static/src/views/list/inventory_report_list_controller.js:0
+msgid "You tried to create a record that already exists. The existing record was modified instead."
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 msgstr ""
 "شما سعی کردید یک رکوردی که از قبل وجود دارد را ایجاد کنید. رکورد موجود به "
 "جای آن تغییر داده شد."
@@ -11091,7 +11391,6 @@ msgstr ""
 #. module: stock
 #. odoo-python
 #: code:addons/stock/models/stock_quant.py:0
-#, python-format
 msgid "Your stock is currently empty"
 msgstr "در حال حاضر انبار شما خالی است"
 
@@ -11131,7 +11430,6 @@ msgstr "]<br/>حداقل:"
 #. module: stock
 #. odoo-javascript
 #: code:addons/stock/static/src/widgets/json_widget.xml:0
-#, python-format
 msgid "below the inventory"
 msgstr "موجودی زیر"
 
@@ -11230,8 +11528,11 @@ msgstr "در"
 #. module: stock
 #. odoo-javascript
 #: code:addons/stock/static/src/widgets/json_widget.xml:0
+<<<<<<< HEAD
 #: model_terms:ir.ui.view,arch_db:stock.view_product_replenish
 #, python-format
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 msgid "is"
 msgstr "است"
 
@@ -11253,7 +11554,6 @@ msgstr "به صورت دستی قوانین ترتیب مجدد را در حال
 #. module: stock
 #. odoo-javascript
 #: code:addons/stock/static/src/widgets/json_widget.xml:0
-#, python-format
 msgid "minimum of"
 msgstr "حداقل از"
 
@@ -11265,7 +11565,6 @@ msgstr "از"
 #. module: stock
 #. odoo-javascript
 #: code:addons/stock/static/src/widgets/stock_rescheduling_popover.xml:0
-#, python-format
 msgid "planned on"
 msgstr "برنامه ریزی شده در"
 
@@ -11282,14 +11581,12 @@ msgstr "گزارش_نمودار_مقدار_موجودی"
 #. module: stock
 #. odoo-javascript
 #: code:addons/stock/static/src/stock_forecasted/forecasted_details.xml:0
-#, python-format
 msgid "reserved"
 msgstr "رزرو شده"
 
 #. module: stock
 #. odoo-javascript
 #: code:addons/stock/static/src/widgets/json_widget.xml:0
-#, python-format
 msgid "should be replenished"
 msgstr "باید شارژ مجدد شود"
 
@@ -11309,16 +11606,22 @@ msgstr ""
 #. module: stock
 #. odoo-javascript
 #: code:addons/stock/static/src/widgets/json_widget.xml:0
-#, python-format
 msgid "to reach the maximum of"
 msgstr "برای رسیدن به حداکثر"
 
 #. module: stock
+<<<<<<< HEAD
 #: model_terms:ir.ui.view,arch_db:stock.report_delivery_document
 #: model_terms:ir.ui.view,arch_db:stock.report_package_barcode
 #: model_terms:ir.ui.view,arch_db:stock.report_picking
 msgid "units"
 msgstr "واحدها"
+=======
+#. odoo-python
+#: code:addons/stock/wizard/stock_replenishment_info.py:0
+msgid "{0} can only provide {1} {2}, while the quantity to order is {3} {2}."
+msgstr ""
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 #. module: stock
 #: model:mail.template,subject:stock.mail_template_data_delivery_confirmation

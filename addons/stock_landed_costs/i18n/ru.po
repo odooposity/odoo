@@ -3,6 +3,7 @@
 # 	* stock_landed_costs
 # 
 # Translators:
+<<<<<<< HEAD
 # Андрей Гусев <gaussgss@gmail.com>, 2023
 # Максим Дронь <dronmax@gmail.com>, 2023
 # Vasiliy Korobatov <korobatov@gmail.com>, 2023
@@ -12,14 +13,25 @@
 # ILMIR <karamov@it-projects.info>, 2023
 # alenafairy, 2023
 # Martin Trigaux, 2023
+=======
+# Olga Gutorova, 2024
+# Ilya Rozhkov, 2024
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 # Wil Odoo, 2024
 # 
 msgid ""
 msgstr ""
+<<<<<<< HEAD
 "Project-Id-Version: Odoo Server 17.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2024-01-29 10:44+0000\n"
 "PO-Revision-Date: 2023-10-26 23:09+0000\n"
+=======
+"Project-Id-Version: Odoo Server 18.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2024-09-25 08:39+0000\n"
+"PO-Revision-Date: 2024-09-25 09:42+0000\n"
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 "Last-Translator: Wil Odoo, 2024\n"
 "Language-Team: Russian (https://app.transifex.com/odoo/teams/41243/ru/)\n"
 "MIME-Version: 1.0\n"
@@ -31,12 +43,17 @@ msgstr ""
 #. module: stock_landed_costs
 #. odoo-python
 #: code:addons/stock_landed_costs/models/stock_landed_cost.py:0
+<<<<<<< HEAD
 #: code:addons/stock_landed_costs/models/stock_landed_cost.py:0
 #: code:addons/stock_landed_costs/models/stock_landed_cost.py:0
 #: code:addons/stock_landed_costs/models/stock_landed_cost.py:0
 #, python-format
 msgid " already out"
 msgstr " уже выбыл"
+=======
+msgid "%(product)s: %(quantity)s already out"
+msgstr ""
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 #. module: stock_landed_costs
 #: model_terms:ir.ui.view,arch_db:stock_landed_costs.stock_landed_cost_view_kanban
@@ -47,6 +64,7 @@ msgstr "<i class=\"fa fa-clock-o\" title=\"Date\" role=\"img\" aria-label=\"Date
 #: model_terms:ir.ui.view,arch_db:stock_landed_costs.view_stock_landed_cost_form
 msgid "<span class=\"o_stat_text\">Valuation</span>"
 msgstr "<span class=\"o_stat_text\">Оценка</span>"
+<<<<<<< HEAD
 
 #. module: stock_landed_costs
 #: model:ir.model.fields,help:stock_landed_costs.field_account_move_line__product_type
@@ -58,6 +76,8 @@ msgstr ""
 "Складируемый продукт — это ТМЦ, запасами которых вы управляете. Должно быть установлено приложение «Склад».\n"
 "Расходный продукт — это ТМЦ, запасы которых не контролируются.\n"
 "Услуга — это нематериальный продукт."
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 #. module: stock_landed_costs
 #: model:ir.model.fields,field_description:stock_landed_costs.field_stock_landed_cost_lines__account_id
@@ -102,7 +122,11 @@ msgstr "Дополнительные расходы"
 #. module: stock_landed_costs
 #: model:ir.model.fields,field_description:stock_landed_costs.field_stock_valuation_adjustment_lines__additional_landed_cost
 msgid "Additional Landed Cost"
+<<<<<<< HEAD
 msgstr "Дополнительная стоимость земли"
+=======
+msgstr "Дополнительные накладные расходы"
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 #. module: stock_landed_costs
 #: model:ir.model.fields,field_description:stock_landed_costs.field_stock_landed_cost__target_model
@@ -187,23 +211,39 @@ msgstr "Линии затрат"
 #. module: stock_landed_costs
 #. odoo-python
 #: code:addons/stock_landed_costs/models/stock_landed_cost.py:0
+<<<<<<< HEAD
 #, python-format
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 msgid ""
 "Cost and adjustments lines do not match. You should maybe recompute the "
 "landed costs."
 msgstr ""
+<<<<<<< HEAD
 "Стоимость и строки корректировки не сходятся. Может есть необходимость "
 "пересчитать стоимость с издержками."
+=======
+"Стоимость и строки корректировки не сходятся. Может, есть необходимость "
+"пересчитать накладные расходы."
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 #. module: stock_landed_costs
 #: model_terms:ir.ui.view,arch_db:stock_landed_costs.account_view_move_form_inherited
 msgid "Create Landed Costs"
+<<<<<<< HEAD
 msgstr "Создание наземных расходов"
+=======
+msgstr "Создать накладные расходы"
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 #. module: stock_landed_costs
 #: model_terms:ir.actions.act_window,help:stock_landed_costs.action_stock_landed_cost
 msgid "Create a new landed cost"
+<<<<<<< HEAD
 msgstr "Создайте новую наземную стоимость"
+=======
+msgstr "Создать новые накладные расходы"
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 #. module: stock_landed_costs
 #: model:ir.model.fields,field_description:stock_landed_costs.field_stock_landed_cost__create_uid
@@ -248,9 +288,13 @@ msgstr "Метод разделения по умолчанию"
 #: model:ir.model.fields,help:stock_landed_costs.field_product_product__split_method_landed_cost
 #: model:ir.model.fields,help:stock_landed_costs.field_product_template__split_method_landed_cost
 msgid "Default Split Method when used for Landed Cost"
+<<<<<<< HEAD
 msgstr ""
 "Метод разделения по умолчанию при использовании для определения стоимости "
 "земли"
+=======
+msgstr "Метод распределения по умолчанию для накладных расходов"
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 #. module: stock_landed_costs
 #: model:ir.model.fields,field_description:stock_landed_costs.field_stock_landed_cost_lines__name
@@ -317,6 +361,16 @@ msgstr "Шрифт, отличный значок, например. к.-а.-з�
 #: model_terms:ir.ui.view,arch_db:stock_landed_costs.view_stock_landed_cost_search
 msgid "Future Activities"
 msgstr "Планируемые действия"
+<<<<<<< HEAD
+=======
+
+#. module: stock_landed_costs
+#: model:ir.model.fields,help:stock_landed_costs.field_account_move_line__product_type
+msgid ""
+"Goods are tangible materials and merchandise you provide.\n"
+"A service is a non-material product you provide."
+msgstr ""
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 #. module: stock_landed_costs
 #: model_terms:ir.ui.view,arch_db:stock_landed_costs.view_stock_landed_cost_search
@@ -382,7 +436,11 @@ msgstr "Линия стоимости земли"
 #: model:ir.model.fields,field_description:stock_landed_costs.field_product_product__landed_cost_ok
 #: model:ir.model.fields,field_description:stock_landed_costs.field_product_template__landed_cost_ok
 msgid "Is a Landed Cost"
+<<<<<<< HEAD
 msgstr "Являются базовым типом затрат"
+=======
+msgstr "Является накладным расходом"
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 #. module: stock_landed_costs
 #: model:ir.model.fields,field_description:stock_landed_costs.field_stock_landed_cost__description
@@ -411,13 +469,16 @@ msgstr "Наименование в журнале"
 #: model:ir.model.fields,field_description:stock_landed_costs.field_stock_valuation_layer__stock_landed_cost_id
 #: model_terms:ir.ui.view,arch_db:stock_landed_costs.view_stock_landed_cost_form
 msgid "Landed Cost"
+<<<<<<< HEAD
 msgstr "Приземленная стоимость"
+=======
+msgstr "Накладные расходы"
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 #. module: stock_landed_costs
 #: model:ir.actions.act_window,name:stock_landed_costs.action_stock_landed_cost
 #: model:ir.model.fields,field_description:stock_landed_costs.field_account_bank_statement_line__landed_costs_ids
 #: model:ir.model.fields,field_description:stock_landed_costs.field_account_move__landed_costs_ids
-#: model:ir.model.fields,field_description:stock_landed_costs.field_account_payment__landed_costs_ids
 #: model:ir.ui.menu,name:stock_landed_costs.menu_stock_landed_cost
 #: model_terms:ir.ui.view,arch_db:stock_landed_costs.account_view_move_form_inherited
 #: model_terms:ir.ui.view,arch_db:stock_landed_costs.view_stock_landed_cost_form
@@ -425,19 +486,26 @@ msgstr "Приземленная стоимость"
 #: model_terms:ir.ui.view,arch_db:stock_landed_costs.view_stock_landed_cost_tree
 #: model_terms:ir.ui.view,arch_db:stock_landed_costs.view_stock_landed_cost_tree2
 msgid "Landed Costs"
+<<<<<<< HEAD
 msgstr "Посадочные расходы"
+=======
+msgstr "Накладные расходы"
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 #. module: stock_landed_costs
 #: model:ir.model.fields,field_description:stock_landed_costs.field_account_bank_statement_line__landed_costs_visible
 #: model:ir.model.fields,field_description:stock_landed_costs.field_account_move__landed_costs_visible
-#: model:ir.model.fields,field_description:stock_landed_costs.field_account_payment__landed_costs_visible
 msgid "Landed Costs Visible"
 msgstr "Приземленные расходы Видимые"
 
 #. module: stock_landed_costs
 #: model:mail.message.subtype,description:stock_landed_costs.mt_stock_landed_cost_open
 msgid "Landed cost validated"
+<<<<<<< HEAD
 msgstr "Приземленная стоимость подтверждена"
+=======
+msgstr "Подтвержденные накладные расходы"
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 #. module: stock_landed_costs
 #: model_terms:ir.actions.act_window,help:stock_landed_costs.action_stock_landed_cost
@@ -496,9 +564,12 @@ msgstr "Имя"
 #. module: stock_landed_costs
 #. odoo-python
 #: code:addons/stock_landed_costs/models/stock_landed_cost.py:0
+<<<<<<< HEAD
 #: code:addons/stock_landed_costs/models/stock_landed_cost.py:0
 #: code:addons/stock_landed_costs/models/stock_landed_cost.py:0
 #, python-format
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 msgid "New"
 msgstr "Новый"
 
@@ -550,9 +621,12 @@ msgstr "Количество недоставленных сообщений"
 #. module: stock_landed_costs
 #. odoo-python
 #: code:addons/stock_landed_costs/models/stock_landed_cost.py:0
-#, python-format
 msgid "Only draft landed costs can be validated"
+<<<<<<< HEAD
 msgstr "Подтвердить можно только проект стоимости земли"
+=======
+msgstr "Только черновик накладных расходов может быть подтвержден"
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 #. module: stock_landed_costs
 #: model:ir.model.fields,field_description:stock_landed_costs.field_stock_valuation_adjustment_lines__former_cost
@@ -567,14 +641,12 @@ msgstr "Выбор"
 #. module: stock_landed_costs
 #. odoo-python
 #: code:addons/stock_landed_costs/models/stock_landed_cost.py:0
-#, python-format
 msgid "Please configure Stock Expense Account for product: %s."
 msgstr "Пожалуйста, настройте счет расходов на запасы для продукта: %s."
 
 #. module: stock_landed_costs
 #. odoo-python
 #: code:addons/stock_landed_costs/models/stock_landed_cost.py:0
-#, python-format
 msgid "Please define %s on which those additional costs should apply."
 msgstr ""
 "Пожалуйста, определите %s, на которые должны распространяться эти "
@@ -668,6 +740,7 @@ msgid "Stock Landed Cost Line"
 msgstr "Запасы Посаженные Линия затрат"
 
 #. module: stock_landed_costs
+#: model:ir.model,name:stock_landed_costs.model_stock_move
 #: model:ir.model.fields,field_description:stock_landed_costs.field_stock_valuation_adjustment_lines__move_id
 msgid "Stock Move"
 msgstr "Движение запасов"
@@ -707,13 +780,21 @@ msgstr "Проверка"
 #. module: stock_landed_costs
 #. odoo-python
 #: code:addons/stock_landed_costs/models/stock_landed_cost.py:0
+<<<<<<< HEAD
 #, python-format
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 msgid ""
 "Validated landed costs cannot be cancelled, but you could create negative "
 "landed costs to reverse them"
 msgstr ""
+<<<<<<< HEAD
 "Утвержденные наземные расходы нельзя отменить, но можно создать "
 "отрицательные наземные расходы, чтобы отменить их"
+=======
+"Подтвержденные накладные расходы не могут быть отменены, но вы можете "
+"создать отрицательные накладные расходы, чтобы отменить их"
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 #. module: stock_landed_costs
 #: model:ir.model,name:stock_landed_costs.model_stock_valuation_adjustment_lines
@@ -754,7 +835,10 @@ msgstr "Вес"
 #. module: stock_landed_costs
 #. odoo-python
 #: code:addons/stock_landed_costs/models/stock_landed_cost.py:0
+<<<<<<< HEAD
 #, python-format
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 msgid ""
 "You cannot apply landed costs on the chosen %s(s). Landed costs can only be "
 "applied for products with FIFO or average costing method."
@@ -766,7 +850,10 @@ msgstr ""
 #. module: stock_landed_costs
 #. odoo-python
 #: code:addons/stock_landed_costs/models/product.py:0
+<<<<<<< HEAD
 #, python-format
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 msgid ""
 "You cannot change the product type or disable landed cost option because the"
 " product is used in an account move line."

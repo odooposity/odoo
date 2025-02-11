@@ -1,9 +1,8 @@
-/** @odoo-module */
 /* global StripeTerminal */
 
 import { _t } from "@web/core/l10n/translation";
 import { PaymentInterface } from "@point_of_sale/app/payment/payment_interface";
-import { ErrorPopup } from "@point_of_sale/app/errors/popups/error_popup";
+import { AlertDialog } from "@web/core/confirmation_dialog/confirmation_dialog";
 
 export class PaymentStripe extends PaymentInterface {
     setup() {
@@ -19,7 +18,7 @@ export class PaymentStripe extends PaymentInterface {
     async stripeFetchConnectionToken() {
         // Do not cache or hardcode the ConnectionToken.
         try {
-            const data = await this.env.services.orm.silent.call(
+            const data = await this.pos.data.silentCall(
                 "pos.payment.method",
                 "stripe_connection_token",
                 []
@@ -30,7 +29,7 @@ export class PaymentStripe extends PaymentInterface {
             return data.secret;
         } catch (error) {
             const message = error.code === 200 ? error.data.message : error.message;
-            this._showError(message, 'Fetch Token');
+            this._showError(message, "Fetch Token");
             this.terminal = false;
         }
     }
@@ -57,14 +56,15 @@ export class PaymentStripe extends PaymentInterface {
                 }
             }
         } catch (error) {
+            console.error(error);
             this._showError(error);
             return false;
         }
-        const line = this.pos.get_order().selected_paymentline;
+        const line = this.pos.get_order().get_selected_paymentline();
         // Because the reader can only connect to one instance of the SDK at a time.
         // We need the disconnect this reader if we want to use another one
         if (
-            this.pos.connectedReader != this.payment_method.stripe_serial_number &&
+            this.pos.connectedReader != this.payment_method_id.stripe_serial_number &&
             this.terminal.getConnectionStatus() == "connected"
         ) {
             const disconnectResult = await this.terminal.disconnectReader();
@@ -83,10 +83,10 @@ export class PaymentStripe extends PaymentInterface {
     }
 
     async connectReader() {
-        const line = this.pos.get_order().selected_paymentline;
+        const line = this.pos.get_order().get_selected_paymentline();
         const discoveredReaders = JSON.parse(this.pos.discoveredReaders);
         for (const selectedReader of discoveredReaders) {
-            if (selectedReader.serial_number == this.payment_method.stripe_serial_number) {
+            if (selectedReader.serial_number == this.payment_method_id.stripe_serial_number) {
                 try {
                     const connectResult = await this.terminal.connectReader(selectedReader, {
                         fail_if_in_use: true,
@@ -94,9 +94,10 @@ export class PaymentStripe extends PaymentInterface {
                     if (connectResult.error) {
                         throw connectResult;
                     }
-                    this.pos.connectedReader = this.payment_method.stripe_serial_number;
+                    this.pos.connectedReader = this.payment_method_id.stripe_serial_number;
                     return true;
                 } catch (error) {
+                    console.error(error);
                     if (error.error) {
                         this._showError(error.error.message, error.code);
                     } else {
@@ -110,7 +111,7 @@ export class PaymentStripe extends PaymentInterface {
         this._showError(
             _t(
                 "Stripe readers %s not listed in your account",
-                this.payment_method.stripe_serial_number
+                this.payment_method_id.stripe_serial_number
             )
         );
     }
@@ -127,7 +128,11 @@ export class PaymentStripe extends PaymentInterface {
         if (processPaymentDetails.type === "interac_present") {
             // Canadian interac payments should not be captured:
             // https://stripe.com/docs/terminal/payments/regional?integration-country=CA#create-a-paymentintent
+<<<<<<< HEAD
             return ['interac', intentCharge.id];
+=======
+            return ["interac", intentCharge.id];
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
         }
         const cardPresentBrand = this.getCardBrandFromPaymentMethodDetails(processPaymentDetails);
         if (cardPresentBrand.includes("eftpos")) {
@@ -140,8 +145,11 @@ export class PaymentStripe extends PaymentInterface {
     }
 
     async collectPayment(amount) {
-        const line = this.pos.get_order().selected_paymentline;
-        const clientSecret = await this.fetchPaymentIntentClientSecret(line.payment_method, amount);
+        const line = this.pos.get_order().get_selected_paymentline();
+        const clientSecret = await this.fetchPaymentIntentClientSecret(
+            line.payment_method_id,
+            amount
+        );
         if (!clientSecret) {
             line.set_payment_status("retry");
             return false;
@@ -165,7 +173,12 @@ export class PaymentStripe extends PaymentInterface {
             } else if (processPayment.paymentIntent) {
                 line.set_payment_status("waitingCapture");
 
+<<<<<<< HEAD
                 const [captured_card_type, captured_transaction_id] = this._getCapturedCardAndTransactionId(processPayment);
+=======
+                const [captured_card_type, captured_transaction_id] =
+                    this._getCapturedCardAndTransactionId(processPayment);
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
                 if (captured_card_type && captured_transaction_id) {
                     line.card_type = captured_card_type;
                     line.transaction_id = captured_transaction_id;
@@ -198,8 +211,17 @@ export class PaymentStripe extends PaymentInterface {
         // Both `card_present` and `interac_present` are "nullable" so we need to check for their existence, see:
         // https://docs.stripe.com/api/charges/object#charge_object-payment_method_details-card_present
         // https://docs.stripe.com/api/charges/object#charge_object-payment_method_details-interac_present
+<<<<<<< HEAD
         // In Canada `card_present` might not be present, but `interac_present` will be 
         return paymentMethodDetails?.card_present?.brand || paymentMethodDetails?.interac_present?.brand || "";
+=======
+        // In Canada `card_present` might not be present, but `interac_present` will be
+        return (
+            paymentMethodDetails?.card_present?.brand ||
+            paymentMethodDetails?.interac_present?.brand ||
+            ""
+        );
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
     }
 
     async captureAfterPayment(processPayment, line) {
@@ -214,7 +236,7 @@ export class PaymentStripe extends PaymentInterface {
 
     async capturePayment(paymentIntentId) {
         try {
-            const data = await this.env.services.orm.silent.call(
+            const data = await this.pos.data.silentCall(
                 "pos.payment.method",
                 "stripe_capture_payment",
                 [paymentIntentId]
@@ -225,14 +247,14 @@ export class PaymentStripe extends PaymentInterface {
             return data;
         } catch (error) {
             const message = error.code === 200 ? error.data.message : error.message;
-            this._showError(message, 'Capture Payment');
+            this._showError(message, "Capture Payment");
             return false;
         }
     }
 
     async fetchPaymentIntentClientSecret(payment_method, amount) {
         try {
-            const data = await this.env.services.orm.silent.call(
+            const data = await this.pos.data.silentCall(
                 "pos.payment.method",
                 "stripe_payment_intent",
                 [[payment_method.id], amount]
@@ -243,34 +265,35 @@ export class PaymentStripe extends PaymentInterface {
             return data.client_secret;
         } catch (error) {
             const message = error.code === 200 ? error.data.message : error.message;
-            this._showError(message, 'Fetch Secret');
+            this._showError(message, "Fetch Secret");
             return false;
         }
     }
 
-    async send_payment_request(cid) {
+    async send_payment_request(uuid) {
         /**
          * Override
          */
         await super.send_payment_request(...arguments);
-        const line = this.pos.get_order().selected_paymentline;
+        const line = this.pos.get_order().get_selected_paymentline();
         line.set_payment_status("waiting");
         try {
             if (await this.checkReader()) {
                 return await this.collectPayment(line.amount);
             }
         } catch (error) {
-            this._showError(error);
+            console.error(error);
+            this._showError(String(error));
             return false;
         }
     }
 
-    async send_payment_cancel(order, cid) {
+    async send_payment_cancel(order, uuid) {
         /**
          * Override
          */
         super.send_payment_cancel(...arguments);
-        const line = this.pos.get_order().selected_paymentline;
+        const line = this.pos.get_order().get_selected_paymentline();
         const stripeCancel = await this.stripeCancel();
         if (stripeCancel) {
             line.set_payment_status("retry");
@@ -282,7 +305,7 @@ export class PaymentStripe extends PaymentInterface {
         if (!this.terminal) {
             return true;
         } else if (this.terminal.getConnectionStatus() != "connected") {
-            this._showError(_t("Payment canceled because not reader connected"));
+            this._showError(_t("Payment cancelled because not reader connected"));
             return true;
         } else {
             const cancelCollectPaymentMethod = await this.terminal.cancelCollectPaymentMethod();
@@ -302,7 +325,7 @@ export class PaymentStripe extends PaymentInterface {
         if (!title) {
             title = _t("Stripe Error");
         }
-        this.env.services.popup.add(ErrorPopup, {
+        this.env.services.dialog.add(AlertDialog, {
             title: title,
             body: msg,
         });

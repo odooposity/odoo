@@ -1,5 +1,3 @@
-/** @odoo-module **/
-
 import {
     deserializeDate,
     deserializeDateTime,
@@ -14,8 +12,8 @@ import {
     DomainSelectorSingleAutocomplete,
 } from "@web/core/tree_editor/tree_editor_autocomplete";
 import { unique } from "@web/core/utils/arrays";
-import { Input, Select, List, Range } from "@web/core/tree_editor/tree_editor_components";
-import { formatValue } from "@web/core/tree_editor/condition_tree";
+import { Input, Select, List, Range, Within } from "@web/core/tree_editor/tree_editor_components";
+import { connector, formatValue, isTree } from "@web/core/tree_editor/condition_tree";
 import { getResModel, disambiguate, isId } from "@web/core/tree_editor/utils";
 import { Domain } from "@web/core/domain";
 
@@ -143,6 +141,25 @@ function getPartialValueEditorInfo(fieldDef, operator, params = {}) {
                 },
             };
         }
+        case "within": {
+            return {
+                component: Within,
+                extractProps: ({ value, update }) => ({
+                    value,
+                    update,
+                    amountEditorInfo: getValueEditorInfo({ type: "integer" }, "="),
+                    optionEditorInfo: makeSelectEditor(Within.options),
+                }),
+                isSupported: (value) =>
+                    Array.isArray(value) &&
+                    value.length === 3 &&
+                    typeof value[1] === "string" &&
+                    value[2] === fieldDef.type,
+                defaultValue: () => {
+                    return [-1, "months", fieldDef.type];
+                },
+            };
+        }
         case "in":
         case "not in": {
             switch (fieldDef.type) {
@@ -172,6 +189,21 @@ function getPartialValueEditorInfo(fieldDef, operator, params = {}) {
                         },
                         isSupported: (value) => Array.isArray(value),
                         defaultValue: () => [],
+                    };
+                }
+            }
+        }
+        case "any":
+        case "not any": {
+            switch (fieldDef.type) {
+                case "many2one":
+                case "many2many":
+                case "one2many": {
+                    return {
+                        component: null,
+                        extractProps: null,
+                        isSupported: isTree,
+                        defaultValue: () => connector("&"),
                     };
                 }
             }
@@ -246,21 +278,21 @@ function getPartialValueEditorInfo(fieldDef, operator, params = {}) {
             return makeSelectEditor(options, params);
         }
         case "many2one": {
-            if (["=", "!=", "parent_of", "child_of"].includes(operator)) {
+            if (["=", "!="].includes(operator)) {
                 return {
                     component: DomainSelectorSingleAutocomplete,
-                    extractProps: ({ value, update }) => {
-                        return {
-                            resModel: getResModel(fieldDef),
-                            fieldString: fieldDef.string,
-                            update,
-                            resId: value,
-                        };
-                    },
+                    extractProps: ({ value, update }) => ({
+                        resModel: getResModel(fieldDef),
+                        fieldString: fieldDef.string,
+                        update,
+                        resId: value,
+                    }),
                     isSupported: () => true,
                     defaultValue: () => false,
                     shouldResetValue: (value) => value !== false && !isId(value),
                 };
+            } else if (["parent_of", "child_of"].includes(operator)) {
+                return makeAutoCompleteEditor(fieldDef);
             }
             break;
         }

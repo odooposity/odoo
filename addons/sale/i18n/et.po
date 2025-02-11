@@ -3,6 +3,7 @@
 # 	* sale
 # 
 # Translators:
+<<<<<<< HEAD
 # Birgit Vijar, 2023
 # Ants Peetsalu <ants@avalah.ee>, 2023
 # Wanradt Koell <wanradt@gmail.com>, 2023
@@ -38,6 +39,36 @@ msgstr ""
 "POT-Creation-Date: 2024-08-13 10:28+0000\n"
 "PO-Revision-Date: 2023-10-26 23:09+0000\n"
 "Last-Translator: Katrin Kampura, 2024\n"
+=======
+# Helen Sulaoja <helen@avalah.ee>, 2024
+# Patrick-Jordan Kiudorv, 2024
+# Wanradt Koell <wanradt@gmail.com>, 2024
+# Andre Roomet <andreroomet@gmail.com>, 2024
+# Tairi Tiimann, 2024
+# Marek Pontus, 2024
+# Triine Aavik <triine@avalah.ee>, 2024
+# Egon Raamat <egon@avalah.ee>, 2024
+# Martin Trigaux, 2024
+# JanaAvalah, 2024
+# Arma Gedonsky <armagedonsky@hot.ee>, 2024
+# Martin Aavastik <martin@avalah.ee>, 2024
+# Eneli Õigus <enelioigus@gmail.com>, 2024
+# Piia Paurson <piia@avalah.ee>, 2024
+# Algo Kärp <algokarp@gmail.com>, 2024
+# Stevin Lilla, 2024
+# Katrin Kampura, 2024
+# Anna, 2024
+# Leaanika Randmets, 2024
+# Siim Raasuke, 2025
+# 
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 18.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-01-27 13:04+0000\n"
+"PO-Revision-Date: 2024-09-25 09:41+0000\n"
+"Last-Translator: Siim Raasuke, 2025\n"
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 "Language-Team: Estonian (https://app.transifex.com/odoo/teams/41243/et/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -48,7 +79,7 @@ msgstr ""
 #. module: sale
 #: model:ir.model.fields,field_description:sale.field_sale_payment_provider_onboarding_wizard___data_fetched
 msgid " Data Fetched"
-msgstr " Andmed hangitud"
+msgstr "Andmed hangitud"
 
 #. module: sale
 #: model:ir.model.fields,field_description:sale.field_crm_team__sale_order_count
@@ -63,11 +94,12 @@ msgstr "Ridade arv"
 #. module: sale
 #: model:ir.model.fields,field_description:sale.field_payment_transaction__sale_order_ids_nbr
 msgid "# of Sales Orders"
-msgstr "Tellimuste arv"
+msgstr "Müügitellimuste arv"
 
 #. module: sale
 #. odoo-python
 #: code:addons/sale/models/sale_order_line.py:0
+<<<<<<< HEAD
 #, python-format
 msgid "%(attribute)s: %(values)s"
 msgstr "%(attribute)s: %(values)s"
@@ -78,13 +110,16 @@ msgstr "%(attribute)s: %(values)s"
 #, python-format
 msgid "%(line_description)s (Canceled)"
 msgstr "%(line_description)s (Tühistatud)"
+=======
+msgid "%(attribute)s: %(values)s"
+msgstr "%(attribute)s: %(values)s"
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 #. module: sale
 #. odoo-python
-#: code:addons/sale/models/sale_order_line.py:0
-#, python-format
-msgid "%(line_description)s (Draft)"
-msgstr "%(line_description)s (Mustand)"
+#: code:addons/sale/wizard/sale_make_invoice_advance.py:0
+msgid "%s has been created"
+msgstr "%s on loodud"
 
 #. module: sale
 #. odoo-python
@@ -125,6 +160,7 @@ msgid ""
 msgstr ""
 "(object.state in ('draft', 'sent') and 'Pakkumine - %s' % (object.name)) or "
 "'Tellimus - %s' % (object.name)"
+<<<<<<< HEAD
 
 #. module: sale
 #: model_terms:ir.ui.view,arch_db:sale.report_saleorder_document
@@ -159,13 +195,121 @@ msgstr ""
 msgid ""
 "<b>Send the quote</b> to yourself and check what the customer will receive."
 msgstr "<b>Saada see pakkumine</b> iseendale ja vaata mille klient saab."
+=======
+
+#. module: sale
+#: model_terms:ir.ui.view,arch_db:sale.report_saleorder_document
+msgid "2023-12-31"
+msgstr "2023-12-31"
+
+#. module: sale
+#: model_terms:ir.ui.view,arch_db:sale.report_saleorder_document
+msgid "27.00"
+msgstr "27.00"
+
+#. module: sale
+#: model_terms:ir.ui.view,arch_db:sale.report_saleorder_document
+msgid "31.05"
+msgstr "31.05"
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 #. module: sale
 #. odoo-javascript
 #: code:addons/sale/static/src/js/tours/sale.js:0
-#, python-format
-msgid "<b>Set a price</b>."
-msgstr "<b>Määra hind</b>."
+msgid ""
+"<b>Send the quote</b> to yourself and check what the customer will receive."
+msgstr "<b>Saada hinnapakkumine</b> endale ja kontrolli, mida klient saab."
+
+#. module: sale
+#: model:mail.template,body_html:sale.mail_template_sale_payment_executed
+msgid ""
+"<div style=\"margin: 0px; padding: 0px;\">\n"
+"    <p style=\"margin: 0px; padding: 0px; font-size: 12px;\">\n"
+"        <t t-set=\"transaction_sudo\" t-value=\"object.get_portal_last_transaction()\"/>\n"
+"        Hello,\n"
+"        <br/><br/>\n"
+"        A payment with reference\n"
+"        <span style=\"font-weight:bold;\" t-out=\"transaction_sudo.reference or ''\">SOOO49</span>\n"
+"        amounting\n"
+"        <span style=\"font-weight:bold;\" t-out=\"format_amount(transaction_sudo.amount, object.currency_id) or ''\">$ 10.00</span>\n"
+"        for your order\n"
+"        <span style=\"font-weight:bold;\" t-out=\"object.name or ''\">S00049</span>\n"
+"        <t t-if=\"transaction_sudo and transaction_sudo.state == 'pending'\">\n"
+"            is pending.\n"
+"            <br/>\n"
+"            <t t-if=\"object.currency_id.compare_amounts(object.amount_paid + transaction_sudo.amount, object.amount_total) &gt;= 0 and object.state in ('draft', 'sent')\">\n"
+"                Your order will be confirmed once the payment is confirmed.\n"
+"            </t>\n"
+"            <t t-else=\"\">\n"
+"                Once confirmed,\n"
+"                <span style=\"font-weight:bold;\" t-out=\"format_amount(object.amount_total - object.amount_paid - transaction_sudo.amount, object.currency_id) or ''\">$ 10.00</span>\n"
+"                will remain to be paid.\n"
+"            </t>\n"
+"        </t>\n"
+"        <t t-else=\"\">\n"
+"            has been confirmed.\n"
+"            <t t-if=\"object.currency_id.compare_amounts(object.amount_paid, object.amount_total) &lt; 0\">\n"
+"                <br/>\n"
+"                <span style=\"font-weight:bold;\" t-out=\"format_amount(object.amount_total - object.amount_paid, object.currency_id) or ''\">$ 10.00</span>\n"
+"                remains to be paid.\n"
+"            </t>\n"
+"        </t>\n"
+"        <br/><br/>\n"
+"        Thank you for your trust!\n"
+"        <br/>\n"
+"        Do not hesitate to contact us if you have any questions.\n"
+"        <t t-if=\"not is_html_empty(object.user_id.signature)\" data-o-mail-quote-container=\"1\">\n"
+"            <br/><br/>\n"
+"            <t t-out=\"object.user_id.signature or ''\" data-o-mail-quote=\"1\">--<br data-o-mail-quote=\"1\"/>Mitchell Admin</t>\n"
+"        </t>\n"
+"        <br/><br/>\n"
+"    </p>\n"
+"</div>\n"
+"            "
+msgstr ""
+"<div style=\"margin: 0px; padding: 0px;\">\n"
+"    <p style=\"margin: 0px; padding: 0px; font-size: 12px;\">\n"
+"        <t t-set=\"transaction_sudo\" t-value=\"object.get_portal_last_transaction()\"/>\n"
+"        Tere,\n"
+"        <br/><br/>\n"
+"        Makse viitega\n"
+"        <span style=\"font-weight:bold;\" t-out=\"transaction_sudo.reference or ''\">SOOO49</span>\n"
+"        summas\n"
+"        <span style=\"font-weight:bold;\" t-out=\"format_amount(transaction_sudo.amount, object.currency_id) or ''\">$ 10.00</span>\n"
+"        teie tellimusele\n"
+"        <span style=\"font-weight:bold;\" t-out=\"object.name or ''\">S00049</span>\n"
+"        <t t-if=\"transaction_sudo and transaction_sudo.state == 'pending'\">\n"
+"            on ootel.\n"
+"            <br/>\n"
+"            <t t-if=\"object.currency_id.compare_amounts(object.amount_paid + transaction_sudo.amount, object.amount_total) &gt;= 0 and object.state in ('draft', 'sent')\">\n"
+"                Teie tellimus kinnitatakse, kui makse on kinnitatud.\n"
+"            </t>\n"
+"            <t t-else=\"\">\n"
+"                Kui kinnitatud,\n"
+"                <span style=\"font-weight:bold;\" t-out=\"format_amount(object.amount_total - object.amount_paid - transaction_sudo.amount, object.currency_id) or ''\">$ 10.00</span>\n"
+"                jääb veel maksta.\n"
+"            </t>\n"
+"        </t>\n"
+"        <t t-else=\"\">\n"
+"            on kinnitatud.\n"
+"            <t t-if=\"object.currency_id.compare_amounts(object.amount_paid, object.amount_total) &lt; 0\">\n"
+"                <br/>\n"
+"                <span style=\"font-weight:bold;\" t-out=\"format_amount(object.amount_total - object.amount_paid, object.currency_id) or ''\">$ 10.00</span>\n"
+"               jääb veel maksta.\n"
+"            </t>\n"
+"        </t>\n"
+"        <br/><br/>\n"
+"        Aitäh usalduse eest!\n"
+"        <br/>\n"
+"        Ärge kõhelge meiega ühendust võtmast, kui teil on küsimusi.\n"
+"        <t t-if=\"not is_html_empty(object.user_id.signature)\" data-o-mail-quote-container=\"1\">\n"
+"            <br/><br/>\n"
+"            <t t-out=\"object.user_id.signature or ''\" data-o-mail-quote=\"1\">--<br data-o-mail-quote=\"1\"/>Mitchell Admin</t>\n"
+"        </t>\n"
+"        <br/><br/>\n"
+"    </p>\n"
+"</div>\n"
+"            "
 
 #. module: sale
 #: model:mail.template,body_html:sale.mail_template_sale_payment_executed
@@ -264,55 +408,78 @@ msgid ""
 "<div style=\"margin: 0px; padding: 0px;\">\n"
 "    <p style=\"margin: 0px; padding: 0px; font-size: 12px;\">\n"
 "        Hello,\n"
-"        <br><br>\n"
-"        <t t-set=\"tx_sudo\" t-value=\"object.get_portal_last_transaction()\"></t>\n"
+"        <br/><br/>\n"
+"        <t t-set=\"tx_sudo\" t-value=\"object.get_portal_last_transaction()\"/>\n"
 "        Your order <span style=\"font-weight:bold;\" t-out=\"object.name or ''\">S00049</span> amounting in <span style=\"font-weight:bold;\" t-out=\"format_amount(object.amount_total, object.currency_id) or ''\">$ 10.00</span>\n"
 "        <t t-if=\"object.state == 'sale' or (tx_sudo and tx_sudo.state in ('done', 'authorized'))\">\n"
-"            has been confirmed.<br>\n"
+"            has been confirmed.<br/>\n"
 "            Thank you for your trust!\n"
 "        </t>\n"
 "        <t t-elif=\"tx_sudo and tx_sudo.state == 'pending'\">\n"
 "            is pending. It will be confirmed when the payment is received.\n"
 "            <t t-if=\"object.reference\">\n"
-"                Your payment reference is <span style=\"font-weight:bold;\" t-out=\"object.reference or ''\"></span>.\n"
+"                Your payment reference is <span style=\"font-weight:bold;\" t-out=\"object.reference or ''\"/>.\n"
 "            </t>\n"
 "        </t>\n"
-"        <br><br>\n"
-"        Do not hesitate to contact us if you have any questions.\n"
-"        <t t-if=\"not is_html_empty(object.user_id.signature)\">\n"
-"            <br><br>\n"
-"            <t t-out=\"object.user_id.signature or ''\">--<br>Mitchell Admin</t>\n"
+"        <br/>\n"
+"        <t t-set=\"documents\" t-value=\"object._get_product_documents()\"/>\n"
+"        <t t-if=\"documents\">\n"
+"            <br/> \n"
+"            <t t-if=\"len(documents)&gt;1\">\n"
+"                Here are some additional documents that may interest you:\n"
+"            </t>\n"
+"            <t t-else=\"\">\n"
+"                Here is an additional document that may interest you:\n"
+"            </t>\n"
+"            <ul style=\"margin-bottom: 0;\">\n"
+"                <t t-foreach=\"documents\" t-as=\"document\">\n"
+"                    <li style=\"font-size: 13px;\">\n"
+"                        <a t-out=\"document.ir_attachment_id.name\" t-att-href=\"object.get_portal_url('/document/' + str(document.id))\" t-att-target=\"target\"/>\n"
+"                    </li>\n"
+"                </t>\n"
+"            </ul>\n"
 "        </t>\n"
-"        <br><br>\n"
+"        <br/>\n"
+"        Do not hesitate to contact us if you have any questions.\n"
+"        <t t-if=\"not is_html_empty(object.user_id.signature)\" data-o-mail-quote-container=\"1\">\n"
+"            <br/><br/>\n"
+"            <t t-out=\"object.user_id.signature or ''\" data-o-mail-quote=\"1\">--<br data-o-mail-quote=\"1\"/>Mitchell Admin</t>\n"
+"        </t>\n"
+"        <br/><br/>\n"
 "    </p>\n"
 "<t t-if=\"hasattr(object, 'website_id') and object.website_id\">\n"
 "    <div style=\"margin: 0px; padding: 0px;\">\n"
-"        <table width=\"100%\" style=\"color: #454748; font-size: 12px; border-collapse: collapse;\">\n"
+"        <table width=\"100%\" style=\"color: #454748; font-size: 12px; border-collapse: collapse; white-space: nowrap;\">\n"
 "            <tr style=\"border-bottom: 2px solid #dee2e6;\">\n"
 "                <td style=\"width: 150px;\"><span style=\"font-weight:bold;\">Products</span></td>\n"
-"                <td></td>\n"
+"                <td/>\n"
 "                <td width=\"15%\" align=\"center\"><span style=\"font-weight:bold;\">Quantity</span></td>\n"
 "                <td width=\"20%\" align=\"right\">\n"
 "                    <span style=\"font-weight:bold;\">\n"
 "                        <t t-if=\"object.website_id.show_line_subtotals_tax_selection == 'tax_excluded'\">\n"
-"                            VAT Excl.\n"
+"                            Tax Excl.\n"
 "                        </t>\n"
 "                        <t t-else=\"\">\n"
-"                            VAT Incl.\n"
+"                            Tax Incl.\n"
 "                        </t>\n"
 "                    </span>\n"
 "                </td>\n"
 "            </tr>\n"
 "        </table>\n"
+"        <t t-set=\"current_subtotal\" t-value=\"0\"/>\n"
 "        <t t-foreach=\"object.order_line\" t-as=\"line\">\n"
-"            <t t-if=\"(not hasattr(line, 'is_delivery') or not line.is_delivery) and line.display_type in ['line_section', 'line_note']\">\n"
+"            <t t-set=\"line_subtotal\" t-value=\"                     line.price_subtotal                     if object.website_id.show_line_subtotals_tax_selection == 'tax_excluded'                     else line.price_total                 \"/>\n"
+"            <t t-set=\"current_subtotal\" t-value=\"current_subtotal + line_subtotal\"/>\n"
+"            <t t-if=\"(not hasattr(line, 'is_delivery') or not line.is_delivery) and (                     line.display_type in ['line_section', 'line_note']                     or line.product_type == 'combo'                 )\">\n"
 "                <table width=\"100%\" style=\"color: #454748; font-size: 12px; border-collapse: collapse;\">\n"
-"                    <t t-set=\"loop_cycle_number\" t-value=\"loop_cycle_number or 0\"></t>\n"
+"                    <t t-set=\"loop_cycle_number\" t-value=\"loop_cycle_number or 0\"/>\n"
 "                    <tr t-att-style=\"'background-color: #f2f2f2' if loop_cycle_number % 2 == 0 else 'background-color: #ffffff'\">\n"
-"                        <t t-set=\"loop_cycle_number\" t-value=\"loop_cycle_number + 1\"></t>\n"
+"                        <t t-set=\"loop_cycle_number\" t-value=\"loop_cycle_number + 1\"/>\n"
 "                        <td colspan=\"4\">\n"
-"                            <t t-if=\"line.display_type == 'line_section'\">\n"
+"                            <t t-if=\"line.display_type == 'line_section' or line.product_type == 'combo'\">\n"
 "                                <span style=\"font-weight:bold;\" t-out=\"line.name or ''\">Taking care of Trees Course</span>\n"
+"                                <t t-set=\"current_section\" t-value=\"line\"/>\n"
+"                                <t t-set=\"current_subtotal\" t-value=\"0\"/>\n"
 "                            </t>\n"
 "                            <t t-elif=\"line.display_type == 'line_note'\">\n"
 "                                <i t-out=\"line.name or ''\">Taking care of Trees Course</i>\n"
@@ -323,15 +490,15 @@ msgid ""
 "            </t>\n"
 "            <t t-elif=\"(not hasattr(line, 'is_delivery') or not line.is_delivery)\">\n"
 "                <table width=\"100%\" style=\"color: #454748; font-size: 12px; border-collapse: collapse;\">\n"
-"                    <t t-set=\"loop_cycle_number\" t-value=\"loop_cycle_number or 0\"></t>\n"
+"                    <t t-set=\"loop_cycle_number\" t-value=\"loop_cycle_number or 0\"/>\n"
 "                    <tr t-att-style=\"'background-color: #f2f2f2' if loop_cycle_number % 2 == 0 else 'background-color: #ffffff'\">\n"
-"                        <t t-set=\"loop_cycle_number\" t-value=\"loop_cycle_number + 1\"></t>\n"
+"                        <t t-set=\"loop_cycle_number\" t-value=\"loop_cycle_number + 1\"/>\n"
 "                        <td style=\"width: 150px;\">\n"
-"                            <img t-attf-src=\"/web/image/product.product/{{ line.product_id.id }}/image_128\" style=\"width: 64px; height: 64px; object-fit: contain;\" alt=\"Product image\">\n"
+"                            <img t-attf-src=\"/web/image/product.product/{{ line.product_id.id }}/image_128\" style=\"width: 64px; height: 64px; object-fit: contain;\" alt=\"Product image\"/>\n"
 "                        </td>\n"
 "                        <td align=\"left\" t-out=\"line.product_id.name or ''\">\tTaking care of Trees Course</td>\n"
 "                        <td width=\"15%\" align=\"center\" t-out=\"line.product_uom_qty or ''\">1</td>\n"
-"                        <td width=\"20%\" align=\"right\"><span style=\"font-weight:bold;\">\n"
+"                        <td width=\"20%\" align=\"right\"><span style=\"font-weight:bold; white-space: nowrap;\">\n"
 "                        <t t-if=\"object.website_id.show_line_subtotals_tax_selection == 'tax_excluded'\">\n"
 "                            <t t-out=\"format_amount(line.price_reduce_taxexcl, object.currency_id) or ''\">$ 10.00</t>\n"
 "                        </t>\n"
@@ -342,40 +509,53 @@ msgid ""
 "                    </tr>\n"
 "                </table>\n"
 "            </t>\n"
+"            <t t-if=\"current_section and (                     line_last                     or object.order_line[line_index+1].display_type == 'line_section'                     or object.order_line[line_index+1].product_type == 'combo'                     or (                         line.combo_item_id                         and not object.order_line[line_index+1].combo_item_id                     )                 ) and not line.is_downpayment\">\n"
+"                <t t-set=\"current_section\" t-value=\"None\"/>\n"
+"                <table width=\"100%\" style=\"color: #454748; font-size: 12px; border-collapse: collapse;\">\n"
+"                    <t t-set=\"loop_cycle_number\" t-value=\"loop_cycle_number or 0\"/>\n"
+"                    <tr t-att-style=\"'background-color: #f2f2f2' if loop_cycle_number % 2 == 0 else 'background-color: #ffffff'\">\n"
+"                        <t t-set=\"loop_cycle_number\" t-value=\"loop_cycle_number + 1\"/>\n"
+"                        <td style=\"width: 100%\" align=\"right\">\n"
+"                            <span style=\"font-weight: bold;\">Subtotal:</span>\n"
+"                            <span t-out=\"format_amount(current_subtotal, object.currency_id) or ''\">$ 10.00</span>\n"
+"                        </td>\n"
+"                    </tr>\n"
+"                </table>\n"
+"            </t>\n"
 "        </t>\n"
 "    </div>\n"
 "    <div style=\"margin: 0px; padding: 0px;\" t-if=\"hasattr(object, 'carrier_id') and object.carrier_id\">\n"
-"        <table width=\"100%\" style=\"color: #454748; font-size: 12px; border-spacing: 0px 4px;\" align=\"right\">\n"
+"        <table width=\"100%\" style=\"color: #454748; font-size: 12px; border-spacing: 0px 4px; white-space: nowrap;\" align=\"right\">\n"
 "            <tr>\n"
-"                <td style=\"width: 60%\"></td>\n"
+"                <td style=\"width: 60%\"/>\n"
 "                <td style=\"width: 30%; border-top: 1px solid #dee2e6;\" align=\"right\"><span style=\"font-weight:bold;\">Delivery:</span></td>\n"
 "                <td style=\"width: 10%; border-top: 1px solid #dee2e6;\" align=\"right\" t-out=\"format_amount(object.amount_delivery, object.currency_id) or ''\">$ 0.00</td>\n"
 "            </tr>\n"
 "            <tr>\n"
-"                <td style=\"width: 60%\"></td>\n"
-"                <td style=\"width: 30%;\" align=\"right\"><span style=\"font-weight:bold;\">SubTotal:</span></td>\n"
+"                <td style=\"width: 60%\"/>\n"
+"                <td style=\"width: 30%;\" align=\"right\"><span style=\"font-weight:bold;\">Untaxed Amount:</span></td>\n"
 "                <td style=\"width: 10%;\" align=\"right\" t-out=\"format_amount(object.amount_untaxed, object.currency_id) or ''\">$ 10.00</td>\n"
 "            </tr>\n"
 "        </table>\n"
 "    </div>\n"
 "    <div style=\"margin: 0px; padding: 0px;\" t-else=\"\">\n"
-"        <table width=\"100%\" style=\"color: #454748; font-size: 12px; border-spacing: 0px 4px;\" align=\"right\">\n"
+"        <table width=\"100%\" style=\"color: #454748; font-size: 12px; border-spacing: 0px 4px; white-space: nowrap;\" align=\"right\">\n"
 "            <tr>\n"
-"                <td style=\"width: 60%\"></td>\n"
-"                <td style=\"width: 30%; border-top: 1px solid #dee2e6;\" align=\"right\"><span style=\"font-weight:bold;\">SubTotal:</span></td>\n"
+"                <td style=\"width: 60%\"/>\n"
+"                <td style=\"width: 30%; border-top: 1px solid #dee2e6;\" align=\"right\"><span style=\"font-weight:bold;\">Untaxed Amount:</span></td>\n"
 "                <td style=\"width: 10%; border-top: 1px solid #dee2e6;\" align=\"right\" t-out=\"format_amount(object.amount_untaxed, object.currency_id) or ''\">$ 10.00</td>\n"
 "            </tr>\n"
 "        </table>\n"
 "    </div>\n"
 "    <div style=\"margin: 0px; padding: 0px;\">\n"
-"        <table width=\"100%\" style=\"color: #454748; font-size: 12px; border-spacing: 0px 4px;\" align=\"right\">\n"
+"        <table width=\"100%\" style=\"color: #454748; font-size: 12px; border-spacing: 0px 4px; white-space: nowrap;\" align=\"right\">\n"
 "            <tr>\n"
-"                <td style=\"width: 60%\"></td>\n"
+"                <td style=\"width: 60%\"/>\n"
 "                <td style=\"width: 30%;\" align=\"right\"><span style=\"font-weight:bold;\">Taxes:</span></td>\n"
 "                <td style=\"width: 10%;\" align=\"right\" t-out=\"format_amount(object.amount_tax, object.currency_id) or ''\">$ 0.00</td>\n"
 "            </tr>\n"
 "            <tr>\n"
-"                <td style=\"width: 60%\"></td>\n"
+"                <td style=\"width: 60%\"/>\n"
 "                <td style=\"width: 30%; border-top: 1px solid #dee2e6;\" align=\"right\"><span style=\"font-weight:bold;\">Total:</span></td>\n"
 "                <td style=\"width: 10%; border-top: 1px solid #dee2e6;\" align=\"right\" t-out=\"format_amount(object.amount_total, object.currency_id) or ''\">$ 10.00</td>\n"
 "            </tr>\n"
@@ -397,10 +577,10 @@ msgid ""
 "                <td>\n"
 "                    <span style=\"font-weight:bold;\">Payment Method:</span>\n"
 "                    <t t-if=\"tx_sudo.token_id\">\n"
-"                        <t t-out=\"tx_sudo.token_id.display_name or ''\"></t>\n"
+"                        <t t-out=\"tx_sudo.token_id.display_name or ''\"/>\n"
 "                    </t>\n"
 "                    <t t-else=\"\">\n"
-"                        <t t-out=\"tx_sudo.provider_id.sudo().name or ''\"></t>\n"
+"                        <t t-out=\"tx_sudo.provider_id.sudo().name or ''\"/>\n"
 "                    </t>\n"
 "                    (<t t-out=\"format_amount(tx_sudo.amount, object.currency_id) or ''\">$ 10.00</t>)\n"
 "                </td>\n"
@@ -411,7 +591,7 @@ msgid ""
 "        <table width=\"100%\" style=\"color: #454748; font-size: 12px;\">\n"
 "            <tr>\n"
 "                <td>\n"
-"                    <br>\n"
+"                    <br/>\n"
 "                    <span style=\"font-weight:bold;\">Ship to:</span>\n"
 "                    <t t-out=\"object.partner_shipping_id.street or ''\">1201 S Figueroa St</t>\n"
 "                    <t t-out=\"object.partner_shipping_id.city or ''\">Los Angeles</t>\n"
@@ -425,7 +605,7 @@ msgid ""
 "            <tr>\n"
 "                <td>\n"
 "                    <span style=\"font-weight:bold;\">Shipping Method:</span>\n"
-"                    <t t-out=\"object.carrier_id.name or ''\"></t>\n"
+"                    <t t-out=\"object.carrier_id.name or ''\"/>\n"
 "                    <t t-if=\"object.amount_delivery == 0.0\">\n"
 "                        (Free)\n"
 "                    </t>\n"
@@ -437,7 +617,7 @@ msgid ""
 "            <tr t-if=\"object.carrier_id.carrier_description\">\n"
 "                <td>\n"
 "                    <strong>Shipping Description:</strong>\n"
-"                    <t t-out=\"object.carrier_id.carrier_description\"></t>\n"
+"                    <t t-out=\"object.carrier_id.carrier_description\"/>\n"
 "                </td>\n"
 "            </tr>\n"
 "        </table>\n"
@@ -634,37 +814,56 @@ msgstr ""
 msgid ""
 "<div style=\"margin: 0px; padding: 0px;\">\n"
 "    <p style=\"margin: 0px; padding: 0px; font-size: 13px;\">\n"
-"        <t t-set=\"doc_name\" t-value=\"'quotation' if object.state in ('draft', 'sent') else 'order'\"></t>\n"
+"        <t t-set=\"doc_name\" t-value=\"'quotation' if object.state in ('draft', 'sent') else 'order'\"/>\n"
 "        Hello,\n"
-"        <br><br>\n"
+"        <br/><br/>\n"
 "        Your\n"
 "        <t t-if=\"ctx.get('proforma')\">\n"
 "            Pro forma invoice for <t t-out=\"doc_name or ''\">quotation</t> <span style=\"font-weight: bold;\" t-out=\"object.name or ''\">S00052</span>\n"
 "            <t t-if=\"object.origin\">\n"
-"                (with reference: <t t-out=\"object.origin or ''\"></t> )\n"
+"                (with reference: <t t-out=\"object.origin or ''\"/> )\n"
 "            </t>\n"
 "            amounting in <span style=\"font-weight: bold;\" t-out=\"format_amount(object.amount_total, object.currency_id) or ''\">$ 10.00</span> is available.\n"
 "        </t>\n"
 "        <t t-else=\"\">\n"
-"            <t t-out=\"doc_name or ''\">quotation</t> <span style=\"font-weight: bold;\" t-out=\"object.name or ''\"></span>\n"
+"            <t t-out=\"doc_name or ''\">quotation</t> <span style=\"font-weight: bold;\" t-out=\"object.name or ''\"/>\n"
 "            <t t-if=\"object.origin\">\n"
 "                (with reference: <t t-out=\"object.origin or ''\">S00052</t> )\n"
 "            </t>\n"
 "            amounting in <span style=\"font-weight: bold;\" t-out=\"format_amount(object.amount_total, object.currency_id) or ''\">$ 10.00</span> is ready for review.\n"
 "        </t>\n"
-"        <br><br>\n"
-"        Do not hesitate to contact us if you have any questions.\n"
-"        <t t-if=\"not is_html_empty(object.user_id.signature)\">\n"
-"            <br><br>\n"
-"            <t t-out=\"object.user_id.signature or ''\">--<br>Mitchell Admin</t>\n"
+"        <br/>\n"
+"        <t t-set=\"documents\" t-value=\"object._get_product_documents()\"/>\n"
+"        <t t-if=\"documents\">\n"
+"            <br/> \n"
+"            <t t-if=\"len(documents)&gt;1\">\n"
+"                Here are some additional documents that may interest you:\n"
+"            </t>\n"
+"            <t t-else=\"\">\n"
+"                Here is an additional document that may interest you:\n"
+"            </t>\n"
+"            <ul style=\"margin-bottom: 0;\">\n"
+"                <t t-foreach=\"documents\" t-as=\"document\">\n"
+"                    <li style=\"font-size: 13px;\">\n"
+"                        <a t-out=\"document.ir_attachment_id.name\" t-att-href=\"object.get_portal_url('/document/' + str(document.id))\" t-att-target=\"target\"/>\n"
+"                    </li>\n"
+"                </t>\n"
+"            </ul>\n"
 "        </t>\n"
-"        <br><br>\n"
+"        <br/>\n"
+"        Do not hesitate to contact us if you have any questions.\n"
+"        <t t-if=\"not is_html_empty(object.user_id.signature)\" data-o-mail-quote-container=\"1\">\n"
+"            <br/><br/>\n"
+"            <t t-out=\"object.user_id.signature or ''\" data-o-mail-quote=\"1\">--<br data-o-mail-quote=\"1\"/>Mitchell Admin</t>\n"
+"        </t>\n"
+"        <br/><br/>\n"
 "    </p>\n"
 "</div>\n"
 "            "
 msgstr ""
 "<div style=\"margin: 0px; padding: 0px;\">\n"
 "    <p style=\"margin: 0px; padding: 0px; font-size: 13px;\">\n"
+<<<<<<< HEAD
 "        <t t-set=\"doc_name\" t-value=\"'quotation' if object.state in ('draft', 'sent') else 'order'\"></t>\n"
 "        Hello,\n"
 "        <br><br>\n"
@@ -690,6 +889,51 @@ msgstr ""
 "            <t t-out=\"object.user_id.signature or ''\">--<br>Mitchell Admin</t>\n"
 "        </t>\n"
 "        <br><br>\n"
+=======
+"        <t t-set=\"doc_name\" t-value=\"'quotation' if object.state in ('draft', 'sent') else 'order'\"/>\n"
+"        Tere,\n"
+"        <br/><br/>\n"
+"        Teie\n"
+"        <t t-if=\"ctx.get('proforma')\">\n"
+"            Pro forma arve <t t-out=\"doc_name or ''\">pakkumisele</t> <span style=\"font-weight: bold;\" t-out=\"object.name or ''\">S00052</span>\n"
+"            <t t-if=\"object.origin\">\n"
+"                (viitega: <t t-out=\"object.origin or ''\"/> )\n"
+"            </t>\n"
+"            summas <span style=\"font-weight: bold;\" t-out=\"format_amount(object.amount_total, object.currency_id) or ''\">$ 10.00</span> on saadaval.\n"
+"        </t>\n"
+"        <t t-else=\"\">\n"
+"            <t t-out=\"doc_name or ''\">pakkumisele</t> <span style=\"font-weight: bold;\" t-out=\"object.name or ''\"/>\n"
+"            <t t-if=\"object.origin\">\n"
+"                (viitega: <t t-out=\"object.origin or ''\">S00052</t> )\n"
+"            </t>\n"
+"            summas <span style=\"font-weight: bold;\" t-out=\"format_amount(object.amount_total, object.currency_id) or ''\">$ 10.00</span> on valmis ülevaatuseks.\n"
+"        </t>\n"
+"        <br/>\n"
+"        <t t-set=\"documents\" t-value=\"object._get_product_documents()\"/>\n"
+"        <t t-if=\"documents\">\n"
+"            <br/> \n"
+"            <t t-if=\"len(documents)&gt;1\">\n"
+"                Siin on mõned dokumendid lisaks, mis võiksid teile huvi pakkuda:\n"
+"            </t>\n"
+"            <t t-else=\"\">\n"
+"                Siin on lisaks dokument, mis võiks teile huvi pakkuda:\n"
+"            </t>\n"
+"            <ul style=\"margin-bottom: 0;\">\n"
+"                <t t-foreach=\"documents\" t-as=\"document\">\n"
+"                    <li style=\"font-size: 13px;\">\n"
+"                        <a t-out=\"document.ir_attachment_id.name\" t-att-href=\"object.get_portal_url('/document/' + str(document.id))\" t-att-target=\"target\"/>\n"
+"                    </li>\n"
+"                </t>\n"
+"            </ul>\n"
+"        </t>\n"
+"        <br/>\n"
+"        Ärge kõhelge meiega ühendust võtmast, kui teil on küsimusi.\n"
+"        <t t-if=\"not is_html_empty(object.user_id.signature)\" data-o-mail-quote-container=\"1\">\n"
+"            <br/><br/>\n"
+"            <t t-out=\"object.user_id.signature or ''\" data-o-mail-quote=\"1\">--<br data-o-mail-quote=\"1\"/>Mitchell Admin</t>\n"
+"        </t>\n"
+"        <br/><br/>\n"
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 "    </p>\n"
 "</div>\n"
 "            "
@@ -699,9 +943,9 @@ msgstr ""
 msgid ""
 "<div style=\"margin: 0px; padding: 0px;\">\n"
 "    <p style=\"margin: 0px; padding: 0px; font-size: 13px;\">\n"
-"        <t t-set=\"doc_name\" t-value=\"object.type_name\"></t>\n"
+"        <t t-set=\"doc_name\" t-value=\"object.type_name\"/>\n"
 "        Dear <t t-out=\"object.partner_id.name or ''\">user</t>,\n"
-"        <br><br>\n"
+"        <br/><br/>\n"
 "        Please be advised that your\n"
 "        <t t-out=\"doc_name or ''\">quotation</t> <strong t-out=\"object.name or ''\">S00052</strong>\n"
 "        <t t-if=\"object.origin\">\n"
@@ -709,15 +953,16 @@ msgid ""
 "        </t>\n"
 "        has been cancelled. Therefore, you should not be charged further for this order.\n"
 "        If any refund is necessary, this will be executed at best convenience.\n"
-"        <br><br>\n"
+"        <br/><br/>\n"
 "        Do not hesitate to contact us if you have any questions.\n"
-"        <br>\n"
+"        <br/>\n"
 "    </p>\n"
 "</div>\n"
 "            "
 msgstr ""
 "<div style=\"margin: 0px; padding: 0px;\">\n"
 "    <p style=\"margin: 0px; padding: 0px; font-size: 13px;\">\n"
+<<<<<<< HEAD
 "        <t t-set=\"doc_name\" t-value=\"object.type_name\"></t>\n"
 "        Dear <t t-out=\"object.partner_id.name or ''\">user</t>,\n"
 "        <br><br>\n"
@@ -731,6 +976,21 @@ msgstr ""
 "        <br><br>\n"
 "        Do not hesitate to contact us if you have any questions.\n"
 "        <br>\n"
+=======
+"        <t t-set=\"doc_name\" t-value=\"object.type_name\"/>\n"
+"        Lugupeetud<t t-out=\"object.partner_id.name or ''\">kasutaja</t>,\n"
+"        <br/><br/>\n"
+"        Pange tähele, et teie \n"
+"        <t t-out=\"doc_name or ''\">pakkumine</t> <strong t-out=\"object.name or ''\">S00052</strong>\n"
+"        <t t-if=\"object.origin\">\n"
+"            (dokumendi viitega: <t t-out=\"object.origin or ''\">S00052</t> )\n"
+"        </t>\n"
+"        on tühistatud. Seepärast ei võeta teilt ka tellimuse eest rohkem tasu.\n"
+"\\v        Kui tagasimakse on vajalik, siis tehakse see parimal võimalikul viisil.\n"
+"        <br/><br/>\n"
+"        Kui tekib täiendavaid küsimusi, võtke meiega ühendust.\n"
+"        <br/>\n"
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 "    </p>\n"
 "</div>\n"
 "            "
@@ -743,6 +1003,7 @@ msgstr "<i class=„fa fa-comment“/> Uue pakkumise jaoks võta meiega ühendus
 #. module: sale
 #: model_terms:ir.ui.view,arch_db:sale.sale_order_portal_template
 msgid "<i class=\"fa fa-comment\"/> Feedback"
+<<<<<<< HEAD
 msgstr "<i class=\"fa fa-comment\"/>Tagasiside"
 
 #. module: sale
@@ -751,6 +1012,9 @@ msgid "<i class=\"fa fa-fw fa-check\" role=\"img\" aria-label=\"Done\" title=\"D
 msgstr ""
 "<i class=„fa fa-fw fa-check“ role=„img“ aria-label=„Done“ "
 "title=„Done“/>Tehtud"
+=======
+msgstr "<i class=\"fa fa-comment\"/> Tagasiside"
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 #. module: sale
 #: model_terms:ir.ui.view,arch_db:sale.sale_order_portal_content
@@ -760,7 +1024,11 @@ msgstr "Autoriseeritud"
 #. module: sale
 #: model_terms:ir.ui.view,arch_db:sale.sale_order_portal_content
 msgid "<i class=\"fa fa-fw fa-check\"/> Paid"
+<<<<<<< HEAD
 msgstr "Makstud"
+=======
+msgstr "<i class=\"fa fa-fw fa-check\"/> Makstud"
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 #. module: sale
 #: model_terms:ir.ui.view,arch_db:sale.sale_order_portal_content
@@ -770,7 +1038,12 @@ msgstr "<i class=\"fa fa-fw fa-check\"/>Tühistatud"
 #. module: sale
 #: model_terms:ir.ui.view,arch_db:sale.portal_my_quotations
 msgid "<i class=\"fa fa-fw fa-clock-o\"/> Expired"
-msgstr "<i class=„fa fa-fw fa-clock-o“/> Aegunud"
+msgstr "<i class=\"fa fa-fw fa-clock-o\"/> Aegunud"
+
+#. module: sale
+#: model_terms:ir.ui.view,arch_db:sale.sale_order_portal_content
+msgid "<i class=\"fa fa-fw fa-clock-o\"/> Waiting Payment"
+msgstr "<i class=\"fa fa-fw fa-clock-o\"/> Makse ootel"
 
 #. module: sale
 #: model_terms:ir.ui.view,arch_db:sale.sale_order_portal_content
@@ -785,9 +1058,10 @@ msgstr "<i class=\"fa fa-fw fa-money me-1\" aria-label=\"Quotations\" role=\"img
 #. module: sale
 #: model_terms:ir.ui.view,arch_db:sale.portal_my_quotations
 msgid "<i class=\"fa fa-fw fa-remove\"/> Cancelled"
-msgstr "<i class=„fa fa-fw fa-remove“/> Tühistatud"
+msgstr "<i class=\"fa fa-fw fa-remove\"/> Tühistatud"
 
 #. module: sale
+<<<<<<< HEAD
 #: model_terms:ir.ui.view,arch_db:sale.crm_lead_partner_kanban_view
 msgid ""
 "<i class=\"fa fa-fw fa-usd\" role=\"img\" aria-label=\"Sale orders\" "
@@ -797,25 +1071,48 @@ msgstr ""
 "title=\"Sales orders\"/>"
 
 #. module: sale
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 #: model_terms:ir.ui.view,arch_db:sale.view_order_form
 msgid ""
 "<i class=\"fa fa-lock\"/>\n"
 "                    Locked"
 msgstr ""
 "<i class=\"fa fa-lock\"/>\n"
+<<<<<<< HEAD
 "                    Lukustatud"
 
 #. module: sale
 #: model_terms:ir.ui.view,arch_db:sale.sale_order_portal_template
 msgid "<i class=\"fa fa-print\"/> View Details"
 msgstr "<i class=\"fa fa-print\"/> Vaata üksikasju"
+=======
+"                    Lukus"
+
+#. module: sale
+#: model_terms:ir.ui.view,arch_db:sale.sale_order_portal_template
+msgid "<i class=\"fa fa-print me-1\"/>View Details"
+msgstr "<i class=\"fa fa-print me-1\"/>Kuva üksikasjad"
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 #. module: sale
 #: model_terms:ir.ui.view,arch_db:sale.sale_order_portal_template
 msgid "<i class=\"fa fa-times\"/> Reject"
-msgstr "<i class=\"fa fa-times\"/> Lükka tagasi"
+msgstr "<i class=\"fa fa-times\"/> Keeldu"
 
 #. module: sale
+<<<<<<< HEAD
+=======
+#: model_terms:ir.ui.view,arch_db:sale.crm_lead_partner_kanban_view
+msgid ""
+"<i class=\"fa fa-usd me-1\" role=\"img\" aria-label=\"Sale orders\" "
+"title=\"Sales orders\"/>"
+msgstr ""
+"<i class=\"fa fa-usd me-1\" role=\"img\" aria-label=\"Sale orders\" "
+"title=\"Sales orders\"/>"
+
+#. module: sale
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 #: model_terms:ir.ui.view,arch_db:sale.sale_order_portal_template
 msgid "<small class=\"text-muted\">Your contact</small>"
 msgstr "<small class=\"text-muted\">Sinu kontakt</small>"
@@ -823,7 +1120,11 @@ msgstr "<small class=\"text-muted\">Sinu kontakt</small>"
 #. module: sale
 #: model_terms:ir.ui.view,arch_db:sale.sale_order_portal_template
 msgid "<small><b class=\"text-muted\">Your advantage</b></small>"
+<<<<<<< HEAD
 msgstr "<small><b class=„text-muted“>Sinu võit</b></small>"
+=======
+msgstr "<small><b class=\"text-muted\">Sinu võit</b></small>"
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 #. module: sale
 #: model_terms:ir.ui.view,arch_db:sale.portal_my_orders
@@ -833,6 +1134,26 @@ msgid ""
 msgstr ""
 "<span class=\"d-none d-md-inline\">Müügitellimus #</span>\n"
 "                            <span class=\"d-block d-md-none\">Viide</span>"
+
+#. module: sale
+#: model_terms:ir.ui.view,arch_db:sale.view_order_form
+msgid ""
+"<span class=\"fa fa-exclamation-triangle text-warning me-1\" title=\"This "
+"product is archived\" invisible=\"state not in ['draft', 'sent'] or not "
+"is_product_archived\"/>"
+msgstr ""
+"<span class=\"fa fa-exclamation-triangle text-warning me-1\" title=\"This "
+"product is archived\" invisible=\"state not in ['draft', 'sent'] or not "
+"is_product_archived\"/>"
+
+#. module: sale
+#: model_terms:ir.ui.view,arch_db:sale.res_config_settings_view_form
+msgid ""
+"<span class=\"fa fa-lg fa-building-o p-2\" title=\"Values set here are "
+"company-specific.\" groups=\"base.group_multi_company\"/>"
+msgstr ""
+"<span class=\"fa fa-lg fa-building-o p-2\" title=\"Values set here are "
+"company-specific.\" groups=\"base.group_multi_company\"/>"
 
 #. module: sale
 #: model_terms:ir.ui.view,arch_db:sale.crm_team_salesteams_view_form
@@ -865,10 +1186,17 @@ msgstr ""
 
 #. module: sale
 #: model_terms:ir.ui.view,arch_db:sale.sale_order_portal_template
-msgid "<span>Accepted on the behalf of:</span>"
-msgstr "<span>Kinnitaja:</span>"
+msgid ""
+"<span id=\"o_sale_portal_use_amount_total\">\n"
+"                                                By paying,\n"
+"                                            </span>"
+msgstr ""
+"<span id=\"o_sale_portal_use_amount_total\">\n"
+"                                                Makstes\n"
+"                                            </span>"
 
 #. module: sale
+<<<<<<< HEAD
 #: model_terms:ir.ui.view,arch_db:sale.report_saleorder_document
 #: model_terms:ir.ui.view,arch_db:sale.sale_order_portal_content
 msgid "<span>Amount</span>"
@@ -892,6 +1220,59 @@ msgstr ""
 msgid "<span>By signing this proposal, I agree to the following terms:</span>"
 msgstr ""
 "<span>Allkirjastamisel kinnitan, et nõustun järgnevate tingimustega:</span>"
+=======
+#: model_terms:ir.ui.view,arch_db:sale.view_sale_advance_payment_inv
+msgid ""
+"<span invisible=\"1\" class=\"oe_inline text-danger\" title=\"The Down Payment is greater than the amount remaining to be invoiced.\">\n"
+"                            <i class=\"fa fa-warning\"/>\n"
+"                        </span>"
+msgstr ""
+"<span invisible=\"1\" class=\"oe_inline text-danger\" title=\"The Down Payment is greater than the amount remaining to be invoiced.\">\n"
+"                            <i class=\"fa fa-warning\"/>\n"
+"                        </span>"
+
+#. module: sale
+#: model_terms:ir.ui.view,arch_db:sale.view_sale_advance_payment_inv
+msgid ""
+"<span invisible=\"advance_payment_method != 'percentage'\" "
+"class=\"oe_inline\">% </span>"
+msgstr ""
+"<span invisible=\"advance_payment_method != 'percentage'\" "
+"class=\"oe_inline\">% </span>"
+
+#. module: sale
+#: model_terms:web_tour.tour,rainbow_man_message:sale.sale_tour
+msgid ""
+"<span><b>Congratulations</b>, your first quotation is sent!<br>Check your email to validate the quote.\n"
+"        </span>"
+msgstr ""
+"<span><b>Õnnitleme</b>, sinu esimene pakkumine on saadetud!<br>Hinnapakkumise kinnitamiseks kontrolli oma meili.\n"
+"        </span>"
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
+
+#. module: sale
+#: model_terms:ir.ui.view,arch_db:sale.report_saleorder_document
+#: model_terms:ir.ui.view,arch_db:sale.sale_order_portal_content
+msgid "<span>Amount</span>"
+msgstr "<span>Summa</span>"
+
+#. module: sale
+<<<<<<< HEAD
+#: model_terms:ir.ui.view,arch_db:sale.sale_order_portal_template
+msgid "<span>For an amount of:</span>"
+msgstr "<span>Summa kohta:</span>"
+=======
+#: model_terms:ir.ui.view,arch_db:sale.sale_order_cancel_view_form
+msgid ""
+"<span>Are you sure you want to cancel this order? <br/></span>\n"
+"                        <span id=\"display_invoice_alert\" invisible=\"not display_invoice_alert\">\n"
+"                            Draft invoices for this order will be cancelled. <br/>\n"
+"                        </span>"
+msgstr ""
+"<span>Oled sa kindel, et soovid selle tellimuse tühistada? <br/></span>\n"
+"                        <span id=\"display_invoice_alert\" invisible=\"not display_invoice_alert\">\n"
+"                            Tellimuse mustandis olevad arved tühistatakse. <br/>\n"
+"                        </span>"
 
 #. module: sale
 #: model_terms:ir.ui.view,arch_db:sale.report_saleorder_document
@@ -900,9 +1281,10 @@ msgid "<span>Disc.%</span>"
 msgstr "<span>Allah.%</span>"
 
 #. module: sale
-#: model_terms:ir.ui.view,arch_db:sale.sale_order_portal_template
-msgid "<span>For an amount of:</span>"
-msgstr "<span>Summa kohta:</span>"
+#: model_terms:ir.ui.view,arch_db:sale.product_document_kanban
+msgid "<span>Sales visibility</span>"
+msgstr "<span>Müügi nähtavus</span>"
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 #. module: sale
 #: model_terms:ir.ui.view,arch_db:sale.sale_order_portal_content
@@ -910,6 +1292,7 @@ msgid "<span>Taxes</span>"
 msgstr "<span>Maksud</span>"
 
 #. module: sale
+<<<<<<< HEAD
 #: model_terms:ir.ui.view,arch_db:sale.product_document_kanban
 msgid "<span>Visibility</span>"
 msgstr "Nähtavus"
@@ -918,6 +1301,17 @@ msgstr "Nähtavus"
 #: model_terms:ir.ui.view,arch_db:sale.sale_order_portal_template
 msgid "<span>With payment terms:</span>"
 msgstr "<span>Maksetingimused:</span>"
+=======
+#: model_terms:ir.ui.view,arch_db:sale.view_order_form
+msgid "<span>Warning: This quote contains archived product(s)</span>"
+msgstr ""
+"<span>Hoiatus: See pakkumine sisaldab arhiveeritud toodet/tooteid</span>"
+
+#. module: sale
+#: model_terms:ir.ui.view,arch_db:sale.view_order_form
+msgid "<span>Warning: this order might be a duplicate of</span>"
+msgstr "<span>Hoiatus: see tellimus võib olla duplikaat </span>"
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 #. module: sale
 #: model_terms:ir.ui.view,arch_db:sale.report_saleorder_document
@@ -927,8 +1321,13 @@ msgstr "<strong class=\"mr16\">Vahesumma</strong>"
 
 #. module: sale
 #: model_terms:ir.ui.view,arch_db:sale.report_saleorder_document
+<<<<<<< HEAD
 msgid "<strong>Expiration:</strong><br/>"
 msgstr "<strong>Aegumiskuupäev:</strong><br/>"
+=======
+msgid "<strong>Expiration</strong>"
+msgstr "<strong>Aegumine</strong>"
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 #. module: sale
 #: model_terms:ir.ui.view,arch_db:sale.report_saleorder_document
@@ -936,6 +1335,7 @@ msgid "<strong>Fiscal Position Remark:</strong>"
 msgstr "<strong>Finantspositsiooni viide:</strong>"
 
 #. module: sale
+<<<<<<< HEAD
 #: model_terms:ir.ui.view,arch_db:sale.sale_order_portal_template
 msgid ""
 "<strong>No suitable payment option could be found.</strong><br/>\n"
@@ -948,11 +1348,16 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:sale.report_saleorder_document
 msgid "<strong>Salesperson:</strong><br/>"
 msgstr "<strong>Müügiesindaja:</strong><br/>"
+=======
+#: model_terms:ir.ui.view,arch_db:sale.report_saleorder_document
+msgid "<strong>Salesperson</strong>"
+msgstr "<strong>Müügiesindaja</strong>"
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 #. module: sale
 #: model_terms:ir.ui.view,arch_db:sale.report_saleorder_document
-msgid "<strong>Shipping Address:</strong>"
-msgstr "<strong>Tarneaadress:</strong>"
+msgid "<strong>Shipping Address</strong>"
+msgstr "<strong>Tarneaadress</strong>"
 
 #. module: sale
 #: model_terms:ir.ui.view,arch_db:sale.report_saleorder_document
@@ -960,6 +1365,7 @@ msgid "<strong>Signature</strong>"
 msgstr "<strong>Allkiri</strong>"
 
 #. module: sale
+<<<<<<< HEAD
 #: model_terms:ir.ui.view,arch_db:sale.view_order_form
 msgid "<strong>Tax excl.: </strong>"
 msgstr "<strong>ilma maksudeta: </strong>"
@@ -970,6 +1376,8 @@ msgid "<strong>Tax incl.: </strong>"
 msgstr "<strong>Maksudega: </strong>"
 
 #. module: sale
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 #: model_terms:ir.ui.view,arch_db:sale.sale_order_portal_template
 msgid "<strong>Thank You!</strong><br/>"
 msgstr "<strong>Aitäh!</strong><br/>"
@@ -981,13 +1389,18 @@ msgstr "<strong>Pakkumine on aegunud!</strong>"
 
 #. module: sale
 #: model_terms:ir.ui.view,arch_db:sale.sale_order_portal_template
-msgid "<strong>This quotation has been canceled.</strong>"
-msgstr "<strong>Pakkumie on tühistatud.</strong>"
+msgid "<strong>This quotation has been cancelled.</strong>"
+msgstr "<strong>Pakkumine on tühistatud.</strong>"
 
 #. module: sale
 #: model_terms:ir.ui.view,arch_db:sale.report_saleorder_document
+<<<<<<< HEAD
 msgid "<strong>Your Reference:</strong><br/>"
 msgstr "<strong>Sinu viide:</strong><br/>"
+=======
+msgid "<strong>Your Reference</strong>"
+msgstr "<strong>Sinu viide</strong>"
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 #. module: sale
 #: model:ir.model.constraint,message:sale.constraint_sale_order_date_order_conditional_required
@@ -995,6 +1408,7 @@ msgid "A confirmed sales order requires a confirmation date."
 msgstr "Kinnitatud müügitellimusele on tarvis kinnitamise kuupäeva."
 
 #. module: sale
+<<<<<<< HEAD
 #: model_terms:ir.ui.view,arch_db:sale.report_saleorder_document
 msgid "A note, whose content usually applies to the section or product above."
 msgstr ""
@@ -1015,22 +1429,56 @@ msgstr ""
 "Nende arveldusmeetoditele vastavalt (tellitud või kättesaadud koguste "
 "põhjal), on standardarve väljastatud koos kõikide arveldamiseks valmis "
 "olevate müügitellimuse ridadega."
+=======
+#. odoo-python
+#: code:addons/sale/models/sale_order.py:0
+msgid "A line on these orders missing a product, you cannot confirm it."
+msgstr "Tellimuse real puudub toode. ei saa kinnitada."
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 #. module: sale
-#: model:ir.model.fields,help:sale.field_sale_order_line__product_type
-msgid ""
-"A storable product is a product for which you manage stock. The Inventory app has to be installed.\n"
-"A consumable product is a product for which stock is not managed.\n"
-"A service is a non-material product you provide."
+#: model_terms:ir.ui.view,arch_db:sale.report_saleorder_document
+msgid "A note, whose content usually applies to the section or product above."
 msgstr ""
-"Ladustatav toode on toode, millel haldate laovarusid. Alla peab olema laetud Lao moodul.\n"
-"Tarbitav toode on toode, millel ei hallata laovarusid.\n"
-"Teenus on Teie poolt pakutav mittemateriaalne toode."
+"Märkus, mille sisu kehtib tavaliselt ülaltoodud jaotise või toote kohta."
+
+#. module: sale
+#. odoo-python
+#: code:addons/sale/models/sale_order_line.py:0
+msgid ""
+"A sale order line's combo item must be among its linked line's available "
+"combo items."
+msgstr ""
+"Müügitellimuse real olev kombineeritud toode peab olema koos seotud rea "
+"saadaolevate kombineeritud toodetega."
+
+#. module: sale
+#. odoo-python
+#: code:addons/sale/models/sale_order_line.py:0
+msgid "A sale order line's product must match its combo item's product."
+msgstr ""
+"Müügitellimuse rea toode peab olema sama selle kombinatsiooni tootega."
+
+#. module: sale
+#: model_terms:ir.ui.view,arch_db:sale.report_saleorder_document
+msgid "A section title"
+msgstr "Sektsiooni pealkiri"
+
+#. module: sale
+#: model:ir.model.fields,help:sale.field_sale_advance_payment_inv__advance_payment_method
+msgid ""
+"A standard invoice is issued with all the order lines ready for "
+"invoicing,according to their invoicing policy (based on ordered or delivered"
+" quantity)."
+msgstr ""
+"Nende arveldusmeetoditele vastavalt (tellitud või kättesaadud koguste "
+"põhjal) väljastatakse standardarve koos kõikide arveldamiseks valmis olevate"
+" müügitellimuse ridadega."
 
 #. module: sale
 #: model:res.groups,name:sale.group_warning_sale
 msgid "A warning can be set on a product or a customer (Sale)"
-msgstr "Tootele või kliendile(müük) saab määrata hoiatuse."
+msgstr "Tootele või kliendile (müük) saab määrata hoiatuse."
 
 #. module: sale
 #: model_terms:ir.ui.view,arch_db:sale.res_config_settings_view_form
@@ -1038,20 +1486,23 @@ msgid ""
 "Ability to select a package type in sales orders and to force a quantity "
 "that is a multiple of the number of units per package."
 msgstr ""
+<<<<<<< HEAD
 "Ability to select a package type in sales orders and to force a quantity "
 "that is a multiple of the number of units per package."
+=======
+"Võimalus valida müügitellimusel pakendi tüüpi ja sundida kogust, mis on "
+"pakendisse kuuluva koguse kordne."
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 #. module: sale
 #. odoo-python
 #: code:addons/sale/models/sale_order.py:0
-#, python-format
 msgid "Accept & Pay Quotation"
 msgstr "Kinnita ja maksa pakkumine"
 
 #. module: sale
 #. odoo-python
 #: code:addons/sale/models/sale_order.py:0
-#, python-format
 msgid "Accept & Sign Quotation"
 msgstr "Kinnita ja allkirjasta pakkumine"
 
@@ -1080,20 +1531,27 @@ msgid ""
 "  - Stock Moves: the quantity comes from confirmed pickings\n"
 msgstr ""
 "Vastavalt toote konfiguratsioonile saab tarnitud koguse automaatselt arvutada mehhanismi abil:\n"
+<<<<<<< HEAD
 "  - Käsitsi: kogus määratakse reale käsitsi\n"
 "  - Analüütiliste kulude alusel: kogus on summa postitatud kuludest\n"
 "  - Ajaarvestus: kogus on müügireaga seotud ülesannetele logitud tundide alusel.\n"
 "  - Laoliikumised: kogus tuleb kinnitatud korjetest\n"
+=======
+"- Käsitsi: kogus määratakse reale käsitsi\n"
+"- Analüütiliste kulude alusel: kogus on postitatud kuludest tulenevate koguste summa\n"
+"- Ajaarvestus: kogus on müügireaga seotud ülesannetele logitud tundide summa.\n"
+"- Laoliikumised: kogus tuleb kinnitatud korjetest\n"
+
+#. module: sale
+#: model:ir.model,name:sale.model_account_chart_template
+msgid "Account Chart Template"
+msgstr "Konto tabeli mall"
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 #. module: sale
 #: model:ir.model.fields,field_description:sale.field_sale_payment_provider_onboarding_wizard__acc_number
 msgid "Account Number"
 msgstr "Konto number"
-
-#. module: sale
-#: model:ir.model.fields,help:sale.field_sale_advance_payment_inv__deposit_account_id
-msgid "Account used for deposits"
-msgstr "Hoiustamiseks kasutatav konto"
 
 #. module: sale
 #: model:ir.actions.act_window,name:sale.action_accrued_revenue_entry
@@ -1107,6 +1565,7 @@ msgstr "Vajalik toiming"
 
 #. module: sale
 #: model:ir.model.fields,field_description:sale.field_sale_order__activity_ids
+#: model:ir.ui.menu,name:sale.sale_menu_config_activities
 msgid "Activities"
 msgstr "Tegevused"
 
@@ -1138,8 +1597,23 @@ msgstr "Tegevuste tüübid"
 
 #. module: sale
 #: model_terms:ir.actions.act_window,help:sale.mail_activity_plan_action_sale_order
+<<<<<<< HEAD
 msgid "Add a new plan"
 msgstr "Lisa uus plaan"
+=======
+msgid ""
+"Activity plans are used to assign a list of activities in just a few clicks\n"
+"                (e.g. \"Delivery scheduling\", \"Order Payment Follow-up\", ...)"
+msgstr ""
+"Tegevusplaane kasutatakse hulga tegevuste määramiseks vaid mõne klikiga. \n"
+"              (nt. \"Tarne planeerimine\", \"Tellimuse makse kontroll\", ...)"
+
+#. module: sale
+#. odoo-javascript
+#: code:addons/sale/static/src/js/product/product.xml:0
+msgid "Add"
+msgstr "Lisa"
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 #. module: sale
 #: model_terms:ir.ui.view,arch_db:sale.view_order_form
@@ -1157,9 +1631,36 @@ msgid "Add a section"
 msgstr "Lisa sektsioon"
 
 #. module: sale
+#: model_terms:ir.ui.view,arch_db:sale.view_order_form
+msgid "Add note"
+msgstr "Lisa märkus"
+
+#. module: sale
+#. odoo-javascript
+#: code:addons/sale/static/src/js/quantity_buttons/quantity_buttons.xml:0
+msgid "Add one"
+msgstr "Lisa üks"
+
+#. module: sale
+#. odoo-javascript
+#: code:addons/sale/static/src/js/product_list/product_list.js:0
+msgid "Add optional products"
+msgstr "Lisa valikulisi tooteid"
+
+#. module: sale
+#: model_terms:ir.ui.view,arch_db:sale.view_order_form
+msgid "Add product"
+msgstr "Lisa toode"
+
+#. module: sale
+#: model_terms:ir.ui.view,arch_db:sale.view_order_form
+msgid "Add section"
+msgstr "Lisa jaotis"
+
+#. module: sale
 #: model_terms:ir.ui.view,arch_db:sale.res_config_settings_view_form
 msgid "Add several variants to an order from a grid"
-msgstr "Lisa võrgustikust tellimusele mitu variatsiooni"
+msgstr "Lisa ruudustikust tellimusele mitu variatsiooni"
 
 #. module: sale
 #: model:ir.model.fields,field_description:sale.field_account_analytic_line__allowed_so_line_ids
@@ -1177,6 +1678,7 @@ msgid "Allows you to send pro-forma invoice."
 msgstr "Saada tellimuste kinnitusi."
 
 #. module: sale
+<<<<<<< HEAD
 #: model:ir.model.fields,help:sale.field_product_document__attached_on
 msgid ""
 "Allows you to share the document with your customers within a sale.\n"
@@ -1188,6 +1690,25 @@ msgid ""
 "Inside quote: The document will be included in the pdf of the quotation \n"
 "and sale order between the header pages and the quote table. "
 msgstr ""
+=======
+#: model:ir.model.fields,help:sale.field_product_document__attached_on_sale
+msgid ""
+"Allows you to share the document with your customers within a sale.\n"
+"Leave it empty if you don't want to share this document with sales customer.\n"
+"On quote: the document will be sent to and accessible by customers at any time.\n"
+"e.g. this option can be useful to share Product description files.\n"
+"On order confirmation: the document will be sent to and accessible by customers.\n"
+"e.g. this option can be useful to share User Manual or digital content bought on ecommerce. \n"
+"Inside quote: The document will be included in the pdf of the quotation and sale order between the header pages and the quote table. "
+msgstr ""
+"Võimaldab teil jagada dokumenti oma müügiga seotud klientidega.\n"
+"Jäta tühjaks, kui sa ei soovi seda dokumenti kliendiga jagada.\n"
+"Pakkumine: dokument saadetakse ja on klientidele igal hetkel vaatamiseks lubatud.\n"
+"nt. see valik on kasulik, kui soovid tooteinfo faile kliendiga jagada.\n"
+"Kinnitatud tellimus: dokument saadetakse ja on klientidele vaatamiseks lubatud.\n"
+"nt. see valik on kasulik, kui soovid kasutusjuhendit kliendiga jagada.\n"
+"Pakkumise sees: dokument lisatakse pakkumise PDF faili päise ja pakkumise osa vahele."
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 #. module: sale
 #: model:ir.model.fields,field_description:sale.field_payment_link_wizard__amount_paid
@@ -1207,6 +1728,11 @@ msgstr "Amazon Sync"
 
 #. module: sale
 #: model:ir.model.fields,field_description:sale.field_sale_order_discount__discount_amount
+<<<<<<< HEAD
+=======
+#: model_terms:ir.ui.view,arch_db:sale.sale_order_line_view_form_readonly
+#: model_terms:ir.ui.view,arch_db:sale.view_order_form
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 msgid "Amount"
 msgstr "Summa"
 
@@ -1227,7 +1753,6 @@ msgstr "Arveldamist ootavate pakkumiste summa"
 
 #. module: sale
 #: model:ir.model.fields,field_description:sale.field_sale_advance_payment_inv__amount_to_invoice
-#: model:ir.model.fields,field_description:sale.field_sale_order__amount_to_invoice
 msgid "Amount to invoice"
 msgstr "Arve summa"
 
@@ -1237,6 +1762,7 @@ msgid ""
 "An order is to upsell when delivered quantities are above initially\n"
 "            ordered quantities, and the invoicing policy is based on ordered quantities."
 msgstr ""
+<<<<<<< HEAD
 "Lisamüügi võimalus kui tarnitud kogused ületavad algselt tellitud koguseid "
 "ning arveldatakse tellitud koguste alusel."
 
@@ -1245,21 +1771,28 @@ msgstr ""
 #: model:ir.model.fields,field_description:sale.field_sale_report__analytic_account_id
 msgid "Analytic Account"
 msgstr "Analüütiline konto"
+=======
+"Lisamüügi võimalus kui tarnitud kogused ületavad algselt\n"
+" tellitud koguseid ning arveldatakse tellitud koguste alusel."
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 #. module: sale
 #: model:ir.model.fields,field_description:sale.field_sale_order_line__analytic_distribution
 msgid "Analytic Distribution"
 msgstr "Analüütiline jaotus"
+<<<<<<< HEAD
 
 #. module: sale
 #: model:ir.model.fields,field_description:sale.field_sale_order_line__analytic_distribution_search
 msgid "Analytic Distribution Search"
 msgstr "Analüütiline jaotusotsing"
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 #. module: sale
 #: model:ir.model.fields.selection,name:sale.selection__sale_order_line__qty_delivered_method__analytic
 msgid "Analytic From Expenses"
-msgstr "Kulult tulnud analüütika"
+msgstr "Kuludest tulenev analüütika"
 
 #. module: sale
 #: model:ir.model,name:sale.model_account_analytic_line
@@ -1269,7 +1802,7 @@ msgstr "Analüütiline rida"
 #. module: sale
 #: model:ir.model,name:sale.model_account_analytic_applicability
 msgid "Analytic Plan's Applicabilities"
-msgstr "Analüütilise plaani rakendused"
+msgstr "Analüütilise plaani rakendusvõimalused"
 
 #. module: sale
 #: model:ir.model.fields,field_description:sale.field_sale_order_line__analytic_precision
@@ -1279,7 +1812,12 @@ msgstr "Analüütiline täpsus"
 #. module: sale
 #: model:ir.model.fields,field_description:sale.field_sale_order_line__analytic_line_ids
 msgid "Analytic lines"
-msgstr "Analüütiline rida"
+msgstr "Analüütilised read"
+
+#. module: sale
+#: model_terms:ir.ui.view,arch_db:sale.sale_order_line_wizard_form
+msgid "Apply"
+msgstr "Kinnita"
 
 #. module: sale
 #: model_terms:ir.ui.view,arch_db:sale.sale_order_line_wizard_form
@@ -1292,9 +1830,15 @@ msgid ""
 "Apply manual discounts on sales order lines or display discounts computed "
 "from pricelists (option to activate in the pricelist configuration)."
 msgstr ""
+<<<<<<< HEAD
 "Lisa müügitellimuste ridadele manuaalselt allahindlusi või kuva "
 "hinnakirjadest arvutatud allahindlusi (võimalus aktiveerida hinnakirja "
 "konfiguratsioonist)."
+=======
+"Lisa müügitellimuse ridadele allahindlusi manuaalselt või kuva "
+"hinnakirjadest arvutatud allahindlusi (võimalus aktiveerida hinnakirja "
+"seadistustest)."
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 #. module: sale
 #: model_terms:ir.ui.view,arch_db:sale.mass_cancel_orders_view_form
@@ -1303,8 +1847,13 @@ msgstr "Kas oled kindel, et soovid tühistada"
 
 #. module: sale
 #: model_terms:ir.ui.view,arch_db:sale.mass_cancel_orders_view_form
+<<<<<<< HEAD
 msgid "Are you sure you want to cancel the selected quotation?"
 msgstr "Kas oled kindel, et soovid tühistada antud pakkumise?"
+=======
+msgid "Are you sure you want to cancel the selected item?"
+msgstr "Kas oled kindel, et soovid valitu tühistada?"
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 #. module: sale
 #: model_terms:ir.ui.view,arch_db:sale.view_order_form
@@ -1321,8 +1870,13 @@ msgid ""
 "As an example, if you sell pre-paid hours of services, Odoo recommends you\n"
 "            to sell extra hours when all ordered hours have been consumed."
 msgstr ""
+<<<<<<< HEAD
 "Näiteks kui müüte ettemakstud tundidega teenuseid, soovitab Odoo teil müüa "
 "lisatunde kuni kõik tellitud tunnid on kasutatud."
+=======
+"Näiteks, kui müüd ettemakstud tundidega teenust, soovitab Odoo \n"
+"müüa lisatunde, kui kõik tellitud tunnid on kasutatud."
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 #. module: sale
 #: model:ir.model.fields.selection,name:sale.selection__product_template__expense_policy__cost
@@ -1335,9 +1889,9 @@ msgid "Attachment Count"
 msgstr "Manuste arv"
 
 #. module: sale
-#: model:ir.model,name:sale.model_product_attribute_value
-msgid "Attribute Value"
-msgstr "Atribuudi väärtus"
+#: model:ir.model.fields,field_description:sale.field_sale_order_line__product_template_attribute_value_ids
+msgid "Attribute Values"
+msgstr "Atribuudi väärtused"
 
 #. module: sale
 #: model:ir.ui.menu,name:sale.menu_product_attribute_action
@@ -1361,6 +1915,14 @@ msgid "Automatic Invoice"
 msgstr "Automaatne arve"
 
 #. module: sale
+<<<<<<< HEAD
+=======
+#: model_terms:ir.ui.view,arch_db:sale.sale_report_view_tree
+msgid "Average"
+msgstr "Keskmine"
+
+#. module: sale
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 #: model_terms:ir.ui.view,arch_db:sale.report_saleorder_document
 msgid "Bacon Burger"
 msgstr "Peekoniburger"
@@ -1381,6 +1943,12 @@ msgid "Based on Document Reference"
 msgstr "Põhineb dokumendi viitel"
 
 #. module: sale
+#: model_terms:ir.actions.act_window,help:sale.action_quotations
+#: model_terms:ir.actions.act_window,help:sale.action_quotations_with_onboarding
+msgid "Beat competitors with stunning quotations!"
+msgstr "Võida konkurentne suurepäraste pakkumistega!"
+
+#. module: sale
 #: model:ir.model.fields.selection,name:sale.selection__product_template__sale_line_warn__block
 #: model:ir.model.fields.selection,name:sale.selection__res_partner__sale_warn__block
 msgid "Blocking Message"
@@ -1389,7 +1957,21 @@ msgstr "Veateade"
 #. module: sale
 #: model:ir.model.fields,field_description:sale.field_sale_order_cancel__body_has_template_value
 msgid "Body content is the same as the template"
+<<<<<<< HEAD
 msgstr "Sisu on sama nagu mallil"
+=======
+msgstr "Sisu on sama nagu mallis"
+
+#. module: sale
+#: model_terms:ir.actions.act_window,help:sale.action_quotations
+#: model_terms:ir.actions.act_window,help:sale.action_quotations_with_onboarding
+msgid ""
+"Boost sales with online payments or signatures, upsells, and a great "
+"customer portal."
+msgstr ""
+"Suurenda müüki veebimaksete või -allkirjastamistega, lisamüükide ning "
+"suurepärase kliendiportaaliga."
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 #. module: sale
 #: model_terms:ir.ui.view,arch_db:sale.res_config_settings_view_form
@@ -1399,6 +1981,7 @@ msgid ""
 "purchase amount, period). Rewards can be discounts (% or amount) or free "
 "products."
 msgstr ""
+<<<<<<< HEAD
 "Suurendage oma müüki mitmesuguste programmide abil: kupongid, kampaaniad, "
 "kinkekaardid, lojaalsus. Võimalus seadistada konkreetsed tingimused (tooted,"
 " kliendid, minimaalne ostusumma, periood). Preemiaks võivad olla "
@@ -1413,11 +1996,37 @@ msgstr "<u>Ettemaksu</u> maksmisel"
 #: model_terms:ir.ui.view,arch_db:sale.sale_order_portal_template
 msgid "By paying this proposal, I agree to the following terms:"
 msgstr "Maksmisel kinnitan, et nõustun järgnevate tingimustega:"
+=======
+"Suurenda müüki mitmesuguste programmide abil: kupongid, sooduskampaaniad, "
+"kinkekaarid, lojaalsussüsteem. Sea konkreetsed tingimused (tooted, kliendid,"
+" minimaalne ostusumma, periood). Preemiaks võivad olla allahindlused (% või "
+"summa) või tasuta tooted."
+
+#. module: sale
+#. odoo-javascript
+#: code:addons/sale/static/src/js/tours/sale.js:0
+msgid "Build your first quotation right here!"
+msgstr "Koosta oma esimene hinnapakkumine siin!"
+
+#. module: sale
+#: model_terms:ir.ui.view,arch_db:sale.sale_order_portal_template
+msgid "By paying a <u>down payment</u> of"
+msgstr "Tasudes <u>ettemaksu</u>"
+
+#. module: sale
+#: model_terms:ir.ui.view,arch_db:sale.sale_order_portal_template
+msgid "By paying,"
+msgstr "Makstes"
+
+#. module: sale
+#: model_terms:ir.ui.view,arch_db:sale.sale_order_portal_template
+msgid "By signing, you confirm acceptance on behalf of"
+msgstr "Allkirjastades annad oma nõusoleku"
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 #. module: sale
 #: model:ir.model.fields,field_description:sale.field_account_bank_statement_line__campaign_id
 #: model:ir.model.fields,field_description:sale.field_account_move__campaign_id
-#: model:ir.model.fields,field_description:sale.field_account_payment__campaign_id
 #: model:ir.model.fields,field_description:sale.field_sale_order__campaign_id
 #: model:ir.model.fields,field_description:sale.field_sale_report__campaign_id
 msgid "Campaign"
@@ -1431,9 +2040,14 @@ msgstr "Saab muuta sisu"
 #. module: sale
 #: model:ir.model.fields,field_description:sale.field_sale_order_line__product_updatable
 msgid "Can Edit Product"
-msgstr "Saab muuta tooteid"
+msgstr "Saab muuta toodet"
 
 #. module: sale
+#. odoo-javascript
+#: code:addons/sale/static/src/js/combo_configurator_dialog/combo_configurator_dialog.xml:0
+#: code:addons/sale/static/src/js/product_configurator_dialog/product_configurator_dialog.xml:0
+#: model:ir.actions.act_window,name:sale.action_mass_cancel_orders
+#: model_terms:ir.ui.view,arch_db:sale.mass_cancel_orders_view_form
 #: model_terms:ir.ui.view,arch_db:sale.sale_order_cancel_view_form
 #: model_terms:ir.ui.view,arch_db:sale.sale_order_portal_template
 #: model_terms:ir.ui.view,arch_db:sale.view_order_form
@@ -1444,7 +2058,6 @@ msgstr "Tühista"
 #. module: sale
 #. odoo-python
 #: code:addons/sale/models/sale_order.py:0
-#, python-format
 msgid "Cancel %s"
 msgstr "Tühista %s"
 
@@ -1454,7 +2067,6 @@ msgid "Cancel multiple quotations"
 msgstr "Tühista mitu hinnapakkumist"
 
 #. module: sale
-#: model:ir.actions.act_window,name:sale.action_mass_cancel_orders
 #: model_terms:ir.ui.view,arch_db:sale.mass_cancel_orders_view_form
 msgid "Cancel quotations"
 msgstr "Tühista hinnapakkumised"
@@ -1468,7 +2080,10 @@ msgstr "Tühistatud"
 #. module: sale
 #. odoo-python
 #: code:addons/sale/models/sale_order.py:0
+<<<<<<< HEAD
 #, python-format
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 msgid ""
 "Cannot create an invoice. No items are available to invoice.\n"
 "\n"
@@ -1493,7 +2108,7 @@ msgstr ""
 #. module: sale
 #: model_terms:ir.ui.view,arch_db:sale.view_order_form
 msgid "Capture Transaction"
-msgstr "Capture Transaction"
+msgstr "Registreeri makse"
 
 #. module: sale
 #: model_terms:ir.ui.view,arch_db:sale.view_order_form
@@ -1506,14 +2121,23 @@ msgid "Category"
 msgstr "Kategooria"
 
 #. module: sale
+#: model:product.template,name:sale.product_product_1_product_template
+msgid "Chair floor protection"
+msgstr "Tooli põrandakaitse"
+
+#. module: sale
 #. odoo-python
 #: code:addons/sale/models/sale_order.py:0
+<<<<<<< HEAD
 #, python-format
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 msgid ""
 "Changing the company of an existing quotation might need some manual "
 "adjustments in the details of the lines. You might consider updating the "
 "prices."
 msgstr ""
+<<<<<<< HEAD
 "Olemasoleva pakkumise ettevõtte muutmine võib vajada mõningaid käsitsi "
 "kohandusi ridade detailides. Võiksite kaaluda hindade uuendamist."
 
@@ -1528,20 +2152,28 @@ msgstr "Valige elektrooniline allkiri või makseviis."
 #, python-format
 msgid "Choose how to confirm quotations"
 msgstr "Vali pakkumiste kinnitamise viis"
+=======
+"Ettevõtte muutmine olemasoleval pakkumisel võib vajada ridade detailide "
+"käsitsi kohandamist. Võiksid kaaluda hindade uuendamist."
+
+#. module: sale
+#: model_terms:ir.actions.act_window,help:sale.action_quotations
+#: model_terms:ir.actions.act_window,help:sale.action_quotations_with_onboarding
+msgid "Check a sample. It's clean!"
+msgstr "Vaata näidist. See on puhas!"
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 #. module: sale
 #. odoo-javascript
 #: code:addons/sale/static/src/js/tours/sale.js:0
-#, python-format
 msgid "Click here to add some products or services to your quotation."
 msgstr "Vajuta siia, et lisada pakkumisele tooteid või teenuseid."
 
 #. module: sale
 #. odoo-javascript
 #: code:addons/sale/static/src/xml/sales_team_progress_bar_template.xml:0
-#, python-format
 msgid "Click to define an invoicing target"
-msgstr "Vajuta, et määrata arveldamiste eesmärk"
+msgstr "Vajuta, et määrata arvelduse eesmärk"
 
 #. module: sale
 #: model_terms:ir.ui.view,arch_db:sale.sale_order_portal_template
@@ -1549,9 +2181,30 @@ msgid "Close"
 msgstr "Sulge"
 
 #. module: sale
+<<<<<<< HEAD
 #: model:ir.model.fields,field_description:sale.field_payment_provider__so_reference_type
 msgid "Communication"
 msgstr "Kommunikatsioon"
+=======
+#: model:ir.ui.menu,name:sale.menu_product_combos
+msgid "Combo Choices"
+msgstr "Kombo valikud"
+
+#. module: sale
+#: model:ir.model.fields,field_description:sale.field_sale_order_line__combo_item_id
+msgid "Combo Item"
+msgstr "Kombinatsioon"
+
+#. module: sale
+#: model:ir.model.fields,field_description:sale.field_res_config_settings__module_sale_commission
+msgid "Commissions"
+msgstr "Komisjonitasu"
+
+#. module: sale
+#: model:ir.model.fields,field_description:sale.field_payment_provider__so_reference_type
+msgid "Communication"
+msgstr "Suhtlus"
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 #. module: sale
 #: model_terms:ir.ui.view,arch_db:sale.sale_order_portal_template
@@ -1575,11 +2228,9 @@ msgid "Company"
 msgstr "Ettevõte"
 
 #. module: sale
-#. odoo-javascript
-#: code:addons/sale/static/src/js/tours/sale.js:0
-#, python-format
-msgid "Complete your company's data"
-msgstr "Täiendage oma ettevõtte andmeid"
+#: model:ir.model,name:sale.model_base_document_layout
+msgid "Company Document Layout"
+msgstr "Ettevõtte Dokumendi küljendus"
 
 #. module: sale
 #: model_terms:ir.ui.view,arch_db:sale.res_config_settings_view_form
@@ -1604,9 +2255,18 @@ msgstr "Reaalse transpordihinna arvutamine ja saatmine Sendcloud´iga"
 #. module: sale
 #: model_terms:ir.ui.view,arch_db:sale.res_config_settings_view_form
 msgid "Compute shipping costs and ship with Shiprocket"
+<<<<<<< HEAD
 msgstr ""
 "Reaalse transpordihinna arvutamine ja saatmine Shiprocket'iga\n"
 " "
+=======
+msgstr "Reaalse transpordihinna arvutamine ja saatmine Shiprocket'iga"
+
+#. module: sale
+#: model_terms:ir.ui.view,arch_db:sale.res_config_settings_view_form
+msgid "Compute shipping costs and ship with Starshipit"
+msgstr "Arvuta saatmiskulu ja saada Starshipiga"
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 #. module: sale
 #: model_terms:ir.ui.view,arch_db:sale.res_config_settings_view_form
@@ -1626,7 +2286,7 @@ msgstr "Reaalse transpordihinna arvutamine ja saatmine bpost'iga"
 #. module: sale
 #: model_terms:ir.ui.view,arch_db:sale.res_config_settings_view_form
 msgid "Compute shipping costs on orders"
-msgstr "Arvuta transpordi hind tellimustel"
+msgstr "Arvuta saatmiskulu tellimustel "
 
 #. module: sale
 #: model:ir.model,name:sale.model_res_config_settings
@@ -1639,6 +2299,15 @@ msgid "Configuration"
 msgstr "Seaded"
 
 #. module: sale
+#. odoo-javascript
+#: code:addons/sale/static/src/js/product_configurator_dialog/product_configurator_dialog.js:0
+msgid "Configure your product"
+msgstr "Seadista oma toode"
+
+#. module: sale
+#. odoo-javascript
+#: code:addons/sale/static/src/js/combo_configurator_dialog/combo_configurator_dialog.xml:0
+#: code:addons/sale/static/src/js/product_configurator_dialog/product_configurator_dialog.xml:0
 #: model_terms:ir.ui.view,arch_db:sale.view_order_form
 msgid "Confirm"
 msgstr "Kinnitage"
@@ -1646,12 +2315,16 @@ msgstr "Kinnitage"
 #. module: sale
 #: model:ir.model.fields,field_description:sale.field_payment_link_wizard__confirmation_message
 msgid "Confirmation Message"
+<<<<<<< HEAD
 msgstr "Kinnitamise sõnum"
 
 #. module: sale
 #: model:ir.model.fields.selection,name:sale.selection__product_document__attached_on__sale_order
 msgid "Confirmed order"
 msgstr "Kinnitatud tellimus"
+=======
+msgstr "Kinnitussõnum"
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 #. module: sale
 #: model_terms:ir.ui.view,arch_db:sale.res_config_settings_view_form
@@ -1665,7 +2338,6 @@ msgstr "Konsolideeritud arveldamine"
 
 #. module: sale
 #: model:ir.model,name:sale.model_res_partner
-#: model_terms:ir.ui.view,arch_db:sale.sale_order_portal_template
 msgid "Contact"
 msgstr "Kontakt"
 
@@ -1681,12 +2353,16 @@ msgid ""
 "same category. The conversion will be made based on the ratios."
 msgstr ""
 "Ühikute vaheline konversioon on võimalik ainult siis, kui ühikud kuuluvad "
+<<<<<<< HEAD
 "samasse kategooriasse. Konverteerimist tehakse määrade järgi."
+=======
+"samasse kategooriasse. Konverteerimine toimub määrade alusel."
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 #. module: sale
 #: model:ir.model.fields,field_description:sale.field_sale_order__country_code
 msgid "Country code"
-msgstr "Riigi kood"
+msgstr "Riigikood"
 
 #. module: sale
 #: model:ir.model.fields,field_description:sale.field_res_config_settings__module_sale_loyalty
@@ -1700,8 +2376,13 @@ msgstr "Loomise kuupäev"
 
 #. module: sale
 #: model_terms:ir.ui.view,arch_db:sale.view_sale_advance_payment_inv
+<<<<<<< HEAD
 msgid "Create Draft Invoice"
 msgstr "Loo mustand arve"
+=======
+msgid "Create Draft"
+msgstr "Loo mustand"
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 #. module: sale
 #: model:ir.model.fields,field_description:sale.field_sale_advance_payment_inv__advance_payment_method
@@ -1713,6 +2394,14 @@ msgstr "Loo arve"
 #: model_terms:ir.ui.view,arch_db:sale.sale_order_tree
 msgid "Create Invoices"
 msgstr "Loo arveid"
+<<<<<<< HEAD
+=======
+
+#. module: sale
+#: model_terms:ir.actions.act_window,help:sale.mail_activity_plan_action_sale_order
+msgid "Create a Sale Order Activity Plan"
+msgstr "Loo müügitellimuse tegevusplaan"
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 #. module: sale
 #: model_terms:ir.actions.act_window,help:sale.action_invoice_salesteams
@@ -1728,15 +2417,13 @@ msgstr "Loo uus toode"
 #: model_terms:ir.actions.act_window,help:sale.act_res_partner_2_sale_order
 #: model_terms:ir.actions.act_window,help:sale.action_orders
 #: model_terms:ir.actions.act_window,help:sale.action_orders_salesteams
-#: model_terms:ir.actions.act_window,help:sale.action_quotations
 #: model_terms:ir.actions.act_window,help:sale.action_quotations_salesteams
-#: model_terms:ir.actions.act_window,help:sale.action_quotations_with_onboarding
 msgid "Create a new quotation, the first step of a new sale!"
-msgstr "Loo uus pakkumine!"
+msgstr "Loo uus pakkumine, esimene samm uuest müügist!"
 
 #. module: sale
 #: model:ir.actions.act_window,name:sale.action_view_sale_advance_payment_inv
-msgid "Create invoices"
+msgid "Create invoice(s)"
 msgstr "Loo arve"
 
 #. module: sale
@@ -1749,6 +2436,14 @@ msgstr ""
 " silma peal."
 
 #. module: sale
+<<<<<<< HEAD
+=======
+#: model:ir.model.fields,field_description:sale.field_sale_order_line__service_tracking
+msgid "Create on Order"
+msgstr "Loo tellimus"
+
+#. module: sale
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 #: model:ir.model.fields,help:sale.field_sale_advance_payment_inv__consolidated_billing
 msgid ""
 "Create one invoice for all orders related to same customer and same "
@@ -1791,12 +2486,12 @@ msgid ""
 "Confirmation date of confirmed orders."
 msgstr ""
 "Mustandi/saadetud tellimuste loomiskuupäev,\n"
-"Kinnitatud tellimuste kinnituskuupäev."
+"kinnitatud tellimuste kinnituskuupäev."
 
 #. module: sale
 #: model:ir.model.fields.selection,name:sale.selection__sale_payment_provider_onboarding_wizard__payment_method__stripe
 msgid "Credit & Debit card (via Stripe)"
-msgstr "Krediit- ja deebetkaart (Stripe'i kaudu)"
+msgstr "Krediit- ja deebetkaart (Stripe'i kaudu) "
 
 #. module: sale
 #: model:ir.model.fields,field_description:sale.field_sale_advance_payment_inv__currency_id
@@ -1829,6 +2524,8 @@ msgid "Custom payment instructions"
 msgstr "Kohandatud makse juhised"
 
 #. module: sale
+#. odoo-python
+#: code:addons/sale/models/sale_order.py:0
 #: model:ir.model.fields,field_description:sale.field_sale_order__partner_id
 #: model:ir.model.fields,field_description:sale.field_sale_order_line__order_partner_id
 #: model:ir.model.fields,field_description:sale.field_sale_report__partner_id
@@ -1873,6 +2570,7 @@ msgstr "Kliendi allkiri"
 #: model:ir.model.fields,field_description:sale.field_sale_report__state_id
 msgid "Customer State"
 msgstr "Kliendi maakond"
+<<<<<<< HEAD
 
 #. module: sale
 #: model:ir.model.fields,field_description:sale.field_sale_advance_payment_inv__deposit_taxes_id
@@ -1896,13 +2594,25 @@ msgstr "Tellimuse kinnitamiseks tuleb tasuda vähemalt %(amount)s."
 #: model:ir.ui.menu,name:sale.res_partner_menu
 msgid "Customers"
 msgstr "Kliendid"
+=======
 
 #. module: sale
-#. odoo-javascript
-#: code:addons/sale/static/src/js/tours/sale.js:0
-#, python-format
-msgid "Customize your quotes and orders."
-msgstr "Kohandage oma pakkumisi ja tellimusi."
+#: model:ir.model.fields,field_description:sale.field_sale_report__partner_zip
+msgid "Customer ZIP"
+msgstr "Kliendi postiindeks"
+
+#. module: sale
+#. odoo-python
+#: code:addons/sale/wizard/payment_link_wizard.py:0
+msgid "Customer needs to pay at least %(amount)s to confirm the order."
+msgstr "Tellimuse kinnitamiseks tuleb tasuda vähemalt %(amount)s."
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
+
+#. module: sale
+#: model:ir.ui.menu,name:sale.menu_reporting_customer
+#: model:ir.ui.menu,name:sale.res_partner_menu
+msgid "Customers"
+msgstr "Kliendid"
 
 #. module: sale
 #: model:ir.model.fields,field_description:sale.field_res_config_settings__module_delivery_dhl
@@ -1927,13 +2637,18 @@ msgid ""
 "Days between quotation proposal and expiration. 0 days means automatic "
 "expiration is disabled"
 msgstr ""
+<<<<<<< HEAD
 "Päevade arv pakkumise esitamise ja aegumise vahel. 0 päeva tähendab, et "
 "automaatne aegumine on välja lülitatud."
+=======
+"Pakkumise esitamise ja aegumise vahele jäävate päevade arv. 0 päeva "
+"tähendab, et automaatne aegumine on välja lülitatud."
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 #. module: sale
 #: model:ir.model.fields,field_description:sale.field_sale_advance_payment_inv__deduct_down_payments
 msgid "Deduct down payments"
-msgstr "Vähenda ettemakse"
+msgstr "Vähenda ettemaksu"
 
 #. module: sale
 #: model:ir.model.fields,field_description:sale.field_res_company__quotation_validity_days
@@ -1942,6 +2657,7 @@ msgid "Default Quotation Validity"
 msgstr "Vaikimisi pakkumise kehtivus"
 
 #. module: sale
+<<<<<<< HEAD
 #: model:ir.model.fields,help:sale.field_res_company__sale_discount_product_id
 msgid "Default product used for discounts"
 msgstr "Vaikimisi toode, mida kasutatakse allahindluste jaoks."
@@ -1956,15 +2672,44 @@ msgstr "Vaikimisi toode, mida kasutatakse ettemaksude jaoks"
 #: model_terms:ir.ui.view,arch_db:sale.res_config_settings_view_form
 msgid "Default values"
 msgstr "Vaikeväärtused"
+=======
+#: model:ir.model.fields,field_description:sale.field_sale_order__company_price_include
+#: model:ir.model.fields,field_description:sale.field_sale_order_line__company_price_include
+msgid "Default Sales Price Include"
+msgstr "Vaikimisi müügihind sisaldab"
+
+#. module: sale
+#: model:ir.model.fields,help:sale.field_sale_order__company_price_include
+#: model:ir.model.fields,help:sale.field_sale_order_line__company_price_include
+msgid ""
+"Default on whether the sales price used on the product and invoices with "
+"this Company includes its taxes."
+msgstr ""
+"Vaikimisi määramine kas tootel ja selle ettevõtte arvetel kasutatud "
+"müügihind sisaldab selle makse."
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 #. module: sale
 #: model_terms:ir.ui.view,arch_db:sale.res_config_settings_view_form
 msgid ""
+<<<<<<< HEAD
 "Default values used when creating new quotations. Those can still be changed"
 " on each quotation."
 msgstr ""
 "Uue hinnapakkumise vaikeväärtused. Väärtuseid saab igal pakkumisel siiski "
 "muuta."
+=======
+"Default period during which the quote is valid and can still be accepted by "
+"the customer. The default can be changed per order or template."
+msgstr ""
+"Vaikimisi periood, mille jooksul saab klient pakkumist kinnitada. "
+"Vaikeväärtust saab muuta tellimusel või mallil. "
+
+#. module: sale
+#: model:ir.model.fields,help:sale.field_res_company__sale_discount_product_id
+msgid "Default product used for discounts"
+msgstr "Vaikimisi toode, mida kasutatakse allahindluste jaoks."
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 #. module: sale
 #: model_terms:ir.ui.view,arch_db:sale.res_config_settings_view_form
@@ -1979,7 +2724,6 @@ msgstr "Tarnitud"
 #. module: sale
 #. odoo-python
 #: code:addons/sale/models/sale_order_line.py:0
-#, python-format
 msgid "Delivered Quantity: %s"
 msgstr "Tarnitud kogus: %s"
 
@@ -2007,7 +2751,7 @@ msgstr "Tarneviisid"
 #. module: sale
 #: model:ir.model.fields,field_description:sale.field_sale_order_line__qty_delivered
 msgid "Delivery Quantity"
-msgstr "Tarne kogus"
+msgstr "Tarnitud kogus"
 
 #. module: sale
 #: model:ir.model.fields,help:sale.field_sale_order__expected_date
@@ -2017,21 +2761,22 @@ msgid ""
 "shipping, the shipping policy of the order will be taken into account to "
 "either use the minimum or maximum lead time of the order lines."
 msgstr ""
+<<<<<<< HEAD
 "Teie klientidele lubatav tarnekuupäev, arvutatakse minimaalsest "
 "tellimusridade ettevalmistusajast teenustoodete puhul. Tarnel võtab "
 "tellimuse tarnepoliis arvesse kas minimaalse või maksimaalse tellimusridade "
 "ettevalmistusaja."
+=======
+"Kliendile lubatav tarnekuupäev, mis arvutatakse teenustoodete puhul "
+"tellimusridade minimaalsest täitmisajast. Tarne puhul võetakse tellimuse "
+"saatmistingimuste järgi arvesse kas minimaalset või maksimaalset "
+"tellimusridade täitmisaega."
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 #. module: sale
 #: model:product.template,name:sale.advance_product_0_product_template
 msgid "Deposit"
 msgstr "Deposiit"
-
-#. module: sale
-#: model:ir.model.fields,field_description:sale.field_res_company__sale_down_payment_product_id
-#: model:ir.model.fields,field_description:sale.field_res_config_settings__deposit_default_product_id
-msgid "Deposit Product"
-msgstr "Deposit Product"
 
 #. module: sale
 #: model:ir.model.fields,field_description:sale.field_sale_order_line__name
@@ -2058,7 +2803,10 @@ msgstr "Loobu"
 #: code:addons/sale/wizard/sale_order_discount.py:0
 #: model_terms:ir.ui.view,arch_db:sale.sale_order_line_wizard_form
 #: model_terms:ir.ui.view,arch_db:sale.view_order_form
+<<<<<<< HEAD
 #, python-format
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 msgid "Discount"
 msgstr "Allahindlus"
 
@@ -2066,6 +2814,18 @@ msgstr "Allahindlus"
 #: model:ir.model.fields,field_description:sale.field_sale_report__discount
 msgid "Discount %"
 msgstr "Allahindlus %"
+
+#. module: sale
+#. odoo-python
+#: code:addons/sale/wizard/sale_order_discount.py:0
+msgid "Discount %(percent)s%%"
+msgstr "Allahindlus %(percent)s%%"
+
+#. module: sale
+#. odoo-python
+#: code:addons/sale/wizard/sale_order_discount.py:0
+msgid "Discount %(percent)s%%- On products with the following taxes %(taxes)s"
+msgstr "Allahindlus %(percent)s%%- Toodetele järgnevate maksudega %(taxes)s"
 
 #. module: sale
 #: model:ir.model.fields,field_description:sale.field_sale_order_line__discount
@@ -2093,11 +2853,20 @@ msgid "Discount Wizard"
 msgstr "Allahindluse viisard"
 
 #. module: sale
+<<<<<<< HEAD
+=======
+#: model:res.groups,name:sale.group_discount_per_so_line
+msgid "Discount on lines"
+msgstr "Ridade allahindlus"
+
+#. module: sale
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 #: model_terms:ir.ui.view,arch_db:sale.view_order_form
 msgid "Discount:"
 msgstr "Allahindlus:"
 
 #. module: sale
+<<<<<<< HEAD
 #. odoo-python
 #: code:addons/sale/wizard/sale_order_discount.py:0
 #, python-format
@@ -2116,11 +2885,20 @@ msgstr "Allahindlus: %(percent)s%%- toodetel järgmiste maksudega %(taxes)s"
 #: model_terms:ir.ui.view,arch_db:sale.res_config_settings_view_form
 msgid "Discounts, Loyalty & Gift Card"
 msgstr "Allahindlused, lojaalsusprogramm ja kinkekaardid"
+=======
+#: model:ir.model.fields,field_description:sale.field_res_config_settings__group_discount_per_so_line
+msgid "Discounts"
+msgstr "Soodustused"
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 #. module: sale
 #: model:ir.model.fields,field_description:sale.field_sale_advance_payment_inv__display_draft_invoice_warning
 msgid "Display Draft Invoice Warning"
+<<<<<<< HEAD
 msgstr "Kuva Mustand arve hoiatus"
+=======
+msgstr "Kuva mustandis olev arve hoiatus"
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 #. module: sale
 #: model:ir.model.fields,field_description:sale.field_sale_advance_payment_inv__display_invoice_amount_warning
@@ -2145,9 +2923,20 @@ msgid "Display Type"
 msgstr "Kuvamise tüüp"
 
 #. module: sale
+<<<<<<< HEAD
 #: model_terms:ir.ui.view,arch_db:sale.res_config_settings_view_form
 msgid "Documentation"
 msgstr "Dokumentatsioon"
+=======
+#: model:ir.model.fields,field_description:sale.field_sale_order_line__distribution_analytic_account_ids
+msgid "Distribution Analytic Account"
+msgstr "Jaotumise analüütiline konto"
+
+#. module: sale
+#: model_terms:ir.ui.view,arch_db:sale.sale_order_portal_content
+msgid "Documents"
+msgstr "Dokumendid"
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 #. module: sale
 #: model_terms:ir.ui.view,arch_db:sale.sale_order_portal_content
@@ -2161,48 +2950,48 @@ msgstr "Domeen"
 
 #. module: sale
 #. odoo-python
+#: code:addons/sale/models/sale_order_line.py:0
 #: code:addons/sale/wizard/sale_make_invoice_advance.py:0
-#, python-format
+#: model:ir.model.fields,field_description:sale.field_sale_advance_payment_inv__amount
 msgid "Down Payment"
 msgstr "Ettemaks"
 
 #. module: sale
-#: model:ir.model.fields,field_description:sale.field_sale_advance_payment_inv__amount
-msgid "Down Payment Amount"
-msgstr "Ettemaksu summa"
+#. odoo-python
+#: code:addons/sale/models/sale_order_line.py:0
+msgid "Down Payment (Cancelled)"
+msgstr "Ettemaks (tühistatud)"
+
+#. module: sale
+#. odoo-python
+#: code:addons/sale/models/sale_order_line.py:0
+msgid "Down Payment (ref: %(reference)s on %(date)s)"
+msgstr "Ettemaks (viide: %(reference)s kuupäeval %(date)s)"
 
 #. module: sale
 #: model:ir.model.fields,field_description:sale.field_sale_advance_payment_inv__fixed_amount
 msgid "Down Payment Amount (Fixed)"
-msgstr "Ettemaks"
-
-#. module: sale
-#: model:ir.model.fields,field_description:sale.field_sale_advance_payment_inv__product_id
-msgid "Down Payment Product"
-msgstr "Ettemaksu toode"
+msgstr "Ettemaks (kindel summa)"
 
 #. module: sale
 #. odoo-python
+<<<<<<< HEAD
 #: code:addons/sale/wizard/sale_make_invoice_advance.py:0
 #, python-format
 msgid "Down Payment: %(date)s (Draft)"
 msgstr "Ettemaks: %(date)s (Mustand)"
+=======
+#: code:addons/sale/models/sale_order_line.py:0
+msgid "Down Payment: %(date)s (Draft)"
+msgstr "Ettemaks: %(date)s (mustand)"
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 #. module: sale
 #. odoo-python
 #: code:addons/sale/models/sale_order.py:0
-#: code:addons/sale/wizard/sale_make_invoice_advance.py:0
-#: model_terms:ir.ui.view,arch_db:sale.res_config_settings_view_form
-#, python-format
+#: code:addons/sale/models/sale_order_line.py:0
 msgid "Down Payments"
-msgstr "Ettemaksud"
-
-#. module: sale
-#. odoo-python
-#: code:addons/sale/wizard/sale_make_invoice_advance.py:0
-#, python-format
-msgid "Down payment"
-msgstr "Ettemaks"
+msgstr "Ettemaksed"
 
 #. module: sale
 #: model:ir.model.fields.selection,name:sale.selection__sale_advance_payment_inv__advance_payment_method__fixed
@@ -2222,14 +3011,18 @@ msgstr "Ettemaks <br/>"
 #. module: sale
 #. odoo-python
 #: code:addons/sale/wizard/sale_make_invoice_advance.py:0
+<<<<<<< HEAD
 #, python-format
 msgid "Down payment invoice"
 msgstr "Ettemaksuarve"
+=======
+msgid "Down payment invoice"
+msgstr "Ettemaksu arve"
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 #. module: sale
 #. odoo-python
 #: code:addons/sale/wizard/sale_make_invoice_advance.py:0
-#, python-format
 msgid "Down payment of %s%%"
 msgstr "Ettemaks %s%%"
 
@@ -2239,16 +3032,38 @@ msgid ""
 "Down payments are made when creating invoices from a sales order. They are "
 "not copied when duplicating a sales order."
 msgstr ""
+<<<<<<< HEAD
 "Ettemaksuarve luuakse müügitellimuse pealt. Ettemaksuarveid ei kopeerita, "
 "kui teed müügitellimusest koopia."
+=======
+"Ettemaksuarve luuakse müügitellimuse pealt. Kui teha müügitellimusest "
+"koopia, siis ettemaksuarveid ei kopeerita. "
+
+#. module: sale
+#: model:ir.model.fields,field_description:sale.field_product_category__property_account_downpayment_categ_id
+msgid "Downpayment Account"
+msgstr "Ettemaksukonto"
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 #. module: sale
 #. odoo-python
 #: code:addons/sale/wizard/sale_make_invoice_advance.py:0
 #: model_terms:ir.ui.view,arch_db:sale.view_sale_advance_payment_inv
-#, python-format
 msgid "Draft Invoices"
 msgstr "Arvete mustandid"
+<<<<<<< HEAD
+=======
+
+#. module: sale
+#: model_terms:ir.ui.view,arch_db:sale.view_order_form
+msgid "Duplicated Documents"
+msgstr "Dubleeritud dokumendid"
+
+#. module: sale
+#: model:ir.model.fields,field_description:sale.field_sale_order__duplicated_order_ids
+msgid "Duplicated Order"
+msgstr "Dubleeritud tellimus"
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 #. module: sale
 #: model:ir.model.fields,field_description:sale.field_res_config_settings__module_delivery_easypost
@@ -2258,7 +3073,6 @@ msgstr "Easypost ühendus"
 #. module: sale
 #. odoo-javascript
 #: code:addons/sale/static/src/js/sale_product_field.js:0
-#, python-format
 msgid "Edit Configuration"
 msgstr "Muuda seadistusi"
 
@@ -2275,7 +3089,20 @@ msgstr "E-post"
 #. module: sale
 #: model:ir.model.fields,help:sale.field_res_config_settings__invoice_mail_template_id
 msgid "Email sent to the customer once the invoice is available."
-msgstr "Kliendile saadetakse arve, kui arve on saadaval."
+msgstr "Kliendile saadetakse meil, kui arve on saadaval."
+
+#. module: sale
+#. odoo-javascript
+#: code:addons/sale/static/src/js/product_template_attribute_line/product_template_attribute_line.js:0
+msgid "Enter a customized value"
+msgstr "Sisesta kohandatud väärtus"
+
+#. module: sale
+#. odoo-python
+#: code:addons/sale/models/sale_order.py:0
+msgid ""
+"Error importing attachment '%(file_name)s' as order (decoder=%(decoder)s)"
+msgstr "Viga manuse importimisel '%(file_name)s' arvena (decoder=%(decoder)s)"
 
 #. module: sale
 #: model:ir.model.fields,field_description:sale.field_sale_order__expected_date
@@ -2288,13 +3115,22 @@ msgid "Expected:"
 msgstr "Eeldatav:"
 
 #. module: sale
+<<<<<<< HEAD
+=======
+#: model_terms:ir.ui.view,arch_db:sale.product_template_form_view
+msgid "Expense"
+msgstr "Kulu"
+
+#. module: sale
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 #: model:ir.model.fields,field_description:sale.field_sale_order__validity_date
 msgid "Expiration"
-msgstr "Aegumiskuupäev"
+msgstr "Aegumine"
 
 #. module: sale
 #: model_terms:ir.ui.view,arch_db:sale.sale_order_portal_content
 msgid "Expiration Date:"
+<<<<<<< HEAD
 msgstr "Aegumiskuupäev"
 
 #. module: sale
@@ -2303,6 +3139,9 @@ msgstr "Aegumiskuupäev"
 #, python-format
 msgid "Expires on %(date)s"
 msgstr "Aegub %(date)s"
+=======
+msgstr "Aegumiskuupäev:"
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 #. module: sale
 #: model_terms:ir.ui.view,arch_db:sale.view_order_product_search
@@ -2312,12 +3151,11 @@ msgstr "Laiendatud filtrid"
 #. module: sale
 #: model:ir.model.fields,field_description:sale.field_sale_order_line__product_no_variant_attribute_value_ids
 msgid "Extra Values"
-msgstr "Lisaväärtus"
+msgstr "Lisaväärtused"
 
 #. module: sale
 #. odoo-python
 #: code:addons/sale/models/sale_order_line.py:0
-#, python-format
 msgid "Extra line with %s"
 msgstr "Lisarida %s "
 
@@ -2338,7 +3176,11 @@ msgid ""
 "customers or sales orders/invoices.The default value comes from the "
 "customer."
 msgstr ""
+<<<<<<< HEAD
 "FInantspositsioone kasutatakse teatud klientide või müügitellimuste/arvete "
+=======
+"Finantspositsioone kasutatakse teatud klientide või müügitellimuste/arvete "
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 "kontode ja maksude kohandamiseks. Vaikimisi väärtus tuleb kliendist."
 
 #. module: sale
@@ -2369,7 +3211,7 @@ msgstr "Font awesome icon nt. fa-tasks"
 #. module: sale
 #: model:ir.model.constraint,message:sale.constraint_sale_order_line_non_accountable_null_fields
 msgid "Forbidden values on non-accountable sale order line"
-msgstr "Keelatud väärtused mittearvestataval müügitellimuste real"
+msgstr "Keelatud väärtused mittearvestataval müügitellimuse real"
 
 #. module: sale
 #: model_terms:ir.actions.act_window,help:sale.action_account_invoice_report_salesteam
@@ -2378,9 +3220,14 @@ msgid ""
 "customer. The search tool can also be used to personalise your Invoices "
 "reports and so, match this analysis to your needs."
 msgstr ""
+<<<<<<< HEAD
 "From this report, you can have an overview of the amount invoiced to your "
 "customer. The search tool can also be used to personalise your Invoices "
 "reports and so, match this analysis to your needs."
+=======
+"See aruanne annab ülevaate sinu kliendi arveldussummast. Otsingu tööriist "
+"aitab kohandada arvete aruandeid vastavalt vajadusele. "
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 #. module: sale
 #: model_terms:ir.ui.view,arch_db:sale.sale_order_portal_template
@@ -2391,6 +3238,7 @@ msgstr "Kogusumma <br/>"
 #: model:ir.model.fields.selection,name:sale.selection__sale_order__invoice_status__invoiced
 #: model:ir.model.fields.selection,name:sale.selection__sale_order_line__invoice_status__invoiced
 #: model:ir.model.fields.selection,name:sale.selection__sale_report__invoice_status__invoiced
+#: model:ir.model.fields.selection,name:sale.selection__sale_report__line_invoice_status__invoiced
 #: model_terms:ir.ui.view,arch_db:sale.view_order_product_search
 msgid "Fully Invoiced"
 msgstr "Täielikult arveks tehtud"
@@ -2403,23 +3251,38 @@ msgstr "Tulevased tegevused"
 #. module: sale
 #: model:ir.model,name:sale.model_payment_link_wizard
 msgid "Generate Sales Payment Link"
-msgstr "Genereerige müügi makse link"
+msgstr "Loo müügi makse link"
 
 #. module: sale
 #: model:ir.actions.act_window,name:sale.action_sale_order_generate_link
 msgid "Generate a Payment Link"
-msgstr "Genereerige makse link"
+msgstr "Loo makse link"
 
 #. module: sale
 #: model_terms:ir.ui.view,arch_db:sale.res_config_settings_view_form
 msgid ""
 "Generate the invoice automatically when the online payment is confirmed"
+<<<<<<< HEAD
 msgstr "Genereeri arve automaatselt peale veebimakse kinnitamist"
+=======
+msgstr "Loo arve automaatselt peale veebimakse kinnitamist"
+
+#. module: sale
+#. odoo-python
+#: code:addons/sale/models/sale_order.py:0
+msgid "Generated Orders"
+msgstr " Loodud tellimused"
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 #. module: sale
 #: model_terms:ir.ui.view,arch_db:sale.res_config_settings_view_form
 msgid "Get warnings in orders for products or customers"
-msgstr "Saa tellimustel hoiatusi toodete või klientide kohta"
+msgstr "Saa tellimustel toodete või klientide kohta hoiatusi"
+
+#. module: sale
+#: model:ir.model.fields.selection,name:sale.selection__sale_order_discount__discount_type__so_discount
+msgid "Global Discount"
+msgstr "Üldine allahindlus"
 
 #. module: sale
 #: model:ir.model.fields.selection,name:sale.selection__sale_order_discount__discount_type__so_discount
@@ -2429,14 +3292,22 @@ msgstr "Üldine allahindlus"
 #. module: sale
 #. odoo-javascript
 #: code:addons/sale/static/src/js/tours/sale.js:0
-#, python-format
-msgid "Good job, let's continue."
-msgstr "Hea töö, jätkame samas vaimus."
+msgid "Go ahead and send the quotation."
+msgstr "Jätka ja saada pakkumine."
+
+#. module: sale
+#: model:ir.model.fields,help:sale.field_sale_order_line__product_type
+msgid ""
+"Goods are tangible materials and merchandise you provide.\n"
+"A service is a non-material product you provide."
+msgstr ""
+"Kaupade all mõistetakse käegakatsutavaid materjale ja kaupu, mida te pakute."
+" Teenus on mittefüüsiline toode, mida te pakute."
 
 #. module: sale
 #: model_terms:ir.ui.view,arch_db:sale.res_config_settings_view_form
 msgid "Grant discounts on sales order lines"
-msgstr "Müügitellimuse ridadele allahindluste lubamine"
+msgstr "Lisa müügitellimuse ridadele allahindluseid"
 
 #. module: sale
 #: model:ir.model.fields,field_description:sale.field_sale_report__weight
@@ -2453,12 +3324,25 @@ msgstr "Rühmitamine"
 #. module: sale
 #: model:ir.model.fields,field_description:sale.field_sale_order__has_active_pricelist
 msgid "Has Active Pricelist"
+<<<<<<< HEAD
 msgstr "On aktiivne hinnakiri"
+=======
+msgstr "Olemas aktiivne hinnakiri"
+
+#. module: sale
+#: model:ir.model.fields,field_description:sale.field_sale_order__has_archived_products
+msgid "Has Archived Products"
+msgstr "On arhiveeritud tooteid"
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 #. module: sale
 #: model:ir.model.fields,field_description:sale.field_sale_mass_cancel_orders__has_confirmed_order
 msgid "Has Confirmed Order"
+<<<<<<< HEAD
 msgstr "On kinnitatud tellimus"
+=======
+msgstr "Olemas kinnitatud tellimus"
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 #. module: sale
 #: model:ir.model.fields,field_description:sale.field_sale_order__show_update_fpos
@@ -2478,9 +3362,17 @@ msgstr "Hinnakiri on muutunud"
 #. module: sale
 #: model:ir.model.fields,field_description:sale.field_sale_advance_payment_inv__has_down_payments
 msgid "Has down payments"
-msgstr "Omab ettemakse"
+msgstr "Olemas ettemaks"
 
 #. module: sale
+<<<<<<< HEAD
+=======
+#: model:ir.model.fields.selection,name:sale.selection__product_document__attached_on_sale__hidden
+msgid "Hidden"
+msgstr "Peidetud"
+
+#. module: sale
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 #: model:ir.model.fields,field_description:sale.field_sale_advance_payment_inv__id
 #: model:ir.model.fields,field_description:sale.field_sale_mass_cancel_orders__id
 #: model:ir.model.fields,field_description:sale.field_sale_order__id
@@ -2511,6 +3403,7 @@ msgstr "Kui kontrollitud, siis uued sõnumid nõuavad Teie tähelepanu."
 #: model:ir.model.fields,help:sale.field_sale_order__message_has_error
 #: model:ir.model.fields,help:sale.field_sale_order__message_has_sms_error
 msgid "If checked, some messages have a delivery error."
+<<<<<<< HEAD
 msgstr "Kui valitud, on mõningate sõnumitel saatmiserror."
 
 #. module: sale
@@ -2523,6 +3416,20 @@ msgstr ""
 " kasutatakse müügiandmikut, mis on madalaima järjestusega."
 
 #. module: sale
+=======
+msgstr "Kui valitud, on mõningate sõnumitel saatmiserror"
+
+#. module: sale
+#: model:ir.model.fields,help:sale.field_sale_order__journal_id
+msgid ""
+"If set, the SO will invoice in this journal; otherwise the sales journal "
+"with the lowest sequence is used."
+msgstr ""
+"Kui määratud, siis müügitellimust arveldatakse selles andmikus; vastasel "
+"juhul kasutatakse müügiandmikut, mis on madalaima järjestusega."
+
+#. module: sale
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 #: model_terms:ir.ui.view,arch_db:sale.view_order_form
 msgid ""
 "If the sale is locked, you can not modify it anymore. However, you will "
@@ -2542,6 +3449,11 @@ msgid "If you change the pricelist, only newly added lines will be affected."
 msgstr "Kui muudate hinnakirja, mõjutab see ainult äsja lisatud ridu."
 
 #. module: sale
+#: model_terms:ir.ui.view,arch_db:sale.view_order_form
+msgid "Immediate"
+msgstr "Kohene"
+
+#. module: sale
 #: model_terms:ir.ui.view,arch_db:sale.res_config_settings_view_form
 msgid "Import Amazon orders and sync deliveries"
 msgstr "Impordi Amazoni tellimusi ja sünkroniseeri saadetisi"
@@ -2549,7 +3461,6 @@ msgstr "Impordi Amazoni tellimusi ja sünkroniseeri saadetisi"
 #. module: sale
 #. odoo-python
 #: code:addons/sale/models/product_template.py:0
-#, python-format
 msgid "Import Template for Products"
 msgstr "Toodete impordimall"
 
@@ -2564,9 +3475,10 @@ msgid "Incl. tax)"
 msgstr "Koos maksudega)"
 
 #. module: sale
-#: model:ir.model.fields,field_description:sale.field_sale_advance_payment_inv__deposit_account_id
-msgid "Income Account"
-msgstr "Tulukonto"
+#. odoo-python
+#: code:addons/sale/wizard/sale_order_discount.py:0
+msgid "Invalid discount amount"
+msgstr "Vigane allahindluse summa"
 
 #. module: sale
 #. odoo-python
@@ -2578,21 +3490,18 @@ msgstr "Vigane allahindluse summa"
 #. module: sale
 #. odoo-python
 #: code:addons/sale/controllers/portal.py:0
-#, python-format
 msgid "Invalid order."
 msgstr "Vigane tellimus."
 
 #. module: sale
 #. odoo-python
 #: code:addons/sale/controllers/portal.py:0
-#, python-format
 msgid "Invalid signature data."
-msgstr "Valed allkirja andmed."
+msgstr "Vigased allkirja andmed."
 
 #. module: sale
 #. odoo-python
 #: code:addons/sale/models/account_move.py:0
-#, python-format
 msgid "Invoice %s paid"
 msgstr "Arve %s makstud"
 
@@ -2639,15 +3548,25 @@ msgstr "Müügitellimuse arve"
 #. module: sale
 #: model:ir.model.fields,field_description:sale.field_sale_order__invoice_status
 #: model:ir.model.fields,field_description:sale.field_sale_order_line__invoice_status
-#: model:ir.model.fields,field_description:sale.field_sale_report__invoice_status
+#: model:ir.model.fields,field_description:sale.field_sale_report__line_invoice_status
 msgid "Invoice Status"
 msgstr "Arve staatus"
 
 #. module: sale
-#: model_terms:ir.ui.view,arch_db:sale.product_template_form_view
+#. odoo-python
+#: code:addons/sale/models/product_template.py:0
 msgid "Invoice after delivery, based on quantities delivered, not ordered."
 msgstr ""
 "Arvedalatakse peale tarnet tarnitud koguste põhjal, mitte tellitud koguste."
+<<<<<<< HEAD
+=======
+
+#. module: sale
+#. odoo-python
+#: code:addons/sale/models/product_template.py:0
+msgid "Invoice ordered quantities as soon as this service is sold."
+msgstr "Arveldage tellitud kogused kohe peale teenuse müüki."
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 #. module: sale
 #: model:ir.model.fields,help:sale.field_crm_team__invoiced
@@ -2676,14 +3595,23 @@ msgid "Invoiced"
 msgstr "Arveldatud"
 
 #. module: sale
+#: model:ir.model.fields,field_description:sale.field_sale_order_line__amount_invoiced
+msgid "Invoiced Amount"
+msgstr "Arveldatud kogus"
+
+#. module: sale
 #: model:ir.model.fields,field_description:sale.field_sale_order_line__qty_invoiced
 msgid "Invoiced Quantity"
 msgstr "Arveks tehtud kogus"
 
 #. module: sale
+#: model:ir.model.fields,field_description:sale.field_sale_order_line__qty_invoiced_posted
+msgid "Invoiced Quantity (posted)"
+msgstr "Arveks tehtud kogus (postitatud)"
+
+#. module: sale
 #. odoo-python
 #: code:addons/sale/models/sale_order_line.py:0
-#, python-format
 msgid "Invoiced Quantity: %s"
 msgstr "Arveks tehtud kogus: %s"
 
@@ -2723,9 +3651,15 @@ msgid "Invoicing Address"
 msgstr "Arveaadress"
 
 #. module: sale
+<<<<<<< HEAD
 #: model_terms:ir.ui.view,arch_db:sale.report_saleorder_document
 msgid "Invoicing Address:"
 msgstr "Arve aadress:"
+=======
+#: model:ir.model.fields,field_description:sale.field_sale_order__journal_id
+msgid "Invoicing Journal"
+msgstr "Invoicing Journal"
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 #. module: sale
 #: model:ir.model.fields,field_description:sale.field_sale_order__journal_id
@@ -2745,6 +3679,7 @@ msgid "Invoicing Target"
 msgstr "Arveldamiste eesmärk"
 
 #. module: sale
+<<<<<<< HEAD
 #: model_terms:ir.ui.view,arch_db:sale.sale_order_portal_content
 msgid "Invoicing and Shipping Address"
 msgstr "Arve- ja tarneaadress:"
@@ -2752,12 +3687,17 @@ msgstr "Arve- ja tarneaadress:"
 #. module: sale
 #: model_terms:ir.ui.view,arch_db:sale.report_saleorder_document
 msgid "Invoicing and Shipping Address:"
+=======
+#: model_terms:ir.ui.view,arch_db:sale.report_saleorder_document
+#: model_terms:ir.ui.view,arch_db:sale.sale_order_portal_content
+msgid "Invoicing and Shipping Address"
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 msgstr "Arve- ja tarneaadress:"
 
 #. module: sale
 #: model:ir.model.fields,field_description:sale.field_account_move_line__is_downpayment
 msgid "Is Downpayment"
-msgstr "On ettemaks"
+msgstr "Ettemaks"
 
 #. module: sale
 #: model:ir.model.fields,field_description:sale.field_sale_order_cancel__is_mail_template_editor
@@ -2773,6 +3713,14 @@ msgstr "Aegunud"
 #: model:ir.model.fields,field_description:sale.field_sale_order__message_is_follower
 msgid "Is Follower"
 msgstr "On jälgija"
+<<<<<<< HEAD
+=======
+
+#. module: sale
+#: model:ir.model.fields,field_description:sale.field_sale_order_line__is_product_archived
+msgid "Is Product Archived"
+msgstr "On toode arhiveeritud"
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 #. module: sale
 #: model:ir.model.fields,field_description:sale.field_sale_order_line__is_downpayment
@@ -2785,20 +3733,29 @@ msgid "Is expense"
 msgstr "On kulu"
 
 #. module: sale
+#: model:ir.model.fields,field_description:sale.field_sale_order_line__is_configurable_product
+msgid "Is the product configurable?"
+msgstr "Kas see toode on konfigureeritav?"
+
+#. module: sale
 #: model:ir.model.fields,help:sale.field_sale_order_line__is_expense
 msgid ""
 "Is true if the sales order line comes from an expense or a vendor bills"
 msgstr "On tõene, kui müügitellimuse rida tuleb kulust või tarnija arvest"
 
 #. module: sale
+#: model_terms:ir.ui.view,arch_db:sale.report_saleorder_document
+msgid "Issued Date"
+msgstr "Väljaandmise kuupäev"
+
+#. module: sale
 #. odoo-python
 #: code:addons/sale/models/sale_order_line.py:0
-#, python-format
 msgid ""
 "It is forbidden to modify the following fields in a locked order:\n"
 "%s"
 msgstr ""
-"It is forbidden to modify the following fields in a locked order:\n"
+"Lukustatud järjekorras on antud väljade muutmine keelatud:\n"
 "%s"
 
 #. module: sale
@@ -2861,16 +3818,23 @@ msgstr "Luba klientidel enda dokumentide vaatamiseks sisse logida"
 #. module: sale
 #. odoo-javascript
 #: code:addons/sale/static/src/js/tours/sale.js:0
-#, python-format
-msgid "Let's send the quote."
-msgstr "Saadame "
+msgid "Let’s create a beautiful quotation in a few clicks ."
+msgstr "Loome ilusa hinnapakkumise vaid mõne klikiga."
 
 #. module: sale
-#. odoo-javascript
-#: code:addons/sale/static/src/js/tours/sale.js:0
-#, python-format
-msgid "Lets keep electronic signature for now."
-msgstr "Säilitame esialgu elektroonilise allkirja."
+#: model:ir.model.fields,field_description:sale.field_sale_order_line__linked_line_id
+msgid "Linked Order Line"
+msgstr "Seotud tellimuse rida"
+
+#. module: sale
+#: model:ir.model.fields,field_description:sale.field_sale_order_line__linked_line_ids
+msgid "Linked Order Lines"
+msgstr "Seotud tellimused read"
+
+#. module: sale
+#: model:ir.model.fields,field_description:sale.field_sale_order_line__linked_virtual_id
+msgid "Linked Virtual"
+msgstr "Seotud virtuaalselt"
 
 #. module: sale
 #: model_terms:ir.ui.view,arch_db:sale.view_order_form
@@ -2894,6 +3858,7 @@ msgid "Locked orders cannot be modified."
 msgstr "Lukustatud tellimusi ei saa muuta."
 
 #. module: sale
+<<<<<<< HEAD
 #. odoo-javascript
 #: code:addons/sale/static/src/js/tours/sale.js:0
 #, python-format
@@ -2901,6 +3866,8 @@ msgid "Looks good. Let's continue."
 msgstr "Paistab kena. Jätkame."
 
 #. module: sale
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 #: model:ir.model.fields,field_description:sale.field_sale_order_cancel__template_id
 msgid "Mail Template"
 msgstr "Meili mall"
@@ -2916,9 +3883,18 @@ msgstr ""
 
 #. module: sale
 #: model_terms:ir.ui.view,arch_db:sale.res_config_settings_view_form
-msgid "Manage Promotions, coupons, loyalty cards, Gift cards & eWallet"
+msgid "Manage Promotions, Coupons, Loyalty cards, Gift cards & eWallet"
 msgstr ""
+<<<<<<< HEAD
 "Halda pakkumisi, kuponge, lojaalsuskaarte, kinkekaarte ja e-rahakotte."
+=======
+"Halda kampaaniaid, kuponge, püsikliendikaarte, kinkekaarte ja e-rahakotti"
+
+#. module: sale
+#: model_terms:ir.ui.view,arch_db:sale.res_config_settings_view_form
+msgid "Manage Sales & teams targets and commissions"
+msgstr "Halda müükide ja meeskondade eesmärke ja tulemustasusid"
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 #. module: sale
 #: model:ir.model.fields.selection,name:sale.selection__sale_order_line__qty_delivered_method__manual
@@ -2928,7 +3904,7 @@ msgstr "Käsitsi"
 #. module: sale
 #: model:ir.model.fields.selection,name:sale.selection__res_company__sale_onboarding_payment_method__manual
 msgid "Manual Payment"
-msgstr "Manuaalne tasumine"
+msgstr "Käsitsi makse"
 
 #. module: sale
 #: model:ir.model.fields.selection,name:sale.selection__product_template__service_type__manual
@@ -2943,9 +3919,9 @@ msgid ""
 "Timesheets on contract: Invoice based on the tracked hours on the related timesheet.\n"
 "Create a task and track hours: Create a task on the sales order validation and track the work hours."
 msgstr ""
-"Manually set quantities on order: Invoice based on the manually entered quantity, without creating an analytic account.\n"
-"Timesheets on contract: Invoice based on the tracked hours on the related timesheet.\n"
-"Create a task and track hours: Create a task on the sales order validation and track the work hours."
+"Manuaalselt määratud kogused tellimusel: Arve esitatakse manuaalselt sisestatud koguse põhjal, ilma analüütilist kontot loomata.\n"
+"Tööajatabelid lepingul: Arve esitatakse seotud tööajatabelis jälgitud tundide põhjal.\n"
+"Loo ülesanne ja jälgi töötunde: Loo ülesanne müügitellimuse kinnitamisel ja jälgi töötunde."
 
 #. module: sale
 #: model:ir.model.fields,field_description:sale.field_res_config_settings__module_sale_margin
@@ -2965,14 +3941,13 @@ msgstr "Turundus"
 #. module: sale
 #: model:ir.model.fields,field_description:sale.field_account_bank_statement_line__medium_id
 #: model:ir.model.fields,field_description:sale.field_account_move__medium_id
-#: model:ir.model.fields,field_description:sale.field_account_payment__medium_id
 #: model:ir.model.fields,field_description:sale.field_sale_order__medium_id
 #: model:ir.model.fields,field_description:sale.field_sale_report__medium_id
 msgid "Medium"
 msgstr "Levitamise vahend"
 
 #. module: sale
-#: model_terms:ir.ui.view,arch_db:sale.product_template_form_view_sale_order_button
+#: model_terms:ir.ui.view,arch_db:sale.product_template_form_view
 #: model_terms:ir.ui.view,arch_db:sale.res_partner_view_buttons
 msgid "Message"
 msgstr "Sõnum"
@@ -3042,17 +4017,20 @@ msgstr "Minu müügitellimuse read"
 #. module: sale
 #. odoo-python
 #: code:addons/sale/models/sale_order.py:0
+<<<<<<< HEAD
 #: code:addons/sale/models/sale_order.py:0
 #: code:addons/sale/models/sale_order.py:0
 #: code:addons/sale/models/sale_order.py:0
 #, python-format
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 msgid "New"
 msgstr "Uus"
 
 #. module: sale
 #: model:ir.actions.act_window,name:sale.action_quotation_form
 msgid "New Quotation"
-msgstr "Loo hinnapakkumine"
+msgstr "Uus pakkumine"
 
 #. module: sale
 #: model:ir.model.fields,field_description:sale.field_sale_order__activity_calendar_event_id
@@ -3086,6 +4064,15 @@ msgid "No Message"
 msgstr "Sõnum puudub"
 
 #. module: sale
+<<<<<<< HEAD
+=======
+#. odoo-python
+#: code:addons/sale/models/sale_order.py:0
+msgid "No attachment was provided"
+msgstr "Ei antud manust"
+
+#. module: sale
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 #: model_terms:ir.ui.view,arch_db:sale.report_saleorder_document
 msgid "No further requirements for this payment"
 msgstr "Pole täiendavaid nõudeid antud makse jaoks"
@@ -3115,15 +4102,9 @@ msgstr "Märkus"
 #: model:ir.model.fields.selection,name:sale.selection__sale_order__invoice_status__no
 #: model:ir.model.fields.selection,name:sale.selection__sale_order_line__invoice_status__no
 #: model:ir.model.fields.selection,name:sale.selection__sale_report__invoice_status__no
+#: model:ir.model.fields.selection,name:sale.selection__sale_report__line_invoice_status__no
 msgid "Nothing to Invoice"
 msgstr "Ei ole midagi arveks teha"
-
-#. module: sale
-#. odoo-javascript
-#: code:addons/sale/static/src/js/tours/sale.js:0
-#, python-format
-msgid "Now, we'll create a sample quote."
-msgstr "Nüüd koostame näidispakkumise."
 
 #. module: sale
 #: model_terms:ir.ui.view,arch_db:sale.sale_order_tree
@@ -3169,11 +4150,20 @@ msgid "Number of sales to invoice"
 msgstr "Number of sales to invoice"
 
 #. module: sale
+<<<<<<< HEAD
+=======
+#: model:product.template,description_sale:sale.product_product_1_product_template
+msgid "Office chairs can harm your floor: protect it."
+msgstr "Kontoritoolid võivad teie põrandat kahjustada: kaitske seda."
+
+#. module: sale
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 #: model:ir.model.fields.selection,name:sale.selection__sale_order_discount__discount_type__sol_discount
 msgid "On All Order Lines"
 msgstr "Kõigil müügitellimusridadel"
 
 #. module: sale
+<<<<<<< HEAD
 #: model:ir.model,name:sale.model_onboarding_onboarding
 msgid "Onboarding"
 msgstr "Onboarding"
@@ -3192,11 +4182,24 @@ msgstr "Näidispakkumise juurutamine"
 #: model:ir.model,name:sale.model_onboarding_onboarding_step
 msgid "Onboarding Step"
 msgstr "Onboarding Samm"
+=======
+#: model:ir.model.fields.selection,name:sale.selection__product_document__attached_on_sale__sale_order
+msgid "On confirmed order"
+msgstr "Kinnitatud tellimusel"
+
+#. module: sale
+#: model:ir.model.fields.selection,name:sale.selection__product_document__attached_on_sale__quotation
+msgid "On quote"
+msgstr "Pakkumisel"
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 #. module: sale
 #. odoo-python
 #: code:addons/sale/models/sale_order_line.py:0
+<<<<<<< HEAD
 #, python-format
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 msgid ""
 "Once a sales order is confirmed, you can't remove one of its lines (we need to track if something gets invoiced or delivered).\n"
 "                Set the quantity to 0 instead."
@@ -3207,9 +4210,11 @@ msgstr ""
 #. module: sale
 #: model_terms:ir.actions.act_window,help:sale.act_res_partner_2_sale_order
 #: model_terms:ir.actions.act_window,help:sale.action_orders_salesteams
-#: model_terms:ir.actions.act_window,help:sale.action_quotations
 #: model_terms:ir.actions.act_window,help:sale.action_quotations_salesteams
+<<<<<<< HEAD
 #: model_terms:ir.actions.act_window,help:sale.action_quotations_with_onboarding
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 msgid ""
 "Once the quotation is confirmed by the customer, it becomes a sales "
 "order.<br> You will be able to create an invoice and collect the payment."
@@ -3246,7 +4251,11 @@ msgstr "Digitaalne allkiri"
 #. module: sale
 #: model:ir.model.fields,field_description:sale.field_sale_order__require_payment
 msgid "Online payment"
+<<<<<<< HEAD
 msgstr "Internetimakse"
+=======
+msgstr "Internetipõhine makse"
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 #. module: sale
 #: model:ir.model.fields,field_description:sale.field_sale_order__require_signature
@@ -3261,7 +4270,6 @@ msgstr "Ainult kinnitatud ettemaksuarved võetakse arvesse"
 #. module: sale
 #. odoo-python
 #: code:addons/sale/models/sale_order.py:0
-#, python-format
 msgid "Only draft orders can be marked as sent directly."
 msgstr "Otse saadetuks saab vaid mustand staatuses tellimusi märkida."
 
@@ -3272,6 +4280,7 @@ msgid ""
 msgstr ""
 "Müügitellimuse reale on lubatud ainult üks kohandatud väärtus ühe atribuudi "
 "väärtuse kohta."
+<<<<<<< HEAD
 
 #. module: sale
 #. odoo-javascript
@@ -3280,13 +4289,45 @@ msgstr ""
 #, python-format
 msgid "Open Sales app to send your first quotation in a few clicks."
 msgstr "Avage Müügi moodul, et saata oma esimene pakkumine mõne klikiga."
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 #. module: sale
 #. odoo-python
 #: code:addons/sale/models/product_product.py:0
-#, python-format
 msgid "Operation not supported"
 msgstr "Toiming pole toetatud"
+<<<<<<< HEAD
+=======
+
+#. module: sale
+#. odoo-python
+#: code:addons/sale/models/sale_order_line.py:0
+msgid "Option for: %s"
+msgstr "Valikule: %s"
+
+#. module: sale
+#. odoo-python
+#: code:addons/sale/models/sale_order_line.py:0
+msgid "Option: %s"
+msgstr "Valik:%s"
+
+#. module: sale
+#: model:ir.model.fields,field_description:sale.field_product_product__optional_product_ids
+#: model:ir.model.fields,field_description:sale.field_product_template__optional_product_ids
+msgid "Optional Products"
+msgstr "Valikulised tooted"
+
+#. module: sale
+#: model:ir.model.fields,help:sale.field_product_product__optional_product_ids
+#: model:ir.model.fields,help:sale.field_product_template__optional_product_ids
+msgid ""
+"Optional Products are suggested whenever the customer hits *Add to Cart* "
+"(cross-sell strategy, e.g. for computers: warranty, software, etc.)."
+msgstr ""
+"Valikulisi tooteid soovitatakse alati, kui klient vajutab *Lisa ostukorvi* "
+"(ristmüügistrateegia, nt arvutite jaoks: garantii, tarkvara jne)."
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 #. module: sale
 #: model:ir.model.fields,help:sale.field_sale_order_cancel__lang
@@ -3302,6 +4343,9 @@ msgstr ""
 "object.partner_id.lang }}."
 
 #. module: sale
+#. odoo-python
+#: code:addons/sale/models/sale_order.py:0
+#: model:ir.model.fields,field_description:sale.field_sale_report__order_reference
 #: model_terms:ir.ui.view,arch_db:sale.view_sales_order_filter
 #: model_terms:ir.ui.view,arch_db:sale.view_sales_order_line_filter
 msgid "Order"
@@ -3313,11 +4357,14 @@ msgid "Order #"
 msgstr "Tellimus #"
 
 #. module: sale
+<<<<<<< HEAD
 #: model:onboarding.onboarding.step,title:sale.onboarding_onboarding_step_sale_order_confirmation
 msgid "Order Confirmation"
 msgstr "Tellimuse kinnitamine"
 
 #. module: sale
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 #: model:ir.model.fields,field_description:sale.field_sale_advance_payment_inv__count
 msgid "Order Count"
 msgstr "Tellimuste arv"
@@ -3328,16 +4375,19 @@ msgstr "Tellimuste arv"
 #: model:ir.model.fields,field_description:sale.field_sale_order__date_order
 #: model:ir.model.fields,field_description:sale.field_sale_report__date
 #: model_terms:ir.ui.view,arch_db:sale.portal_my_orders
+#: model_terms:ir.ui.view,arch_db:sale.report_saleorder_document
 #: model_terms:ir.ui.view,arch_db:sale.sale_order_view_search_inherit_sale
 #: model_terms:ir.ui.view,arch_db:sale.view_order_form
 #: model_terms:ir.ui.view,arch_db:sale.view_order_product_search
 #: model_terms:ir.ui.view,arch_db:sale.view_sales_order_filter
-#, python-format
 msgid "Order Date"
 msgstr "Tellimuse kuupäev"
 
 #. module: sale
+<<<<<<< HEAD
 #: model_terms:ir.ui.view,arch_db:sale.report_saleorder_document
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 #: model_terms:ir.ui.view,arch_db:sale.sale_order_portal_content
 msgid "Order Date:"
 msgstr "Tellimuse kuupäev:"
@@ -3345,7 +4395,12 @@ msgstr "Tellimuse kuupäev:"
 #. module: sale
 #: model_terms:ir.ui.view,arch_db:sale.view_order_product_search
 msgid "Order Date: Last 365 Days"
-msgstr "Tellimise kuupäev: viimased 365 päeva"
+msgstr "Tellimuse kuupäev: Viimased 365 päeva"
+
+#. module: sale
+#: model:ir.model.fields,field_description:sale.field_sale_report__invoice_status
+msgid "Order Invoice Status"
+msgstr "Tellimuse arve staatus"
 
 #. module: sale
 #: model:ir.model.fields,field_description:sale.field_sale_order__order_line
@@ -3363,17 +4418,16 @@ msgstr "Tellimuse viide"
 #. module: sale
 #: model:ir.model.fields,field_description:sale.field_sale_order_line__state
 msgid "Order Status"
-msgstr "Korralduse staatus"
+msgstr "Tellimuse staatus"
 
 #. module: sale
 #: model:mail.activity.type,name:sale.mail_act_sale_upsell
 msgid "Order Upsell"
-msgstr "Telli müük"
+msgstr "Tellimuse lisamüük"
 
 #. module: sale
 #. odoo-python
 #: code:addons/sale/controllers/portal.py:0
-#, python-format
 msgid "Order signed by %s"
 msgstr "Tellimuse allkirjastas %s"
 
@@ -3385,7 +4439,6 @@ msgstr "Tellimus arveks teha"
 #. module: sale
 #. odoo-python
 #: code:addons/sale/models/sale_order_line.py:0
-#, python-format
 msgid "Ordered Quantity: %(old_qty)s -> %(new_qty)s"
 msgstr "Tellitud kogus: %(old_qty)s -> %(new_qty)s"
 
@@ -3443,11 +4496,14 @@ msgstr "PDF hinnapakkumine"
 #: model_terms:ir.ui.view,arch_db:sale.res_config_settings_view_form
 msgid "PDF Quote builder"
 msgstr "PDF hinnapakkumise koostaja"
+<<<<<<< HEAD
 
 #. module: sale
 #: model:ir.model.fields,field_description:sale.field_sale_payment_provider_onboarding_wizard__paypal_pdt_token
 msgid "PDT Identity Token"
 msgstr "PDT Identity Token"
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 #. module: sale
 #: model:ir.actions.report,name:sale.action_report_pro_forma_invoice
@@ -3475,11 +4531,6 @@ msgid "Pay Now"
 msgstr "Maksa kohe"
 
 #. module: sale
-#: model_terms:ir.ui.view,arch_db:sale.sale_order_portal_template
-msgid "Pay with"
-msgstr "Makseviis"
-
-#. module: sale
 #: model:ir.model.fields.selection,name:sale.selection__res_company__sale_onboarding_payment_method__other
 msgid "Pay with another payment provider"
 msgstr "Maksa teise makseteenuse pakkujaga"
@@ -3489,6 +4540,11 @@ msgstr "Maksa teise makseteenuse pakkujaga"
 #: model:ir.model.fields.selection,name:sale.selection__sale_payment_provider_onboarding_wizard__payment_method__paypal
 msgid "PayPal"
 msgstr "Paypal"
+
+#. module: sale
+#: model_terms:ir.ui.view,arch_db:sale.res_config_settings_view_form
+msgid "Payment"
+msgstr "Makse"
 
 #. module: sale
 #: model:ir.model.fields,field_description:sale.field_sale_payment_provider_onboarding_wizard__manual_post_msg
@@ -3542,6 +4598,14 @@ msgid "Payment Transactions"
 msgstr "Maksetehingud"
 
 #. module: sale
+<<<<<<< HEAD
+=======
+#: model:ir.model.fields,field_description:sale.field_sale_order__amount_paid
+msgid "Payment Transactions Amount"
+msgstr "Maksetehingute kogus"
+
+#. module: sale
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 #: model_terms:ir.ui.view,arch_db:sale.sale_order_portal_content
 msgid "Payment terms"
 msgstr "Maksetingimused"
@@ -3557,11 +4621,14 @@ msgid "Portal Access URL"
 msgstr "Portaali ligipääsu URL"
 
 #. module: sale
+<<<<<<< HEAD
 #: model_terms:ir.ui.view,arch_db:sale.res_config_settings_view_form
 msgid "Prepayment amount"
 msgstr "Ettemaksu summa"
 
 #. module: sale
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 #: model:ir.model.fields,field_description:sale.field_res_company__prepayment_percent
 #: model:ir.model.fields,field_description:sale.field_res_config_settings__prepayment_percent
 #: model:ir.model.fields,field_description:sale.field_sale_order__prepayment_percent
@@ -3572,7 +4639,10 @@ msgstr "Ettemakse protsent"
 #. odoo-python
 #: code:addons/sale/models/res_company.py:0
 #: code:addons/sale/models/sale_order.py:0
+<<<<<<< HEAD
 #, python-format
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 msgid "Prepayment percentage must be a valid percentage."
 msgstr "Ettemaksu protsent peab olema kehtiv protsent."
 
@@ -3580,6 +4650,12 @@ msgstr "Ettemaksu protsent peab olema kehtiv protsent."
 #: model_terms:ir.ui.view,arch_db:sale.view_order_form
 msgid "Preview"
 msgstr "Eelvaade"
+
+#. module: sale
+#. odoo-javascript
+#: code:addons/sale/static/src/js/product_list/product_list.xml:0
+msgid "Price"
+msgstr "Hind"
 
 #. module: sale
 #: model:ir.model.fields,field_description:sale.field_sale_order_line__price_reduce_taxexcl
@@ -3606,7 +4682,7 @@ msgstr "Hinnakirja ühik"
 #: model:ir.ui.menu,name:sale.menu_product_pricelist_main
 #: model_terms:ir.ui.view,arch_db:sale.res_config_settings_view_form
 msgid "Pricelists"
-msgstr "Hinnakirjad"
+msgstr "Hinnakiri"
 
 #. module: sale
 #: model_terms:ir.ui.view,arch_db:sale.res_config_settings_view_form
@@ -3629,6 +4705,8 @@ msgid "Pro-forma Invoices"
 msgstr "Tellimuse kinnitused"
 
 #. module: sale
+#. odoo-javascript
+#: code:addons/sale/static/src/js/product_list/product_list.xml:0
 #: model:ir.model,name:sale.model_product_template
 #: model:ir.model.fields,field_description:sale.field_sale_order_line__product_id
 #: model:ir.model.fields,field_description:sale.field_sale_report__product_tmpl_id
@@ -3639,11 +4717,6 @@ msgstr "Tellimuse kinnitused"
 #: model_terms:ir.ui.view,arch_db:sale.view_sales_order_line_filter
 msgid "Product"
 msgstr "Toode"
-
-#. module: sale
-#: model:ir.model,name:sale.model_product_attribute
-msgid "Product Attribute"
-msgstr "Toote atribuudid"
 
 #. module: sale
 #: model:ir.model,name:sale.model_product_attribute_custom_value
@@ -3666,6 +4739,7 @@ msgid "Product Categories"
 msgstr "Toote kategooriad"
 
 #. module: sale
+#: model:ir.model,name:sale.model_product_category
 #: model:ir.model.fields,field_description:sale.field_sale_report__categ_id
 #: model_terms:ir.ui.view,arch_db:sale.view_order_product_search
 msgid "Product Category"
@@ -3674,12 +4748,28 @@ msgstr "Toote kategooria"
 #. module: sale
 #: model:ir.model,name:sale.model_product_document
 msgid "Product Document"
+<<<<<<< HEAD
 msgstr "Toote dokument"
+=======
+msgstr "Tootedokument"
+
+#. module: sale
+#. odoo-javascript
+#: code:addons/sale/static/src/js/product/product.xml:0
+#: code:addons/sale/static/src/js/product_card/product_card.xml:0
+msgid "Product Image"
+msgstr "Toote pilt"
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 #. module: sale
 #: model:ir.model,name:sale.model_product_packaging
 msgid "Product Packaging"
 msgstr "Toote pakend"
+
+#. module: sale
+#: model:ir.ui.menu,name:sale.menu_product_tags
+msgid "Product Tags"
+msgstr "Tootesildid"
 
 #. module: sale
 #: model:ir.model.fields,field_description:sale.field_sale_order_line__product_template_id
@@ -3699,6 +4789,10 @@ msgstr "Toote mõõtühik read-only"
 #. module: sale
 #: model:ir.model,name:sale.model_product_product
 #: model:ir.model.fields,field_description:sale.field_sale_report__product_id
+<<<<<<< HEAD
+=======
+#: model_terms:ir.ui.view,arch_db:sale.view_order_form
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 #: model_terms:ir.ui.view,arch_db:sale.view_order_product_search
 msgid "Product Variant"
 msgstr "Toote variatsioon"
@@ -3711,30 +4805,30 @@ msgstr "Toote variatsioonid"
 #. module: sale
 #. odoo-python
 #: code:addons/sale/models/sale_order.py:0
-#, python-format
 msgid "Product prices have been recomputed according to pricelist %s."
 msgstr "Tootemaksud on ümber arvutatud vastavalt hinnakirjale %s."
 
 #. module: sale
 #. odoo-python
 #: code:addons/sale/models/sale_order.py:0
-#, python-format
 msgid "Product prices have been recomputed."
 msgstr "Tootehinnad on arvutatud uuesti. "
 
 #. module: sale
 #. odoo-python
 #: code:addons/sale/models/sale_order.py:0
-#, python-format
 msgid "Product taxes have been recomputed according to fiscal position %s."
 msgstr "Tootemaksud on ümber arvutatud vastavalt finantspositsioonile %s."
 
 #. module: sale
+<<<<<<< HEAD
 #: model_terms:ir.ui.view,arch_db:sale.res_config_settings_view_form
 msgid "Product used for down payments"
 msgstr "Toode, mida kasutatakse ettemaksu korral"
 
 #. module: sale
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 #: model:ir.actions.act_window,name:sale.product_template_action
 #: model:ir.ui.menu,name:sale.menu_product_template_action
 #: model:ir.ui.menu,name:sale.menu_reporting_product
@@ -3743,6 +4837,11 @@ msgstr "Toode, mida kasutatakse ettemaksu korral"
 #: model_terms:ir.ui.view,arch_db:sale.sale_order_portal_content
 msgid "Products"
 msgstr "Tooted"
+
+#. module: sale
+#: model_terms:ir.ui.view,arch_db:sale.res_config_settings_view_form
+msgid "Promotions, Loyalty & Gift Card"
+msgstr "Kampaaniad, püsikliendi- ja kinkekaardid"
 
 #. module: sale
 #: model_terms:ir.ui.view,arch_db:sale.view_order_line_tree
@@ -3780,9 +4879,12 @@ msgid "Quantities to invoice from sales orders"
 msgstr "Müügitellimuselt arvele minevad kogused"
 
 #. module: sale
+#. odoo-javascript
+#: code:addons/sale/static/src/js/product_list/product_list.xml:0
 #: model:ir.model.fields,field_description:sale.field_sale_order_line__product_uom_qty
 #: model_terms:ir.ui.view,arch_db:sale.report_saleorder_document
 #: model_terms:ir.ui.view,arch_db:sale.sale_order_portal_content
+#: model_terms:ir.ui.view,arch_db:sale.sale_report_view_tree
 msgid "Quantity"
 msgstr "Kogus"
 
@@ -3804,7 +4906,10 @@ msgstr "Kogus:"
 #: model:ir.model.fields.selection,name:sale.selection__sale_report__state__draft
 #: model_terms:ir.ui.view,arch_db:sale.crm_team_view_kanban_dashboard
 #: model_terms:ir.ui.view,arch_db:sale.product_document_search
+<<<<<<< HEAD
 #, python-format
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 msgid "Quotation"
 msgstr "Pakkumine"
 
@@ -3821,16 +4926,20 @@ msgstr "Pakkumiste arv"
 
 #. module: sale
 #: model_terms:ir.ui.view,arch_db:sale.portal_my_quotations
+#: model_terms:ir.ui.view,arch_db:sale.report_saleorder_document
 #: model_terms:ir.ui.view,arch_db:sale.view_order_form
 msgid "Quotation Date"
 msgstr "Pakkumise kuupäev"
 
 #. module: sale
+<<<<<<< HEAD
 #: model_terms:ir.ui.view,arch_db:sale.report_saleorder_document
 msgid "Quotation Date:"
 msgstr "Pakkumise kuupäev:"
 
 #. module: sale
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 #: model:ir.model.fields.selection,name:sale.selection__sale_order__state__sent
 #: model:ir.model.fields.selection,name:sale.selection__sale_report__state__sent
 msgid "Quotation Sent"
@@ -3839,9 +4948,17 @@ msgstr "Pakkumine saadetud"
 #. module: sale
 #. odoo-python
 #: code:addons/sale/wizard/res_config_settings.py:0
-#, python-format
 msgid "Quotation Validity is required and must be greater or equal to 0."
 msgstr "Pakkumise kehtivus on nõutav ja peab olema suurem või võrdne 0."
+<<<<<<< HEAD
+=======
+
+#. module: sale
+#: model:mail.message.subtype,name:sale.mt_order_viewed
+#: model:mail.message.subtype,name:sale.mt_salesteam_order_viewed
+msgid "Quotation Viewed"
+msgstr "Müügipakkumist on vaadatud"
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 #. module: sale
 #: model:mail.message.subtype,description:sale.mt_order_confirmed
@@ -3858,7 +4975,6 @@ msgstr "Pakkumine saadetud"
 #. module: sale
 #. odoo-python
 #: code:addons/sale/controllers/portal.py:0
-#, python-format
 msgid "Quotation viewed by customer %s"
 msgstr "Pakkumise avas klient %s"
 
@@ -3906,8 +5022,8 @@ msgstr "Hinnangud"
 #. module: sale
 #: model:ir.model.fields,field_description:sale.field_product_product__expense_policy
 #: model:ir.model.fields,field_description:sale.field_product_template__expense_policy
-msgid "Re-Invoice Expenses"
-msgstr "Arvelda tekkivaid kulusid"
+msgid "Re-Invoice Costs"
+msgstr "Arvelda kulud edasi"
 
 #. module: sale
 #: model:ir.model.fields,field_description:sale.field_product_product__visible_expense_policy
@@ -3921,6 +5037,11 @@ msgid "Recipients"
 msgstr "Saajad"
 
 #. module: sale
+#: model_terms:ir.ui.view,arch_db:sale.product_template_view_form
+msgid "Recommend when 'Adding to Cart' or quotation"
+msgstr "Soovitage ostukorvi lisamisel või hinnapakkumisel"
+
+#. module: sale
 #: model_terms:ir.ui.view,arch_db:sale.view_order_form
 msgid "Recompute all prices based on this pricelist"
 msgstr "Arvuta kõik maksud selle hinnakirja põhjal"
@@ -3931,21 +5052,9 @@ msgid "Recompute all taxes based on this fiscal position"
 msgstr "Arvuta kõik maksud selle finantspositsiooni põhjal"
 
 #. module: sale
-#. odoo-python
-#: code:addons/sale/controllers/portal.py:0
-#, python-format
-msgid "Reference"
-msgstr "Viide"
-
-#. module: sale
 #: model:ir.model.fields,help:sale.field_sale_order__origin
 msgid "Reference of the document that generated this sales order request"
 msgstr "Viide dokumendile, millest koostati müügitellimus"
-
-#. module: sale
-#: model:ir.model,name:sale.model_account_payment_register
-msgid "Register Payment"
-msgstr "Lisa makse"
 
 #. module: sale
 #: model:ir.model.fields.selection,name:sale.selection__sale_advance_payment_inv__advance_payment_method__delivered
@@ -3958,9 +5067,22 @@ msgid "Reject This Quotation"
 msgstr "Keeldu sellest pakkumisest"
 
 #. module: sale
+<<<<<<< HEAD
 #: model:ir.model.fields,field_description:sale.field_sale_report__order_reference
 msgid "Related Order"
 msgstr "Seotud tellimus"
+=======
+#. odoo-javascript
+#: code:addons/sale/static/src/js/product/product.xml:0
+msgid "Remove"
+msgstr "Eemalda"
+
+#. module: sale
+#. odoo-javascript
+#: code:addons/sale/static/src/js/quantity_buttons/quantity_buttons.xml:0
+msgid "Remove one"
+msgstr "Eemaldage üks"
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 #. module: sale
 #: model:ir.model.fields,field_description:sale.field_sale_order_cancel__render_model
@@ -3985,21 +5107,32 @@ msgstr "Küsi kliendilt digitaalselt allkirja tellimuse kinnitamiseks."
 #. module: sale
 #: model_terms:ir.ui.view,arch_db:sale.res_config_settings_view_form
 msgid ""
+<<<<<<< HEAD
 "Request an online prepayment from your customers to confirm orders. You can "
 "ask them to fully pay the order or partially with a downpayment"
 msgstr ""
 "Nõua tellimuse kinnitamiseks klientidelt veebiettemaksu. Sa võid paluda neil"
 " tellimus täielikult või osaliselt tasuda."
+=======
+"Request a payment to confirm orders, in full (100%) or partial. The default "
+"can be changed per order or template."
+msgstr ""
+"Küsi täielikku (100%) või osaliselt makset tellimuse kinnitamiseks. "
+"Vaikimisi seadistust saab tellimuse või malli peal muuta. "
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 #. module: sale
 #: model_terms:ir.ui.view,arch_db:sale.res_config_settings_view_form
-msgid "Request an online signature to confirm orders"
-msgstr "Taotle tellimuste kinnitamiseks veebiallkirja"
+msgid ""
+"Request customers to sign quotations to validate orders. The default can be "
+"changed per order or template."
+msgstr ""
+"Tellimuste kinnitamiseks paluge klientidel hinnapakkumisi allkirjastada. "
+"Vaikimisi seadistust saab tellimusel või mallil muuta."
 
 #. module: sale
 #. odoo-python
 #: code:addons/sale/models/sale_order.py:0
-#, python-format
 msgid "Requested date is too soon."
 msgstr "Soovitud kuupäev on liiga vara."
 
@@ -4010,15 +5143,20 @@ msgstr "Vastutav kasutaja"
 
 #. module: sale
 #: model:ir.model.fields,help:sale.field_crm_team__invoiced_target
+<<<<<<< HEAD
 msgid ""
 "Revenue target for the current month (untaxed total of confirmed invoices)."
 msgstr "Jooksva kuu tulueesmärk (kinnitatud arvete maksustamata kogusumma)."
+=======
+msgid "Revenue Target for the current month (untaxed total of paid invoices)."
+msgstr "Jooksva kuu tulu eesmärk (makstud arvete maksustamata kogusumma)."
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 #. module: sale
 #: model_terms:ir.ui.view,arch_db:sale.utm_campaign_view_form
 #: model_terms:ir.ui.view,arch_db:sale.utm_campaign_view_kanban
 msgid "Revenues"
-msgstr "Tulud"
+msgstr "Käibed"
 
 #. module: sale
 #: model:ir.model.fields,field_description:sale.field_utm_campaign__invoiced_amount
@@ -4036,6 +5174,20 @@ msgid "SO0000"
 msgstr "SO0000"
 
 #. module: sale
+<<<<<<< HEAD
+=======
+#. odoo-javascript
+#: code:addons/sale/static/src/js/sale_action_helper/sale_action_helper_dialog.xml:0
+msgid "Sale"
+msgstr "Müük"
+
+#. module: sale
+#: model:ir.model.fields,field_description:sale.field_product_document__attached_on_sale
+msgid "Sale : Visible at"
+msgstr "Müük: nähtav"
+
+#. module: sale
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 #: model_terms:ir.ui.view,arch_db:sale.sale_order_portal_content
 msgid "Sale Information"
 msgstr "Müügiinfo"
@@ -4051,7 +5203,6 @@ msgstr "Müügitellimus"
 #. module: sale
 #: model:ir.model.fields,field_description:sale.field_account_bank_statement_line__sale_order_count
 #: model:ir.model.fields,field_description:sale.field_account_move__sale_order_count
-#: model:ir.model.fields,field_description:sale.field_account_payment__sale_order_count
 #: model:ir.model.fields,field_description:sale.field_res_partner__sale_order_count
 #: model:ir.model.fields,field_description:sale.field_res_users__sale_order_count
 msgid "Sale Order Count"
@@ -4129,16 +5280,29 @@ msgstr "Müügi ettemaksuarve"
 #: model_terms:ir.ui.view,arch_db:sale.view_order_product_graph
 #: model_terms:ir.ui.view,arch_db:sale.view_order_product_pivot
 #: model_terms:ir.ui.view,arch_db:sale.view_order_product_search
-#, python-format
 msgid "Sales Analysis"
 msgstr "Müügianalüüs"
 
 #. module: sale
+<<<<<<< HEAD
+=======
+#: model:ir.actions.act_window,name:sale.action_order_report_customers
+msgid "Sales Analysis By Customers"
+msgstr "Müügianalüüs kliendi lõikes"
+
+#. module: sale
+#: model:ir.actions.act_window,name:sale.action_order_report_products
+msgid "Sales Analysis By Products"
+msgstr "Müügianalüüs toodete kaupa"
+
+#. module: sale
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 #: model:ir.actions.act_window,name:sale.action_order_report_salesperson
 msgid "Sales Analysis By Salespersons"
 msgstr "Müügianalüüs müügiesindaja lõikes"
 
 #. module: sale
+<<<<<<< HEAD
 #: model:ir.actions.act_window,name:sale.action_order_report_customers
 msgid "Sales Analysis Per Customers"
 msgstr ""
@@ -4152,6 +5316,16 @@ msgstr "Müükide analüüsiraport"
 #: model:ir.model,name:sale.model_sale_report
 msgid "Sales Analysis Report"
 msgstr "Müükide analüüsiraport"
+=======
+#: model:ir.model,name:sale.model_sale_report
+msgid "Sales Analysis Report"
+msgstr "Müükide analüüsiraport"
+
+#. module: sale
+#: model:ir.model.fields,field_description:sale.field_res_config_settings__module_sale_product_matrix
+msgid "Sales Grid Entry"
+msgstr "Sales Grid Entry"
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 #. module: sale
 #. odoo-python
@@ -4165,7 +5339,6 @@ msgstr "Müükide analüüsiraport"
 #: model_terms:ir.ui.view,arch_db:sale.product_document_search
 #: model_terms:ir.ui.view,arch_db:sale.sale_order_view_activity
 #: model_terms:ir.ui.view,arch_db:sale.view_order_form
-#, python-format
 msgid "Sales Order"
 msgstr "Müügitellimus"
 
@@ -4215,7 +5388,6 @@ msgstr "Sales Order Lines related to a Sales Order of mine"
 #. odoo-python
 #: code:addons/sale/models/payment_transaction.py:0
 #: model_terms:ir.ui.view,arch_db:sale.transaction_form_inherit_sale
-#, python-format
 msgid "Sales Order(s)"
 msgstr "Müügitellimus(ed)"
 
@@ -4242,7 +5414,6 @@ msgstr "Müügitellimused"
 #: model:ir.model.fields,field_description:sale.field_account_bank_statement_line__team_id
 #: model:ir.model.fields,field_description:sale.field_account_invoice_report__team_id
 #: model:ir.model.fields,field_description:sale.field_account_move__team_id
-#: model:ir.model.fields,field_description:sale.field_account_payment__team_id
 #: model:ir.model.fields,field_description:sale.field_sale_order__team_id
 #: model:ir.model.fields,field_description:sale.field_sale_report__team_id
 #: model_terms:ir.ui.view,arch_db:sale.account_invoice_groupby_inherit
@@ -4302,9 +5473,8 @@ msgstr "Müük: Saada pakkumine"
 #. module: sale
 #. odoo-python
 #: code:addons/sale/models/crm_team.py:0
-#, python-format
 msgid "Sales: Untaxed Total"
-msgstr "Müük: ilma maksudeta kokku"
+msgstr "Müük: maksustamata kogusumma"
 
 #. module: sale
 #: model:ir.model.fields,field_description:sale.field_sale_order__user_id
@@ -4320,6 +5490,7 @@ msgstr "Müügiesindaja"
 #: model:ir.ui.menu,name:sale.menu_reporting_salespeople
 msgid "Salespersons"
 msgstr "Müügiesindajad"
+<<<<<<< HEAD
 
 #. module: sale
 #. odoo-python
@@ -4339,12 +5510,20 @@ msgstr "Näidistoode"
 #: model:onboarding.onboarding.step,title:sale.onboarding_onboarding_step_sample_quotation
 msgid "Sample Quotation"
 msgstr "Näidispakkumine"
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 #. module: sale
 #: model_terms:ir.ui.view,arch_db:sale.view_sales_order_filter
 #: model_terms:ir.ui.view,arch_db:sale.view_sales_order_line_filter
 msgid "Search Sales Order"
 msgstr "Otsi müügitellimust"
+
+#. module: sale
+#. odoo-javascript
+#: code:addons/sale/static/src/js/tours/sale.js:0
+msgid "Search a customer name, or create one on the fly."
+msgstr "Otsi kliendi nime või loo käigu pealt uus."
 
 #. module: sale
 #: model:ir.model.fields.selection,name:sale.selection__sale_order_line__display_type__line_section
@@ -4364,9 +5543,13 @@ msgstr "Turvamärgis"
 #. module: sale
 #. odoo-javascript
 #: code:addons/sale/static/src/js/tours/sale.js:0
-#, python-format
 msgid "Select a product, or create a new one on the fly."
 msgstr "Valige toode või looge üks siinsamas."
+
+#. module: sale
+#: model:ir.model.fields,field_description:sale.field_sale_order_line__selected_combo_items
+msgid "Selected Combo Items"
+msgstr "Valitud kombinatsioonartiklid"
 
 #. module: sale
 #: model:ir.model.fields,help:sale.field_product_product__sale_line_warn
@@ -4408,9 +5591,15 @@ msgid "Send a product-specific email once the invoice is validated"
 msgstr "Saada arve kinnitamisel tootepõhine e-kiri"
 
 #. module: sale
+<<<<<<< HEAD
 #: model:onboarding.onboarding.step,description:sale.onboarding_onboarding_step_sample_quotation
 msgid "Send a quotation to test the customer portal."
 msgstr "Kliendiportaali testimiseks saatke pakkumine."
+=======
+#: model:ir.actions.server,name:sale.model_sale_order_send_mail
+msgid "Send an email"
+msgstr "Saada e-kiri"
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 #. module: sale
 #: model_terms:ir.ui.view,arch_db:sale.sale_order_cancel_view_form
@@ -4421,6 +5610,7 @@ msgstr "Saada ja tühista"
 #: model_terms:ir.ui.view,arch_db:sale.view_order_form
 msgid "Send by Email"
 msgstr "Saada e-kirjaga"
+<<<<<<< HEAD
 
 #. module: sale
 #: model_terms:ir.ui.view,arch_db:sale.sale_order_portal_template
@@ -4431,6 +5621,8 @@ msgstr "Saada e-kiri"
 #: model:onboarding.onboarding.step,button_text:sale.onboarding_onboarding_step_sample_quotation
 msgid "Send sample"
 msgstr "Saada näidis"
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 #. module: sale
 #: model:ir.model.fields,field_description:sale.field_res_config_settings__module_delivery_sendcloud
@@ -4478,11 +5670,14 @@ msgid "Set multiple prices per product, automated discounts, etc."
 msgstr "Määra tootele mitu müügihinda, automaatset allahindlust jne."
 
 #. module: sale
+<<<<<<< HEAD
 #: model:onboarding.onboarding.step,button_text:sale.onboarding_onboarding_step_sale_order_confirmation
 msgid "Set payments"
 msgstr "Määra maksed"
 
 #. module: sale
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 #: model_terms:ir.ui.view,arch_db:sale.view_order_form
 msgid "Set to Quotation"
 msgstr "Määra pakkumise staatusesse"
@@ -4529,7 +5724,6 @@ msgstr "Näita tellimusel marginaale"
 #. module: sale
 #. odoo-python
 #: code:addons/sale/models/sale_order.py:0
-#, python-format
 msgid "Sign & Pay Quotation"
 msgstr "Allkirjasta ja tasu müügipakkumine"
 
@@ -4552,7 +5746,6 @@ msgstr "Allkiri"
 #. module: sale
 #. odoo-python
 #: code:addons/sale/controllers/portal.py:0
-#, python-format
 msgid "Signature is missing."
 msgstr "Allkiri on puudu."
 
@@ -4581,16 +5774,26 @@ msgstr "Müüdud viimase 365 päeva jooksul"
 #. module: sale
 #: model_terms:ir.ui.view,arch_db:sale.mass_cancel_orders_view_form
 msgid ""
-"Some confirmed sale orders are selected. Their related documents might be\n"
+"Some confirmed orders are selected. Their related documents might be\n"
 "                        affected by the cancellation."
 msgstr ""
+<<<<<<< HEAD
 "Mõned kinnitatud müügikäsud on valitud. Nende seotud dokumendid võivad\n"
 "                        tühistamise tõttu muutuda."
+=======
+"Valitud on mõned kinnitatud tellimused. Tühistamine võib \n"
+"mõjutada nendega seotud dokumente. "
+
+#. module: sale
+#. odoo-python
+#: code:addons/sale/models/sale_order.py:0
+msgid "Some orders are not in a state requiring confirmation."
+msgstr "Mõned tellimused ei ole kinnitamist vajavas olekus."
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 #. module: sale
 #: model:ir.model.fields,field_description:sale.field_account_bank_statement_line__source_id
 #: model:ir.model.fields,field_description:sale.field_account_move__source_id
-#: model:ir.model.fields,field_description:sale.field_account_payment__source_id
 #: model:ir.model.fields,field_description:sale.field_sale_order__source_id
 #: model:ir.model.fields,field_description:sale.field_sale_report__source_id
 msgid "Source"
@@ -4607,6 +5810,7 @@ msgid "Specific Email"
 msgstr "Tootepõhine e-mail"
 
 #. module: sale
+<<<<<<< HEAD
 #. odoo-python
 #: code:addons/sale/controllers/portal.py:0
 #, python-format
@@ -4619,6 +5823,11 @@ msgstr "Etapp"
 #, python-format
 msgid "Start by checking your company's data."
 msgstr "Alusta, kontrollides oma ettevõtte andmeid."
+=======
+#: model:ir.model.fields,field_description:sale.field_res_config_settings__module_delivery_starshipit
+msgid "Starshipit Connector"
+msgstr "Starshipit konnektor"
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 #. module: sale
 #: model:ir.model.fields,field_description:sale.field_sale_order__state
@@ -4664,6 +5873,11 @@ msgstr "Vahesumma"
 
 #. module: sale
 #: model_terms:ir.ui.view,arch_db:sale.sale_report_view_tree
+msgid "Sum of Quantity"
+msgstr "Koguse summa"
+
+#. module: sale
+#: model_terms:ir.ui.view,arch_db:sale.sale_report_view_tree
 msgid "Sum of Total"
 msgstr "Summa kokku"
 
@@ -4671,6 +5885,15 @@ msgstr "Summa kokku"
 #: model_terms:ir.ui.view,arch_db:sale.sale_report_view_tree
 msgid "Sum of Untaxed Total"
 msgstr "Maksustamata kogusumma"
+
+#. module: sale
+#: model:ir.model.fields,help:sale.field_sale_order__amount_paid
+msgid ""
+"Sum of transactions made in through the online payment form that are in the "
+"state 'done' or 'authorized' and linked to this order."
+msgstr ""
+"Veebimaksevormi kaudu tehtud tehingute summa, mis on „tehtud” või "
+"„kinnitatud” olekus ja on seotud selle tellimusega."
 
 #. module: sale
 #: model:ir.model.fields,field_description:sale.field_sale_order__tag_ids
@@ -4713,6 +5936,7 @@ msgstr "Maksud kokku"
 #: model:ir.model.fields,field_description:sale.field_sale_order_line__tax_calculation_rounding_method
 msgid "Tax calculation rounding method"
 msgstr "Maksuarvestuse ümardamise meetod"
+<<<<<<< HEAD
 
 #. module: sale
 #: model_terms:ir.ui.view,arch_db:sale.view_order_form
@@ -4723,22 +5947,26 @@ msgstr "ilma maksudeta"
 #: model_terms:ir.ui.view,arch_db:sale.view_order_form
 msgid "Tax incl."
 msgstr "Maksudega"
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 #. module: sale
 #: model:ir.model.fields,field_description:sale.field_sale_order__amount_tax
+#: model:ir.model.fields,field_description:sale.field_sale_order_discount__tax_ids
 #: model:ir.model.fields,field_description:sale.field_sale_order_line__tax_id
 #: model_terms:ir.ui.view,arch_db:sale.report_saleorder_document
 msgid "Taxes"
 msgstr "Maksud"
 
 #. module: sale
-#: model:ir.model.fields,help:sale.field_sale_advance_payment_inv__deposit_taxes_id
-msgid "Taxes used for deposits"
-msgstr "Hoiustel kasutatatavad maksud"
+#: model:ir.model.fields,help:sale.field_sale_order_discount__tax_ids
+msgid "Taxes to add on the discount line."
+msgstr "Allahindlusreale lisatavad maksud."
 
 #. module: sale
 #. odoo-python
 #: code:addons/sale/models/crm_team.py:0
+<<<<<<< HEAD
 #, python-format
 msgid ""
 "Team %(team_name)s has %(sale_order_count)s active sale orders. Consider "
@@ -4746,6 +5974,19 @@ msgid ""
 msgstr ""
 "Müügimeeskonnal %(team_name)s on %(sale_order_count)s aktiivset "
 "müügitellimust. Kaaluge nende tühistamist või müügimeeskonna arhiveerimist."
+=======
+msgid ""
+"Team %(team_name)s has %(sale_order_count)s active sale orders. Consider "
+"cancelling them or archiving the team instead."
+msgstr ""
+"Meeskonnal %(team_name)s on %(sale_order_count)s aktiivset müügitellimust. "
+"Võiksid kaaluda nende tühistamist või arhiveerimist. "
+
+#. module: sale
+#: model:ir.model.fields,field_description:sale.field_sale_order_line__technical_price_unit
+msgid "Technical Price Unit"
+msgstr "Tehniline ühikuhind"
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 #. module: sale
 #: model_terms:ir.ui.view,arch_db:sale.sale_order_portal_template
@@ -4764,7 +6005,6 @@ msgstr "Tingimuste vorming"
 #. module: sale
 #. odoo-python
 #: code:addons/sale/models/sale_order.py:0
-#, python-format
 msgid "Terms & Conditions: %s"
 msgstr "Tingimused: %s"
 
@@ -4772,11 +6012,6 @@ msgstr "Tingimused: %s"
 #: model_terms:ir.ui.view,arch_db:sale.sale_order_portal_content
 msgid "Terms &amp; Conditions"
 msgstr "Tingimused"
-
-#. module: sale
-#: model_terms:ir.ui.view,arch_db:sale.sale_order_portal_content
-msgid "Terms &amp; Conditions:"
-msgstr "Tingimused:"
 
 #. module: sale
 #: model:ir.model.fields,field_description:sale.field_sale_order__note
@@ -4800,6 +6035,7 @@ msgstr ""
 #. module: sale
 #. odoo-python
 #: code:addons/sale/models/account_move_line.py:0
+<<<<<<< HEAD
 #, python-format
 msgid ""
 "The Sales Order %(order)s linked to the Analytic Account %(account)s is "
@@ -4807,10 +6043,19 @@ msgid ""
 msgstr ""
 "Müügitellimus %(order)s mis on seotud analüütilise kontoga %(account)s on "
 "tühistatud. Tühistatud müügitellimusele ei ole võimalik kulu registreerida"
+=======
+msgid ""
+"The Sales Order %(order)s to be reinvoiced is cancelled. You cannot register"
+" an expense on a cancelled Sales Order."
+msgstr ""
+"Edasi arveldatav müügitellimus %(order)s on tühistatud. Tühistatud "
+"müügitellimusele ei saa kulusid registreerida. "
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 #. module: sale
 #. odoo-python
 #: code:addons/sale/models/account_move_line.py:0
+<<<<<<< HEAD
 #, python-format
 msgid ""
 "The Sales Order %(order)s linked to the Analytic Account %(account)s is "
@@ -4820,10 +6065,19 @@ msgstr ""
 "Müügitellimus %(order)s mis on seotud analüütilise kontoga %(account)s , on "
 "hetkel lukustatud. Te ei saa lukustatud müügitellimusele kulu registreerida."
 " Palun looge uus müügitellimus, mis on seotud selle analüütilise kontoga."
+=======
+msgid ""
+"The Sales Order %(order)s to be reinvoiced is currently locked. You cannot "
+"register an expense on a locked Sales Order."
+msgstr ""
+"Edasi arveldatav müügitellimus %(order)son lukus. Lukustatud "
+"müügitellimusele ei saa kulusid registreerida."
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 #. module: sale
 #. odoo-python
 #: code:addons/sale/models/account_move_line.py:0
+<<<<<<< HEAD
 #, python-format
 msgid ""
 "The Sales Order %(order)s linked to the Analytic Account %(account)s must be"
@@ -4831,11 +6085,18 @@ msgid ""
 msgstr ""
 "Müügitellimus %(order)s ,mis on seotud analüütilise kontoga %(account)s "
 "tuleb enne kulu registreerimist kinnitada."
+=======
+msgid ""
+"The Sales Order %(order)s to be reinvoiced must be validated before "
+"registering expenses."
+msgstr ""
+"Edasi arveldatav müügitellimus%(order)s tuleb enne kulude registreerimist "
+"kinnitada. "
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 #. module: sale
 #. odoo-python
 #: code:addons/sale/controllers/portal.py:0
-#, python-format
 msgid "The access token is invalid."
 msgstr "Juurdepääsutähis on kehtetu."
 
@@ -4843,11 +6104,27 @@ msgstr "Juurdepääsutähis on kehtetu."
 #: model:ir.model.fields,help:sale.field_sale_advance_payment_inv__amount_to_invoice
 msgid "The amount to invoice = Sale Order Total - Confirmed Down Payments."
 msgstr "Arve summa = Müügitellimuse kogusumma - Kinnitatud ettemaksed"
+<<<<<<< HEAD
+=======
 
 #. module: sale
 #. odoo-python
 #: code:addons/sale/models/sale_order.py:0
+msgid ""
+"The company is required, please select one before making any other changes "
+"to the sale order."
+msgstr ""
+"Ettevõte on nõutud, palun vali see enne müügitellimuses teiste muudatuste "
+"tegemist."
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
+
+#. module: sale
+#. odoo-python
+#: code:addons/sale/models/sale_order.py:0
+<<<<<<< HEAD
 #, python-format
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 msgid ""
 "The delivery date is sooner than the expected date. You may be unable to "
 "honor the delivery date."
@@ -4859,6 +6136,7 @@ msgstr ""
 #: model:ir.model.fields,help:sale.field_sale_advance_payment_inv__fixed_amount
 msgid "The fixed amount to be invoiced in advance."
 msgstr "Fikseeritud summa, mis tuleb ette ära arveldada"
+<<<<<<< HEAD
 
 #. module: sale
 #. odoo-python
@@ -4866,19 +6144,20 @@ msgstr "Fikseeritud summa, mis tuleb ette ära arveldada"
 #, python-format
 msgid "The following orders are not in a state requiring confirmation: %s"
 msgstr "Järgmised tellimused ei ole kinnitamist vajavas olekus: %s"
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 #. module: sale
 #. odoo-python
 #: code:addons/sale/models/product_template.py:0
-#, python-format
 msgid ""
-"The following products cannot be restricted to the company %s because they have already been used in quotations or sales orders in another company:\n"
-"%s\n"
+"The following products cannot be restricted to the company %(company)s because they have already been used in quotations or sales orders in another company:\n"
+"%(used_products)s\n"
 "You can archive these products and recreate them with your company restriction instead, or leave them as shared product."
 msgstr ""
-"Järgmised tooted ei saa olla piiratud ettevõttele %s, kuna neid on juba teise ettevõtte pakkumistes või müügitellimustes kasutatud:\n"
-"%s\n"
-"Te võite need tooted arhiveerida ja taasluua need oma ettevõtte piiranguga või jätta need jagatud tooteks."
+" Neid tooteid ei saa piirata ettevõttele %(company)s, sest neid on juba kasutatud hinnapakkumistel või tellimustel teise ettevõtte poolt:\n"
+"%(used_products)s\n"
+"Saad need tooted arhiveerida ja taasluua sinu ettevõtte piiranguga või jätta need jagatud toodetena. "
 
 #. module: sale
 #: model:ir.model.fields,help:sale.field_res_config_settings__automatic_invoice
@@ -4904,6 +6183,19 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:sale.view_sale_advance_payment_inv
 msgid "The new invoice will deduct draft invoices linked to this sale order."
 msgstr "Uus arve vähendab selle müügitellimusega seotud mustandite arveid."
+<<<<<<< HEAD
+=======
+
+#. module: sale
+#. odoo-python
+#: code:addons/sale/models/sale_order.py:0
+msgid ""
+"The number of selected combo items must match the number of available combo "
+"choices."
+msgstr ""
+"Valitud kombinatsioonartiklite arv peab vastama saadaval olevate "
+"kombinatsioonide arvule."
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 #. module: sale
 #: model_terms:ir.ui.view,arch_db:sale.sale_order_portal_template
@@ -4913,14 +6205,12 @@ msgstr "Tellimus ei ole kliendi makset nõudvas olekus."
 #. module: sale
 #. odoo-python
 #: code:addons/sale/controllers/portal.py:0
-#, python-format
 msgid "The order is not in a state requiring customer signature."
 msgstr "Tellimus ei ole staatuses, mis nõuaks kliendilt allkirja."
 
 #. module: sale
 #. odoo-python
 #: code:addons/sale/models/sale_order_line.py:0
-#, python-format
 msgid "The ordered quantity has been updated."
 msgstr "Tellitud kogus on uuendatud."
 
@@ -4938,6 +6228,7 @@ msgstr "Ka makse tuleks edastada armastusega"
 #: model:ir.model.fields,help:sale.field_sale_advance_payment_inv__amount
 msgid "The percentage of amount to be invoiced in advance."
 msgstr "Ettemaksmiseks arveldatava summa protsent."
+<<<<<<< HEAD
 
 #. module: sale
 #: model:ir.model.fields,help:sale.field_sale_order__prepayment_percent
@@ -4980,20 +6271,47 @@ msgid ""
 msgstr ""
 "Ettemaksutoote arveldamise seadistused peaksid olema „tellitud kogused“. "
 "Palun vaata oma toode üle."
+=======
+
+#. module: sale
+#: model:ir.model.fields,help:sale.field_sale_order__prepayment_percent
+msgid ""
+"The percentage of the amount needed that must be paid by the customer to "
+"confirm the order."
+msgstr "Protsent summast, mis tuleb kliendil tellimuse kinnitamiseks tasuda."
+
+#. module: sale
+#: model:ir.model.fields,help:sale.field_res_company__prepayment_percent
+#: model:ir.model.fields,help:sale.field_res_config_settings__prepayment_percent
+msgid "The percentage of the amount needed to be paid to confirm quotations."
+msgstr "Protsent summast, mis tuleb maksta, et kinnitada hinnapakkumised."
+
+#. module: sale
+#. odoo-python
+#: code:addons/sale/models/product_template.py:0
+msgid "The product (%(product)s) has incompatible values: %(value_list)s"
+msgstr "Tootel (%(product)s) on kokkusobimatud väärtused: %(value_list)s"
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 #. module: sale
 #. odoo-python
 #: code:addons/sale/controllers/portal.py:0
+<<<<<<< HEAD
 #: code:addons/sale/controllers/portal.py:0
 #, python-format
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 msgid "The provided parameters are invalid."
 msgstr "Sisestatud parameetrid on kehtetud."
 
 #. module: sale
 #. odoo-python
 #: code:addons/sale/wizard/sale_make_invoice_advance.py:0
+<<<<<<< HEAD
 #: code:addons/sale/wizard/sale_make_invoice_advance.py:0
 #, python-format
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 msgid "The value of the down payment amount must be positive."
 msgstr "Ettemaksu summa peab olema positiivne."
 
@@ -5015,7 +6333,10 @@ msgstr "On olemas"
 #. module: sale
 #. odoo-python
 #: code:addons/sale/wizard/sale_order_discount.py:0
+<<<<<<< HEAD
 #, python-format
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 msgid ""
 "There does not seem to be any discount product configured for this company "
 "yet. You can either use a per-line discount, or ask an administrator to "
@@ -5024,6 +6345,14 @@ msgstr ""
 "Antud ettevõttele ei ole seadistatud ühtegi allahindlustoodet. Saad kasutada"
 " reapõhist allahindlust või paluda administraatoril võimaldada esmast "
 "soodustust."
+<<<<<<< HEAD
+=======
+
+#. module: sale
+#: model:ir.model.fields,help:sale.field_product_category__property_account_downpayment_categ_id
+msgid "This account will be used on Downpayment invoices."
+msgstr "Seda kontot kasutatakse ettemaksuarvete jaoks."
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 #. module: sale
 #: model_terms:ir.ui.view,arch_db:sale.res_config_settings_view_form
@@ -5037,7 +6366,6 @@ msgstr ""
 #. module: sale
 #: model:ir.model.fields,help:sale.field_account_bank_statement_line__campaign_id
 #: model:ir.model.fields,help:sale.field_account_move__campaign_id
-#: model:ir.model.fields,help:sale.field_account_payment__campaign_id
 #: model:ir.model.fields,help:sale.field_sale_order__campaign_id
 msgid ""
 "This is a name that helps you keep track of your different campaign efforts,"
@@ -5057,7 +6385,6 @@ msgstr ""
 #. module: sale
 #: model:ir.model.fields,help:sale.field_account_bank_statement_line__medium_id
 #: model:ir.model.fields,help:sale.field_account_move__medium_id
-#: model:ir.model.fields,help:sale.field_account_payment__medium_id
 #: model:ir.model.fields,help:sale.field_sale_order__medium_id
 msgid "This is the method of delivery, e.g. Postcard, Email, or Banner Ad"
 msgstr "See on postitamise viis, nt postkaart, e-kiri, bänner-reklaam"
@@ -5065,7 +6392,6 @@ msgstr "See on postitamise viis, nt postkaart, e-kiri, bänner-reklaam"
 #. module: sale
 #: model:ir.model.fields,help:sale.field_account_bank_statement_line__source_id
 #: model:ir.model.fields,help:sale.field_account_move__source_id
-#: model:ir.model.fields,help:sale.field_account_payment__source_id
 #: model:ir.model.fields,help:sale.field_sale_order__source_id
 msgid ""
 "This is the source of the link, e.g. Search Engine, another domain, or name "
@@ -5075,16 +6401,30 @@ msgstr ""
 " nimi"
 
 #. module: sale
+<<<<<<< HEAD
 #. odoo-python
 #: code:addons/sale/wizard/payment_link_wizard.py:0
 #, python-format
+=======
+#. odoo-javascript
+#: code:addons/sale/static/src/js/product/product.xml:0
+msgid "This option or combination of options is not available"
+msgstr "Antud võimalus või valikute kombinatsioon pole saadaval."
+
+#. module: sale
+#. odoo-python
+#: code:addons/sale/wizard/payment_link_wizard.py:0
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 msgid "This payment will confirm the quotation."
 msgstr "Antud makse kinnitab pakkumist."
 
 #. module: sale
 #. odoo-python
 #: code:addons/sale/models/sale_order_line.py:0
+<<<<<<< HEAD
 #, python-format
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 msgid ""
 "This product is packaged by %(pack_size).2f %(pack_name)s. You should sell "
 "%(quantity).2f %(unit)s."
@@ -5156,6 +6496,7 @@ msgstr "See uuendab kõiki toodete ühikuhindu uue määratud hinnakirja alusel.
 #: model:ir.model.fields.selection,name:sale.selection__sale_order__invoice_status__to_invoice
 #: model:ir.model.fields.selection,name:sale.selection__sale_order_line__invoice_status__to_invoice
 #: model:ir.model.fields.selection,name:sale.selection__sale_report__invoice_status__to_invoice
+#: model:ir.model.fields.selection,name:sale.selection__sale_report__line_invoice_status__to_invoice
 #: model:ir.ui.menu,name:sale.menu_sale_invoicing
 #: model_terms:ir.ui.view,arch_db:sale.sale_order_view_search_inherit_sale
 #: model_terms:ir.ui.view,arch_db:sale.view_order_product_search
@@ -5178,6 +6519,7 @@ msgstr ""
 "Selleks, et saata kutseid B2B režiimis, avage kontakt või valige "
 "listivaatest mitu kontakti ning vajutage \"Portaali ligipääsu haldus\" "
 "valikule \"Tegevused\" alt."
+<<<<<<< HEAD
 
 #. module: sale
 #. odoo-javascript
@@ -5189,6 +6531,8 @@ msgid ""
 msgstr ""
 "Tellimuse kinnitamise kiirendamiseks on võimalik aktiveerida elektroonilised"
 " allkirjad või makseviisid."
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 #. module: sale
 #: model_terms:ir.ui.view,arch_db:sale.view_sales_order_filter
@@ -5221,6 +6565,13 @@ msgid "Total Tax Included"
 msgstr "Summa kokku"
 
 #. module: sale
+#. odoo-javascript
+#: code:addons/sale/static/src/js/combo_configurator_dialog/combo_configurator_dialog.js:0
+#: code:addons/sale/static/src/js/product_list/product_list.js:0
+msgid "Total: %s"
+msgstr "Kokku: %s"
+
+#. module: sale
 #: model:ir.model.fields,field_description:sale.field_product_product__service_type
 #: model:ir.model.fields,field_description:sale.field_product_template__service_type
 msgid "Track Service"
@@ -5242,8 +6593,7 @@ msgid "Type Name"
 msgstr "Tüübi nimi"
 
 #. module: sale
-#: model_terms:ir.ui.view,arch_db:sale.product_form_view_sale_order_button
-#: model_terms:ir.ui.view,arch_db:sale.product_template_form_view_sale_order_button
+#: model_terms:ir.ui.view,arch_db:sale.product_template_form_view
 #: model_terms:ir.ui.view,arch_db:sale.res_partner_view_buttons
 msgid "Type a message..."
 msgstr "Sõnumi tüüp..."
@@ -5279,7 +6629,14 @@ msgid "UTM Campaign"
 msgstr "UTM kampaania"
 
 #. module: sale
+#: model:ir.model.fields,field_description:sale.field_sale_order__amount_to_invoice
+#: model:ir.model.fields,field_description:sale.field_sale_order_line__amount_to_invoice
+msgid "Un-invoiced Balance"
+msgstr "Arveldamata saldo"
+
+#. module: sale
 #: model:ir.model.fields,field_description:sale.field_sale_order_line__price_unit
+#: model:ir.model.fields,field_description:sale.field_sale_report__price_unit
 #: model_terms:ir.ui.view,arch_db:sale.report_saleorder_document
 #: model_terms:ir.ui.view,arch_db:sale.sale_order_portal_content
 msgid "Unit Price"
@@ -5341,6 +6698,11 @@ msgid "Untaxed Total"
 msgstr "Ilma maksudeta kokku"
 
 #. module: sale
+#: model_terms:ir.ui.view,arch_db:sale.sale_order_line_wizard_form
+msgid "Untaxed discount"
+msgstr "Maksustamata allahindlus"
+
+#. module: sale
 #: model_terms:ir.ui.view,arch_db:sale.view_order_form
 msgid "UoM"
 msgstr "Mõõtühikud"
@@ -5358,7 +6720,6 @@ msgstr "Uuenda maksusid"
 #. module: sale
 #. odoo-python
 #: code:addons/sale/models/sale_order.py:0
-#, python-format
 msgid "Upsell %(order)s for customer %(customer)s"
 msgstr "Lisamüük %(order)s kliendile %(customer)s"
 
@@ -5366,6 +6727,7 @@ msgstr "Lisamüük %(order)s kliendile %(customer)s"
 #: model:ir.model.fields.selection,name:sale.selection__sale_order__invoice_status__upselling
 #: model:ir.model.fields.selection,name:sale.selection__sale_order_line__invoice_status__upselling
 #: model:ir.model.fields.selection,name:sale.selection__sale_report__invoice_status__upselling
+#: model:ir.model.fields.selection,name:sale.selection__sale_report__line_invoice_status__upselling
 msgid "Upselling Opportunity"
 msgstr "Lisamüügi võimalus"
 
@@ -5390,11 +6752,28 @@ msgstr "Kinnitage tellimus"
 #: model:ir.model.fields,help:sale.field_product_product__expense_policy
 #: model:ir.model.fields,help:sale.field_product_template__expense_policy
 msgid ""
+<<<<<<< HEAD
 "Validated expenses and vendor bills can be re-invoiced to a customer at its "
 "cost or sales price."
 msgstr ""
 "Kinnitatud kulud ja tarnijate arved saab klientidele ümberarveldada nende "
 "kulude või müügihinna järgi."
+=======
+"Validated expenses, vendor bills, or stock pickings (set up to track costs) "
+"can be invoiced to the customer at either cost or sales price."
+msgstr ""
+"Kinnitatud kulud, ostuarved või lao korjed (seadistatakse kulude "
+"jälgimiseks) saab arveldada kliendile kas kuluhinna või müügihinnaga."
+
+#. module: sale
+#: model:ir.model.fields,help:sale.field_sale_order__validity_date
+msgid ""
+"Validity of the order, after that you will not able to sign & pay the "
+"quotation."
+msgstr ""
+"Tellimuse kehtivus, pärast mida ei ole võimalik allkirjastada ja tasuda "
+"hinnapakkumise eest."
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 #. module: sale
 #: model_terms:ir.ui.view,arch_db:sale.res_config_settings_view_form
@@ -5409,18 +6788,25 @@ msgstr "Vaata detaile"
 #. module: sale
 #. odoo-python
 #: code:addons/sale/models/sale_order.py:0
-#, python-format
 msgid "View Order"
 msgstr "Vaata tellimust"
 
 #. module: sale
 #. odoo-python
 #: code:addons/sale/models/sale_order.py:0
+<<<<<<< HEAD
 #: code:addons/sale/models/sale_order.py:0
 #: code:addons/sale/models/sale_order.py:0
 #, python-format
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 msgid "View Quotation"
-msgstr "Vaata pakkumist"
+msgstr "Vaata hinnapäringut"
+
+#. module: sale
+#: model:ir.model.fields,field_description:sale.field_sale_order_line__virtual_id
+msgid "Virtual"
+msgstr "Virtuaalne"
 
 #. module: sale
 #: model:ir.model.fields,field_description:sale.field_product_document__attached_on
@@ -5445,8 +6831,7 @@ msgstr "Ruumala"
 #: code:addons/sale/wizard/res_config_settings.py:0
 #: model:ir.model.fields.selection,name:sale.selection__product_template__sale_line_warn__warning
 #: model:ir.model.fields.selection,name:sale.selection__res_partner__sale_warn__warning
-#: model_terms:ir.ui.view,arch_db:sale.product_template_form_view_sale_order_button
-#, python-format
+#: model_terms:ir.ui.view,arch_db:sale.product_template_form_view
 msgid "Warning"
 msgstr "Hoiatus"
 
@@ -5455,14 +6840,12 @@ msgstr "Hoiatus"
 #: code:addons/sale/models/product_template.py:0
 #: code:addons/sale/models/sale_order.py:0
 #: code:addons/sale/models/sale_order_line.py:0
-#, python-format
 msgid "Warning for %s"
 msgstr "Hoiatus %s"
 
 #. module: sale
 #. odoo-python
 #: code:addons/sale/models/sale_order.py:0
-#, python-format
 msgid "Warning for the change of your quotation's company"
 msgstr "Hoiatus teie pakkumise ettevõtte muutmise kohta"
 
@@ -5472,8 +6855,7 @@ msgid "Warning on the Sales Order"
 msgstr "Hoiatus müügitellimusel"
 
 #. module: sale
-#: model_terms:ir.ui.view,arch_db:sale.product_form_view_sale_order_button
-#: model_terms:ir.ui.view,arch_db:sale.product_template_form_view_sale_order_button
+#: model_terms:ir.ui.view,arch_db:sale.product_template_form_view
 msgid "Warning when Selling this Product"
 msgstr "Hoiatus selle toote müümisel"
 
@@ -5488,21 +6870,19 @@ msgid "Website communication history"
 msgstr "Veebilehe suhtluse ajalugu"
 
 #. module: sale
-#. odoo-javascript
-#: code:addons/sale/static/src/js/tours/sale.js:0
+#. odoo-python
+<<<<<<< HEAD
+#: code:addons/sale/models/sale_order.py:0
 #, python-format
-msgid "Write a company name to create one, or see suggestions."
-msgstr "Kirjuta ettevõtte nimi või vali olemasolevate hulgast"
-
-#. module: sale
-#: model_terms:ir.ui.view,arch_db:sale.product_template_form_view
-msgid "You can invoice them before they are delivered."
-msgstr "Saate arve esitada enne tarnimist."
+=======
+#: code:addons/sale/models/product_template.py:0
+msgid "You can invoice goods before they are delivered."
+msgstr "Kaupade eest saab arve esitada enne kohaletoimetamist."
 
 #. module: sale
 #. odoo-python
 #: code:addons/sale/models/sale_order.py:0
-#, python-format
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 msgid ""
 "You can not delete a sent quotation or a confirmed sales order. You must "
 "first cancel it."
@@ -5532,14 +6912,20 @@ msgstr ""
 #. module: sale
 #. odoo-python
 #: code:addons/sale/models/sale_order.py:0
+<<<<<<< HEAD
 #, python-format
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 msgid "You cannot cancel a locked order. Please unlock it first."
 msgstr "Sa ei saa lukustatud tellimusi tühistada. Esmalt lukusta lahti. "
 
 #. module: sale
 #. odoo-python
 #: code:addons/sale/models/sale_order.py:0
+<<<<<<< HEAD
 #, python-format
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 msgid "You cannot change the pricelist of a confirmed order !"
 msgstr "Kinnitatud tellimuse hinnakirja ei saa muuta!"
 
@@ -5547,7 +6933,10 @@ msgstr "Kinnitatud tellimuse hinnakirja ei saa muuta!"
 #. odoo-python
 #: code:addons/sale/models/product_product.py:0
 #: code:addons/sale/models/product_template.py:0
+<<<<<<< HEAD
 #, python-format
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 msgid ""
 "You cannot change the product's type because it is already used in sales "
 "orders."
@@ -5558,7 +6947,10 @@ msgstr ""
 #. module: sale
 #. odoo-python
 #: code:addons/sale/models/sale_order_line.py:0
+<<<<<<< HEAD
 #, python-format
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 msgid ""
 "You cannot change the type of a sale order line. Instead you should delete "
 "the current line and create a new line of the proper type."
@@ -5596,6 +6988,15 @@ msgid "Your Reference:"
 msgstr "Sinu viide:"
 
 #. module: sale
+<<<<<<< HEAD
+=======
+#. odoo-javascript
+#: code:addons/sale/static/src/js/sale_action_helper/sale_action_helper_dialog.xml:0
+msgid "Your browser does not support iframe."
+msgstr "Teie veebilehitseja ei toeta iframe'i."
+
+#. module: sale
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 #: model_terms:ir.ui.view,arch_db:sale.sale_order_portal_template
 msgid "Your feedback..."
 msgstr "Sinu tagasiside..."
@@ -5624,13 +7025,18 @@ msgstr "Teie tellimus ei ole tagasilükkamise olekus."
 #. module: sale
 #. odoo-python
 #: code:addons/sale/models/sale_order.py:0
-#, python-format
 msgid ""
 "Your quotation contains products from company %(product_company)s whereas your quotation belongs to company %(quote_company)s. \n"
 " Please change the company of your quotation or remove the products from other companies (%(bad_products)s)."
 msgstr ""
 "Teie pakkumine sisaldab tooteid ettevõttelt %(product_company)s arvestades, et teie pakkumine kuulub ettevõttele %(quote_company)s. \n"
 " Palun muutke oma pakkumisel ettevõte või eemaldage teiste ettevõtete tooted (%(bad_products)s)."
+
+#. module: sale
+#. odoo-javascript
+#: code:addons/sale/static/src/js/tours/sale.js:0
+msgid "add the price of your product."
+msgstr "lisa oma tootele hind."
 
 #. module: sale
 #: model:ir.actions.server,name:sale.send_invoice_cron_ir_actions_server
@@ -5654,14 +7060,32 @@ msgid "days"
 msgstr "päev(a)"
 
 #. module: sale
+#: model_terms:ir.ui.view,arch_db:sale.sale_order_portal_template
+msgid "for the"
+msgstr "jaoks"
+
+#. module: sale
 #: model_terms:ir.ui.view,arch_db:sale.view_sale_advance_payment_inv
 msgid "for this Sale Order."
 msgstr "antud müügitellimuse jaoks."
+<<<<<<< HEAD
+=======
+
+#. module: sale
+#. odoo-javascript
+#: code:addons/sale/static/src/js/tours/sale.js:0
+msgid "let's continue"
+msgstr "Jätkame"
+
+#. module: sale
+#: model_terms:ir.ui.view,arch_db:sale.sale_order_portal_template
+msgid "quote."
+msgstr "pakkumine."
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 #. module: sale
 #. odoo-python
 #: code:addons/sale/models/sale_order.py:0
-#, python-format
 msgid "sale order"
 msgstr "müügitellimus"
 
@@ -5669,15 +7093,27 @@ msgstr "müügitellimus"
 #: model_terms:ir.ui.view,arch_db:sale.mass_cancel_orders_view_form
 msgid ""
 "selected\n"
-"                    quotations?"
+"                    items?"
 msgstr ""
 "valitud\n"
+<<<<<<< HEAD
 "                    pakkumised?"
+=======
+"                    artiklid?"
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 #. module: sale
 #: model_terms:ir.ui.view,arch_db:sale.report_saleorder_document
 msgid "units"
 msgstr "ühikud"
+<<<<<<< HEAD
+=======
+
+#. module: sale
+#: model_terms:ir.ui.view,arch_db:sale.sale_order_portal_template
+msgid "you confirm acceptance on the behalf of"
+msgstr "kinnitad vastuvõtu esindades kontakti"
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 #. module: sale
 #: model:mail.template,subject:sale.mail_template_sale_confirmation

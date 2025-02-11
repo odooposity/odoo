@@ -10,8 +10,6 @@ import { uniqueId } from "@web/core/utils/functions";
 import { escape } from "@web/core/utils/strings";
 import { debounce, throttleForAnimation } from "@web/core/utils/timing";
 import Class from "@web/legacy/js/core/class";
-import dom from "@web/legacy/js/core/dom";
-import mixins from "@web/legacy/js/core/mixins";
 import publicWidget from "@web/legacy/js/public/public_widget";
 import wUtils from "@website/js/utils";
 import { renderToElement } from "@web/core/utils/render";
@@ -23,6 +21,11 @@ import {
     switchTextHighlight,
 } from "@website/js/text_processing";
 import { touching } from "@web/core/utils/ui";
+<<<<<<< HEAD
+=======
+import { ObservingCookieWidgetMixin } from "@website/snippets/observing_cookie_mixin";
+import { scrollTo } from "@web_editor/js/common/scrolling";
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 // Initialize fallbacks for the use of requestAnimationFrame,
 // cancelAnimationFrame and performance.now()
@@ -99,7 +102,7 @@ publicWidget.Widget.include({
  *
  * This uses a simple API: it can be started, stopped, played and paused.
  */
-var AnimationEffect = Class.extend(mixins.ParentedMixin, {
+var AnimationEffect = Class.extend(publicWidget.ParentedMixin, {
     /**
      * @constructor
      * @param {Object} parent
@@ -127,7 +130,7 @@ var AnimationEffect = Class.extend(mixins.ParentedMixin, {
      *        triggered when scrolling a modal.
      */
     init: function (parent, updateCallback, startEvents, $startTarget, options) {
-        mixins.ParentedMixin.init.call(this);
+        publicWidget.ParentedMixin.init.call(this);
         this.setParent(parent);
 
         options = options || {};
@@ -183,7 +186,7 @@ var AnimationEffect = Class.extend(mixins.ParentedMixin, {
      * @override
      */
     destroy: function () {
-        mixins.ParentedMixin.destroy.call(this);
+        publicWidget.ParentedMixin.destroy.call(this);
         this.stop();
     },
 
@@ -449,6 +452,18 @@ var Animation = publicWidget.Widget.extend({
 
 var registry = publicWidget.registry;
 
+// FIXME temporary hack: during edit mode, the carousel crashes sometimes when
+// we hover option during a carousel cycle. This patches Bootstrap to prevent
+// the crash.
+const baseSelectorEngineFind = window.SelectorEngine.find;
+window.SelectorEngine.find = function (...args) {
+    try {
+        return baseSelectorEngineFind.call(this, ...args);
+    } catch {
+        return [document.createElement('div')];
+    }
+};
+
 registry.slider = publicWidget.Widget.extend({
     selector: '.carousel',
     disabledInEditableMode: false,
@@ -462,16 +477,25 @@ registry.slider = publicWidget.Widget.extend({
     start: function () {
         this.$('img').on('load.slider', () => this._computeHeights());
         this._computeHeights();
-        // Initialize carousel and pause if in edit mode.
-        this.$el.carousel(this.editableMode ? 'pause' : undefined);
         $(window).on('resize.slider', debounce(() => this._computeHeights(), 250));
 
+<<<<<<< HEAD
+=======
+        // Initialize carousel and pause if in edit mode.
+        const options = this.editableMode ? {ride: false, pause: true} : undefined;
+        window.Carousel.getOrCreateInstance(this.el, options);
+
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
         // Only for carousels having the `Carousel` and `CarouselItem` options
         // (i.e. matching the `section > .carousel` selector).
         if (this.editableMode && this.el.matches("section > .carousel")
                 && !this.options.wysiwyg.options.enableTranslation) {
             this.controlEls = this.el.querySelectorAll(".carousel-control-prev, .carousel-control-next");
+<<<<<<< HEAD
             const indicatorEls = this.el.querySelectorAll(".carousel-indicators > li");
+=======
+            const indicatorEls = this.el.querySelectorAll(".carousel-indicators > *");
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
             // Deactivate the carousel controls to handle the slides manually in
             // edit mode (by the options).
             this.options.wysiwyg.odooEditor.observerUnactive("disable_controls");
@@ -492,9 +516,15 @@ registry.slider = publicWidget.Widget.extend({
      */
     destroy: function () {
         this._super.apply(this, arguments);
+<<<<<<< HEAD
         this.$('img').off('.slider');
         this.$el.carousel('pause');
         this.$el.removeData('bs.carousel');
+=======
+
+        window.Carousel.getOrCreateInstance(this.el).dispose();
+
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
         this.options.wysiwyg && this.options.wysiwyg.odooEditor.observerUnactive("destroy");
         this.$(".carousel-item")
             .toArray()
@@ -502,13 +532,24 @@ registry.slider = publicWidget.Widget.extend({
                 $(el).css("min-height", "");
             });
         this.options.wysiwyg && this.options.wysiwyg.odooEditor.observerActive("destroy");
+<<<<<<< HEAD
         $(window).off('.slider');
         this.$el.off('.slider'); // TODO remove in master
+=======
+
+        $(window).off('.slider');
+        this.$el.off('.slider'); // TODO remove in master
+        this.$('img').off('.slider');
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
         if (this.editableMode && this.el.matches("section > .carousel")
                 && !this.options.wysiwyg.options.enableTranslation) {
             // Restore the carousel controls.
+<<<<<<< HEAD
             const indicatorEls = this.el.querySelectorAll(".carousel-indicators > li");
+=======
+            const indicatorEls = this.el.querySelectorAll(".carousel-indicators > *");
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
             this.options.wysiwyg.odooEditor.observerUnactive("restore_controls");
             this.controlEls.forEach(controlEl => {
                 const direction = controlEl.classList.contains("carousel-control-prev") ?
@@ -567,6 +608,116 @@ registry.slider = publicWidget.Widget.extend({
     _onControlClick() {
         this.el.querySelector(".carousel-item.active").click();
     },
+<<<<<<< HEAD
+=======
+});
+
+const CAROUSEL_SLIDING_CLASS = "o_carousel_sliding";
+
+/**
+ * @param {HTMLElement} carouselEl
+ * @returns {Promise<void>}
+ */
+async function waitForCarouselToFinishSliding(carouselEl) {
+    if (!carouselEl.classList.contains(CAROUSEL_SLIDING_CLASS)) {
+        return;
+    }
+    return new Promise(resolve => {
+        carouselEl.addEventListener("slid.bs.carousel", () => resolve(), {once: true});
+    });
+}
+
+/**
+ * This class is used to fix carousel auto-slide behavior in Odoo 17.4 and up.
+ * It handles upgrade cases from lower versions.
+ * TODO find a way to get rid of this with an upgrade script?
+ */
+publicWidget.registry.CarouselBootstrapUpgradeFix = publicWidget.Widget.extend({
+    // Only consider our known carousel snippets. A bootstrap carousel could
+    // have been added in an embed code snippet, or in any custom snippet. In
+    // that case, we consider that it should use the new default BS behavior,
+    // assuming the user / the developer of the custo should have updated the
+    // behavior as wanted themselves.
+    // Note: dynamic snippets are handled separately (TODO review).
+    selector: [
+        "[data-snippet='s_image_gallery'] .carousel",
+        "[data-snippet='s_carousel'] .carousel",
+        "[data-snippet='s_quotes_carousel'] .carousel",
+        "[data-snippet='s_quotes_carousel_minimal'] .carousel",
+        "[data-snippet='s_carousel_intro'] .carousel",
+        "#o-carousel-product.carousel", // TODO adapt the shop XML directly in master
+    ].join(", "),
+    disabledInEditableMode: false,
+    events: {
+        "slide.bs.carousel": "_onSlideCarousel",
+        "slid.bs.carousel": "_onSlidCarousel",
+    },
+    OLD_AUTO_SLIDING_SNIPPETS: ["s_image_gallery"],
+
+    /**
+     * @override
+     */
+    async start() {
+        await this._super(...arguments);
+
+        const hasInterval = ![undefined, "false", "0"].includes(this.el.dataset.bsInterval);
+        if (!hasInterval && this.el.dataset.bsRide) {
+            // A bsInterval of 0 (or false or undefined) is intended to not
+            // auto-slide. With current Bootstrap version, a value of 0 will
+            // mean auto-slide without any delay (very fast). To prevent this,
+            // we remove the bsRide.
+            delete this.el.dataset.bsRide;
+            await this._destroyCarouselInstance();
+            const options = this.editableMode ? {ride: false, pause: true} : undefined;
+            window.Carousel.getOrCreateInstance(this.el, options);
+        } else if (hasInterval && !this.el.dataset.bsRide) {
+            // Re-add bsRide on carousels that don't have it but still have
+            // a bsInterval. E.g. s_image_gallery must auto-slide on load,
+            // while others only auto-slide on mouseleave.
+            //
+            // In the case of s_image_gallery that has a bsRide = "true"
+            // instead of "carousel", it's better not to change the behavior and
+            // let the user update the snippet manually to avoid making changes
+            // that they don't expect.
+            const snippetName = this.el.closest("[data-snippet]")?.dataset.snippet;
+            this.el.dataset.bsRide = this.OLD_AUTO_SLIDING_SNIPPETS.includes(snippetName) ? "carousel" : "true";
+            await this._destroyCarouselInstance();
+            const options = this.editableMode ? {ride: false, pause: true} : undefined;
+            window.Carousel.getOrCreateInstance(this.el, options);
+        }
+    },
+    /**
+     * @override
+     */
+    destroy() {
+        this._super(...arguments);
+        this.el.classList.remove(CAROUSEL_SLIDING_CLASS);
+    },
+
+    //--------------------------------------------------------------------------
+    // Private
+    //--------------------------------------------------------------------------
+
+    /**
+     * @private
+     */
+    async _destroyCarouselInstance() {
+        await waitForCarouselToFinishSliding(this.el); // Prevent traceback
+        window.Carousel.getInstance(this.el)?.dispose();
+    },
+    /**
+     * @private
+     */
+    _onSlideCarousel(ev) {
+        ev.currentTarget.classList.add(CAROUSEL_SLIDING_CLASS);
+    },
+    /**
+     * @private
+     */
+    _onSlidCarousel(ev) {
+        ev.currentTarget.classList.remove(CAROUSEL_SLIDING_CLASS);
+    },
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 });
 
 registry.Parallax = Animation.extend({
@@ -630,12 +781,15 @@ registry.Parallax = Animation.extend({
         // Reset offset if parallax effect will not be performed and leave
         var noParallaxSpeed = (this.speed === 0 || this.speed === 1);
         if (noParallaxSpeed) {
+<<<<<<< HEAD
             // TODO remove in master, kept for compatibility in stable
             this._updateBgCss({
                 transform: '',
                 top: '',
                 bottom: '',
             });
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
             return;
         }
 
@@ -723,7 +877,7 @@ const MobileYoutubeAutoplayMixin = {
         this.isYoutubeVideo = src.indexOf('youtube') >= 0;
         this.isMobileEnv = uiUtils.getSize() <= SIZES.LG && hasTouch();
 
-        if (this.isYoutubeVideo && this.isMobileEnv && !window.YT) {
+        if (this.isYoutubeVideo && this.isMobileEnv && !window.YT && !this.el.dataset.needCookiesApproval) {
             const oldOnYoutubeIframeAPIReady = window.onYouTubeIframeAPIReady;
             promise = new Promise(resolve => {
                 window.onYouTubeIframeAPIReady = () => {
@@ -745,7 +899,7 @@ const MobileYoutubeAutoplayMixin = {
     _triggerAutoplay: function (iframeEl) {
         // YouTube does not allow to auto-play video in mobile devices, so we
         // have to play the video manually.
-        if (this.isMobileEnv && this.isYoutubeVideo) {
+        if (this.isMobileEnv && this.isYoutubeVideo && !this.el.dataset.needCookiesApproval) {
             new window.YT.Player(iframeEl, {
                 events: {
                     onReady: ev => ev.target.playVideo(),
@@ -755,7 +909,8 @@ const MobileYoutubeAutoplayMixin = {
     },
 };
 
-registry.mediaVideo = publicWidget.Widget.extend(MobileYoutubeAutoplayMixin, {
+registry.mediaVideo = publicWidget.Widget.extend(
+    MobileYoutubeAutoplayMixin, ObservingCookieWidgetMixin, {
     selector: '.media_iframe_video',
 
     /**
@@ -775,6 +930,17 @@ registry.mediaVideo = publicWidget.Widget.extend(MobileYoutubeAutoplayMixin, {
             iframeEl = this._generateIframe();
         }
 
+        if (this.el.dataset.needCookiesApproval) {
+            const sizeContainerEl = this.el.querySelector(":scope > .media_iframe_video_size");
+            sizeContainerEl.classList.add("d-none");
+            this._showSizeContainerEl = () => {
+                sizeContainerEl.classList.remove("d-none");
+            };
+            document.addEventListener(
+                "optionalCookiesAccepted", this._showSizeContainerEl, { once: true }
+            );
+        }
+
         // We don't want to cause an error that would prevent entering edit mode
         // if there is an iframe that doesn't have a src (this was possible for
         // a while with the media dialog).
@@ -788,6 +954,16 @@ registry.mediaVideo = publicWidget.Widget.extend(MobileYoutubeAutoplayMixin, {
         return Promise.all(proms).then(() => {
             this._triggerAutoplay(iframeEl);
         });
+    },
+    /**
+     * @override
+     */
+    destroy() {
+        if (this._showSizeContainerEl) {
+            document.removeEventListener("optionalCookiesAccepted", this._showSizeContainerEl);
+            this._showSizeContainerEl();
+        }
+        return this._super(...arguments);
     },
 
     //--------------------------------------------------------------------------
@@ -820,18 +996,25 @@ registry.mediaVideo = publicWidget.Widget.extend(MobileYoutubeAutoplayMixin, {
             return;
         }
         var domain = m[1].replace(/^www\./, '');
-        var supportedDomains = ['youtu.be', 'youtube.com', 'youtube-nocookie.com', 'instagram.com', 'vine.co', 'player.vimeo.com', 'vimeo.com', 'dailymotion.com', 'player.youku.com', 'youku.com'];
+        const supportedDomains = [
+            "youtu.be", "youtube.com", "youtube-nocookie.com",
+            "instagram.com",
+            "player.vimeo.com", "vimeo.com",
+            "dailymotion.com",
+            "player.youku.com", "youku.com",
+        ];
         if (!supportedDomains.includes(domain)) {
             // Unsupported domain, don't inject iframe
             return;
         }
+
         const iframeEl = $('<iframe/>', {
-            src: src,
             frameborder: '0',
             allowfullscreen: 'allowfullscreen',
             "aria-label": _t("Media video"),
         })[0];
         this.$el.append(iframeEl);
+        this._manageIframeSrc(this.el, src);
         return iframeEl;
     },
 });
@@ -898,6 +1081,10 @@ registry.backgroundVideo = publicWidget.Widget.extend(MobileYoutubeAutoplayMixin
         if (this.$bgVideoContainer) {
             this.$bgVideoContainer.remove();
         }
+        document.removeEventListener(
+            "optionalCookiesAccepted",
+            this.__onEnableVideoPostCookiesAccepted
+        );
     },
 
     //--------------------------------------------------------------------------
@@ -944,9 +1131,11 @@ registry.backgroundVideo = publicWidget.Widget.extend(MobileYoutubeAutoplayMixin
      * @private
      */
     _appendBgVideo: function () {
+        const allowedCookies = !this.el.dataset.needCookiesApproval;
+
         var $oldContainer = this.$bgVideoContainer || this.$('> .o_bg_video_container');
         this.$bgVideoContainer = $(renderToElement('website.background.video', {
-            videoSrc: this.videoSrc,
+            videoSrc: allowedCookies ? this.videoSrc : "about:blank",
             iframeID: this.iframeID,
         }));
         this.$iframe = this.$bgVideoContainer.find('.o_bg_video_iframe');
@@ -960,6 +1149,7 @@ registry.backgroundVideo = publicWidget.Widget.extend(MobileYoutubeAutoplayMixin
         this.$bgVideoContainer.prependTo(this.$el);
         $oldContainer.remove();
 
+<<<<<<< HEAD
         this._adjustIframe();
         this._triggerAutoplay(this.$iframe[0]);
     },
@@ -1023,29 +1213,23 @@ registry.socialShare = publicWidget.Widget.extend({
         };
         if (!Object.keys(socialNetworks).includes(social)) {
             return;
+=======
+        if (!allowedCookies) {
+            // We don't add the optional cookies warning for background videos
+            // so that the fallback message doesn't appear behind the content.
+            this.__onEnableVideoPostCookiesAccepted = () => {
+                this.$iframe[0].src = this.videoSrc;
+            };
+            document.addEventListener(
+                "optionalCookiesAccepted",
+                this.__onEnableVideoPostCookiesAccepted,
+                { once: true }
+            );
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
         }
-        var wHeight = 500;
-        var wWidth = 500;
-        window.open(socialNetworks[social], '', 'menubar=no, toolbar=no, resizable=yes, scrollbar=yes, height=' + wHeight + ',width=' + wWidth);
-    },
 
-    //--------------------------------------------------------------------------
-    // Handlers
-    //--------------------------------------------------------------------------
-
-    /**
-     * Called when the user hovers the animation element -> open the social
-     * links popover.
-     *
-     * @private
-     */
-    _onMouseEnter: function () {
-        var social = this.$el.data('social');
-        this.socialList = social ? social.split(',') : ['facebook', 'twitter', 'linkedin'];
-        this.hashtags = this.$el.data('hashtags') || '';
-
-        this._render();
-        this._bindSocialEvent();
+        this._adjustIframe();
+        this._triggerAutoplay(this.$iframe[0]);
     },
 });
 
@@ -1066,8 +1250,8 @@ registry.anchorSlide = publicWidget.Widget.extend({
      * @returns {Promise}
      */
     async _scrollTo($el, scrollValue = 'true') {
-        return dom.scrollTo($el[0], {
-            duration: scrollValue === 'true' ? 500 : 0,
+        return scrollTo($el[0], {
+            duration: scrollValue === "true" ? 500 : 0,
             extraOffset: this._computeExtraOffset(),
         });
     },
@@ -1104,6 +1288,7 @@ registry.anchorSlide = publicWidget.Widget.extend({
         const scrollValue = $anchor.attr('data-anchor');
         if (!$anchor.length || !scrollValue) {
             return;
+<<<<<<< HEAD
         }
 
         const offcanvasEl = this.el.closest('.offcanvas.o_navbar_mobile');
@@ -1149,6 +1334,53 @@ registry.anchorSlide = publicWidget.Widget.extend({
         } else {
             this._scrollTo($anchor, scrollValue);
         }
+=======
+        }
+
+        const offcanvasEl = this.el.closest('.offcanvas.o_navbar_mobile');
+        if (offcanvasEl && offcanvasEl.classList.contains('show')) {
+            // Special case for anchors in offcanvas in mobile: we can't just
+            // _scrollTo() after preventDefault because preventDefault would
+            // prevent the offcanvas to be closed. The choice is then to close
+            // it ourselves manually and once it's fully closed, then start our
+            // own smooth scrolling.
+            ev.preventDefault();
+            Offcanvas.getInstance(offcanvasEl).hide();
+            offcanvasEl.addEventListener('hidden.bs.offcanvas',
+                () => {
+                    this._manageScroll(hash, $anchor, scrollValue);
+                },
+                // the listener must be automatically removed when invoked
+                { once: true }
+            );
+        } else {
+            ev.preventDefault();
+            this._manageScroll(hash, $anchor, scrollValue);
+        }
+    },
+    /**
+     *
+     * @param {string} hash
+     * @param {jQuery} $el the element to scroll to.
+     * @param {string} [scrollValue='true'] scroll value
+     * @private
+     */
+    _manageScroll(hash, $anchor, scrollValue = "true") {
+        if (hash === "#top" || hash === "#bottom") {
+            // If the anchor targets #top or #bottom, directly call the
+            // "scrollTo" function. The reason is that the header or the footer
+            // could have been removed from the DOM. By receiving a string as
+            // parameter, the "scrollTo" function handles the scroll to the top
+            // or to the bottom of the document even if the header or the
+            // footer is removed from the DOM.
+            scrollTo(hash, {
+                duration: 500,
+                extraOffset: this._computeExtraOffset(),
+            });
+        } else {
+            this._scrollTo($anchor, scrollValue);
+        }
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
     },
 });
 
@@ -1200,12 +1432,13 @@ registry.FullScreenHeight = publicWidget.Widget.extend({
     _computeIdealHeight() {
         const windowHeight = $(window).outerHeight();
         if (this.inModal) {
-            return (windowHeight - $('#wrapwrap').position().top);
+            return windowHeight;
         }
 
         // Doing it that way allows to considerer fixed headers, hidden headers,
         // connected users, ...
         const firstContentEl = $('#wrapwrap > main > :first-child')[0]; // first child to consider the padding-top of main
+<<<<<<< HEAD
         // When a modal is open, we remove the "modal-open" class from the body.
         // This is because this class sets "#wrapwrap" and "<body>" to
         // "overflow: hidden," preventing the "closestScrollable" function from
@@ -1216,6 +1449,9 @@ registry.FullScreenHeight = publicWidget.Widget.extend({
         document.body.classList.remove("modal-open");
         const mainTopPos = firstContentEl.getBoundingClientRect().top + $(firstContentEl.parentNode).closestScrollable()[0].scrollTop;
         document.body.classList.toggle("modal-open", modalOpen);
+=======
+        const mainTopPos = firstContentEl.getBoundingClientRect().top + document.documentElement.scrollTop;
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
         return (windowHeight - mainTopPos);
     },
 });
@@ -1242,7 +1478,8 @@ registry.ScrollButton = registry.anchorSlide.extend({
 });
 
 registry.FooterSlideout = publicWidget.Widget.extend({
-    selector: '#wrapwrap:has(.o_footer_slideout)',
+    selector: '#wrapwrap',
+    selectorHas: '.o_footer_slideout',
     disabledInEditableMode: false,
 
     /**
@@ -1253,25 +1490,21 @@ registry.FooterSlideout = publicWidget.Widget.extend({
         const slideoutEffect = $main.outerHeight() >= $(window).outerHeight();
         this.el.classList.toggle('o_footer_effect_enable', slideoutEffect);
 
-        // Add a pixel div over the footer, after in the DOM, so that the
-        // height of the footer is understood by Firefox sticky implementation
-        // (which it seems to not understand because of the combination of 3
-        // items: the footer is the last :visible element in the #wrapwrap, the
-        // #wrapwrap uses flex layout and the #wrapwrap is the element with a
-        // scrollbar).
-        // TODO check if the hack is still needed by future browsers.
-        this.__pixelEl = document.createElement('div');
-        this.__pixelEl.style.width = `1px`;
-        this.__pixelEl.style.height = `1px`;
-        this.__pixelEl.style.marginTop = `-1px`;
-        // On safari, add a background attachment fixed to fix the glitches that
-        // appear when scrolling the page with a footer slide out.
+        // On safari, add a pixel div over the footer, after in the DOM, and add
+        // a background attachment on it as it fixes the glitches that appear
+        // when scrolling the page with a footer slide out.
+        // TODO check if the hack is still needed (might have been fixed when
+        // the scrollbar was restored to its natural position).
         if (/^((?!chrome|android).)*safari/i.test(navigator.userAgent)) {
+            this.__pixelEl = document.createElement('div');
+            this.__pixelEl.style.width = `1px`;
+            this.__pixelEl.style.height = `1px`;
+            this.__pixelEl.style.marginTop = `-1px`;
             this.__pixelEl.style.backgroundColor = "transparent";
             this.__pixelEl.style.backgroundAttachment = "fixed";
             this.__pixelEl.style.backgroundImage = "url(/website/static/src/img/website_logo.svg)";
+            this.el.appendChild(this.__pixelEl);
         }
-        this.el.appendChild(this.__pixelEl);
 
         return this._super(...arguments);
     },
@@ -1281,6 +1514,7 @@ registry.FooterSlideout = publicWidget.Widget.extend({
     destroy() {
         this._super(...arguments);
         this.el.classList.remove('o_footer_effect_enable');
+<<<<<<< HEAD
         this.__pixelEl.remove();
     },
 });
@@ -1318,6 +1552,10 @@ registry.TopMenuCollapse = publicWidget.Widget.extend({
             if (getComputedStyle(togglerEl).display === "none") {
                 this.$el.collapse("hide");
             }
+=======
+        if (this.__pixelEl) {
+            this.__pixelEl.remove();
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
         }
     },
 });
@@ -1341,7 +1579,10 @@ registry.BottomFixedElement = publicWidget.Widget.extend({
      */
     destroy() {
         this._super(...arguments);
+<<<<<<< HEAD
         this.$scrollingElement.off('.bottom_fixed_element'); // TODO remove in master
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
         this.$scrollingTarget.off('.bottom_fixed_element');
         $(window).off('.bottom_fixed_element');
         this._restoreBottomFixedElements($('.o_bottom_fixed_element'));
@@ -1536,8 +1777,8 @@ registry.WebsiteAnimate = publicWidget.Widget.extend({
         $el.css({'animation-name': animationName , 'animation-play-state': 'paused'});
     },
     /**
-     * Shows/hides the horizontal scrollbar (on the #wrapwrap) and prevents
-     * flicker of the page height (on the slideout footer).
+     * Shows/hides the horizontal scrollbar and prevents flicker of the page
+     * height (on the slideout footer).
      *
      * @private
      * @param {Boolean} add
@@ -1649,9 +1890,12 @@ registry.WebsiteAnimate = publicWidget.Widget.extend({
 
     /**
      * @private
-     * @param {Event} ev
      */
+<<<<<<< HEAD
     _onScrollWebsiteAnimate(ev) {
+=======
+    _onScrollWebsiteAnimate() {
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
         // Note: Do not rely on ev.currentTarget which might be lost by Chrome.
         this._scrollWebsiteAnimate(this.$scrollingElement[0]);
     },
@@ -2055,17 +2299,15 @@ registry.TextHighlight = publicWidget.Widget.extend({
     //--------------------------------------------------------------------------
 
     /**
-     * Right after custom fonts loading, the text width can change (even after
-     * adapting the highlights), leading to a highlight SVG slightly longer or
-     * shorter than the text content... `document.fonts.ready` is resolved
-     * before the text width is updated, so we need to do the update manually
-     * here by adjusting the highlights if the text width changes using a
-     * `ResizeObserver`.
+     * The `resizeObserver` ignores an element if it has an inline display.
+     * We need to target the closest non-inline parent.
      *
      * TODO: Remove in master (left in stable for compatibility)
      *
      * @private
+     * @param {HTMLElement} el
      */
+<<<<<<< HEAD
     _adaptOnFontsLoading() {
         this.observerLocked = new Map();
         // The idea here is to adapt the highlights when a width change is
@@ -2118,10 +2360,24 @@ registry.TextHighlight = publicWidget.Widget.extend({
     /**
      * The `resizeObserver` ignores an element if it has an inline display.
      * We need to target the closest non-inline parent.
+=======
+    _closestToObserve(el) {
+        if (el === this.el || !el) {
+            return null;
+        }
+        if (window.getComputedStyle(el).display !== "inline") {
+            return el;
+        }
+        return this._closestToObserve(el.parentElement);
+    },
+    /**
+     * Returns a list of text highlight items (lines) in the provided element.
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
      *
      * @private
      * @param {HTMLElement} el
      */
+<<<<<<< HEAD
     _closestToObserve(el) {
         if (el === this.el || !el) {
             return null;
@@ -2137,6 +2393,8 @@ registry.TextHighlight = publicWidget.Widget.extend({
      * @private
      * @param {HTMLElement} el
      */
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
     _getHighlightItems(el = this.el) {
         return el.querySelectorAll(":scope .o_text_highlight_item");
     },

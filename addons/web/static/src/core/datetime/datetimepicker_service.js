@@ -1,5 +1,3 @@
-/** @odoo-module **/
-
 import { markRaw, reactive } from "@odoo/owl";
 import { areDatesEqual, formatDate, formatDateTime, parseDate, parseDateTime } from "../l10n/dates";
 import { makePopover } from "../popover/popover_hook";
@@ -10,7 +8,7 @@ import { DateTimePicker } from "./datetime_picker";
 import { DateTimePickerPopover } from "./datetime_picker_popover";
 
 /**
- * @typedef {luxon.DateTime} DateTime
+ * @typedef {luxon["DateTime"]["prototype"]} DateTime
  *
  * @typedef DateTimePickerHookParams
  * @property {string} [format]
@@ -20,8 +18,11 @@ import { DateTimePickerPopover } from "./datetime_picker_popover";
  * @property {(value: DateTimePickerProps["value"]) => any} [onApply] callback
  *  invoked once the value is committed: this is either when all inputs received
  *  a "change" event or when the datetime picker popover has been closed.
- * @property {DateTimePickerProps} [pickerProps]
+ * @property {DateTimePickerProps} pickerProps
  * @property {string | ReturnType<typeof import("@odoo/owl").useRef>} [target]
+ * @property {(component, options) => import("../popover/popover_hook").PopoverHookReturnType} [createPopover]
+ * @property {() => boolean} [ensureVisibility=() => env.isSmall]
+ * @property {boolean} [showSeconds]
  *
  * @typedef {import("./datetime_picker").DateTimePickerProps} DateTimePickerProps
  */
@@ -56,11 +57,11 @@ export const datetimePickerService = {
             /**
              * @param {DateTimePickerHookParams} hookParams
              */
-            create: (
-                hookParams,
-                getInputs = () => [hookParams.target, null],
-                createPopover = (...args) => makePopover(popoverService, ...args)
-            ) => {
+            create: (hookParams, getInputs = () => [hookParams.target, null]) => {
+                const createPopover =
+                    hookParams.createPopover ??
+                    ((...args) => makePopover(popoverService.add, ...args));
+                const ensureVisibility = hookParams.ensureVisibility ?? (() => env.isSmall);
                 const popover = createPopover(DateTimePickerPopover, {
                     onClose: () => {
                         if (!allowOnClose) {
@@ -82,13 +83,19 @@ export const datetimePickerService = {
                  * value has changed, and set other internal variables accordingly.
                  */
                 const apply = () => {
+<<<<<<< HEAD
                     if (areDatesEqual(lastInitialProps?.value, deepCopy(pickerProps.value))) {
+=======
+                    const valueCopy = deepCopy(pickerProps.value);
+                    if (areDatesEqual(lastAppliedValue, valueCopy)) {
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
                         return;
                     }
 
                     inputsChanged = ensureArray(pickerProps.value).map(() => false);
 
                     hookParams.onApply?.(pickerProps.value);
+                    lastAppliedValue = valueCopy;
                 };
 
                 const computeBasePickerProps = () => {
@@ -100,6 +107,10 @@ export const datetimePickerService = {
                     }
 
                     lastInitialProps = propsCopy;
+<<<<<<< HEAD
+=======
+                    lastAppliedValue = propsCopy.value;
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
                     inputsChanged = ensureArray(lastInitialProps.value).map(() => false);
 
                     for (const [key, value] of Object.entries(nextInitialProps)) {
@@ -217,6 +228,11 @@ export const datetimePickerService = {
                  * @param {KeyboardEvent} ev
                  */
                 const onInputKeydown = (ev) => {
+                    if (ev.key == "Enter" && ev.ctrlKey) {
+                        ev.preventDefault();
+                        updateValueFromInputs();
+                        return openPicker(ev.target === getInput(1) ? 1 : 0);
+                    }
                     switch (ev.key) {
                         case "Enter":
                         case "Escape": {
@@ -242,7 +258,11 @@ export const datetimePickerService = {
 
                     if (!popover.isOpen) {
                         const popoverTarget = getPopoverTarget();
+<<<<<<< HEAD
                         if (env.isSmall) {
+=======
+                        if (ensureVisibility()) {
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
                             const { marginBottom } = popoverTarget.style;
                             // Adds enough space for the popover to be displayed below the target
                             // even on small screens.
@@ -267,8 +287,13 @@ export const datetimePickerService = {
                 const safeConvert = (operation, value) => {
                     const { type } = pickerProps;
                     const convertFn = (operation === "format" ? formatters : parsers)[type];
+                    const options = { tz: pickerProps.tz, format: hookParams.format };
+                    if (operation === "format") {
+                        options.showSeconds = hookParams.showSeconds ?? true;
+                        options.condensed = hookParams.condensed || false;
+                    }
                     try {
-                        return [convertFn(value, { format: hookParams.format }), null];
+                        return [convertFn(value, options), null];
                     } catch (error) {
                         if (error?.name === "ConversionError") {
                             return [null, error];
@@ -335,8 +360,10 @@ export const datetimePickerService = {
 
                 /**
                  * @param {DateTimePickerProps["value"]} value
+                 * @param {"date" | "time"} unit
+                 * @param {"input" | "picker"} source
                  */
-                const updateValue = (value) => {
+                const updateValue = (value, unit, source) => {
                     const previousValue = pickerProps.value;
                     pickerProps.value = value;
 
@@ -344,22 +371,33 @@ export const datetimePickerService = {
                         return;
                     }
 
-                    if (pickerProps.range) {
-                        // When in range: compare each individual value
-                        const [prevStart, prevEnd] = ensureArray(previousValue);
-                        const [nextStart, nextEnd] = ensureArray(pickerProps.value);
-                        if (
-                            (pickerProps.focusedDateIndex === 0 &&
-                                areDatesEqual(prevEnd, nextEnd)) ||
-                            (pickerProps.focusedDateIndex === 1 &&
-                                areDatesEqual(prevStart, nextStart))
-                        ) {
-                            pickerProps.focusedDateIndex =
-                                pickerProps.focusedDateIndex === 1 ? 0 : 1;
+                    if (unit !== "time") {
+                        if (pickerProps.range && source === "picker") {
+                            if (
+                                pickerProps.focusedDateIndex === 0 ||
+                                (value[0] && value[1] && value[1] < value[0])
+                            ) {
+                                // If selecting either:
+                                // - the first value
+                                // - OR a second value before the first:
+                                // Then:
+                                // - Set the DATE (year + month + day) of all values
+                                // to the one that has been selected.
+                                const { year, month, day } = value[pickerProps.focusedDateIndex];
+                                for (let i = 0; i < value.length; i++) {
+                                    value[i] = value[i] && value[i].set({ year, month, day });
+                                }
+                                pickerProps.focusedDateIndex = 1;
+                            } else {
+                                // If selecting the second value after the first:
+                                // - simply toggle the focus index
+                                pickerProps.focusedDateIndex =
+                                    pickerProps.focusedDateIndex === 1 ? 0 : 1;
+                            }
                         }
                     }
 
-                    hookParams.onChange?.(pickerProps.value);
+                    hookParams.onChange?.(value);
                 };
 
                 const updateValueFromInputs = () => {
@@ -379,7 +417,7 @@ export const datetimePickerService = {
                             }
                         }
                     );
-                    updateValue(values.length === 2 ? values : values[0]);
+                    updateValue(values.length === 2 ? values : values[0], "date", "input");
                 };
 
                 // Hook variables
@@ -387,9 +425,9 @@ export const datetimePickerService = {
                 /** @type {DateTimePickerProps} */
                 const rawPickerProps = {
                     ...DateTimePicker.defaultProps,
-                    onSelect: (value) => {
+                    onSelect: (value, unit) => {
                         value &&= markRaw(value);
-                        updateValue(value);
+                        updateValue(value, unit, "picker");
                         if (!pickerProps.range && pickerProps.type === "date") {
                             saveAndClose();
                         }
@@ -427,6 +465,8 @@ export const datetimePickerService = {
                 let inputsChanged = [];
                 /** @type {DateTimePickerProps | null} */
                 let lastInitialProps = null;
+                /** @type {DateTimePickerProps["value"] | null}*/
+                let lastAppliedValue = null;
                 let lastIsRange = pickerProps.range;
                 /** @type {(() => void) | null} */
                 let restoreTargetMargin = null;
@@ -459,6 +499,7 @@ export const datetimePickerService = {
                             }
                         }
                         const calendarIconGroupEl = getInput(0)?.parentElement.querySelector(
+<<<<<<< HEAD
                             ".input-group-text .fa-calendar"
                         )?.parentElement;
                         if (calendarIconGroupEl && !listenedElements.has(calendarIconGroupEl)) {
@@ -466,6 +507,11 @@ export const datetimePickerService = {
                             // TODO: Remove this line and the `pe-none` class
                             // from templates in master
                             calendarIconGroupEl.classList.remove("pe-none");
+=======
+                            ".o_input_group_date_icon"
+                        );
+                        if (calendarIconGroupEl) {
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
                             calendarIconGroupEl.classList.add("cursor-pointer");
                             calendarIconGroupEl.addEventListener("click", () => openPicker(0));
                         }

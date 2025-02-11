@@ -3,6 +3,7 @@
 # 	* sms
 # 
 # Translators:
+<<<<<<< HEAD
 # Андрей Гусев <gaussgss@gmail.com>, 2023
 # valmasone, 2023
 # Alena Vlasova, 2023
@@ -10,15 +11,25 @@
 # Ivan Kropotkin <yelizariev@itpp.dev>, 2023
 # Сергей Шебанин <sergey@shebanin.ru>, 2023
 # Martin Trigaux, 2023
+=======
+# Olga Gutorova, 2024
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 # Wil Odoo, 2024
 # Ilya Rozhkov, 2024
 # 
 msgid ""
 msgstr ""
+<<<<<<< HEAD
 "Project-Id-Version: Odoo Server 17.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2024-08-13 10:28+0000\n"
 "PO-Revision-Date: 2023-10-26 23:09+0000\n"
+=======
+"Project-Id-Version: Odoo Server 18.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2024-12-16 13:40+0000\n"
+"PO-Revision-Date: 2024-09-25 09:41+0000\n"
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 "Last-Translator: Ilya Rozhkov, 2024\n"
 "Language-Team: Russian (https://app.transifex.com/odoo/teams/41243/ru/)\n"
 "MIME-Version: 1.0\n"
@@ -36,20 +47,30 @@ msgstr "# Недействительные получатели"
 #: model:ir.model.fields,field_description:sms.field_sms_composer__recipient_valid_count
 msgid "# Valid recipients"
 msgstr "# Действительные получатели"
+<<<<<<< HEAD
+=======
+
+#. module: sms
+#. odoo-python
+#: code:addons/sms/models/sms_sms.py:0
+msgid ""
+"%(count)s out of the %(total)s selected SMS Text Messages have successfully "
+"been resent."
+msgstr ""
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 #. module: sms
 #. odoo-python
 #: code:addons/sms/models/sms_template.py:0
-#, python-format
 msgid "%s (copy)"
 msgstr "%s (копия)"
 
 #. module: sms
 #. odoo-python
 #: code:addons/sms/wizard/sms_composer.py:0
-#, python-format
 msgid "%s invalid recipients"
 msgstr "%s недействительные получатели"
+<<<<<<< HEAD
 
 #. module: sms
 #. odoo-python
@@ -65,6 +86,47 @@ msgstr "%s из %s выбранных SMS-сообщений были успеш
 #, python-format
 msgid ", fits in"
 msgstr ", вписывается в"
+=======
+
+#. module: sms
+#: model_terms:ir.ui.view,arch_db:sms.sms_account_phone_view_form
+msgid "+1 555-555-555"
+msgstr ""
+
+#. module: sms
+#. odoo-javascript
+#: code:addons/sms/static/src/components/sms_widget/fields_sms_widget.xml:0
+msgid ", fits in"
+msgstr ", вписывается в"
+
+#. module: sms
+#: model_terms:ir.ui.view,arch_db:sms.iap_account_view_form
+msgid ""
+"<i class=\"fa fa-warning\"/> An error occurred with your account. Please "
+"contact the support for more information..."
+msgstr ""
+
+#. module: sms
+#: model_terms:ir.ui.view,arch_db:sms.iap_account_view_form
+msgid ""
+"<i class=\"fa fa-warning\"/> You cannot send SMS while your account is not "
+"registered."
+msgstr ""
+
+#. module: sms
+#: model_terms:ir.ui.view,arch_db:sms.iap_account_view_form
+msgid ""
+"<i class=\"oi oi-arrow-right\"/>\n"
+"                            Register"
+msgstr ""
+
+#. module: sms
+#: model_terms:ir.ui.view,arch_db:sms.iap_account_view_form
+msgid ""
+"<i class=\"oi oi-arrow-right\"/>\n"
+"                            Set Sender Name"
+msgstr ""
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 #. module: sms
 #: model_terms:ir.ui.view,arch_db:sms.sms_template_view_form
@@ -143,6 +205,16 @@ msgstr ""
 #: model:ir.model.constraint,message:sms.constraint_sms_tracker_sms_uuid_unique
 msgid "A record for this UUID already exists"
 msgstr "Запись для этого UUID уже существует"
+<<<<<<< HEAD
+=======
+
+#. module: sms
+#: model:ir.model.fields,field_description:sms.field_sms_account_code__account_id
+#: model:ir.model.fields,field_description:sms.field_sms_account_phone__account_id
+#: model:ir.model.fields,field_description:sms.field_sms_account_sender__account_id
+msgid "Account"
+msgstr "Счёт"
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 #. module: sms
 #: model:ir.model.fields,field_description:sms.field_res_partner__message_needaction
@@ -168,9 +240,28 @@ msgstr ""
 #. module: sms
 #. odoo-javascript
 #: code:addons/sms/static/src/core/failure_model_patch.js:0
+<<<<<<< HEAD
 #, python-format
 msgid "An error occurred when sending an SMS"
 msgstr "Произошла ошибка при отправке SMS"
+=======
+msgid "An error occurred when sending an SMS"
+msgstr "Произошла ошибка при отправке SMS"
+
+#. module: sms
+#. odoo-javascript
+#: code:addons/sms/static/src/core/failure_model_patch.js:0
+msgid "An error occurred when sending an SMS on “%(record_name)s”"
+msgstr ""
+
+#. module: sms
+#. odoo-python
+#: code:addons/sms/tools/sms_api.py:0
+msgid ""
+"An unknown error occurred. Please contact Odoo support if this error "
+"persists."
+msgstr ""
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 #. module: sms
 #: model:ir.model.fields,field_description:sms.field_sms_template__model_id
@@ -222,7 +313,10 @@ msgstr "Купить услуги"
 #. module: sms
 #. odoo-python
 #: code:addons/sms/tools/sms_api.py:0
+<<<<<<< HEAD
 #, python-format
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 msgid "Buy credits."
 msgstr "Купить кредиты."
 
@@ -237,6 +331,8 @@ msgid "Can Resend"
 msgstr "Можно отправить повторно"
 
 #. module: sms
+#: model_terms:ir.ui.view,arch_db:sms.sms_account_code_view_form
+#: model_terms:ir.ui.view,arch_db:sms.sms_account_phone_view_form
 #: model_terms:ir.ui.view,arch_db:sms.sms_sms_view_tree
 #: model_terms:ir.ui.view,arch_db:sms.sms_template_reset_view_form
 #: model_terms:ir.ui.view,arch_db:sms.sms_tsms_view_form
@@ -245,8 +341,8 @@ msgstr "Отменить"
 
 #. module: sms
 #: model:ir.model.fields.selection,name:sms.selection__sms_sms__state__canceled
-msgid "Canceled"
-msgstr "Отменено"
+msgid "Cancelled"
+msgstr "Отменен"
 
 #. module: sms
 #: model_terms:ir.ui.view,arch_db:sms.sms_template_preview_form
@@ -264,6 +360,17 @@ msgid "Choose an example"
 msgstr "Выберите пример"
 
 #. module: sms
+<<<<<<< HEAD
+=======
+#. odoo-python
+#: code:addons/sms/models/iap_account.py:0
+#: code:addons/sms/wizard/sms_account_code.py:0
+#: model_terms:ir.ui.view,arch_db:sms.sms_account_sender_view_form
+msgid "Choose your sender name"
+msgstr ""
+
+#. module: sms
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 #: model_terms:ir.ui.view,arch_db:sms.mail_resend_message_view_form
 #: model_terms:ir.ui.view,arch_db:sms.sms_composer_view_form
 msgid "Close"
@@ -290,6 +397,7 @@ msgstr "Содержание"
 #: model:ir.model.fields.selection,name:sms.selection__sms_sms__failure_type__sms_country_not_supported
 msgid "Country Not Supported"
 msgstr "Страна не поддерживается"
+<<<<<<< HEAD
 
 #. module: sms
 #: model:ir.model.fields.selection,name:sms.selection__mail_notification__failure_type__sms_registration_needed
@@ -303,8 +411,25 @@ msgstr "Требуется регистрация для конкретной с
 #, python-format
 msgid "Country-specific registration required."
 msgstr "Требуется регистрация для каждой конкретной страны."
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 #. module: sms
+#: model:ir.model.fields.selection,name:sms.selection__mail_notification__failure_type__sms_registration_needed
+#: model:ir.model.fields.selection,name:sms.selection__sms_sms__failure_type__sms_registration_needed
+msgid "Country-specific Registration Required"
+msgstr "Требуется регистрация для конкретной страны"
+
+#. module: sms
+#. odoo-python
+#: code:addons/sms/tools/sms_api.py:0
+msgid "Country-specific registration required."
+msgstr "Требуется регистрация для каждой конкретной страны."
+
+#. module: sms
+#: model:ir.model.fields,field_description:sms.field_sms_account_code__create_uid
+#: model:ir.model.fields,field_description:sms.field_sms_account_phone__create_uid
+#: model:ir.model.fields,field_description:sms.field_sms_account_sender__create_uid
 #: model:ir.model.fields,field_description:sms.field_sms_composer__create_uid
 #: model:ir.model.fields,field_description:sms.field_sms_resend__create_uid
 #: model:ir.model.fields,field_description:sms.field_sms_resend_recipient__create_uid
@@ -317,6 +442,9 @@ msgid "Created by"
 msgstr "Создано"
 
 #. module: sms
+#: model:ir.model.fields,field_description:sms.field_sms_account_code__create_date
+#: model:ir.model.fields,field_description:sms.field_sms_account_phone__create_date
+#: model:ir.model.fields,field_description:sms.field_sms_account_sender__create_date
 #: model:ir.model.fields,field_description:sms.field_sms_composer__create_date
 #: model:ir.model.fields,field_description:sms.field_sms_resend__create_date
 #: model:ir.model.fields,field_description:sms.field_sms_resend_recipient__create_date
@@ -327,6 +455,14 @@ msgstr "Создано"
 #: model:ir.model.fields,field_description:sms.field_sms_tracker__create_date
 msgid "Created on"
 msgstr "Создано"
+<<<<<<< HEAD
+=======
+
+#. module: sms
+#: model:iap.service,unit_name:sms.iap_service_sms
+msgid "Credits"
+msgstr ""
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 #. module: sms
 #: model:ir.model.fields,field_description:sms.field_sms_sms__partner_id
@@ -347,7 +483,11 @@ msgstr ""
 #. module: sms
 #: model:ir.model.fields.selection,name:sms.selection__sms_sms__state__sent
 msgid "Delivered"
+<<<<<<< HEAD
 msgstr "Доставлено"
+=======
+msgstr "Отгружено"
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 #. module: sms
 #: model_terms:ir.ui.view,arch_db:sms.sms_template_preview_form
@@ -355,6 +495,9 @@ msgid "Discard"
 msgstr "Отменить"
 
 #. module: sms
+#: model:ir.model.fields,field_description:sms.field_sms_account_code__display_name
+#: model:ir.model.fields,field_description:sms.field_sms_account_phone__display_name
+#: model:ir.model.fields,field_description:sms.field_sms_account_sender__display_name
 #: model:ir.model.fields,field_description:sms.field_sms_composer__display_name
 #: model:ir.model.fields,field_description:sms.field_sms_resend__display_name
 #: model:ir.model.fields,field_description:sms.field_sms_resend_recipient__display_name
@@ -409,9 +552,16 @@ msgstr "Цепочка Email"
 #. module: sms
 #. odoo-javascript
 #: code:addons/sms/static/src/components/phone_field/phone_field.js:0
-#, python-format
 msgid "Enable SMS"
 msgstr "Включить SMS"
+<<<<<<< HEAD
+=======
+
+#. module: sms
+#: model_terms:ir.ui.view,arch_db:sms.sms_account_phone_view_form
+msgid "Enter a phone number to get an SMS with a verification code."
+msgstr ""
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 #. module: sms
 #: model:ir.model.fields.selection,name:sms.selection__sms_sms__state__error
@@ -468,7 +618,6 @@ msgstr "Подписчики"
 #. module: sms
 #. odoo-python
 #: code:addons/sms/wizard/sms_composer.py:0
-#, python-format
 msgid "Following numbers are not correctly encoded: %s"
 msgstr "Следующие цифры кодируются неправильно: %s"
 
@@ -492,8 +641,19 @@ msgstr "Имеет ошибку SMS"
 #: model:ir.model.fields,field_description:sms.field_sms_resend__has_unregistered_account
 msgid "Has Unregistered Account"
 msgstr "Имеет незарегистрированную учетную запись"
+<<<<<<< HEAD
+=======
 
 #. module: sms
+#: model:ir.model,name:sms.model_iap_account
+msgid "IAP Account"
+msgstr "IAP учетная запись"
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
+
+#. module: sms
+#: model:ir.model.fields,field_description:sms.field_sms_account_code__id
+#: model:ir.model.fields,field_description:sms.field_sms_account_phone__id
+#: model:ir.model.fields,field_description:sms.field_sms_account_sender__id
 #: model:ir.model.fields,field_description:sms.field_sms_composer__id
 #: model:ir.model.fields,field_description:sms.field_sms_resend__id
 #: model:ir.model.fields,field_description:sms.field_sms_resend_recipient__id
@@ -520,12 +680,17 @@ msgstr ""
 #: model:ir.model.fields,help:sms.field_fleet_vehicle__message_has_sms_error
 #: model:ir.model.fields,help:sms.field_fleet_vehicle_log_contract__message_has_sms_error
 #: model:ir.model.fields,help:sms.field_fleet_vehicle_log_services__message_has_sms_error
+#: model:ir.model.fields,help:sms.field_fleet_vehicle_model__message_has_sms_error
 #: model:ir.model.fields,help:sms.field_gamification_badge__message_has_sms_error
 #: model:ir.model.fields,help:sms.field_gamification_challenge__message_has_sms_error
+<<<<<<< HEAD
 #: model:ir.model.fields,help:sms.field_hr_department__message_has_sms_error
 #: model:ir.model.fields,help:sms.field_hr_employee__message_has_sms_error
 #: model:ir.model.fields,help:sms.field_hr_job__message_has_sms_error
 #: model:ir.model.fields,help:sms.field_loyalty_card__message_has_sms_error
+=======
+#: model:ir.model.fields,help:sms.field_iap_account__message_has_sms_error
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 #: model:ir.model.fields,help:sms.field_lunch_supplier__message_has_sms_error
 #: model:ir.model.fields,help:sms.field_mail_blacklist__message_has_sms_error
 #: model:ir.model.fields,help:sms.field_mail_thread__message_has_sms_error
@@ -537,6 +702,10 @@ msgstr ""
 #: model:ir.model.fields,help:sms.field_maintenance_equipment_category__message_has_sms_error
 #: model:ir.model.fields,help:sms.field_maintenance_request__message_has_sms_error
 #: model:ir.model.fields,help:sms.field_phone_blacklist__message_has_sms_error
+<<<<<<< HEAD
+=======
+#: model:ir.model.fields,help:sms.field_product_category__message_has_sms_error
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 #: model:ir.model.fields,help:sms.field_product_pricelist__message_has_sms_error
 #: model:ir.model.fields,help:sms.field_product_product__message_has_sms_error
 #: model:ir.model.fields,help:sms.field_product_template__message_has_sms_error
@@ -603,11 +772,22 @@ msgstr "Недостаточный кредит"
 #: model:ir.model.fields.selection,name:sms.selection__mail_notification__failure_type__sms_invalid_destination
 msgid "Invalid Destination"
 msgstr "Неверный пункт назначения"
+<<<<<<< HEAD
+=======
+
+#. module: sms
+#. odoo-python
+#: code:addons/sms/tools/sms_api.py:0
+msgid ""
+"Invalid phone number. Please make sure to follow the international format, "
+"i.e. a plus sign (+), then country code, city code, and local phone number. "
+"For example: +1 555-555-555"
+msgstr ""
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 #. module: sms
 #. odoo-python
 #: code:addons/sms/wizard/sms_composer.py:0
-#, python-format
 msgid "Invalid recipient number. Please update it."
 msgstr "Неверный номер получателя. Пожалуйста, обновите его."
 
@@ -632,6 +812,9 @@ msgid "Language"
 msgstr "Язык"
 
 #. module: sms
+#: model:ir.model.fields,field_description:sms.field_sms_account_code__write_uid
+#: model:ir.model.fields,field_description:sms.field_sms_account_phone__write_uid
+#: model:ir.model.fields,field_description:sms.field_sms_account_sender__write_uid
 #: model:ir.model.fields,field_description:sms.field_sms_composer__write_uid
 #: model:ir.model.fields,field_description:sms.field_sms_resend__write_uid
 #: model:ir.model.fields,field_description:sms.field_sms_resend_recipient__write_uid
@@ -644,6 +827,9 @@ msgid "Last Updated by"
 msgstr "Последнее обновление"
 
 #. module: sms
+#: model:ir.model.fields,field_description:sms.field_sms_account_code__write_date
+#: model:ir.model.fields,field_description:sms.field_sms_account_phone__write_date
+#: model:ir.model.fields,field_description:sms.field_sms_account_sender__write_date
 #: model:ir.model.fields,field_description:sms.field_sms_composer__write_date
 #: model:ir.model.fields,field_description:sms.field_sms_resend__write_date
 #: model:ir.model.fields,field_description:sms.field_sms_resend_recipient__write_date
@@ -738,6 +924,16 @@ msgstr "Не доставлено"
 #: model:ir.model.fields.selection,name:sms.selection__ir_actions_server__sms_method__note
 msgid "Note only"
 msgstr "Только для заметок"
+<<<<<<< HEAD
+=======
+
+#. module: sms
+#: model_terms:ir.ui.view,arch_db:sms.sms_account_sender_view_form
+msgid ""
+"Note that this is not required, if you don't set a sender name, your SMS "
+"will be sent from a short code."
+msgstr ""
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 #. module: sms
 #: model:ir.model.fields,field_description:sms.field_sms_resend_recipient__notification_id
@@ -822,6 +1018,7 @@ msgid "Phone Blacklisted"
 msgstr "Телефон в черном списке"
 
 #. module: sms
+#: model:ir.model.fields,field_description:sms.field_sms_account_phone__phone_number
 #: model:ir.model.fields,field_description:sms.field_sms_resend_recipient__sms_number
 msgid "Phone Number"
 msgstr "Номер телефона"
@@ -912,11 +1109,40 @@ msgid "Record reference"
 msgstr "Ссылка на запись"
 
 #. module: sms
+<<<<<<< HEAD
 #. odoo-python
 #: code:addons/sms/tools/sms_api.py:0
 #, python-format
+=======
+#: model_terms:ir.ui.view,arch_db:sms.sms_account_code_view_form
+msgid "Register"
+msgstr "Регистрация"
+
+#. module: sms
+#. odoo-python
+#: code:addons/sms/models/iap_account.py:0
+#: code:addons/sms/wizard/sms_account_phone.py:0
+msgid "Register Account"
+msgstr ""
+
+#. module: sms
+#. odoo-python
+#: code:addons/sms/tools/sms_api.py:0
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 msgid "Register now."
 msgstr "Зарегистрируйтесь сейчас."
+
+#. module: sms
+<<<<<<< HEAD
+#: model:ir.model.fields.selection,name:sms.selection__mail_notification__failure_type__sms_rejected
+msgid "Rejected"
+msgstr "Отклонено"
+=======
+#: model_terms:ir.ui.view,arch_db:sms.sms_account_code_view_form
+#: model_terms:ir.ui.view,arch_db:sms.sms_account_phone_view_form
+msgid "Register your SMS account"
+msgstr ""
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 #. module: sms
 #: model:ir.model.fields.selection,name:sms.selection__mail_notification__failure_type__sms_rejected
@@ -974,14 +1200,12 @@ msgstr "Повторить"
 #: model:ir.model.fields.selection,name:sms.selection__mail_notification__notification_type__sms
 #: model:ir.ui.menu,name:sms.sms_sms_menu
 #: model_terms:ir.ui.view,arch_db:sms.sms_tsms_view_form
-#, python-format
 msgid "SMS"
 msgstr "СМС"
 
 #. module: sms
 #. odoo-javascript
 #: code:addons/sms/static/src/components/sms_widget/fields_sms_widget.xml:0
-#, python-format
 msgid "SMS ("
 msgstr "SMS ("
 
@@ -989,11 +1213,34 @@ msgstr "SMS ("
 #: model:ir.model.fields.selection,name:sms.selection__ir_actions_server__sms_method__comment
 msgid "SMS (with note)"
 msgstr "SMS (с примечанием)"
+<<<<<<< HEAD
 
 #. module: sms
 #: model:ir.model.fields.selection,name:sms.selection__ir_actions_server__sms_method__sms
 msgid "SMS (without note)"
 msgstr "SMS (без примечания)"
+=======
+
+#. module: sms
+#: model:ir.model.fields.selection,name:sms.selection__ir_actions_server__sms_method__sms
+msgid "SMS (without note)"
+msgstr "SMS (без примечания)"
+
+#. module: sms
+#: model:ir.model,name:sms.model_sms_account_phone
+msgid "SMS Account Registration Phone Number Wizard"
+msgstr ""
+
+#. module: sms
+#: model:ir.model,name:sms.model_sms_account_sender
+msgid "SMS Account Sender Name Wizard"
+msgstr ""
+
+#. module: sms
+#: model:ir.model,name:sms.model_sms_account_code
+msgid "SMS Account Verification Code Wizard"
+msgstr ""
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 #. module: sms
 #: model:ir.model.fields,field_description:sms.field_account_analytic_account__message_has_sms_error
@@ -1004,12 +1251,17 @@ msgstr "SMS (без примечания)"
 #: model:ir.model.fields,field_description:sms.field_fleet_vehicle__message_has_sms_error
 #: model:ir.model.fields,field_description:sms.field_fleet_vehicle_log_contract__message_has_sms_error
 #: model:ir.model.fields,field_description:sms.field_fleet_vehicle_log_services__message_has_sms_error
+#: model:ir.model.fields,field_description:sms.field_fleet_vehicle_model__message_has_sms_error
 #: model:ir.model.fields,field_description:sms.field_gamification_badge__message_has_sms_error
 #: model:ir.model.fields,field_description:sms.field_gamification_challenge__message_has_sms_error
+<<<<<<< HEAD
 #: model:ir.model.fields,field_description:sms.field_hr_department__message_has_sms_error
 #: model:ir.model.fields,field_description:sms.field_hr_employee__message_has_sms_error
 #: model:ir.model.fields,field_description:sms.field_hr_job__message_has_sms_error
 #: model:ir.model.fields,field_description:sms.field_loyalty_card__message_has_sms_error
+=======
+#: model:ir.model.fields,field_description:sms.field_iap_account__message_has_sms_error
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 #: model:ir.model.fields,field_description:sms.field_lunch_supplier__message_has_sms_error
 #: model:ir.model.fields,field_description:sms.field_mail_blacklist__message_has_sms_error
 #: model:ir.model.fields,field_description:sms.field_mail_thread__message_has_sms_error
@@ -1021,6 +1273,10 @@ msgstr "SMS (без примечания)"
 #: model:ir.model.fields,field_description:sms.field_maintenance_equipment_category__message_has_sms_error
 #: model:ir.model.fields,field_description:sms.field_maintenance_request__message_has_sms_error
 #: model:ir.model.fields,field_description:sms.field_phone_blacklist__message_has_sms_error
+<<<<<<< HEAD
+=======
+#: model:ir.model.fields,field_description:sms.field_product_category__message_has_sms_error
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 #: model:ir.model.fields,field_description:sms.field_product_pricelist__message_has_sms_error
 #: model:ir.model.fields,field_description:sms.field_product_product__message_has_sms_error
 #: model:ir.model.fields,field_description:sms.field_product_template__message_has_sms_error
@@ -1033,7 +1289,23 @@ msgstr "Ошибка доставки SMS"
 #. module: sms
 #. odoo-javascript
 #: code:addons/sms/static/src/messaging_menu/messaging_menu_patch.js:0
+<<<<<<< HEAD
 #, python-format
+msgid "SMS Failures"
+msgstr "Сбои в работе SMS"
+
+#. module: sms
+#: model:ir.model.fields,field_description:sms.field_mail_notification__sms_id_int
+msgid "SMS ID"
+msgstr "SMS ID"
+=======
+msgid "SMS Failure: %(modelName)s"
+msgstr ""
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
+
+#. module: sms
+#. odoo-javascript
+#: code:addons/sms/static/src/messaging_menu/messaging_menu_patch.js:0
 msgid "SMS Failures"
 msgstr "Сбои в работе SMS"
 
@@ -1055,8 +1327,11 @@ msgstr "Просмотр SMS"
 #. module: sms
 #. odoo-javascript
 #: code:addons/sms/static/src/components/sms_widget/fields_sms_widget.xml:0
+<<<<<<< HEAD
 #: code:addons/sms/static/src/components/sms_widget/fields_sms_widget.xml:0
 #, python-format
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 msgid "SMS Pricing"
 msgstr "Ценообразование SMS"
 
@@ -1099,7 +1374,6 @@ msgstr "SMS Шаблоны"
 #. module: sms
 #. odoo-python
 #: code:addons/sms/wizard/sms_template_reset.py:0
-#, python-format
 msgid "SMS Templates have been reset"
 msgstr "Шаблоны SMS были сброшены"
 
@@ -1116,7 +1390,10 @@ msgstr "Содержание SMS"
 #. module: sms
 #. odoo-python
 #: code:addons/sms/models/ir_actions_server.py:0
+<<<<<<< HEAD
 #, python-format
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 msgid "SMS template model of %(action_name)s does not match action model."
 msgstr ""
 "Модель шаблона SMS из %(action_name)s не соответствует модели действия."
@@ -1161,6 +1438,14 @@ msgid "Send Now"
 msgstr "Отправить сейчас"
 
 #. module: sms
+<<<<<<< HEAD
+=======
+#. odoo-javascript
+#: code:addons/sms/static/src/components/sms_button/sms_button.js:0
+#: model:ir.actions.act_window,name:sms.res_partner_act_window_sms_composer_multi
+#: model:ir.actions.act_window,name:sms.res_partner_act_window_sms_composer_single
+#: model:ir.actions.act_window,name:sms.sms_composer_action_form
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 #: model:ir.model.fields.selection,name:sms.selection__ir_actions_server__state__sms
 #: model_terms:ir.ui.view,arch_db:sms.sms_composer_view_form
 msgid "Send SMS"
@@ -1169,9 +1454,9 @@ msgstr "Отправить SMS"
 #. module: sms
 #. odoo-python
 #: code:addons/sms/models/sms_template.py:0
-#, python-format
 msgid "Send SMS (%s)"
 msgstr "Отправить SMS (%s)"
+<<<<<<< HEAD
 
 #. module: sms
 #: model:ir.model.fields,field_description:sms.field_ir_actions_server__sms_method
@@ -1188,6 +1473,14 @@ msgstr "Отправить SMS как"
 #, python-format
 msgid "Send SMS Text Message"
 msgstr "Отправить текстовое сообщение SMS"
+=======
+
+#. module: sms
+#: model:ir.model.fields,field_description:sms.field_ir_actions_server__sms_method
+#: model:ir.model.fields,field_description:sms.field_ir_cron__sms_method
+msgid "Send SMS As"
+msgstr "Отправить SMS как"
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 #. module: sms
 #: model:ir.model,name:sms.model_sms_composer
@@ -1198,6 +1491,14 @@ msgstr "Мастер отправки SMS"
 #: model:ir.model.fields.selection,name:sms.selection__sms_composer__composition_mode__mass
 msgid "Send SMS in batch"
 msgstr "Отправить SMS пакетом"
+<<<<<<< HEAD
+=======
+
+#. module: sms
+#: model:iap.service,description:sms.iap_service_sms
+msgid "Send SMS to your contacts directly from your database."
+msgstr ""
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 #. module: sms
 #: model_terms:ir.ui.view,arch_db:sms.sms_composer_view_form
@@ -1208,11 +1509,30 @@ msgstr "Отправить SMS"
 #: model:ir.model.fields,field_description:sms.field_sms_composer__mass_force_send
 msgid "Send directly"
 msgstr "Отправить напрямую"
+<<<<<<< HEAD
 
 #. module: sms
 #: model:ir.model.fields.selection,name:sms.selection__sms_composer__composition_mode__numbers
 msgid "Send to numbers"
 msgstr "Отправить по номерам"
+=======
+
+#. module: sms
+#: model:ir.model.fields.selection,name:sms.selection__sms_composer__composition_mode__numbers
+msgid "Send to numbers"
+msgstr "Отправить по номерам"
+
+#. module: sms
+#: model_terms:ir.ui.view,arch_db:sms.sms_account_phone_view_form
+msgid "Send verification code"
+msgstr ""
+
+#. module: sms
+#: model:ir.model.fields,field_description:sms.field_iap_account__sender_name
+#: model:ir.model.fields,field_description:sms.field_sms_account_sender__sender_name
+msgid "Sender Name"
+msgstr ""
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 #. module: sms
 #: model:ir.actions.act_window,name:sms.sms_resend_action
@@ -1222,7 +1542,6 @@ msgstr "Сбои при отправке"
 #. module: sms
 #. odoo-python
 #: code:addons/sms/models/ir_actions_server.py:0
-#, python-format
 msgid "Sending SMS can only be done on a mail.thread or a transient model"
 msgstr ""
 "Отправка SMS может осуществляться только в потоке mail.thread или в "
@@ -1243,6 +1562,11 @@ msgstr "Server Action"
 #: model:ir.model.fields.selection,name:sms.selection__sms_sms__failure_type__sms_server
 msgid "Server Error"
 msgstr "Ошибка сервера"
+
+#. module: sms
+#: model_terms:ir.ui.view,arch_db:sms.sms_account_sender_view_form
+msgid "Set sender name"
+msgstr ""
 
 #. module: sms
 #: model_terms:ir.ui.view,arch_db:sms.mail_resend_message_view_form
@@ -1267,6 +1591,14 @@ msgstr ""
 #: model:ir.model.fields,field_description:sms.field_sms_composer__comment_single_recipient
 msgid "Single Mode"
 msgstr "Одиночный режим"
+<<<<<<< HEAD
+=======
+
+#. module: sms
+#: model_terms:ir.ui.view,arch_db:sms.sms_account_sender_view_form
+msgid "Skip for now"
+msgstr ""
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 #. module: sms
 #: model:ir.model.fields,field_description:sms.field_sms_resend_recipient__sms_resend_id
@@ -1286,7 +1618,6 @@ msgstr "Сохраненный номер получателя"
 #. module: sms
 #. odoo-python
 #: code:addons/sms/models/sms_sms.py:0
-#, python-format
 msgid "Success"
 msgstr "Успех"
 
@@ -1317,14 +1648,22 @@ msgstr "Шаблоны"
 
 #. module: sms
 #. odoo-python
+#: code:addons/sms/tools/sms_api.py:0
+msgid ""
+"The SMS Service is currently unavailable for new users and new accounts "
+"registrations are suspended."
+msgstr ""
+
+#. module: sms
+#. odoo-python
 #: code:addons/sms/models/sms_sms.py:0
-#, python-format
 msgid "The SMS Text Messages could not be resent."
 msgstr "Не удалось повторно отправить текстовые сообщения SMS."
 
 #. module: sms
 #. odoo-python
 #: code:addons/sms/tools/sms_api.py:0
+<<<<<<< HEAD
 #, python-format
 msgid "The content of the message violates rules applied by our providers."
 msgstr ""
@@ -1336,11 +1675,25 @@ msgstr ""
 #, python-format
 msgid "The destination country is not supported."
 msgstr "Страна назначения не поддерживается."
+=======
+msgid "The content of the message violates rules applied by our providers."
+msgstr ""
+"Содержание сообщения нарушает правила, установленные нашими провайдерами."
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 #. module: sms
 #. odoo-python
 #: code:addons/sms/tools/sms_api.py:0
+<<<<<<< HEAD
 #, python-format
+=======
+msgid "The destination country is not supported."
+msgstr "Страна назначения не поддерживается."
+
+#. module: sms
+#. odoo-python
+#: code:addons/sms/tools/sms_api.py:0
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 msgid "The number you're trying to reach is not correctly formatted."
 msgstr ""
 "Номер, по которому вы пытаетесь связаться, отформатирован неправильно."
@@ -1353,22 +1706,55 @@ msgstr "Тип документа, с которым этот шаблон мо�
 
 #. module: sms
 #. odoo-python
+#: code:addons/sms/tools/sms_api.py:0
+msgid "The verification code is incorrect."
+msgstr ""
+
+#. module: sms
+#. odoo-python
 #: code:addons/sms/models/sms_sms.py:0
-#, python-format
 msgid "There are no SMS Text Messages to resend."
 msgstr "Повторная отправка SMS-сообщений не требуется."
 
 #. module: sms
 #. odoo-python
 #: code:addons/sms/tools/sms_api.py:0
+<<<<<<< HEAD
 #, python-format
 msgid "This SMS has been removed as the number was already used."
 msgstr "Это SMS было удалено, так как номер уже использовался."
+=======
+msgid "This SMS has been removed as the number was already used."
+msgstr "Это SMS было удалено, так как номер уже использовался."
+
+#. module: sms
+#. odoo-python
+#: code:addons/sms/tools/sms_api.py:0
+msgid ""
+"This account already has an existing sender name and it cannot be changed."
+msgstr ""
+
+#. module: sms
+#: model:ir.model.fields,help:sms.field_iap_account__sender_name
+msgid "This is the name that will be displayed as the sender of the SMS."
+msgstr ""
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 #. module: sms
 #: model_terms:ir.ui.view,arch_db:sms.res_partner_view_form
 msgid ""
 "This phone number is blacklisted for SMS Marketing. Click to unblacklist."
+<<<<<<< HEAD
+=======
+msgstr ""
+"Этот номер телефона занесен в черный список для SMS-маркетинга. Нажмите, "
+"чтобы исключить его из черного списка."
+
+#. module: sms
+#. odoo-python
+#: code:addons/sms/tools/sms_api.py:0
+msgid "This phone number/account has been banned from our service."
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 msgstr ""
 "Этот номер телефона занесен в черный список для SMS-маркетинга. Нажмите, "
 "чтобы исключить его из черного списка."
@@ -1460,6 +1846,14 @@ msgstr ""
 "'notification': генерируется системой, например, сообщениями отслеживания\n"
 "'auto_comment': генерируется механизмом автоматического уведомления, например, подтверждением\n"
 "'user_notification': генерируется для конкретного получателя"
+<<<<<<< HEAD
+=======
+
+#. module: sms
+#: model:ir.model.fields,field_description:sms.field_sms_account_code__verification_code
+msgid "Verification Code"
+msgstr "Код подтверждения"
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 #. module: sms
 #: model:ir.model.fields,field_description:sms.field_sms_composer__res_ids_count
@@ -1469,9 +1863,22 @@ msgstr "Количество видимых записей"
 #. module: sms
 #. odoo-python
 #: code:addons/sms/models/sms_sms.py:0
-#, python-format
 msgid "Warning"
 msgstr "Предупреждение"
+
+#. module: sms
+#. odoo-python
+#: code:addons/sms/tools/sms_api.py:0
+msgid "We were not able to find your account in our database."
+msgstr ""
+
+#. module: sms
+#. odoo-python
+#: code:addons/sms/tools/sms_api.py:0
+msgid ""
+"We were not able to reach you via your phone number. If you have requested "
+"multiple codes recently, please retry later."
+msgstr ""
 
 #. module: sms
 #: model:ir.model.fields,field_description:sms.field_res_partner__website_message_ids
@@ -1506,36 +1913,85 @@ msgstr "Неправильный формат номера"
 #. module: sms
 #. odoo-python
 #: code:addons/sms/wizard/sms_resend.py:0
-#, python-format
 msgid "You do not have access to the message and/or related document."
 msgstr "Вы не имеете доступа к сообщению и/или соответствующему документу."
 
 #. module: sms
 #. odoo-python
 #: code:addons/sms/tools/sms_api.py:0
+<<<<<<< HEAD
 #, python-format
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 msgid "You don't have an eligible IAP account."
 msgstr "У вас нет подходящей учетной записи IAP."
 
 #. module: sms
 #. odoo-python
 #: code:addons/sms/tools/sms_api.py:0
+<<<<<<< HEAD
 #, python-format
+msgid "You don't have enough credits on your IAP account."
+msgstr "На вашем IAP-аккаунте недостаточно кредитов."
+=======
 msgid "You don't have enough credits on your IAP account."
 msgstr "На вашем IAP-аккаунте недостаточно кредитов."
 
 #. module: sms
+#. odoo-python
+#: code:addons/sms/tools/sms_api.py:0
+msgid "You tried too many times. Please retry later."
+msgstr ""
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
+
+#. module: sms
 #. odoo-javascript
 #: code:addons/sms/static/src/components/sms_widget/fields_sms_widget.js:0
+<<<<<<< HEAD
 #, python-format
+msgid ""
+"Your SMS Text Message must include at least one non-whitespace character"
+msgstr "Ваше SMS-сообщение должно содержать хотя бы один символ без пробела"
+=======
 msgid ""
 "Your SMS Text Message must include at least one non-whitespace character"
 msgstr "Ваше SMS-сообщение должно содержать хотя бы один символ без пробела"
 
 #. module: sms
+#. odoo-python
+#: code:addons/sms/wizard/sms_account_code.py:0
+msgid "Your SMS account has been successfully registered."
+msgstr ""
+
+#. module: sms
+#. odoo-python
+#: code:addons/sms/tools/sms_api.py:0
+msgid ""
+"Your sender name must be between 3 and 11 characters long and only contain "
+"alphanumeric characters."
+msgstr ""
+
+#. module: sms
+#: model_terms:ir.ui.view,arch_db:sms.sms_account_sender_view_form
+msgid ""
+"Your sender name must be between 3 and 11 characters long and only contain alphanumeric characters.\n"
+"                        It must fit your company name, and you aren't allowed to modify it once you registered one, choose it carefully."
+msgstr ""
+
+#. module: sms
+#. odoo-python
+#: code:addons/sms/tools/sms_api.py:0
+msgid "Your sms account has not been activated yet."
+msgstr ""
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
+
+#. module: sms
 #. odoo-javascript
 #: code:addons/sms/static/src/components/sms_widget/fields_sms_widget.xml:0
+<<<<<<< HEAD
 #, python-format
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 msgid "characters"
 msgstr "знаки"
 

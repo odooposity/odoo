@@ -9,6 +9,7 @@ from odoo.http import Stream, request
 from odoo.tools import file_open, replace_exceptions
 from odoo.tools.image import image_process, image_guess_size_from_field_name
 from odoo.tools.mimetypes import guess_mimetype, get_extension
+from odoo.tools.misc import verify_limited_field_access_token
 
 
 DEFAULT_PLACEHOLDER_PATH = 'web/static/img/placeholder.png'
@@ -21,7 +22,7 @@ class IrBinary(models.AbstractModel):
 
     def _find_record(
             self, xmlid=None, res_model='ir.attachment', res_id=None,
-            access_token=None,
+            access_token=None, field=None
     ):
         """
         Find and return a record either using an xmlid either a model+id
@@ -45,16 +46,16 @@ class IrBinary(models.AbstractModel):
             record = self.env[res_model].browse(res_id).exists()
         if not record:
             raise MissingError(f"No record found for xmlid={xmlid}, res_model={res_model}, id={res_id}")
-
-        record = self._find_record_check_access(record, access_token)
+        if access_token and verify_limited_field_access_token(record, field, access_token):
+            return record.sudo()
+        record = self._find_record_check_access(record, access_token, field)
         return record
 
-    def _find_record_check_access(self, record, access_token):
+    def _find_record_check_access(self, record, access_token, field):
         if record._name == 'ir.attachment':
             return record.validate_access(access_token)
 
-        record.check_access_rights('read')
-        record.check_access_rule('read')
+        record.check_access('read')
         return record
 
     def _record_to_stream(self, record, field_name):
@@ -70,7 +71,7 @@ class IrBinary(models.AbstractModel):
         :rtype: odoo.http.Stream
         """
         if record._name == 'ir.attachment' and field_name in ('raw', 'datas', 'db_datas'):
-            return Stream.from_attachment(record)
+            return record._to_http_stream()
 
         record.check_field_access_rights('read', [field_name])
 
@@ -82,7 +83,11 @@ class IrBinary(models.AbstractModel):
                 limit=1)
             if not field_attachment:
                 raise MissingError("The related attachment does not exist.")
+<<<<<<< HEAD
             return Stream.from_attachment(field_attachment)
+=======
+            return field_attachment._to_http_stream()
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
         return Stream.from_binary_field(record, field_name)
 

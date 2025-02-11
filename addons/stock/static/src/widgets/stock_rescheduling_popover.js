@@ -7,7 +7,11 @@ import {
     popoverWidgetField,
 } from "@stock/widgets/popover_widget";
 
+<<<<<<< HEAD
 export class  StockRescheculingPopoverComponent extends PopoverComponent {
+=======
+export class StockRescheculingPopoverComponent extends PopoverComponent {
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
     setup(){
         this.action = useService("action");
     }
@@ -24,6 +28,12 @@ export class  StockRescheculingPopoverComponent extends PopoverComponent {
 }
 
 export class StockRescheculingPopover extends PopoverWidgetField {
+<<<<<<< HEAD
+=======
+    static components = {
+        Popover: StockRescheculingPopoverComponent
+    };
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
     setup(){
         super.setup();
         this.color = this.jsonValue.color || 'text-danger';
@@ -36,9 +46,6 @@ export class StockRescheculingPopover extends PopoverWidgetField {
         }
         super.showPopup(ev);
     }
-}
-StockRescheculingPopover.components = {
-    Popover: StockRescheculingPopoverComponent
 }
 
 registry.category("fields").add("stock_rescheduling_popover", {

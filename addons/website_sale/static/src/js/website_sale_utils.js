@@ -1,13 +1,16 @@
 /** @odoo-module **/
 
 import { _t } from "@web/core/l10n/translation";
+<<<<<<< HEAD
+=======
+import { rpc } from "@web/core/network/rpc";
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 import wUtils from "@website/js/utils";
 
 export const cartHandlerMixin = {
     getRedirectOption() {
         const html = document.documentElement;
         this.stayOnPageOption = html.dataset.add2cartRedirect === '1';
-        this.forceDialog = html.dataset.add2cartRedirect === '2';
     },
     getCartHandlerOptions(ev) {
         this.isBuyNow = ev.currentTarget.classList.contains('o_we_buy_now');
@@ -29,7 +32,7 @@ export const cartHandlerMixin = {
      * @private
      */
     async _addToCartInPage(params) {
-        const data = await this.rpc("/shop/cart/update_json", {
+        const data = await rpc("/shop/cart/update_json", {
             ...params,
             display: false,
             force_create: true,

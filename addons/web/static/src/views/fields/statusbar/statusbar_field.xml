@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <templates xml:space="preserve">
+<<<<<<< HEAD
     <t t-name="web.StatusBarField.Dropdown">
         <Dropdown toggler="'parent'">
             <t t-foreach="items" t-as="item" t-key="item.value">
@@ -22,12 +23,38 @@
                 type="button"
                 class="btn btn-secondary dropdown-toggle o_arrow_button o_first"
                 aria-label="More..."
+=======
+
+    <t t-name="web.StatusBarField.Dropdown">
+        <t t-foreach="items" t-as="item" t-key="item.value">
+            <DropdownItem
+                class="getDropdownItemClassNames(item)"
+                onSelected="() => this.selectItem(item)"
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
             >
-                <t t-call="web.StatusBarField.Dropdown">
-                    <t t-set="label">...</t>
-                    <t t-set="items" t-value="items.after" />
+                <span t-esc="item.label" />
+            </DropdownItem>
+        </t>
+    </t>
+
+    <t t-name="web.StatusBarField">
+        <div class="o_statusbar_status" t-ref="root" role="radiogroup" aria-label="Statusbar">
+            <Dropdown position="'bottom-end'">
+                <button
+                    t-ref="after"
+                    type="button"
+                    class="btn btn-secondary dropdown-toggle o_arrow_button o_first"
+                    t-att-disabled="props.isDisabled"
+                    aria-label="More..."
+                >
+                    ...
+                </button>
+                <t t-set-slot="content">
+                    <t t-call="web.StatusBarField.Dropdown">
+                        <t t-set="items" t-value="items.after" />
+                    </t>
                 </t>
-            </button>
+            </Dropdown>
             <t t-foreach="items.inline" t-as="item" t-key="item.value">
                 <button
                     type="button"
@@ -46,6 +73,7 @@
                     t-on-click="() => this.selectItem(item)"
                 />
             </t>
+<<<<<<< HEAD
             <button
                 t-ref="before"
                 type="button"
@@ -55,14 +83,39 @@
                 <t t-call="web.StatusBarField.Dropdown">
                     <t t-set="label">...</t>
                     <t t-set="items" t-value="items.before" />
+=======
+            <Dropdown position="'bottom-start'">
+                <button
+                    t-ref="before"
+                    type="button"
+                    class="btn btn-secondary dropdown-toggle o_arrow_button o_last"
+                    t-att-disabled="props.isDisabled"
+                    aria-label="More..."
+                >
+                    ...
+                </button>
+                <t t-set-slot="content">
+                    <t t-call="web.StatusBarField.Dropdown">
+                        <t t-set="items" t-value="items.before" />
+                    </t>
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
                 </t>
-            </button>
-            <button t-ref="dropdown" type="button" class="btn btn-secondary dropdown-toggle">
-                <t t-call="web.StatusBarField.Dropdown">
-                    <t t-set="label" t-value="getCurrentLabel()" />
-                    <t t-set="items" t-value="getAllItems()" />
+            </Dropdown>
+            <Dropdown position="'bottom-end'">
+                <button
+                    t-ref="dropdown" 
+                    type="button" 
+                    class="btn btn-secondary dropdown-toggle"
+                    t-att-disabled="props.isDisabled"
+                >
+                    <t t-out="getCurrentLabel()" />
+                </button>
+                <t t-set-slot="content">
+                    <t t-call="web.StatusBarField.Dropdown">
+                        <t t-set="items" t-value="getAllItems()" />
+                    </t>
                 </t>
-            </button>
+            </Dropdown>
         </div>
     </t>
 </templates>

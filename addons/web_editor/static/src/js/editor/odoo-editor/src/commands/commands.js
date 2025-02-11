@@ -6,9 +6,7 @@ import {
     childNodeIndex,
     closestBlock,
     closestElement,
-    closestPath,
     DIRECTIONS,
-    findNode,
     getCursors,
     getDeepRange,
     getInSelection,
@@ -16,7 +14,6 @@ import {
     getSelectedNodes,
     getTraversedNodes,
     insertAndSelectZws,
-    insertText,
     isBlock,
     isColorGradient,
     isSelectionFormat,
@@ -204,10 +201,17 @@ export const editorCommands = {
         const shouldUnwrap = (node) => (
             [...paragraphRelatedElements, 'LI'].includes(node.nodeName) &&
             block.textContent !== "" && node.textContent !== "" &&
+<<<<<<< HEAD
             (
                 block.nodeName === node.nodeName ||
                 block.nodeName === 'DIV'
             ) && selection.anchorNode.oid !== 'root'
+=======
+            [node.nodeName, 'DIV'].includes(block.nodeName) &&
+            // If the selection anchorNode is the editable itself, the content
+            // should not be unwrapped.
+            selection.anchorNode.oid !== 'root'
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
         );
 
         // Empty block must contain a br element to allow cursor placement.
@@ -322,7 +326,12 @@ export const editorCommands = {
                 while (
                     currentNode.parentElement !== editor.editable &&
                     (!allowsParagraphRelatedElements(currentNode.parentElement) ||
+<<<<<<< HEAD
                         (currentNode.parentElement.nodeName === 'LI' && nodeToInsert.nodeName !== 'TABLE'))
+=======
+                        (currentNode.parentElement.nodeName === "LI" &&
+                            !isUnbreakable(nodeToInsert)))
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
                 ) {
                     if (isUnbreakable(currentNode.parentElement)) {
                         makeContentsInline(container);
@@ -345,6 +354,7 @@ export const editorCommands = {
                         currentNode = currentNode.parentElement;
                     }
                 }
+<<<<<<< HEAD
                 if (currentNode.parentElement.nodeName === 'LI' && nodeToInsert.nodeName === 'TABLE') {
                     const br = document.createElement('br');
                     currentNode[currentNode.textContent ? 'after' : 'before'](br);
@@ -355,6 +365,18 @@ export const editorCommands = {
             if (block.nodeName === "LI" && paragraphRelatedElements.includes(nodeToInsert.nodeName)) {
                 setTagName(nodeToInsert, "LI");
             }
+=======
+                if (currentNode.parentElement.nodeName === 'LI' && isUnbreakable(nodeToInsert)) {
+                    const br = document.createElement('br');
+                    currentNode[currentNode.textContent ? 'after' : 'before'](br);
+                }
+            }
+            // Ensure that all adjacent paragraph elements are converted to
+            // <li> when inserting in a list.
+            if (block.nodeName === "LI" && paragraphRelatedElements.includes(nodeToInsert.nodeName)) {
+                setTagName(nodeToInsert, "LI");
+            }
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
             // Contenteditable false property changes to true after the node is
             // inserted into DOM.
             const isNodeToInsertContentEditable = nodeToInsert.isContentEditable;
@@ -383,9 +405,17 @@ export const editorCommands = {
             if (
                 !isNodeToInsertContentEditable &&
                 editor.editable.firstChild === nodeToInsert &&
+<<<<<<< HEAD
                 nodeToInsert.nodeName === 'DIV'
             ) {
                 const zws = document.createTextNode('\u200B');
+=======
+                nodeToInsert.nodeType === Node.ELEMENT_NODE &&
+                (nodeToInsert.classList.contains("o_knowledge_behavior_type_template") ||
+                    nodeToInsert.classList.contains("o_editor_banner"))
+            ) {
+                const zws = document.createTextNode("\u200B");
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
                 nodeToInsert.before(zws);
             }
             currentNode = convertedList || nodeToInsert;
@@ -581,27 +611,6 @@ export const editorCommands = {
     justifyFull: editor => align(editor, 'justify'),
 
     // Link
-    createLink: (editor, link, content) => {
-        const sel = editor.document.getSelection();
-        if (content && !sel.isCollapsed) {
-            editor.deleteRange(sel);
-        }
-        if (sel.isCollapsed) {
-            insertText(sel, content || 'link');
-        }
-        const currentLink = closestElement(sel.focusNode, 'a');
-        link = link || prompt('URL or Email', (currentLink && currentLink.href) || 'http://');
-        const res = editor.document.execCommand('createLink', false, link);
-        if (res) {
-            setSelection(sel.anchorNode, sel.anchorOffset, sel.focusNode, sel.focusOffset);
-            const node = findNode(closestPath(sel.focusNode), node => node.tagName === 'A');
-            for (const [param, value] of Object.entries(editor.options.defaultLinkAttributes)) {
-                node.setAttribute(param, `${value}`);
-            }
-            const pos = [node.parentElement, childNodeIndex(node) + 1];
-            setSelection(...pos, ...pos, false);
-        }
-    },
     unlink: editor => {
         const sel = editor.document.getSelection();
         const isCollapsed = sel.isCollapsed;
@@ -696,7 +705,11 @@ export const editorCommands = {
 
         let target = [...(blocks.size ? blocks : li)];
         if (blocks.size) {
+<<<<<<< HEAD
             // Remove hardcoded padding to have default padding of list element 
+=======
+            // Remove hardcoded padding to have default padding of list element
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
             for (const block of blocks) {
                 if (block.style) {
                     block.style.padding = "";

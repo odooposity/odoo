@@ -577,6 +577,7 @@ class TestSelectRangeMulti(odoo.tests.TransactionCase):
             limit=2,
         )
         self.assertEqual(result, SEARCH_PANEL_ERROR)
+<<<<<<< HEAD
 
         result = self.SourceModel.search_panel_select_multi_range(
             'tag_ids',
@@ -599,6 +600,11 @@ class TestSelectRangeMulti(odoo.tests.TransactionCase):
 
         result = self.SourceModel.search_panel_select_multi_range(
             'computed_tag_ids',
+=======
+
+        result = self.SourceModel.search_panel_select_multi_range(
+            'tag_ids',
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
             search_domain=[['id', '=', r6_id]],
             limit=2,
         )

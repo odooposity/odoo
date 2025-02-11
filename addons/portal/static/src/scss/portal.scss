@@ -25,6 +25,12 @@ body {
     direction: ltr;
 }
 
+.o_skip_to_content {
+    // We require the z-index property to ensure that the "Skip to Content"
+    // button appears above the header.
+    z-index: $zindex-fixed + 1;
+}
+
 header {
     .navbar-brand {
         flex: 0 0 auto;
@@ -285,10 +291,6 @@ img, .media_iframe_video, .o_image {
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
-
-            &:has(a) {
-                color: $primary;
-            }
         }
     }
 
@@ -300,7 +302,11 @@ img, .media_iframe_video, .o_image {
         #o_portal_navbar_content {
             @include media-breakpoint-down(lg) {
                 margin: $navbar-padding-y 0 0;
+<<<<<<< HEAD
                 padding: $navbar-padding-y $navbar-padding-x ;
+=======
+                padding: $navbar-padding-y ($grid-gutter-width / 2);
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
                 border-top: $border-width solid $o-portal-mobile-toolbar-border;
                 background-color: $o-portal-mobile-toolbar-bg;
             }
@@ -342,16 +348,11 @@ img, .media_iframe_video, .o_image {
     background-repeat: no-repeat;
 }
 
-.o_portal_sidebar {
-    .o_portal_html_view {
-        overflow: hidden;
-        background: white;
-        position: relative;
+.o_portal_sidebar .o_portal_html_view .o_portal_html_loader {
+    @include o-position-absolute(45%, 0, auto, 0);
+}
 
-        .o_portal_html_loader {
-            @include o-position-absolute(45%, 0, auto, 0);
-        }
-
+<<<<<<< HEAD
         iframe {
             position: relative;
         }
@@ -368,6 +369,11 @@ img, .media_iframe_video, .o_image {
             white-space: normal !important;
         }
     }
+=======
+.o_portal_sidebar .o_portal_sidebar_content span.oe_currency_value {
+    word-break: break-word !important;
+    white-space: normal !important;
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 }
 
 // ------------------------------------------------------------

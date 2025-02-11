@@ -2,8 +2,13 @@
 <templates id="template" xml:space="preserve">
 
     <t t-name="pos_hr.CashierName" t-inherit="point_of_sale.CashierName" t-inherit-mode="extension">
+<<<<<<< HEAD
         <xpath expr="//div" position="attributes">
             <attribute name="t-on-click">() => this.selectCashier()</attribute>
+=======
+        <xpath expr="//button" position="attributes">
+            <attribute name="t-on-click">() => this.selectCashier(false, true, true)</attribute>
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
         </xpath>
     </t>
 

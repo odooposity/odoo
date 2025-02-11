@@ -3,6 +3,7 @@
 # 	* stock_delivery
 # 
 # Translators:
+<<<<<<< HEAD
 # Wil Odoo, 2023
 # Ryoko Tsuda <ryoko@quartile.co>, 2023
 # Junko Augias, 2024
@@ -14,6 +15,18 @@ msgstr ""
 "POT-Creation-Date: 2023-10-26 21:56+0000\n"
 "PO-Revision-Date: 2023-10-26 23:09+0000\n"
 "Last-Translator: Junko Augias, 2024\n"
+=======
+# Wil Odoo, 2025
+# Junko Augias, 2025
+# 
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 18.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2024-09-26 08:56+0000\n"
+"PO-Revision-Date: 2024-09-25 09:42+0000\n"
+"Last-Translator: Junko Augias, 2025\n"
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 "Language-Team: Japanese (https://app.transifex.com/odoo/teams/41243/ja/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -24,9 +37,14 @@ msgstr ""
 #. module: stock_delivery
 #. odoo-python
 #: code:addons/stock_delivery/models/sale_order.py:0
+<<<<<<< HEAD
 #, python-format
 msgid " (Estimated Cost: %s )"
 msgstr "(見積費用: %s)"
+=======
+msgid "%(name)s (Estimated Cost: %(cost)s)"
+msgstr "%(name)s (見積費用: %(cost)s)"
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 #. module: stock_delivery
 #: model_terms:ir.ui.view,arch_db:stock_delivery.view_quant_package_weight_form
@@ -52,6 +70,7 @@ msgstr "<span>荷物重量: </span>"
 #. module: stock_delivery
 #: model_terms:ir.ui.view,arch_db:stock_delivery.report_delivery_document2
 #: model_terms:ir.ui.view,arch_db:stock_delivery.report_shipping2
+<<<<<<< HEAD
 msgid "<strong>Carrier:</strong>"
 msgstr "<strong>運送会社:</strong>"
 
@@ -59,6 +78,15 @@ msgstr "<strong>運送会社:</strong>"
 #: model_terms:ir.ui.view,arch_db:stock_delivery.report_delivery_document2
 msgid "<strong>HS Code</strong>"
 msgstr "<strong>HS コード</strong>"
+=======
+msgid "<strong>Carrier</strong>"
+msgstr "<strong>配送業者</strong>"
+
+#. module: stock_delivery
+#: model_terms:ir.ui.view,arch_db:stock_delivery.report_shipping2
+msgid "<strong>Shipping Method:</strong>"
+msgstr "<strong>買い物方法:</strong>"
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 #. module: stock_delivery
 #: model_terms:ir.ui.view,arch_db:stock_delivery.report_package_barcode_delivery
@@ -76,6 +104,7 @@ msgstr ""
 
 #. module: stock_delivery
 #: model_terms:ir.ui.view,arch_db:stock_delivery.report_delivery_document2
+<<<<<<< HEAD
 msgid ""
 "<strong>Total Weight:</strong>\n"
 "                <br/>"
@@ -87,6 +116,15 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:stock_delivery.report_delivery_document2
 msgid "<strong>Tracking Number:</strong>"
 msgstr "<strong>追跡番号　:</strong>"
+=======
+msgid "<strong>Total Weight</strong>"
+msgstr "<strong>重量合計</strong>"
+
+#. module: stock_delivery
+#: model_terms:ir.ui.view,arch_db:stock_delivery.report_delivery_document2
+msgid "<strong>Tracking Number</strong>"
+msgstr "<strong>追跡番号</strong>"
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 #. module: stock_delivery
 #: model_terms:ir.ui.view,arch_db:stock_delivery.report_package_barcode_delivery
@@ -95,12 +133,17 @@ msgstr "<strong>重量: </strong>"
 
 #. module: stock_delivery
 #: model_terms:ir.ui.view,arch_db:stock_delivery.report_shipping2
+<<<<<<< HEAD
 msgid ""
 "<strong>Weight:</strong>\n"
 "                <br/>"
 msgstr ""
 "<strong>重量:</strong>\n"
 "                <br/>"
+=======
+msgid "<strong>Weight</strong>"
+msgstr "<strong>重量</strong>"
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 #. module: stock_delivery
 #: model:ir.model.fields,field_description:stock_delivery.field_stock_route__shipping_selectable
@@ -108,6 +151,7 @@ msgid "Applicable on Shipping Methods"
 msgstr "配送方法に適用可能"
 
 #. module: stock_delivery
+<<<<<<< HEAD
 #: model:ir.model.fields,field_description:stock_delivery.field_stock_picking__weight_bulk
 msgid "Bulk Weight"
 msgstr "バルク重量"
@@ -116,13 +160,22 @@ msgstr "バルク重量"
 #: model_terms:ir.ui.view,arch_db:stock_delivery.view_picking_withcarrier_out_form
 msgid "Cancel"
 msgstr "取消"
+=======
+#: model_terms:ir.ui.view,arch_db:stock_delivery.view_picking_withcarrier_out_form
+msgid "Cancel"
+msgstr "キャンセル"
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 #. module: stock_delivery
 #: model_terms:ir.ui.view,arch_db:stock_delivery.view_picking_withcarrier_out_form
 msgid ""
 "Cancelling a delivery may not be undoable. Are you sure you want to "
 "continue?"
+<<<<<<< HEAD
 msgstr "配送の取消は行えない場合があります。本当に続けますか？"
+=======
+msgstr "配送のキャンセルは行えない場合があります。本当に続けますか？"
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 #. module: stock_delivery
 #: model:ir.model.fields,field_description:stock_delivery.field_stock_move_line__carrier_id
@@ -130,17 +183,29 @@ msgstr "配送の取消は行えない場合があります。本当に続けま
 #: model:ir.model.fields,field_description:stock_delivery.field_stock_picking__carrier_id
 #: model_terms:ir.ui.view,arch_db:stock_delivery.stock_move_line_view_search_delivery
 msgid "Carrier"
+<<<<<<< HEAD
 msgstr "運送会社"
+=======
+msgstr "配送業者"
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 #. module: stock_delivery
 #: model:ir.model.fields,field_description:stock_delivery.field_stock_package_type__shipper_package_code
 msgid "Carrier Code"
+<<<<<<< HEAD
 msgstr "運送会社コード"
+=======
+msgstr "配送コード"
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 #. module: stock_delivery
 #: model_terms:ir.ui.view,arch_db:stock_delivery.stock_move_line_view_search_delivery
 msgid "Carrier name"
+<<<<<<< HEAD
 msgstr "運送会社名"
+=======
+msgstr "配送会社名"
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 #. module: stock_delivery
 #: model:ir.model.fields,field_description:stock_delivery.field_choose_delivery_package__company_id
@@ -150,7 +215,10 @@ msgstr "会社"
 #. module: stock_delivery
 #. odoo-python
 #: code:addons/stock_delivery/models/stock_picking.py:0
+<<<<<<< HEAD
 #, python-format
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 msgid "Cost: %(price).2f %(currency)s"
 msgstr "原価: %(price).2f %(currency)s"
 
@@ -167,7 +235,16 @@ msgstr "作成日"
 #. module: stock_delivery
 #: model:ir.model,name:stock_delivery.model_choose_delivery_carrier
 msgid "Delivery Carrier Selection Wizard"
+<<<<<<< HEAD
 msgstr "運送会社選択ガイド"
+=======
+msgstr "配送業者選択ガイド"
+
+#. module: stock_delivery
+#: model:ir.ui.menu,name:stock_delivery.menu_action_delivery_carrier_form
+msgid "Delivery Methods"
+msgstr "配送方法"
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 #. module: stock_delivery
 #: model:ir.model,name:stock_delivery.model_choose_delivery_package
@@ -215,9 +292,33 @@ msgstr ""
 "実費: 顧客に送料の実費が請求されます。送料は納品後に販売オーダで更新されます。"
 
 #. module: stock_delivery
+<<<<<<< HEAD
 #: model:ir.model.fields,field_description:stock_delivery.field_product_product__hs_code
 #: model:ir.model.fields,field_description:stock_delivery.field_product_template__hs_code
 #: model_terms:ir.ui.view,arch_db:stock_delivery.product_template_hs_code
+=======
+#. odoo-python
+#: code:addons/stock_delivery/models/stock_picking.py:0
+msgid "Exception occurred with respect to carrier on the transfer"
+msgstr "転送時に運送会社に関して例外が発生しました。"
+
+#. module: stock_delivery
+#. odoo-python
+#: code:addons/stock_delivery/models/stock_picking.py:0
+msgid "Exception:"
+msgstr "例外:"
+
+#. module: stock_delivery
+#: model_terms:ir.ui.view,arch_db:stock_delivery.report_shipping2
+msgid "FedEx"
+msgstr "FedEx"
+
+#. module: stock_delivery
+#: model:ir.model.fields,field_description:stock_delivery.field_product_product__hs_code
+#: model:ir.model.fields,field_description:stock_delivery.field_product_template__hs_code
+#: model_terms:ir.ui.view,arch_db:stock_delivery.product_template_hs_code
+#: model_terms:ir.ui.view,arch_db:stock_delivery.report_delivery_document2
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 msgid "HS Code"
 msgstr "HS コード"
 
@@ -252,9 +353,21 @@ msgid "Last Updated on"
 msgstr "最終更新日"
 
 #. module: stock_delivery
+<<<<<<< HEAD
 #: model:ir.model.fields.selection,name:stock_delivery.selection__stock_package_type__package_carrier_type__none
 msgid "No carrier integration"
 msgstr "連携運送会社はありません。"
+=======
+#. odoo-python
+#: code:addons/stock_delivery/models/stock_picking.py:0
+msgid "Manual actions might be needed."
+msgstr "手動操作が必要になる場合があります。"
+
+#. module: stock_delivery
+#: model:ir.model.fields.selection,name:stock_delivery.selection__stock_package_type__package_carrier_type__none
+msgid "No carrier integration"
+msgstr "連携配送業者はありません。"
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 #. module: stock_delivery
 #: model_terms:ir.ui.view,arch_db:stock_delivery.delivery_tracking_url_warning_form
@@ -270,25 +383,38 @@ msgstr "商品の原産地"
 #. module: stock_delivery
 #: model_terms:ir.ui.view,arch_db:stock_delivery.choose_delivery_package_view_form
 msgid "Package"
+<<<<<<< HEAD
 msgstr "パッケージ"
+=======
+msgstr "梱包"
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 #. module: stock_delivery
 #. odoo-python
 #: code:addons/stock_delivery/models/stock_picking.py:0
+<<<<<<< HEAD
 #, python-format
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 msgid "Package Details"
 msgstr "梱包詳細"
 
 #. module: stock_delivery
 #. odoo-python
 #: code:addons/stock_delivery/wizard/choose_delivery_package.py:0
+<<<<<<< HEAD
 #, python-format
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 msgid "Package too heavy!"
 msgstr "荷物が重すぎます！"
 
 #. module: stock_delivery
 #: model:ir.model,name:stock_delivery.model_stock_quant_package
+<<<<<<< HEAD
 #: model:ir.model.fields,field_description:stock_delivery.field_stock_picking__package_ids
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 msgid "Packages"
 msgstr "梱包"
 
@@ -377,11 +503,18 @@ msgstr "配送業者に送る"
 #. module: stock_delivery
 #. odoo-python
 #: code:addons/stock_delivery/models/stock_picking.py:0
+<<<<<<< HEAD
 #, python-format
 msgid ""
 "Shipment sent to carrier %(carrier_name)s for shipping with tracking number "
 "%(ref)s"
 msgstr "運送会社 %(carrier_name)s に配送用に送られた配送、追跡番号%(ref)s"
+=======
+msgid ""
+"Shipment sent to carrier %(carrier_name)s for shipping with tracking number "
+"%(ref)s"
+msgstr "配送会社 %(carrier_name)s に配送用に送られた配送、追跡番号%(ref)s"
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 #. module: stock_delivery
 #: model:ir.model.fields,field_description:stock_delivery.field_stock_picking__carrier_price
@@ -395,14 +528,20 @@ msgstr "配送情報"
 
 #. module: stock_delivery
 #: model:ir.model,name:stock_delivery.model_delivery_carrier
+<<<<<<< HEAD
 #: model:ir.ui.menu,name:stock_delivery.menu_action_delivery_carrier_form
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 #: model_terms:ir.ui.view,arch_db:stock_delivery.stock_location_route_view_form_inherit_stock_delivery
 msgid "Shipping Methods"
 msgstr "配送方法"
 
 #. module: stock_delivery
 #: model:ir.model.fields,field_description:stock_delivery.field_choose_delivery_package__shipping_weight
+<<<<<<< HEAD
 #: model:ir.model.fields,field_description:stock_delivery.field_stock_quant_package__shipping_weight
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 msgid "Shipping Weight"
 msgstr "荷物重量"
 
@@ -414,10 +553,15 @@ msgstr "荷物重量:"
 #. module: stock_delivery
 #: model:ir.model.fields,help:stock_delivery.field_product_product__hs_code
 #: model:ir.model.fields,help:stock_delivery.field_product_template__hs_code
+<<<<<<< HEAD
 msgid ""
 "Standardized code for international shipping and goods declaration. At the "
 "moment, only used for the FedEx shipping provider."
 msgstr "国際輸送と貨物申告のための標準コード。現時点では、FedExの配送業者にのみ使用されます。"
+=======
+msgid "Standardized code for international shipping and goods declaration."
+msgstr "国際輸送と貨物申告のための標準コード。"
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 #. module: stock_delivery
 #: model:ir.model,name:stock_delivery.model_stock_move
@@ -452,8 +596,11 @@ msgstr ""
 #. module: stock_delivery
 #. odoo-python
 #: code:addons/stock_delivery/models/delivery_carrier.py:0
+<<<<<<< HEAD
 #: code:addons/stock_delivery/models/delivery_carrier.py:0
 #, python-format
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 msgid ""
 "The package cannot be created because the total weight of the products in "
 "the picking is 0.0 %s"
@@ -462,14 +609,20 @@ msgstr "梱包を作成できません。ピッキングのプロダクトの合
 #. module: stock_delivery
 #. odoo-python
 #: code:addons/stock_delivery/wizard/choose_delivery_carrier.py:0
+<<<<<<< HEAD
 #, python-format
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 msgid "The shipping price will be set once the delivery is done."
 msgstr "配送料金は、配送が完了した時点で設定されます。"
 
 #. module: stock_delivery
 #. odoo-python
 #: code:addons/stock_delivery/wizard/choose_delivery_package.py:0
+<<<<<<< HEAD
 #, python-format
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 msgid ""
 "The weight of your package is higher than the maximum weight authorized for "
 "this package type. Please choose another package type."
@@ -478,7 +631,10 @@ msgstr "荷物の重量が、この梱包タイプで許可されている最大
 #. module: stock_delivery
 #. odoo-python
 #: code:addons/stock_delivery/models/delivery_carrier.py:0
+<<<<<<< HEAD
 #, python-format
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 msgid "There is no matching delivery rule."
 msgstr "一致する配送規則がありません。"
 
@@ -488,6 +644,7 @@ msgid "Total weight of all the products contained in the package."
 msgstr "梱包に含まれる全てのプロダクトの総重量"
 
 #. module: stock_delivery
+<<<<<<< HEAD
 #: model:ir.model.fields,help:stock_delivery.field_stock_picking__shipping_weight
 msgid ""
 "Total weight of packages and products not in a package. Packages with no "
@@ -507,6 +664,8 @@ msgid "Total weight of the package."
 msgstr "梱包の合計重量"
 
 #. module: stock_delivery
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 #: model:ir.model.fields,help:stock_delivery.field_stock_picking__weight
 msgid "Total weight of the products in the picking."
 msgstr "ピッキングのプロダクト合計重量"
@@ -534,7 +693,10 @@ msgstr "トラッカーURL"
 #. module: stock_delivery
 #. odoo-python
 #: code:addons/stock_delivery/models/stock_picking.py:0
+<<<<<<< HEAD
 #, python-format
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 msgid "Tracking links for shipment:"
 msgstr "配送用追跡リンク"
 
@@ -546,7 +708,11 @@ msgstr "追跡:"
 #. module: stock_delivery
 #: model:ir.model,name:stock_delivery.model_stock_picking
 msgid "Transfer"
+<<<<<<< HEAD
 msgstr "移動"
+=======
+msgstr "転送"
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 #. module: stock_delivery
 #: model:ir.model.fields,field_description:stock_delivery.field_stock_move__weight
@@ -557,11 +723,14 @@ msgid "Weight"
 msgstr "重量"
 
 #. module: stock_delivery
+<<<<<<< HEAD
 #: model:ir.model.fields,field_description:stock_delivery.field_stock_picking__shipping_weight
 msgid "Weight for Shipping"
 msgstr "荷物重量"
 
 #. module: stock_delivery
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 #: model_terms:ir.ui.view,arch_db:stock_delivery.view_picking_withcarrier_out_form
 msgid "Weight for shipping"
 msgstr "荷物重量"
@@ -581,7 +750,10 @@ msgstr "重量:"
 #. module: stock_delivery
 #. odoo-python
 #: code:addons/stock_delivery/models/stock_picking.py:0
+<<<<<<< HEAD
 #, python-format
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 msgid ""
 "You cannot pack products into the same package when they have different "
 "carriers (i.e. check that all of their transfers have a carrier assigned and"
@@ -597,7 +769,10 @@ msgstr "複数のトラッカーリンクがあり、それらはチャッター
 #. module: stock_delivery
 #. odoo-python
 #: code:addons/stock_delivery/models/stock_picking.py:0
+<<<<<<< HEAD
 #, python-format
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 msgid ""
 "Your delivery method has no redirect on courier provider's website to track "
 "this order."

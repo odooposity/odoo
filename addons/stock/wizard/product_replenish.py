@@ -11,6 +11,7 @@ from odoo.tools.misc import clean_context
 
 class ProductReplenish(models.TransientModel):
     _name = 'product.replenish'
+    _inherit = 'stock.replenish.mixin'
     _description = 'Product Replenish'
     _check_company_auto = True
 
@@ -27,14 +28,8 @@ class ProductReplenish(models.TransientModel):
         'stock.warehouse', string='Warehouse', required=True,
         check_company=True,
     )
-    route_id = fields.Many2one(
-        'stock.route', string='Preferred Route',
-        help="Apply specific route for the replenishment instead of product's default routes.",
-        check_company=True,
-    )
     company_id = fields.Many2one('res.company')
     forecasted_quantity = fields.Float(string="Forecasted Quantity", compute="_compute_forecasted_quantity")
-    allowed_route_ids = fields.Many2many("stock.route", compute="_compute_allowed_route_ids")
 
     @api.onchange('product_id', 'warehouse_id')
     def _onchange_product_id(self):
@@ -44,6 +39,7 @@ class ProductReplenish(models.TransientModel):
     @api.depends('warehouse_id', 'product_id')
     def _compute_forecasted_quantity(self):
         for rec in self:
+<<<<<<< HEAD
             rec.forecasted_quantity = rec.product_id.with_context(warehouse=rec.warehouse_id.id).virtual_available
 
     @api.depends('product_id', 'product_tmpl_id')
@@ -51,6 +47,9 @@ class ProductReplenish(models.TransientModel):
         domain = self._get_allowed_route_domain()
         route_ids = self.env['stock.route'].search(domain)
         self.allowed_route_ids = route_ids
+=======
+            rec.forecasted_quantity = rec.product_id.with_context(warehouse_id=rec.warehouse_id.id).virtual_available
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
     @api.depends('route_id')
     def _compute_date_planned(self):
@@ -157,7 +156,11 @@ class ProductReplenish(models.TransientModel):
             action = self.env.ref('stock.stock_picking_action_picking_type')
             return [{
                 'label': move.picking_id.name,
+<<<<<<< HEAD
                 'url': f'#action={action.id}&id={move.picking_id.id}&model=stock.picking&view_type=form'
+=======
+                'url': f'/odoo/action-stock.stock_picking_action_picking_type/{move.picking_id.id}'
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
             }]
         return False
 
@@ -176,6 +179,7 @@ class ProductReplenish(models.TransientModel):
             }
         }
 
+<<<<<<< HEAD
     # OVERWRITE in 'Drop Shipping', 'Dropship and Subcontracting Management' and 'Dropship and Subcontracting Management' to hide it
     def _get_allowed_route_domain(self):
         stock_location_inter_wh_id = self.env.ref('stock.stock_location_inter_wh').id
@@ -188,6 +192,12 @@ class ProductReplenish(models.TransientModel):
     def _get_route_domain(self, product_tmpl_id):
         company = product_tmpl_id.company_id or self.env.company
         domain = expression.AND([self._get_allowed_route_domain(), self.env['stock.route']._check_company_domain(company)])
+=======
+    def _get_route_domain(self, product_tmpl_id):
+        company = product_tmpl_id.company_id or self.env.company
+        domain = expression.AND([self._get_allowed_route_domain(), self.env['stock.route']._check_company_domain(company)])
+        domain = expression.AND([domain, [('id', 'not in', self.env['stock.warehouse'].search([]).crossdock_route_id.ids)]])
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
         if product_tmpl_id.route_ids:
             domain = expression.AND([domain, [('product_ids', '=', product_tmpl_id.id)]])
         return domain

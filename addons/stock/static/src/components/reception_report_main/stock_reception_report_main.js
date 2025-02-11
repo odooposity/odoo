@@ -4,9 +4,21 @@ import { registry } from "@web/core/registry";
 import { useBus, useService } from "@web/core/utils/hooks";
 import { ControlPanel } from "@web/search/control_panel/control_panel";
 import { ReceptionReportTable } from "../reception_report_table/stock_reception_report_table";
+<<<<<<< HEAD
 import { Component, onMounted, onWillStart, useState } from "@odoo/owl";
+=======
+import { Component, onWillStart, useState } from "@odoo/owl";
+import { standardActionServiceProps } from "@web/webclient/actions/action_service";
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 export class ReceptionReportMain extends Component {
+    static template = "stock.ReceptionReportMain";
+    static components = {
+        ControlPanel,
+        ReceptionReportTable,
+    };
+    static props = { ...standardActionServiceProps };
+
     setup() {
         this.controlPanelDisplay = {};
         this.ormService = useService("orm");
@@ -19,6 +31,7 @@ export class ReceptionReportMain extends Component {
         useBus(this.env.bus, "update-assign-state", (ev) => this._changeAssignedState(ev.detail));
 
         onWillStart(async () => {
+<<<<<<< HEAD
             // Check the router if report was already loaded.
             let defaultDocIds;
             const { rfield, rids } = this.routerService.current.hash;
@@ -27,12 +40,30 @@ export class ReceptionReportMain extends Component {
                 defaultDocIds = [ rfield, parsedIds instanceof Array ? parsedIds : [parsedIds] ];
             } else {
                 defaultDocIds = Object.entries(this.context).find(([k, v]) => k.startsWith("default_"));
+=======
+            // Check the URL if report was alreadu loaded.
+            let defaultDocIds;
+            const { rfield, rids } = this.props.action.context.params || {};
+            if (rfield && rids) {
+                const parsedIds = JSON.parse(rids);
+                defaultDocIds = [rfield, parsedIds instanceof Array ? parsedIds : [parsedIds]];
+            } else {
+                defaultDocIds = Object.entries(this.context).find(([k,v]) => k.startsWith("default_"));
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
                 if (!defaultDocIds) {
                     // If nothing could be found, just ask for empty data.
                     defaultDocIds = [false, [0]];
                 }
             }
             this.contextDefaultDoc = { field: defaultDocIds[0], ids: defaultDocIds[1] };
+<<<<<<< HEAD
+=======
+
+            if (this.contextDefaultDoc.field) {
+                // Add the fields/ids to the URL, so we can properly reload them after a page refresh.
+                this.props.updateActionState({ rfield: this.contextDefaultDoc.field, rids: JSON.stringify(this.contextDefaultDoc.ids) });
+            }
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
             this.data = await this.getReportData();
             this.state.sourcesToLines = this.data.sources_to_lines;
         });
@@ -159,11 +190,5 @@ export class ReceptionReportMain extends Component {
         return Object.values(this.state.sourcesToLines).every(lines => lines.every(line => !line.is_assigned));
     }
 }
-
-ReceptionReportMain.components = {
-    ControlPanel,
-    ReceptionReportTable,
-};
-ReceptionReportMain.template = "stock.ReceptionReportMain";
 
 registry.category("actions").add("reception_report", ReceptionReportMain);

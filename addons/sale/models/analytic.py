@@ -7,6 +7,7 @@ from odoo import fields, models
 class AccountAnalyticLine(models.Model):
     _inherit = "account.analytic.line"
 
+<<<<<<< HEAD
     # [XBO] TODO: remove me in master
     allowed_so_line_ids = fields.Many2many('sale.order.line', compute='_compute_allowed_so_line_ids')
     so_line = fields.Many2one('sale.order.line', string='Sales Order Item', domain=[('qty_delivered_method', '=', 'analytic')], index='btree_not_null')
@@ -21,6 +22,10 @@ class AccountAnalyticLine(models.Model):
     def _compute_allowed_so_line_ids(self):
         # [XBO] TODO: remove me in master
         self.allowed_so_line_ids = False
+=======
+    so_line = fields.Many2one('sale.order.line', string='Sales Order Item', domain=[('qty_delivered_method', '=', 'analytic')], index='btree_not_null')
+
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 class AccountAnalyticApplicability(models.Model):
     _inherit = 'account.analytic.applicability'

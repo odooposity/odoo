@@ -8,4 +8,8 @@ from . import test_self_order_kiosk
 from . import test_self_order_attribute
 from . import test_self_order_combo
 from . import test_self_order_common
+<<<<<<< HEAD
+=======
+from . import test_webmanifest
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 from . import test_self_order_sequence

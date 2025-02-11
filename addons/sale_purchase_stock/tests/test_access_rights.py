@@ -30,6 +30,7 @@ class TestAccessRights(TestCommonSalePurchaseNoChart):
         """
         mto_route = self.env.ref('stock.route_warehouse0_mto')
         buy_route = self.env.ref('purchase_stock.route_warehouse0_buy')
+        mto_route.rule_ids.procure_method = "make_to_order"
         mto_route.active = True
 
         vendor = self.env['res.partner'].create({'name': 'vendor'})
@@ -40,7 +41,7 @@ class TestAccessRights(TestCommonSalePurchaseNoChart):
 
         product = self.env['product.product'].create({
             'name': 'SuperProduct',
-            'type': 'product',
+            'is_storable': True,
             'seller_ids': [(6, 0, seller.ids)],
             'route_ids': [(6, 0, (mto_route + buy_route).ids)]
         })
@@ -78,7 +79,11 @@ class TestAccessRights(TestCommonSalePurchaseNoChart):
     def test_access_saleperson_with_orderpoint(self):
         """
         Suppose a user with no rights on SO creates a product with an orderpoint,
+<<<<<<< HEAD
         then creates an SO, SO the PO will be generated. After creating a second SO,
+=======
+        then creates a sale order, so the PO will be generated. After creating a second SO,
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
         the PO should be updated since it has not been confirmed yet.
         """
         seller = self.env['product.supplierinfo'].create({
@@ -87,7 +92,11 @@ class TestAccessRights(TestCommonSalePurchaseNoChart):
         })
         product = self.env['product.product'].create({
             'name': 'SuperProduct',
+<<<<<<< HEAD
             'type': 'product',
+=======
+            'is_storable': True,
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
             'seller_ids': [(6, 0, seller.ids)],
         })
         self.env['stock.warehouse.orderpoint'].create({
@@ -97,7 +106,11 @@ class TestAccessRights(TestCommonSalePurchaseNoChart):
             'product_max_qty': 1,
             'route_id': self.env.ref('purchase_stock.route_warehouse0_buy').id,
         })
+<<<<<<< HEAD
         # Create a SO that will automatically generate a SO since we have an orderpoint"
+=======
+        # Create a SO that will automatically generate a PO since we have an orderpoint"
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
         so = self.env['sale.order'].with_user(self.user_salesperson).create({
             'partner_id': self.partner_b.id,
             'user_id': self.user_salesperson.id,

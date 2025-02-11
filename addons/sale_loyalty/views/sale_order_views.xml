@@ -14,10 +14,11 @@
                         class="btn btn-secondary"/>
                 <button name="action_open_reward_wizard"
                         type="object"
-                        string="Promotions"
+                        string="Reward"
                         help="Update current promotional lines and select new rewards if applicable."
                         class="btn btn-secondary"/>
             </button>
+<<<<<<< HEAD
             <xpath expr="//tree//field[@name='product_uom_qty']" position="before">
                 <field name="is_reward_line" column_invisible="True"/>
             </xpath>
@@ -30,6 +31,25 @@
             <xpath expr="//tree//field[@name='tax_id']" position="attributes">
                 <attribute name="readonly" add="is_reward_line" separator=" or "/>
             </xpath>
+=======
+            <xpath expr="//list//field[@name='product_uom_qty']" position="before">
+                <field name="is_reward_line" column_invisible="True"/>
+            </xpath>
+            <xpath expr="//list//field[@name='product_uom_qty']" position="attributes">
+                <attribute name="readonly" add="is_reward_line" separator=" or "/>
+            </xpath>
+            <xpath expr="//list//field[@name='price_unit']" position="attributes">
+                <attribute name="readonly" add="is_reward_line" separator=" or "/>
+            </xpath>
+            <xpath expr="//list//field[@name='tax_id']" position="attributes">
+                <attribute name="readonly" add="is_reward_line" separator=" or "/>
+            </xpath>
+            <group name="note_group" position="after">
+                <group class="d-flex flex-row-reverse oe_subtotal_footer border-0">
+                    <field name="loyalty_data" widget="loyalty_data_field" nolabel="1" readonly="1"/>
+                </group>
+            </group>
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
         </field>
     </record>
 

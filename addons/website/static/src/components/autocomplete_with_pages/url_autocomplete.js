@@ -1,6 +1,7 @@
 /** @odoo-module **/
 
 import { Component } from "@odoo/owl";
+<<<<<<< HEAD
 import { useService } from "@web/core/utils/hooks";
 import { AutoCompleteWithPages } from "@website/components/autocomplete_with_pages/autocomplete_with_pages";
 
@@ -13,6 +14,20 @@ export class UrlAutoComplete extends Component {
         this.rpc = useService("rpc");
     }
 
+=======
+import { rpc } from "@web/core/network/rpc";
+import { AutoCompleteWithPages } from "@website/components/autocomplete_with_pages/autocomplete_with_pages";
+
+export class UrlAutoComplete extends Component {
+    static props = {
+        options: { type: Object },
+        loadAnchors: { type: Function },
+        targetDropdown: { type: HTMLElement },
+    };
+    static template = "website.UrlAutoComplete";
+    static components = { AutoCompleteWithPages };
+
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
     _mapItemToSuggestion(item) {
         return {
             ...item,
@@ -56,7 +71,11 @@ export class UrlAutoComplete extends Component {
                     if (this.props.options.isDestroyed?.()) {
                         return [];
                     }
+<<<<<<< HEAD
                     const res = await this.rpc("/website/get_suggested_links", {
+=======
+                    const res = await rpc("/website/get_suggested_links", {
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
                         needle: term,
                         limit: 15,
                     });
@@ -86,9 +105,12 @@ export class UrlAutoComplete extends Component {
         this.props.targetDropdown.value = inputValue;
     }
 }
+<<<<<<< HEAD
 
 UrlAutoComplete.props = {
     options: { type: Object },
     loadAnchors: { type: Function },
     targetDropdown: { type: HTMLElement },
 };
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8

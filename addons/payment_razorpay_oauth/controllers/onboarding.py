@@ -46,6 +46,7 @@ class RazorpayController(Controller):
 
         # Request and set the OAuth tokens on the provider.
         action = request.env.ref('payment.action_payment_provider')
+<<<<<<< HEAD
         url_params = {
             'model': provider_sudo._name,
             'id': provider_sudo.id,
@@ -53,6 +54,9 @@ class RazorpayController(Controller):
             'view_type': 'form',
         }
         redirect_url = f'/web#{urlencode(url_params)}'  # TODO: change to /odoo in saas-17.2!
+=======
+        redirect_url = f'/odoo/action-{action.id}/{int(provider_sudo.id)}'
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
         if not authorization_code: # The user cancelled the authorization.
             return request.redirect(redirect_url)
         try:

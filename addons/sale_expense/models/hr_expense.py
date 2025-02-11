@@ -7,7 +7,7 @@ from odoo import api, fields, models
 class Expense(models.Model):
     _inherit = "hr.expense"
 
-    sale_order_id = fields.Many2one('sale.order', compute='_compute_sale_order_id', store=True, string='Customer to Reinvoice', readonly=False, tracking=True,
+    sale_order_id = fields.Many2one('sale.order', compute='_compute_sale_order_id', store=True, index='btree_not_null', string='Customer to Reinvoice', readonly=False, tracking=True,
         # NOTE: only confirmed SO can be selected, but this domain in activated throught the name search with the `sale_expense_all_order`
         # context key. So, this domain is not the one applied.
         domain="[('state', '=', 'sale'), ('company_id', '=', company_id)]",
@@ -23,12 +23,6 @@ class Expense(models.Model):
     def _compute_sale_order_id(self):
         for expense in self.filtered(lambda e: not e.can_be_reinvoiced):
             expense.sale_order_id = False
-
-    def _compute_analytic_distribution(self):
-        super(Expense, self)._compute_analytic_distribution()
-        for expense in self.filtered('sale_order_id'):
-            if expense.sale_order_id.sudo().analytic_account_id:
-                expense.analytic_distribution = {expense.sale_order_id.sudo().analytic_account_id.id: 100}  # `sudo` required for normal employee without sale access rights
 
     @api.onchange('sale_order_id')
     def _onchange_sale_order_id(self):

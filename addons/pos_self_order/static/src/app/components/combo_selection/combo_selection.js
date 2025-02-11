@@ -1,5 +1,3 @@
-/** @odoo-module */
-
 import { Component } from "@odoo/owl";
 import { useSelfOrder } from "@pos_self_order/app/self_order_service";
 import { AttributeSelection } from "@pos_self_order/app/components/attribute_selection/attribute_selection";
@@ -13,6 +11,7 @@ export class ComboSelection extends Component {
         this.selfOrder = useSelfOrder();
     }
 
+<<<<<<< HEAD
     productClicked(lineId) {
         // Keep track of the current combo line id.
         // It servers as additional info for each line so that when calculating prices,
@@ -21,11 +20,23 @@ export class ComboSelection extends Component {
 
         const comboLine = this.props.combo.combo_line_ids.find((line) => line.id == lineId);
         const productSelected = this.selfOrder.productByIds[comboLine.product_id[0]];
+=======
+    productClicked(line) {
+        // Keep track of the current combo item id.
+        // It servers as additional info for each line so that when calculating prices,
+        // no need to look for the specific combo item the product belongs to.
+        this.env.currentComboItemId.value = line.id;
+        const productSelected = line.product_id;
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
         if (!productSelected.self_order_available) {
             return;
         }
+
         this.props.comboState.selectedProduct = productSelected;
-        if (productSelected.attributes.length === 0) {
+        if (
+            productSelected.attribute_line_ids.length === 0 ||
+            productSelected.product_template_variant_value_ids.length !== 0
+        ) {
             this.props.next();
             return;
         }

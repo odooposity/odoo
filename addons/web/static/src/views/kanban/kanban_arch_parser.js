@@ -1,13 +1,15 @@
-/** @odoo-module **/
-
+import { exprToBoolean } from "@web/core/utils/strings";
 import { extractAttributes, visitXML } from "@web/core/utils/xml";
 import { stringToOrderBy } from "@web/search/utils/order_by";
 import { Field } from "@web/views/fields/field";
+import { getActiveActions, processButton } from "@web/views/utils";
 import { Widget } from "@web/views/widgets/widget";
-import { archParseBoolean, getActiveActions, processButton } from "@web/views/utils";
 
 /**
  * NOTE ON 't-name="kanban-box"':
+ *
+ * "kanban-box" is deprecated. Kanban archs converted to the new (v18) API must
+ * define a "card" template instead.
  *
  * Multiple roots are supported in kanban box template definitions, however there
  * are a few things to keep in mind when doing so:
@@ -20,18 +22,21 @@ import { archParseBoolean, getActiveActions, processButton } from "@web/views/ut
  * fields within all roots to avoid inconsistencies.
  */
 
-export const KANBAN_BOX_ATTRIBUTE = "kanban-box";
-export const KANBAN_MENU_ATTRIBUTE = "kanban-menu";
-export const KANBAN_TOOLTIP_ATTRIBUTE = "kanban-tooltip";
+export const LEGACY_KANBAN_BOX_ATTRIBUTE = "kanban-box";
+export const LEGACY_KANBAN_MENU_ATTRIBUTE = "kanban-menu";
+export const KANBAN_CARD_ATTRIBUTE = "card";
+export const KANBAN_MENU_ATTRIBUTE = "menu";
 
 export class KanbanArchParser {
     parse(xmlDoc, models, modelName) {
-        const fields = models[modelName];
+        const fields = models[modelName].fields;
         const className = xmlDoc.getAttribute("class") || null;
+        const canOpenRecords = exprToBoolean(xmlDoc.getAttribute("can_open"), true);
         let defaultOrder = stringToOrderBy(xmlDoc.getAttribute("default_order") || null);
         const defaultGroupBy = xmlDoc.getAttribute("default_group_by");
         const limit = xmlDoc.getAttribute("limit");
         const countLimit = xmlDoc.getAttribute("count_limit");
+<<<<<<< HEAD
         const recordsDraggable = archParseBoolean(xmlDoc.getAttribute("records_draggable"), true);
         const groupsDraggable = archParseBoolean(xmlDoc.getAttribute("groups_draggable"), true);
         const activeActions = getActiveActions(xmlDoc);
@@ -41,6 +46,17 @@ export class KanbanArchParser {
         activeActions.editGroup = archParseBoolean(xmlDoc.getAttribute("group_edit"), true);
         activeActions.quickCreate =
             activeActions.create && archParseBoolean(xmlDoc.getAttribute("quick_create"), true);
+=======
+        const recordsDraggable = exprToBoolean(xmlDoc.getAttribute("records_draggable"), true);
+        const groupsDraggable = exprToBoolean(xmlDoc.getAttribute("groups_draggable"), true);
+        const activeActions = getActiveActions(xmlDoc);
+        activeActions.archiveGroup = exprToBoolean(xmlDoc.getAttribute("archivable"), true);
+        activeActions.createGroup = exprToBoolean(xmlDoc.getAttribute("group_create"), true);
+        activeActions.deleteGroup = exprToBoolean(xmlDoc.getAttribute("group_delete"), true);
+        activeActions.editGroup = exprToBoolean(xmlDoc.getAttribute("group_edit"), true);
+        activeActions.quickCreate =
+            activeActions.create && exprToBoolean(xmlDoc.getAttribute("quick_create"), true);
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
         const onCreate = xmlDoc.getAttribute("on_create");
         const quickCreateView = xmlDoc.getAttribute("quick_create_view");
         const tooltipInfo = {};
@@ -94,15 +110,13 @@ export class KanbanArchParser {
             if (node.tagName === "field") {
                 // In kanban, we display many2many fields as tags by default
                 const widget = node.getAttribute("widget");
-                if (!widget && models[modelName][node.getAttribute("name")].type === "many2many") {
+                if (
+                    !widget &&
+                    models[modelName].fields[node.getAttribute("name")].type === "many2many"
+                ) {
                     node.setAttribute("widget", "many2many_tags");
                 }
                 const fieldInfo = Field.parseFieldNode(node, models, modelName, "kanban", jsClass);
-                if (!node.hasAttribute("force_save")) {
-                    // Force save is true by default on kanban views:
-                    // this allows to write on any field regardless of its modifiers.
-                    fieldInfo.forceSave = true;
-                }
                 const name = fieldInfo.name;
                 if (!(fieldInfo.name in fieldNextIds)) {
                     fieldNextIds[fieldInfo.name] = 0;
@@ -145,10 +159,18 @@ export class KanbanArchParser {
         }
 
         // Concrete kanban box elements in the template
-        const cardDoc = templateDocs[KANBAN_BOX_ATTRIBUTE];
-        if (!cardDoc) {
-            throw new Error(`Missing '${KANBAN_BOX_ATTRIBUTE}' template.`);
+        let cardDoc = templateDocs[KANBAN_CARD_ATTRIBUTE];
+        const isLegacyArch = !cardDoc;
+        if (isLegacyArch) {
+            console.warn("'kanban-box' is deprecated, define a 'card' template instead");
         }
+        if (!cardDoc) {
+            cardDoc = templateDocs[LEGACY_KANBAN_BOX_ATTRIBUTE];
+            if (!cardDoc) {
+                throw new Error(`Missing '${KANBAN_CARD_ATTRIBUTE}' template.`);
+            }
+        }
+<<<<<<< HEAD
 
         // Color and color picker (first node found is taken for each)
         const cardColorEl = cardDoc.querySelector("[color]");
@@ -156,6 +178,9 @@ export class KanbanArchParser {
 
         const colorEl = xmlDoc.querySelector("templates .oe_kanban_colorpicker[data-field]");
         const colorField = (colorEl && colorEl.getAttribute("data-field")) || "color";
+=======
+        const cardClassName = (!isLegacyArch && cardDoc.getAttribute("class")) || "";
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
         if (!defaultOrder.length && handleField) {
             const handleFieldSort = `${handleField}, id`;
@@ -164,6 +189,9 @@ export class KanbanArchParser {
 
         return {
             activeActions,
+            canOpenRecords,
+            cardClassName,
+            cardColorField: xmlDoc.getAttribute("highlight_color"),
             className,
             creates,
             defaultGroupBy,
@@ -171,7 +199,6 @@ export class KanbanArchParser {
             widgetNodes,
             handleField,
             headerButtons,
-            colorField,
             defaultOrder,
             onCreate,
             openAction,
@@ -181,11 +208,11 @@ export class KanbanArchParser {
             limit: limit && parseInt(limit, 10),
             countLimit: countLimit && parseInt(countLimit, 10),
             progressAttributes,
-            cardColorField,
             templateDocs,
             tooltipInfo,
             examples: xmlDoc.getAttribute("examples"),
             xmlDoc,
+            isLegacyArch,
         };
     }
 

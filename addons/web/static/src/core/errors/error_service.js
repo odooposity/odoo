@@ -1,9 +1,16 @@
+<<<<<<< HEAD
 /** @odoo-module **/
 
 import { isBrowserFirefox, isBrowserChrome } from "@web/core/browser/feature_detection";
 import { browser } from "../browser/browser";
 import { registry } from "../registry";
 import { completeUncaughtError, getErrorTechnicalName } from "./error_utils";
+=======
+import { browser } from "../browser/browser";
+import { registry } from "../registry";
+import { completeUncaughtError, getErrorTechnicalName } from "./error_utils";
+import { isBrowserFirefox, isBrowserChrome } from "@web/core/browser/feature_detection";
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 /**
  * Uncaught Errors have 4 properties:
@@ -34,10 +41,15 @@ export class UncaughtPromiseError extends UncaughtError {
     }
 }
 
+<<<<<<< HEAD
 // FIXME: this error is misnamed and actually represends errors in third-party scripts
 // rename this in master
 export class UncaughtCorsError extends UncaughtError {
     constructor(message = "Uncaught CORS Error") {
+=======
+export class ThirdPartyScriptError extends UncaughtError {
+    constructor(message = "Third-Party Script Error") {
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
         super(message);
     }
 }
@@ -107,12 +119,20 @@ export const errorService = {
             }
             let uncaughtError;
             if (isRedactedError) {
+<<<<<<< HEAD
                 uncaughtError = new UncaughtCorsError();
                 uncaughtError.traceback =
                     `Unknown CORS error\n\n` +
                     `An unknown CORS error occured.\n` +
                     `The error probably originates from a JavaScript file served from a different origin.\n` +
                     `(Opening your browser console might give you a hint on the error.)`;
+=======
+                uncaughtError = new ThirdPartyScriptError();
+                uncaughtError.traceback =
+                    `An error whose details cannot be accessed by the Odoo framework has occurred.\n` +
+                    `The error probably originates from a JavaScript file served from a different origin.\n` +
+                    `The full error is available in the browser console.`;
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
             } else {
                 uncaughtError = new UncaughtClientError();
                 uncaughtError.event = ev;

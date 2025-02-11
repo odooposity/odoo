@@ -1,5 +1,3 @@
-/** @odoo-module **/
-
 import { Component, onWillStart, onWillUpdateProps, useState } from "@odoo/owl";
 import { KeepLast } from "@web/core/utils/concurrency";
 import { ModelFieldSelectorPopover } from "./model_field_selector_popover";
@@ -58,7 +56,11 @@ export class ModelFieldSelector extends Component {
         this.popover.open(currentTarget, {
             resModel: this.props.resModel,
             path: this.props.path,
+<<<<<<< HEAD
             update: (path, debug = false) => {
+=======
+            update: (path, _fieldInfo, debug = false) => {
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
                 this.newPath = path;
                 if (!debug) {
                     this.updateState({ ...this.props, path }, true);
@@ -88,6 +90,10 @@ export class ModelFieldSelector extends Component {
             this.popover.close();
             return;
         }
+<<<<<<< HEAD
         this.props.update("", { resModel: this.props.resModel, fieodDef: null });
+=======
+        this.props.update("", { resModel: this.props.resModel, fieldDef: null });
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
     }
 }

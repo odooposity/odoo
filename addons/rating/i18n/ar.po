@@ -3,6 +3,7 @@
 # 	* rating
 # 
 # Translators:
+<<<<<<< HEAD
 # Wil Odoo, 2023
 # 
 msgid ""
@@ -12,12 +13,28 @@ msgstr ""
 "POT-Creation-Date: 2023-10-26 21:55+0000\n"
 "PO-Revision-Date: 2023-10-26 23:09+0000\n"
 "Last-Translator: Wil Odoo, 2023\n"
+=======
+# Wil Odoo, 2024
+# 
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 18.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2024-12-16 13:40+0000\n"
+"PO-Revision-Date: 2024-09-25 09:41+0000\n"
+"Last-Translator: Wil Odoo, 2024\n"
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 "Language-Team: Arabic (https://app.transifex.com/odoo/teams/41243/ar/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Language: ar\n"
 "Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;\n"
+
+#. module: rating
+#: model_terms:ir.ui.view,arch_db:rating.rating_external_page_invalid_partner
+msgid "\" or someone from the same company can give it a rating."
+msgstr "\" أو بوسع أي شخص في الشركة منحه نقييماً. "
 
 #. module: rating
 #: model:ir.model.fields,field_description:rating.field_rating_parent_mixin__rating_count
@@ -82,18 +99,6 @@ msgid "Customer"
 msgstr "العميل"
 
 #. module: rating
-#. odoo-python
-#: code:addons/rating/controllers/main.py:0
-#, python-format
-msgid "Customer rated %r."
-msgstr "قيّم العميل %r. "
-
-#. module: rating
-#: model_terms:ir.ui.view,arch_db:rating.rating_rating_view_search
-msgid "Date"
-msgstr "التاريخ"
-
-#. module: rating
 #: model:ir.model.fields,field_description:rating.field_rating_rating__display_name
 msgid "Display Name"
 msgstr "اسم العرض "
@@ -108,7 +113,6 @@ msgstr "اسم العرض "
 #: model:ir.model.fields.selection,name:rating.selection__rating_rating__rating_text__ko
 #: model:ir.model.fields.selection,name:rating.selection__slide_channel__rating_avg_text__ko
 #: model_terms:ir.ui.view,arch_db:rating.rating_rating_view_search
-#, python-format
 msgid "Dissatisfied"
 msgstr "غير راضٍ "
 
@@ -170,6 +174,14 @@ msgid ""
 msgstr ""
 "إخفاء للمستخدمين العوام / مستخدمي البوابة، بشكل مستقل عن تهيئة النوع الفرعي."
 " "
+<<<<<<< HEAD
+=======
+
+#. module: rating
+#: model_terms:ir.ui.view,arch_db:rating.rating_external_page_invalid_partner
+msgid "Home"
+msgstr "الرئيسية"
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 #. module: rating
 #: model:ir.model.fields,field_description:rating.field_rating_rating__id
@@ -199,15 +211,17 @@ msgstr "رابط URL للصورة "
 #. module: rating
 #. odoo-python
 #: code:addons/rating/controllers/main.py:0
+<<<<<<< HEAD
 #: code:addons/rating/controllers/main.py:0
 #, python-format
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 msgid "Incorrect rating: should be 1, 3 or 5 (received %d)"
 msgstr "التقييم غير صحيح: يجب أن يكون 1، 3، أو 5 (تم استلام %d) "
 
 #. module: rating
 #. odoo-python
 #: code:addons/rating/models/mail_thread.py:0
-#, python-format
 msgid "Invalid token or rating."
 msgstr "الرمز أو التقييم غير صالح. "
 
@@ -218,12 +232,17 @@ msgstr "متابع"
 
 #. module: rating
 #: model_terms:ir.ui.view,arch_db:rating.rating_rating_view_search
-msgid "Last 30 days"
+msgid "Last 30 Days"
 msgstr "آخر 30 يوم"
 
 #. module: rating
 #: model_terms:ir.ui.view,arch_db:rating.rating_rating_view_search
-msgid "Last 7 days"
+msgid "Last 365 Days"
+msgstr "آخر 365 يوم"
+
+#. module: rating
+#: model_terms:ir.ui.view,arch_db:rating.rating_rating_view_search
+msgid "Last 7 Days"
 msgstr "آخر 7 أيام"
 
 #. module: rating
@@ -307,9 +326,13 @@ msgstr "عدد الرسائل الحادث بها خطأ في التسليم"
 #: model:ir.model.fields.selection,name:rating.selection__rating_rating__rating_text__ok
 #: model:ir.model.fields.selection,name:rating.selection__slide_channel__rating_avg_text__ok
 #: model_terms:ir.ui.view,arch_db:rating.rating_rating_view_search
-#, python-format
 msgid "Okay"
 msgstr "حسناً "
+
+#. module: rating
+#: model_terms:ir.ui.view,arch_db:rating.rating_external_page_invalid_partner
+msgid "Only the customer of \""
+msgstr "فقط عميل \""
 
 #. module: rating
 #: model:ir.model.fields,field_description:rating.field_rating_rating__parent_res_id
@@ -347,13 +370,6 @@ msgid "Percentage of happy ratings"
 msgstr "نسبة التقييمات السعيدة "
 
 #. module: rating
-#. odoo-python
-#: code:addons/rating/models/mail_thread.py:0
-#, python-format
-msgid "Posting a rating should be done using message post API."
-msgstr "يجب أن تتم عملية التقييم باستخدام الواجهة البرمجية لنشر الرسائل. "
-
-#. module: rating
 #: model:ir.model.fields,field_description:rating.field_rating_rating__rated_partner_id
 #: model_terms:ir.ui.view,arch_db:rating.rating_rating_view_search
 msgid "Rated Operator"
@@ -361,11 +377,19 @@ msgstr "الموظف المُقيَّم "
 
 #. module: rating
 #: model:ir.model,name:rating.model_rating_rating
+#: model:ir.model.fields,field_description:rating.field_mail_mail__rating_id
+#: model:ir.model.fields,field_description:rating.field_mail_message__rating_id
 #: model:ir.model.fields,field_description:rating.field_rating_rating__rating_text
 #: model_terms:ir.ui.view,arch_db:rating.rating_rating_view_form_text
 #: model_terms:ir.ui.view,arch_db:rating.rating_rating_view_search
 msgid "Rating"
 msgstr "التقييم"
+
+#. module: rating
+#: model_terms:ir.ui.view,arch_db:rating.rating_rating_view_graph
+#: model_terms:ir.ui.view,arch_db:rating.rating_rating_view_pivot
+msgid "Rating (/5)"
+msgstr "التقييم (/5) "
 
 #. module: rating
 #: model:ir.model.fields,field_description:rating.field_rating_mixin__rating_avg_text
@@ -416,12 +440,6 @@ msgid "Rating Value"
 msgstr "قيمة التقييم "
 
 #. module: rating
-#: model_terms:ir.ui.view,arch_db:rating.rating_rating_view_graph
-#: model_terms:ir.ui.view,arch_db:rating.rating_rating_view_pivot
-msgid "Rating Value (/5)"
-msgstr "قيمة التقييم (/5) "
-
-#. module: rating
 #: model:ir.model.fields,field_description:rating.field_rating_mixin__rating_count
 msgid "Rating count"
 msgstr "عدد التقييمات"
@@ -433,8 +451,7 @@ msgstr "يجب أن يكون التقييم بين 0 و 5 "
 
 #. module: rating
 #. odoo-javascript
-#: code:addons/rating/static/src/notification_item_patch.xml:0
-#, python-format
+#: code:addons/rating/static/src/core/web/notification_item_patch.xml:0
 msgid "Rating:"
 msgstr "التقييم: "
 
@@ -446,8 +463,13 @@ msgstr "التقييم: "
 #: model:ir.model.fields,field_description:rating.field_fleet_vehicle__rating_ids
 #: model:ir.model.fields,field_description:rating.field_fleet_vehicle_log_contract__rating_ids
 #: model:ir.model.fields,field_description:rating.field_fleet_vehicle_log_services__rating_ids
+#: model:ir.model.fields,field_description:rating.field_fleet_vehicle_model__rating_ids
 #: model:ir.model.fields,field_description:rating.field_gamification_badge__rating_ids
 #: model:ir.model.fields,field_description:rating.field_gamification_challenge__rating_ids
+<<<<<<< HEAD
+=======
+#: model:ir.model.fields,field_description:rating.field_iap_account__rating_ids
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 #: model:ir.model.fields,field_description:rating.field_lunch_supplier__rating_ids
 #: model:ir.model.fields,field_description:rating.field_mail_blacklist__rating_ids
 #: model:ir.model.fields,field_description:rating.field_mail_thread__rating_ids
@@ -459,6 +481,10 @@ msgstr "التقييم: "
 #: model:ir.model.fields,field_description:rating.field_maintenance_equipment_category__rating_ids
 #: model:ir.model.fields,field_description:rating.field_maintenance_request__rating_ids
 #: model:ir.model.fields,field_description:rating.field_phone_blacklist__rating_ids
+<<<<<<< HEAD
+=======
+#: model:ir.model.fields,field_description:rating.field_product_category__rating_ids
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 #: model:ir.model.fields,field_description:rating.field_product_pricelist__rating_ids
 #: model:ir.model.fields,field_description:rating.field_product_product__rating_ids
 #: model:ir.model.fields,field_description:rating.field_product_template__rating_ids
@@ -512,7 +538,6 @@ msgstr "اسم المَورِد "
 #: model:ir.model.fields.selection,name:rating.selection__rating_rating__rating_text__top
 #: model:ir.model.fields.selection,name:rating.selection__slide_channel__rating_avg_text__top
 #: model_terms:ir.ui.view,arch_db:rating.rating_rating_view_search
-#, python-format
 msgid "Satisfied"
 msgstr "راضي "
 
@@ -528,6 +553,7 @@ msgstr "إرسال ملاحظة "
 
 #. module: rating
 #: model:ir.model.fields,field_description:rating.field_rating_rating__create_date
+#: model_terms:ir.ui.view,arch_db:rating.rating_rating_view_search
 msgid "Submitted on"
 msgstr "تم الإرسال في "
 
@@ -547,11 +573,14 @@ msgid "There is no rating for this object at the moment."
 msgstr "لا يوجد تقييم لهذا الكائن في الوقت الراهن."
 
 #. module: rating
+<<<<<<< HEAD
 #: model_terms:ir.ui.view,arch_db:rating.rating_rating_view_search
 msgid "Today"
 msgstr "اليوم "
 
 #. module: rating
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 #: model:ir.model.fields,field_description:rating.field_rating_rating__is_internal
 msgid "Visible Internally Only"
 msgstr "مرئي داخياً فقط "
@@ -559,9 +588,16 @@ msgstr "مرئي داخياً فقط "
 #. module: rating
 #. odoo-python
 #: code:addons/rating/models/mail_thread.py:0
-#, python-format
 msgid "Wrong rating value. A rate should be between 0 and 5 (received %d)."
 msgstr "قيمة التقييم خاطئة. يجب أن يكون التقييم بين 0 و5 (تم تلقي %d). "
+<<<<<<< HEAD
+=======
+
+#. module: rating
+#: model_terms:ir.ui.view,arch_db:rating.rating_external_page_invalid_partner
+msgid "You cannot rate this"
+msgstr "لا يمكنك تقييم ذلك "
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 #. module: rating
 #: model_terms:ir.ui.view,arch_db:rating.rating_rating_view_kanban

@@ -1,8 +1,10 @@
-/** @odoo-module */
-
 import { registry } from "@web/core/registry";
 import { _t } from "@web/core/l10n/translation";
+<<<<<<< HEAD
 import { pyToJsLocale } from "@web/core/l10n/utils";
+=======
+import { formatList } from "@web/core/l10n/utils";
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 import { unique } from "@web/core/utils/arrays";
 import { useService } from "@web/core/utils/hooks";
 
@@ -20,7 +22,6 @@ class ResConfigInviteUsers extends Component {
         this.invite = useService("user_invite");
         this.action = useService("action");
         this.notification = useService("notification");
-        this.user = useService("user");
 
         this.state = useState({
             status: "idle", // idle, inviting
@@ -64,10 +65,13 @@ class ResConfigInviteUsers extends Component {
         }
         if (invalidEmails.length) {
             const errorMessage = (() => {
+<<<<<<< HEAD
                 const listFormatter = new Intl.ListFormat(pyToJsLocale(this.user.lang), {
                     type: "conjunction",
                     style: "long",
                 });
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
                 switch (invalidEmails.length) {
                     case 1:
                         return _t("Invalid email address: %(address)s", {
@@ -75,11 +79,11 @@ class ResConfigInviteUsers extends Component {
                         });
                     case 2:
                         return _t("Invalid email addresses: %(2 addresses)s", {
-                            "2 addresses": listFormatter.format(invalidEmails),
+                            "2 addresses": formatList(invalidEmails),
                         });
                     default:
                         return _t("Invalid email addresses: %(addresses)s", {
-                            addresses: listFormatter.format(invalidEmails),
+                            addresses: formatList(invalidEmails),
                         });
                 }
             })();

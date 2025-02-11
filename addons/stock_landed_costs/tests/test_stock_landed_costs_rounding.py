@@ -170,7 +170,7 @@ class TestStockLandedCostsRounding(TestStockLandedCostsCommon):
         products = self.Product.create([{
             'name': 'Super Product %s' % price,
             'categ_id': fifo_pc.id,
-            'type': 'product',
+            'is_storable': True,
             'standard_price': price,
         } for price in [0.91, 0.93, 75.17, 20.54]])
 
@@ -218,7 +218,7 @@ class TestStockLandedCostsRounding(TestStockLandedCostsCommon):
             10
         At the end, the SVL value should be zero
         """
-        self.product_a.type = 'product'
+        self.product_a.is_storable = True
         self.product_a.categ_id.property_cost_method = 'average'
 
         stock_location = self.warehouse.lot_stock_id
@@ -293,7 +293,11 @@ class TestStockLandedCostsRounding(TestStockLandedCostsCommon):
         """
         product = self.env['product.product'].create({
             'name': 'product',
+<<<<<<< HEAD
             'type': 'product',
+=======
+            'is_storable': True,
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
             'standard_price': 10,
             'categ_id': self.categ_real_time.id,
         })

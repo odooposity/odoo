@@ -145,6 +145,10 @@ class WebsiteTest(Home):
         values = {
             'record': record,
             'main_object': record,
+<<<<<<< HEAD
+=======
+            'tag': record.tag_id,
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
         }
         return request.render("test_website.model_item", values)
 

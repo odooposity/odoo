@@ -3,6 +3,7 @@
 # 	* website_event_track
 # 
 # Translators:
+<<<<<<< HEAD
 # Mikko Virtanen <mikko.virtanen2013@gmail.com>, 2023
 # Jussi Lehto <jussi@gulfeo.com>, 2023
 # Tuomas Lyyra <tuomas.lyyra@legenda.fi>, 2023
@@ -35,6 +36,43 @@ msgstr ""
 "POT-Creation-Date: 2024-08-13 10:28+0000\n"
 "PO-Revision-Date: 2023-10-26 23:09+0000\n"
 "Last-Translator: Jarmo Kortetjärvi <jarmo.kortetjarvi@gmail.com>, 2024\n"
+=======
+# Tiffany Chang, 2024
+# Erno Iipponen <erno.iipponen@web-veistamo.fi>, 2024
+# Svante Suominen <svante.suominen@web-veistamo.fi>, 2024
+# Mikko Virtanen <mikko.virtanen2013@gmail.com>, 2024
+# Jukka Paulin <jukka.paulin@gmail.com>, 2024
+# Sari Mäyrä <sari.mayra@sv-oy.fi>, 2024
+# Jussi Lehto <jussi@gulfeo.com>, 2024
+# Tuomas Lyyra <tuomas.lyyra@legenda.fi>, 2024
+# Miku Laitinen <miku.laitinen@gmail.com>, 2024
+# Kari Lindgren <kari.lindgren@emsystems.fi>, 2024
+# Kimmo Lehtonen <leban@netzionale.com>, 2024
+# Johanna Valkonen <miujohanna@gmail.com>, 2024
+# Jenni Heikkilä <jenni.heikkila@sv-oy.fi>, 2024
+# Sanna Edelman <direct@generare.com>, 2024
+# Melina Mäntylä <melina.mantyla@web-veistamo.fi>, 2024
+# Eino Mäkitalo <eino.makitalo@netitbe.fi>, 2024
+# Anni Saarelainen, 2024
+# Henri Komulainen <henri.komulainen@web-veistamo.fi>, 2024
+# Veikko Väätäjä <veikko.vaataja@gmail.com>, 2024
+# Tuomo Aura <tuomo.aura@web-veistamo.fi>, 2024
+# Miika Nissi <miika.nissi@tawasta.fi>, 2024
+# Martin Trigaux, 2024
+# Pekko Tuomisto <pekko.tuomisto@web-veistamo.fi>, 2024
+# Kari Lindgren <karisatu@gmail.com>, 2024
+# Jarmo Kortetjärvi <jarmo.kortetjarvi@gmail.com>, 2024
+# Jessica Jakara, 2025
+# Ossi Mantylahti <ossi.mantylahti@obs-solutions.fi>, 2025
+# 
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 18.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2024-12-16 13:41+0000\n"
+"PO-Revision-Date: 2024-09-25 09:42+0000\n"
+"Last-Translator: Ossi Mantylahti <ossi.mantylahti@obs-solutions.fi>, 2025\n"
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 "Language-Team: Finnish (https://app.transifex.com/odoo/teams/41243/fi/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -43,9 +81,45 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #. module: website_event_track
+#: model:mail.template,body_html:website_event_track.mail_template_data_track_confirmation
+msgid ""
+"\n"
+"    Dear <t t-out=\"object.partner_id.name or object.partner_name or ''\">Brandon Freeman</t><br/>\n"
+"    We are pleased to inform you that your proposal <t t-out=\"object.name or ''\">What This Event Is All About</t> has been accepted and confirmed for the event <t t-out=\"object.event_id.name or ''\">OpenWood Collection Online Reveal</t>.\n"
+"    <br/>\n"
+"    You will find more details here:\n"
+"    <div style=\"margin: 16px 0px 16px 0px;\">\n"
+"        <a t-attf-href=\"/event/{{ object.event_id.id }}/track/{{ object.id }}\" style=\"padding: 8px 16px 8px 16px; font-size: 14px; color: #FFFFFF; text-decoration: none !important; background-color: #875A7B; border: 0px solid #875A7B; border-radius:3px\">\n"
+"            View Talk\n"
+"        </a>\n"
+"    </div>\n"
+"    <br/><br/>\n"
+"    Thank you,\n"
+"    <t t-if=\"user.signature\" data-o-mail-quote-container=\"1\">\n"
+"        <br/>\n"
+"        <t t-out=\"user.signature or ''\" data-o-mail-quote=\"1\">--<br data-o-mail-quote=\"1\"/>Mitchell Admin</t>\n"
+"    </t>\n"
+msgstr ""
+"\n"
+"    Hyvä <t t-out=\"object.partner_id.name or object.partner_name or ''\">Brandon Freeman</t><br/>\n"
+"    Meillä on ilo ilmoittaa, että ehdotuksesi <t t-out=\"object.name or ''\">What This Event Is All About</t> on hyväksytty ja vahvistettu <t t-out=\"object.event_id.name or ''\">OpenWood Collection Online Reveal</t>-tapahtumaan.\n"
+"   <br/>\n"
+"    Löydät lisätietoja täältä:\n"
+"    <div style=\"margin: 16px 0px 16px 0px;\">\n"
+"        <a t-attf-href=\"/event/{{ object.event_id.id }}/track/{{ object.id }}\" style=\"padding: 8px 16px 8px 16px; font-size: 14px; color: #FFFFFF; text-decoration: none !important; background-color: #875A7B; border: 0px solid #875A7B; border-radius:3px\">\n"
+"            Katso esityksen tiedot\n"
+"        </a>\n"
+"    </div>\n"
+"   <br/><br/>\n"
+"    Kiitos,\n"
+"    <t t-if=\"user.signature\" data-o-mail-quote-container=\"1\">\n"
+"        <br/>\n"
+"        <t t-out=\"user.signature or ''\" data-o-mail-quote=\"1\">--<br data-o-mail-quote=\"1\"/>Mitchell admin</t>\n"
+"    </t>\n"
+
+#. module: website_event_track
 #. odoo-python
 #: code:addons/website_event_track/models/website.py:0
-#, python-format
 msgid "\"Events App Name\" field is required."
 msgstr "\"Events App Name\" kenttä tarvitaan."
 
@@ -58,32 +132,37 @@ msgstr "# Toivottu"
 #. module: website_event_track
 #. odoo-python
 #: code:addons/website_event_track/models/event_track.py:0
-#, python-format
 msgid "%(name)s from %(company)s"
 msgstr "%(name)s yrityksestä %(company)s"
 
 #. module: website_event_track
 #. odoo-python
 #: code:addons/website_event_track/models/event_track.py:0
-#, python-format
 msgid "%(name)s, %(function)s at %(company)s"
 msgstr "%(name)s, %(function)s yrityksessä %(company)s"
 
 #. module: website_event_track
 #. odoo-python
 #: code:addons/website_event_track/models/website.py:0
-#, python-format
 msgid "%s Events"
 msgstr "%s Tapahtumia"
 
 #. module: website_event_track
 #. odoo-python
 #: code:addons/website_event_track/controllers/webmanifest.py:0
-#, python-format
 msgid "%s Online Events Application"
 msgstr "%s Verkkotapahtumien hakemus"
 
 #. module: website_event_track
+<<<<<<< HEAD
+=======
+#: model_terms:ir.ui.view,arch_db:website_event_track.agenda_main
+#: model_terms:ir.ui.view,arch_db:website_event_track.tracks_display_list
+msgid "(timezone:"
+msgstr "(Aikavyöhyke:"
+
+#. module: website_event_track
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 #: model:event.track,name:website_event_track.event_7_track_17
 msgid "10 DIY Furniture Ideas For Absolute Beginners"
 msgstr "10 tee-se-itse -huonekaluideaa aloittelijoille"
@@ -94,11 +173,14 @@ msgid "6 Woodworking tips and tricks for beginners"
 msgstr "6 puutyövinkkiä aloittelijoille"
 
 #. module: website_event_track
+<<<<<<< HEAD
 #: model_terms:ir.ui.view,arch_db:website_event_track.event_track_proposal_contact_details
 msgid "<b class=\"fw-normal\">Contact Information</b>"
 msgstr "<b class=\"fw-normal\">Yhteystiedot</b>"
 
 #. module: website_event_track
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 #: model_terms:ir.ui.view,arch_db:website_event_track.event_track_template_new
 msgid "<b>Mail</b>:"
 msgstr "<b>Sähköposti</b>:"
@@ -124,6 +206,7 @@ msgid "<b>Talk Introduction</b>:"
 msgstr "<b>Kuvaus esityksestä</b>:"
 
 #. module: website_event_track
+<<<<<<< HEAD
 #: model:mail.template,body_html:website_event_track.mail_template_data_track_confirmation
 msgid ""
 "<div>\n"
@@ -163,6 +246,8 @@ msgstr ""
 "</div>"
 
 #. module: website_event_track
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 #: model_terms:ir.ui.view,arch_db:website_event_track.track_card
 msgid "<i class=\"fa fa-ban me-2\"/>Unpublished"
 msgstr "<i class=\"fa fa-ban me-2\"/>Ei julkaistu"
@@ -171,13 +256,22 @@ msgstr "<i class=\"fa fa-ban me-2\"/>Ei julkaistu"
 #: model_terms:ir.ui.view,arch_db:website_event_track.tracks_search
 msgid "<i class=\"fa fa-bell mx-2 text-muted\"/> Favorite Talks"
 msgstr "<i class=\"fa fa-bell mx-2 text-muted\"/> Suosikkipuheet"
+<<<<<<< HEAD
+=======
 
 #. module: website_event_track
-#: model_terms:ir.ui.view,arch_db:website_event_track.event_track_content
+#: model_terms:ir.ui.view,arch_db:website_event_track.tracks_display_list
+msgid "<span class=\"d-none d-md-block\">&amp;bull;</span>"
+msgstr "<span class=\"d-none d-md-block\">&amp;bull;</span>"
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
+
+#. module: website_event_track
+#: model_terms:ir.ui.view,arch_db:website_event_track.res_config_settings_view_form
 msgid ""
-"<i class=\"oi oi-fw oi-arrow-right\"/>\n"
-"                        Write one."
+"<span class=\"fa fa-lg fa-globe\" title=\"Values set here are website-"
+"specific.\" groups=\"website.group_multi_website\"/>"
 msgstr ""
+<<<<<<< HEAD
 "<i class=\"oi oi-fw oi-arrow-right\"/>\n"
 "                    Kirjoita yksi."
 
@@ -196,6 +290,12 @@ msgstr ""
 "specific.\" groups=\"website.group_multi_website\"/>"
 
 #. module: website_event_track
+=======
+"<span class=\"fa fa-lg fa-globe\" title=\"Values set here are website-"
+"specific.\" groups=\"website.group_multi_website\"/>"
+
+#. module: website_event_track
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 #: model_terms:ir.ui.view,arch_db:website_event_track.agenda_online
 #: model_terms:ir.ui.view,arch_db:website_event_track.tracks_main
 msgid "<span class=\"fa fa-plus me-1\"/> Schedule Tracks"
@@ -205,32 +305,37 @@ msgstr "<span class=\"fa fa-plus me-1\"/> Aikatauluta esitykset"
 #: model_terms:ir.ui.view,arch_db:website_event_track.event_track_proposal
 msgid ""
 "<span class=\"o_wetrack_proposal_error_section text-danger d-none ml8\">\n"
-"                                        <i class=\"fa fa-close mr4\" role=\"img\" aria-label=\"Error\" title=\"Error\"/>\n"
-"                                        <span class=\"o_wetrack_proposal_error_message\"/>\n"
-"                                    </span>"
+"                                    <i class=\"fa fa-close mr4\" role=\"img\" aria-label=\"Error\" title=\"Error\"/>\n"
+"                                    <span class=\"o_wetrack_proposal_error_message\"/>\n"
+"                                </span>"
 msgstr ""
 "<span class=\"o_wetrack_proposal_error_section text-danger d-none ml8\">\n"
-"                                        <i class=\"fa fa-close mr4\" role=\"img\" aria-label=\"Virhe\" title=\"Virhe\"/>\n"
-"                                        <span class=\"o_wetrack_proposal_error_message\"/>\n"
-"                                    </span>"
+"                                    <i class=\"fa fa-close mr4\" role=\"img\" aria-label=\"Error\" title=\"Error\"/>\n"
+"                                    <span class=\"o_wetrack_proposal_error_message\"/>\n"
+"                                </span>"
 
 #. module: website_event_track
 #: model_terms:ir.ui.view,arch_db:website_event_track.event_track_proposal
 msgid ""
 "<span class=\"o_wetrack_proposal_label_content\">Talk Introduction</span>\n"
-"                                            <span>*</span>"
+"                                        <span>*</span>"
 msgstr ""
-"<span class=\"o_wetrack_proposal_label_content\">Johdanto esitykseen</span>\n"
-"                                            <span>*</span>"
+"<span class=\"o_wetrack_proposal_label_content\">Puheen johdanto</span>\n"
+"                                        <span>*</span>"
 
 #. module: website_event_track
 #: model_terms:ir.ui.view,arch_db:website_event_track.event_track_proposal
 msgid ""
 "<span class=\"o_wetrack_proposal_label_content\">Talk Title</span>\n"
-"                                            <span>*</span>"
+"                                        <span>*</span>"
 msgstr ""
-"<span class=\"o_wetrack_proposal_label_content\">Esityksen otsikko</span>\n"
-"                                            <span>*</span>"
+"<span class=\"o_wetrack_proposal_label_content\">Puheen otsikko</span>\n"
+"                                        <span>*</span>"
+
+#. module: website_event_track
+#: model_terms:ir.ui.view,arch_db:website_event_track.agenda_main
+msgid "<span class=\"text-muted\"> tracks</span>"
+msgstr "<span class=\"text-muted\"> esitykset</span>"
 
 #. module: website_event_track
 #: model_terms:ir.ui.view,arch_db:website_event_track.event_track_proposal_contact_details
@@ -355,7 +460,10 @@ msgstr "Edistynyt raportointi"
 #. odoo-python
 #: code:addons/website_event_track/models/event_event.py:0
 #: model_terms:ir.ui.view,arch_db:website_event_track.agenda_topbar
+<<<<<<< HEAD
 #, python-format
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 msgid "Agenda"
 msgstr "Ohjelmakartta"
 
@@ -365,6 +473,7 @@ msgid "Agenda Color"
 msgstr "Esityslistan väri"
 
 #. module: website_event_track
+#: model_terms:ir.ui.view,arch_db:website_event_track.event_track_main
 #: model_terms:ir.ui.view,arch_db:website_event_track.session_topbar
 msgid "All Talks"
 msgstr "Kaikki esitykset"
@@ -377,7 +486,6 @@ msgstr "Salli esitysehdotukset"
 #. module: website_event_track
 #. odoo-javascript
 #: code:addons/website_event_track/static/src/js/event_track_reminder.js:0
-#, python-format
 msgid "Allow push notifications?"
 msgstr "Salli push-ilmoitukset?"
 
@@ -404,7 +512,6 @@ msgstr "Julkistettu"
 #. module: website_event_track
 #. odoo-javascript
 #: code:addons/website_event_track/static/src/xml/event_track_proposal_templates.xml:0
-#, python-format
 msgid "Application"
 msgstr "Hakemus"
 
@@ -452,6 +559,16 @@ msgid "Available Track Tags"
 msgstr "Käytettävissä olevat esitysten tunnisteet"
 
 #. module: website_event_track
+#: model_terms:ir.ui.view,arch_db:website_event_track.agenda_online
+msgid "Available on all event Agenda pages"
+msgstr "Saatavilla kaikillla tapahtuman Ohjelman sivuilla"
+
+#. module: website_event_track
+#: model_terms:ir.ui.view,arch_db:website_event_track.event_track_main
+msgid "Back to All Talks"
+msgstr "Takaisin \"Kaikki puheet\"-näkymään"
+
+#. module: website_event_track
 #: model_terms:event.track,description:website_event_track.event_7_track_18
 msgid "Bandy clamp hack"
 msgstr "Liimapuristinkikka"
@@ -472,11 +589,11 @@ msgstr "Kuvaus itsestäsi"
 #: model:event.track.stage,legend_blocked:website_event_track.event_track_stage3
 #: model:event.track.stage,legend_blocked:website_event_track.event_track_stage4
 #: model:event.track.stage,legend_blocked:website_event_track.event_track_stage5
-#, python-format
 msgid "Blocked"
 msgstr "Estetty"
 
 #. module: website_event_track
+#: model_terms:ir.ui.view,arch_db:website_event_track.event_confirmation_end_page_hook
 #: model_terms:ir.ui.view,arch_db:website_event_track.registration_complete
 msgid "Book your seats to the best talks"
 msgstr "Varaa paikkasi parhaisiin esityksiin"
@@ -517,14 +634,14 @@ msgid "Can Publish"
 msgstr "Voi julkaista"
 
 #. module: website_event_track
-#: model:ir.model.fields,field_description:website_event_track.field_event_track_stage__is_cancel
-msgid "Canceled Stage"
-msgstr "Peruttu-tila"
-
-#. module: website_event_track
 #: model:event.track.stage,name:website_event_track.event_track_stage5
 msgid "Cancelled"
 msgstr "Peruttu"
+
+#. module: website_event_track
+#: model:ir.model.fields,field_description:website_event_track.field_event_track_stage__is_cancel
+msgid "Cancelled Stage"
+msgstr "Peruttu lava"
 
 #. module: website_event_track
 #: model_terms:ir.ui.view,arch_db:website_event_track.event_track_proposal
@@ -559,7 +676,6 @@ msgstr "Väri-indeksi"
 #. module: website_event_track
 #. odoo-python
 #: code:addons/website_event_track/controllers/event_track.py:0
-#, python-format
 msgid "Coming soon"
 msgstr "Tulossa pian"
 
@@ -609,7 +725,6 @@ msgstr ""
 #. odoo-python
 #: code:addons/website_event_track/models/event_track.py:0
 #: model:ir.model.fields,field_description:website_event_track.field_event_track__partner_id
-#, python-format
 msgid "Contact"
 msgstr "Kontakti"
 
@@ -622,9 +737,13 @@ msgstr "Yhteystiedot"
 #. odoo-python
 #: code:addons/website_event_track/models/event_track.py:0
 #: model:ir.model.fields,field_description:website_event_track.field_event_track__contact_email
-#, python-format
 msgid "Contact Email"
 msgstr "Kontaktin sähköpostiosoite"
+
+#. module: website_event_track
+#: model_terms:ir.ui.view,arch_db:website_event_track.event_track_proposal_contact_details
+msgid "Contact Information"
+msgstr "Yhteystiedot"
 
 #. module: website_event_track
 #: model:ir.model.fields,field_description:website_event_track.field_event_track__contact_phone
@@ -681,6 +800,15 @@ msgstr "Asiakas"
 #: model:event.track,name:website_event_track.event_7_track_19
 msgid "DIY Timber Cladding Project"
 msgstr "Tee-se-itse: puuverhous"
+
+#. module: website_event_track
+#: model_terms:ir.ui.view,arch_db:website_event_track.event_track_proposal
+msgid ""
+"DROP BUILDING BLOCKS HERE TO MAKE THEM AVAILABLE ACROSS ALL PROPOSAL PAGES "
+"OF ALL EVENTS"
+msgstr ""
+"PUDOTA DESIGN-RAKENNUSPALIKAT TÄHÄN, JOTTA NE OVAT KAIKKIEN EHDOTUSSIVUJEN "
+"KÄYTETTÄVISSÄ KAIKISSA TAPAHTUMISSA"
 
 #. module: website_event_track
 #: model_terms:ir.ui.view,arch_db:website_event_track.view_event_track_search
@@ -815,7 +943,6 @@ msgstr "Sähköpostin mallipohja"
 #. module: website_event_track
 #. odoo-javascript
 #: code:addons/website_event_track/static/src/js/event_track_reminder.js:0
-#, python-format
 msgid "Error"
 msgstr "Virhe"
 
@@ -923,7 +1050,6 @@ msgstr "Tapahtuman PWA"
 #: code:addons/website_event_track/static/src/js/event_track_reminder.js:0
 #: code:addons/website_event_track/static/src/js/event_track_reminder.js:0
 #: model_terms:ir.ui.view,arch_db:website_event_track.track_widget_reminder
-#, python-format
 msgid "Favorite On"
 msgstr "Suosikki"
 
@@ -933,6 +1059,14 @@ msgid "Favorites"
 msgstr "Suosikit"
 
 #. module: website_event_track
+<<<<<<< HEAD
+=======
+#: model_terms:ir.ui.view,arch_db:website_event_track.agenda_topbar
+msgid "Filter Tracks"
+msgstr "Suodata Esitysten mukaan"
+
+#. module: website_event_track
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 #: model_terms:ir.ui.view,arch_db:website_event_track.snippet_options
 msgid "Filter by Tags"
 msgstr "Suodata tunnisteiden mukaan"
@@ -988,6 +1122,7 @@ msgid "Future Activities"
 msgstr "Tulevat toimenpiteet"
 
 #. module: website_event_track
+#: model_terms:ir.ui.view,arch_db:website_event_track.event_confirmation_end_page_hook
 #: model_terms:ir.ui.view,arch_db:website_event_track.registration_complete
 msgid "Get prepared and"
 msgstr "Valmistaudu ja"
@@ -1180,7 +1315,6 @@ msgstr "Jossa"
 #: model:event.track.stage,legend_normal:website_event_track.event_track_stage3
 #: model:event.track.stage,legend_normal:website_event_track.event_track_stage4
 #: model:event.track.stage,legend_normal:website_event_track.event_track_stage5
-#, python-format
 msgid "In Progress"
 msgstr "Käynnissä"
 
@@ -1197,14 +1331,12 @@ msgstr "Tässä videossa kerroin kuusi vihjettä ja temppua aloittelijoille:"
 #. module: website_event_track
 #. odoo-javascript
 #: code:addons/website_event_track/static/src/xml/website_event_pwa.xml:0
-#, python-format
 msgid "Install"
 msgstr "Asenna"
 
 #. module: website_event_track
 #. odoo-javascript
 #: code:addons/website_event_track/static/src/xml/website_event_pwa.xml:0
-#, python-format
 msgid "Install Application"
 msgstr "Asenna sovellus"
 
@@ -1554,13 +1686,6 @@ msgid "No Track Visitors yet!"
 msgstr "Ei vielä vierailijoita esityksellä!"
 
 #. module: website_event_track
-#. odoo-javascript
-#: code:addons/website_event_track/static/src/js/website_event_track_proposal_form_tags.js:0
-#, python-format
-msgid "No results found"
-msgstr "Hakutuloksia ei löytynyt"
-
-#. module: website_event_track
 #: model_terms:ir.actions.act_window,help:website_event_track.event_track_action_from_visitor
 msgid "No track favorited by this visitor"
 msgstr "Tämä vierailija ei ole asettanut yhtään esitystä suosikiksi"
@@ -1639,14 +1764,12 @@ msgstr ""
 #. module: website_event_track
 #. odoo-javascript
 #: code:addons/website_event_track/static/src/js/website_event_track_proposal_form.js:0
-#, python-format
 msgid "Please enter either a contact email address or a contact phone number."
 msgstr "Anna kontaktin sähköpostiosoite tai puhelinnumero."
 
 #. module: website_event_track
 #. odoo-javascript
 #: code:addons/website_event_track/static/src/js/website_event_track_proposal_form.js:0
-#, python-format
 msgid "Please fill out the form correctly."
 msgstr "Ole hyvä ja täytä lomake oikein."
 
@@ -1688,8 +1811,8 @@ msgstr "Ehdotus"
 
 #. module: website_event_track
 #: model_terms:ir.ui.view,arch_db:website_event_track.event_track_proposal
-msgid "Proposals are closed!"
-msgstr "Ehdotukset on suljettu!"
+msgid "Proposals are closed."
+msgstr "Ehdotukset ovat suljettu."
 
 #. module: website_event_track
 #: model:ir.model.fields,field_description:website_event_track.field_event_event__website_track_proposal
@@ -1721,7 +1844,6 @@ msgstr "Arviointi"
 #: model:event.track.stage,legend_done:website_event_track.event_track_stage3
 #: model:event.track.stage,legend_done:website_event_track.event_track_stage4
 #: model:event.track.stage,legend_done:website_event_track.event_track_stage5
-#, python-format
 msgid "Ready for Next Stage"
 msgstr "Valmis seuraavaan vaiheeseen"
 
@@ -1797,9 +1919,15 @@ msgid "SMS Delivery error"
 msgstr "Tekstiviestin toimitusvirhe"
 
 #. module: website_event_track
+<<<<<<< HEAD
 #: model_terms:ir.ui.view,arch_db:website_event_track.agenda_topbar
 msgid "Search Tracks"
 msgstr "Etsi esityksiä"
+=======
+#: model_terms:ir.ui.view,arch_db:website_event_track.session_topbar
+msgid "Search a talk ..."
+msgstr "Etsi puheita..."
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 #. module: website_event_track
 #: model:event.track,name:website_event_track.event_7_track_6
@@ -1809,8 +1937,7 @@ msgstr "Puutavaran kiinnitys kuljetuksen aikana"
 #. module: website_event_track
 #. odoo-javascript
 #: code:addons/website_event_track/static/src/js/website_event_track_proposal_form_tags.js:0
-#, python-format
-msgid "Select categories"
+msgid "Select Categories"
 msgstr "Valitse kategoriat"
 
 #. module: website_event_track
@@ -1840,7 +1967,6 @@ msgstr "Järjestys"
 #: code:addons/website_event_track/static/src/js/event_track_reminder.js:0
 #: code:addons/website_event_track/static/src/js/event_track_reminder.js:0
 #: model_terms:ir.ui.view,arch_db:website_event_track.track_widget_reminder
-#, python-format
 msgid "Set Favorite"
 msgstr "Aseta suosikki"
 
@@ -1861,6 +1987,7 @@ msgstr "Esitysten showcase"
 
 #. module: website_event_track
 #: model_terms:ir.ui.view,arch_db:website_event_track.view_event_track_form
+#: model_terms:ir.ui.view,arch_db:website_event_track.view_event_track_search
 msgid "Speaker"
 msgstr "Esittäjä"
 
@@ -1872,7 +1999,6 @@ msgstr "Esittäjän esittely"
 #. module: website_event_track
 #. odoo-python
 #: code:addons/website_event_track/models/event_track.py:0
-#, python-format
 msgid "Speaker Email"
 msgstr "Esittäjän sähköposti"
 
@@ -1889,7 +2015,6 @@ msgstr "Puhujan profiili"
 #. module: website_event_track
 #. odoo-python
 #: code:addons/website_event_track/models/event_track.py:0
-#, python-format
 msgid "Speakers"
 msgstr "Puhujat"
 
@@ -1972,28 +2097,24 @@ msgstr "Puheen johdanto"
 #. module: website_event_track
 #. odoo-python
 #: code:addons/website_event_track/models/event_event.py:0
-#, python-format
 msgid "Talk Proposals"
 msgstr "Ehdotukset esityksistä"
 
 #. module: website_event_track
 #. odoo-javascript
 #: code:addons/website_event_track/static/src/js/event_track_reminder.js:0
-#, python-format
 msgid "Talk added to your Favorites"
 msgstr "Esitys lisätty suosikeihin"
 
 #. module: website_event_track
 #. odoo-javascript
 #: code:addons/website_event_track/static/src/js/event_track_reminder.js:0
-#, python-format
 msgid "Talk already in your Favorites"
 msgstr "Esitys on jo suosikeissa"
 
 #. module: website_event_track
 #. odoo-javascript
 #: code:addons/website_event_track/static/src/js/event_track_reminder.js:0
-#, python-format
 msgid "Talk removed from your Favorites"
 msgstr "Esitys on poistettu suosikeista"
 
@@ -2002,7 +2123,10 @@ msgstr "Esitys on poistettu suosikeista"
 #: code:addons/website_event_track/models/event_event.py:0
 #: model_terms:ir.ui.view,arch_db:website_event_track.event_track_aside
 #: model_terms:ir.ui.view,arch_db:website_event_track.session_topbar
+<<<<<<< HEAD
 #, python-format
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 msgid "Talks"
 msgstr "Esitykset"
 
@@ -2027,7 +2151,6 @@ msgstr ""
 #. module: website_event_track
 #. odoo-javascript
 #: code:addons/website_event_track/static/src/xml/event_track_proposal_templates.xml:0
-#, python-format
 msgid "Thank you for your proposal."
 msgstr "Kiitos ehdotuksestasi."
 
@@ -2073,6 +2196,7 @@ msgid ""
 msgstr ""
 "Nämä ovat 30 minuutin pituisia esityksiä useista eri eri aiheista. Useimmat "
 "aiheet hyväksytään pikapuheisiin."
+<<<<<<< HEAD
 
 #. module: website_event_track
 #: model_terms:ir.ui.view,arch_db:website_event_track.event_track_proposal
@@ -2088,11 +2212,23 @@ msgid ""
 "events."
 msgstr ""
 "Luodaan automaattisesti, kun osallistujat alkavat selata tapahtumiasi."
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 #. module: website_event_track
 #: model_terms:ir.ui.view,arch_db:website_event_track.event_track_proposal
-msgid "This event does not accept proposals."
-msgstr "Tämä tapahtuma ei ota vastaan ehdotuksia."
+msgid "These are standard talks with slides, alocated in slots of 60 minutes."
+msgstr ""
+"Nämä ovat tavanomaisia diaesityksiä, jotka on jaettu 60 minuutin pituisiksi "
+"jaksoiksi."
+
+#. module: website_event_track
+#: model_terms:ir.actions.act_window,help:website_event_track.event_track_visitor_action
+msgid ""
+"They will be created automatically once attendees start browsing your "
+"events."
+msgstr ""
+"Luodaan automaattisesti, kun osallistujat alkavat selata tapahtumiasi."
 
 #. module: website_event_track
 #: model:ir.model.fields,help:website_event_track.field_website__app_icon
@@ -2334,6 +2470,14 @@ msgstr "Esitykset verkkosivulla"
 #: model:ir.model.fields,help:website_event_track.field_event_track__activity_exception_decoration
 msgid "Type of the exception activity on record."
 msgstr "Poikkeusaktiviteetin tyyppi tietueella."
+<<<<<<< HEAD
+=======
+
+#. module: website_event_track
+#: model_terms:ir.ui.view,arch_db:website_event_track.agenda_main
+msgid "Unknown"
+msgstr "Tuntematon"
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 #. module: website_event_track
 #: model_terms:ir.ui.view,arch_db:website_event_track.agenda_main_track
@@ -2429,27 +2573,31 @@ msgstr "Vaadimme kaikkia puhujia hyväksymään sopimuksen, johon he sitoutuvat:
 #: model_terms:ir.ui.view,arch_db:website_event_track.event_track_proposal
 msgid ""
 "We will accept a broad range of\n"
-"                            presentations, from reports on academic and\n"
-"                            commercial projects to tutorials and case\n"
-"                            studies. As long as the presentation is\n"
-"                            interesting and potentially useful to the\n"
-"                            audience, it will be considered for\n"
-"                            inclusion in the programme."
+"                                presentations, from reports on academic and\n"
+"                                commercial projects to tutorials and case\n"
+"                                studies. As long as the presentation is\n"
+"                                interesting and potentially useful to the\n"
+"                                audience, it will be considered for\n"
+"                                inclusion in the programme."
 msgstr ""
 "Otamme vastaan laajan valikoiman\n"
-"                             esityksiä, akateemisista raporteista ja\n"
-"                             kaupallisista projekteista opetusohjelmiin ja case-\n"
-"                             tutkimuksiin. Kun esitys on\n"
-"                             kiinnostava ja mahdollisesti hyödyllinen\n"
-"                             yleisölle, sitä harkitaan\n"
-"                             otettavaksi mukaan ohjelmaan."
+"                                esityksiä, akateemisista raporteista ja\n"
+"                                kaupallisista projekteista opetusohjelmiin ja tapaus\n"
+"                                tutkimuksiin. Jos esitys on\n"
+"                                kiinnostava ja mahdollisesti hyödyllinen \n"
+"                                yleisölle, sen sisällyttämistä\n"
+"                                ohjelmaamme harkitaan."
 
 #. module: website_event_track
 #. odoo-javascript
 #: code:addons/website_event_track/static/src/xml/event_track_proposal_templates.xml:0
-#, python-format
 msgid "We will evaluate your proposition and get back to you shortly."
 msgstr "Arvioimme ehdotuksen ja palaamme asiaan piakkoin."
+
+#. module: website_event_track
+#: model_terms:ir.ui.view,arch_db:website_event_track.event_track_proposal
+msgid "We're sorry, this event does not accept proposals anymore"
+msgstr "Olemme pahoillamme, tähän tapahtumaan ei enää voi lähettää ehdotuksia"
 
 #. module: website_event_track
 #: model:ir.model,name:website_event_track.model_website
@@ -2569,14 +2717,16 @@ msgstr "Puutyöt: miten aloitin!"
 #. module: website_event_track
 #. odoo-javascript
 #: code:addons/website_event_track/static/src/js/website_event_track_proposal_form.js:0
-#, python-format
 msgid "You cannot access this page."
 msgstr "Ei pääsyä tälle sivulle."
 
 #. module: website_event_track
 #. odoo-javascript
 #: code:addons/website_event_track/static/src/js/event_track_reminder.js:0
+<<<<<<< HEAD
 #, python-format
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 msgid ""
 "You have to enable push notifications to get reminders for your favorite "
 "tracks."
@@ -2639,7 +2789,10 @@ msgstr "tunti(a)"
 #. module: website_event_track
 #. odoo-javascript
 #: code:addons/website_event_track/static/src/js/event_track_timer.js:0
+<<<<<<< HEAD
 #, python-format
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 msgid "in %s"
 msgstr "%s"
 
@@ -2649,6 +2802,7 @@ msgid "minutes after Track start"
 msgstr "minuuttia esityksen alkamisen jälkeen"
 
 #. module: website_event_track
+#: model_terms:ir.ui.view,arch_db:website_event_track.event_confirmation_end_page_hook
 #: model_terms:ir.ui.view,arch_db:website_event_track.registration_complete
 msgid "register to your favorites talks now."
 msgstr "ilmoittaudu suosikkiesityksiisi."
@@ -2662,8 +2816,3 @@ msgstr "alkaa kello"
 #: model_terms:ir.ui.view,arch_db:website_event_track.event_track_content
 msgid "starts on"
 msgstr "alkaa"
-
-#. module: website_event_track
-#: model_terms:ir.ui.view,arch_db:website_event_track.agenda_main
-msgid "tracks"
-msgstr "esitykset"

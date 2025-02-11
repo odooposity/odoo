@@ -3,6 +3,7 @@
 # 	* pos_sale
 # 
 # Translators:
+<<<<<<< HEAD
 # Veikko Väätäjä <veikko.vaataja@gmail.com>, 2023
 # Kim Asplund <kim.asplund@gmail.com>, 2023
 # Kari Lindgren <kari.lindgren@emsystems.fi>, 2023
@@ -21,6 +22,27 @@ msgstr ""
 "POT-Creation-Date: 2023-10-26 21:55+0000\n"
 "PO-Revision-Date: 2023-10-26 23:09+0000\n"
 "Last-Translator: Jarmo Kortetjärvi <jarmo.kortetjarvi@gmail.com>, 2024\n"
+=======
+# Veikko Väätäjä <veikko.vaataja@gmail.com>, 2024
+# Martin Trigaux, 2024
+# Kim Asplund <kim.asplund@gmail.com>, 2024
+# Kari Lindgren <kari.lindgren@emsystems.fi>, 2024
+# Jukka Paulin <jukka.paulin@gmail.com>, 2024
+# Mikko Salmela <salmemik@gmail.com>, 2024
+# Tuomo Aura <tuomo.aura@web-veistamo.fi>, 2024
+# Karoliina Nisula <karoliina.nisula@tawasta.fi>, 2024
+# Tuomas Lyyra <tuomas.lyyra@legenda.fi>, 2024
+# Jarmo Kortetjärvi <jarmo.kortetjarvi@gmail.com>, 2025
+# Ossi Mantylahti <ossi.mantylahti@obs-solutions.fi>, 2025
+# 
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 18.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2024-09-25 08:39+0000\n"
+"PO-Revision-Date: 2024-09-25 09:41+0000\n"
+"Last-Translator: Ossi Mantylahti <ossi.mantylahti@obs-solutions.fi>, 2025\n"
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 "Language-Team: Finnish (https://app.transifex.com/odoo/teams/41243/fi/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -30,6 +52,7 @@ msgstr ""
 
 #. module: pos_sale
 #. odoo-javascript
+<<<<<<< HEAD
 #: code:addons/pos_sale/static/src/app/order_management_screen/sale_order_row/sale_order_row.xml:0
 #, python-format
 msgid "(left:"
@@ -39,6 +62,9 @@ msgstr "(jäljellä:"
 #. odoo-javascript
 #: code:addons/pos_sale/static/src/overrides/components/product_screen/product_screen.xml:0
 #, python-format
+=======
+#: code:addons/pos_sale/static/src/overrides/components/orderline/orderline.xml:0
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 msgid "(tax incl.)"
 msgstr "(sis. verot)"
 
@@ -49,12 +75,17 @@ msgstr "<span style=\"margin: 0px 5px;\">:</span>"
 
 #. module: pos_sale
 #. odoo-javascript
+<<<<<<< HEAD
 #: code:addons/pos_sale/static/src/app/order_management_screen/sale_order_management_screen/sale_order_management_screen.js:0
 #, python-format
+=======
+#: code:addons/pos_sale/static/src/overrides/models/pos_store.js:0
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 msgid "A new order has been created."
 msgstr "Uusi tilaus on luotu."
 
 #. module: pos_sale
+<<<<<<< HEAD
 #. odoo-javascript
 #: code:addons/pos_sale/static/src/app/order_management_screen/sale_order_management_screen/sale_order_management_screen.js:0
 #, python-format
@@ -81,6 +112,30 @@ msgstr "Takaisin"
 #, python-format
 msgid "Cancelled"
 msgstr "Peruttu"
+=======
+#: model:ir.model.fields,field_description:pos_sale.field_sale_order__amount_unpaid
+msgid "Amount To Pay In POS"
+msgstr "Kassalla maksettava määrä"
+
+#. module: pos_sale
+#: model:ir.model.fields,help:pos_sale.field_sale_order__amount_unpaid
+msgid "Amount left to pay in POS to avoid double payment or double invoicing."
+msgstr ""
+"Kassassa maksamatta oleva määrä kaksinkertaisen maksun tai kaksinkertaisen "
+"laskutuksen välttämiseksi."
+
+#. module: pos_sale
+#. odoo-javascript
+#: code:addons/pos_sale/static/src/overrides/models/pos_store.js:0
+msgid "Apply a down payment (fixed amount)"
+msgstr "Aseta käsiraha (kiinteä määrä)"
+
+#. module: pos_sale
+#. odoo-javascript
+#: code:addons/pos_sale/static/src/overrides/models/pos_store.js:0
+msgid "Apply a down payment (percentage)"
+msgstr "Aseta käsiraha (prosentteina)"
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 #. module: pos_sale
 #: model:ir.model,name:pos_sale.model_res_config_settings
@@ -93,6 +148,7 @@ msgid "Currency Rate"
 msgstr "Valuuttakurssi"
 
 #. module: pos_sale
+<<<<<<< HEAD
 #. odoo-javascript
 #: code:addons/pos_sale/static/src/app/order_management_screen/sale_order_list/sale_order_list.xml:0
 #: code:addons/pos_sale/static/src/app/order_management_screen/sale_order_row/sale_order_row.xml:0
@@ -116,23 +172,38 @@ msgid "Date"
 msgstr "Päivämäärä"
 
 #. module: pos_sale
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 #: model_terms:ir.ui.view,arch_db:pos_sale.message_body
 msgid "Delivered from"
 msgstr "Toimitetaan osoitteesta"
 
 #. module: pos_sale
+#: model:ir.model.fields,field_description:pos_sale.field_pos_order_line__qty_delivered
+msgid "Delivery Quantity"
+msgstr "Toimituksen määrä"
+
+#. module: pos_sale
 #. odoo-javascript
+<<<<<<< HEAD
 #: code:addons/pos_sale/static/src/app/order_management_screen/sale_order_management_screen/sale_order_management_screen.js:0
 #, python-format
+=======
+#: code:addons/pos_sale/static/src/overrides/models/pos_store.js:0
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 msgid "Do you want to load the SN/Lots linked to the Sales Order?"
 msgstr ""
 "Haluatko ladata myyntitilaukseen liittyvät sarjanumerot tai valmistuserät?"
 
 #. module: pos_sale
 #. odoo-javascript
+<<<<<<< HEAD
 #: code:addons/pos_sale/static/src/app/order_management_screen/sale_order_management_screen/sale_order_management_screen.js:0
 #: code:addons/pos_sale/static/src/app/order_management_screen/sale_order_management_screen/sale_order_management_screen.js:0
 #, python-format
+=======
+#: code:addons/pos_sale/static/src/overrides/models/pos_store.js:0
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 msgid "Down Payment"
 msgstr "Ennakkomaksu"
 
@@ -154,6 +225,7 @@ msgid "Down Payment Product"
 msgstr "Ennakkomaksun tuote"
 
 #. module: pos_sale
+<<<<<<< HEAD
 #. odoo-javascript
 #: code:addons/pos_sale/static/src/app/order_management_screen/sale_order_management_screen/sale_order_management_screen.js:0
 #, python-format
@@ -171,14 +243,36 @@ msgstr "Esim. asiakas: Steward, päivämäärä: 2020-05-09"
 #. odoo-javascript
 #: code:addons/pos_sale/static/src/app/order_management_screen/sale_order_management_screen/sale_order_management_screen.js:0
 #, python-format
+=======
+#. odoo-python
+#: code:addons/pos_sale/models/pos_order.py:0
+msgid ""
+"Down payment (ref: %(order_reference)s on \n"
+" %(date)s)"
+msgstr ""
+"Ennakkomaksu (viite: %(order_reference)s päivänä\n"
+" %(date)s)"
+
+#. module: pos_sale
+#. odoo-javascript
+#: code:addons/pos_sale/static/src/overrides/models/pos_store.js:0
+msgid "Due balance: %s"
+msgstr "Erääntynyt saldo: %s"
+
+#. module: pos_sale
+#. odoo-javascript
+#: code:addons/pos_sale/static/src/overrides/models/pos_store.js:0
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 msgid "Error amount too high"
 msgstr "Virhe: määrä on liian suuri"
 
 #. module: pos_sale
+<<<<<<< HEAD
 #. odoo-javascript
 #: code:addons/pos_sale/static/src/overrides/components/receipt_screen/order_receipt/order_receipt.xml:0
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 #: model_terms:ir.ui.view,arch_db:pos_sale.report_invoice_document
-#, python-format
 msgid "From"
 msgstr "Alkaa"
 
@@ -189,19 +283,27 @@ msgstr "Laskutettu"
 
 #. module: pos_sale
 #. odoo-javascript
+<<<<<<< HEAD
 #: code:addons/pos_sale/static/src/app/order_management_screen/sale_order_management_screen/sale_order_management_screen.js:0
 #, python-format
+=======
+#: code:addons/pos_sale/static/src/overrides/models/pos_store.js:0
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 msgid ""
 "It seems that you didn't configure a down payment product in your point of "
 "sale. You can go to your point of sale configuration to choose one."
 msgstr ""
+<<<<<<< HEAD
 "Näyttää siltä, että et ole määritellyt käsirahatuotetta kassallesi. Voit "
 "valita sellaisen kassan asetuksista."
+=======
+"Et ole määritellyt käsirahatuotetta kassallesi. Voit valita sellaisen kassan"
+" asetuksista."
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 #. module: pos_sale
 #. odoo-python
 #: code:addons/pos_sale/models/sale_order.py:0
-#, python-format
 msgid "Linked POS Orders"
 msgstr "Linkitetyt kassatilaukset"
 
@@ -213,12 +315,12 @@ msgstr "Linkitetty myyntitilaus"
 #. module: pos_sale
 #. odoo-python
 #: code:addons/pos_sale/models/pos_order.py:0
-#, python-format
 msgid "Linked Sale Orders"
 msgstr "Linkitetyt myyntitilaukset"
 
 #. module: pos_sale
 #. odoo-javascript
+<<<<<<< HEAD
 #: code:addons/pos_sale/static/src/app/order_management_screen/sale_order_row/sale_order_row.js:0
 #, python-format
 msgid "Locked"
@@ -244,6 +346,9 @@ msgstr "Ei"
 #. odoo-javascript
 #: code:addons/pos_sale/static/src/app/order_management_screen/sale_order_management_screen/sale_order_management_screen.js:0
 #, python-format
+=======
+#: code:addons/pos_sale/static/src/overrides/models/pos_store.js:0
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 msgid "No down payment product"
 msgstr "Ei käsirahatuotetta"
 
@@ -259,9 +364,18 @@ msgstr "Avoimet istunnot"
 
 #. module: pos_sale
 #. odoo-javascript
+<<<<<<< HEAD
 #: code:addons/pos_sale/static/src/app/order_management_screen/sale_order_list/sale_order_list.xml:0
 #: code:addons/pos_sale/static/src/app/order_management_screen/sale_order_row/sale_order_row.xml:0
 #, python-format
+=======
+#: code:addons/pos_sale/static/src/overrides/components/product_info_popup/product_info_popup.xml:0
+msgid "Optional Products:"
+msgstr "Valinnaiset tuotteet:"
+
+#. module: pos_sale
+#: model:ir.model.fields,field_description:pos_sale.field_sale_report__order_reference
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 msgid "Order"
 msgstr "Tilaus"
 
@@ -312,6 +426,7 @@ msgid "Pos Order Count"
 msgstr "Kassan tilausten määrä"
 
 #. module: pos_sale
+<<<<<<< HEAD
 #. odoo-javascript
 #: code:addons/pos_sale/static/src/app/order_management_screen/sale_order_management_control_panel/sale_order_management_control_panel.xml:0
 #: code:addons/pos_sale/static/src/app/order_management_screen/sale_order_management_control_panel/sale_order_management_control_panel.xml:0
@@ -344,6 +459,20 @@ msgstr "Myyntitarjous lähetetty"
 #. odoo-javascript
 #: code:addons/pos_sale/static/src/app/set_sale_order_button/set_sale_order_button.xml:0
 #, python-format
+=======
+#: model:ir.model.fields.selection,name:pos_sale.selection__sale_report__state__done
+msgid "Posted"
+msgstr "Kirjattu"
+
+#. module: pos_sale
+#: model:ir.model,name:pos_sale.model_product_product
+msgid "Product Variant"
+msgstr "Tuotevariaatio"
+
+#. module: pos_sale
+#. odoo-javascript
+#: code:addons/pos_sale/static/src/overrides/components/control_buttons/control_buttons.xml:0
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 msgid "Quotation/Order"
 msgstr "Tarjous / Myyntitilaus"
 
@@ -354,16 +483,24 @@ msgstr "Liittyvä tilaus"
 
 #. module: pos_sale
 #. odoo-javascript
+<<<<<<< HEAD
 #: code:addons/pos_sale/static/src/app/order_management_screen/sale_order_management_screen/sale_order_management_screen.js:0
 #, python-format
+=======
+#: code:addons/pos_sale/static/src/overrides/models/pos_store.js:0
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 msgid "SN/Lots Loading"
 msgstr "Ladataan sarjanumeroita tai eränumeroita"
 
 #. module: pos_sale
 #. odoo-javascript
+<<<<<<< HEAD
 #: code:addons/pos_sale/static/src/overrides/components/product_screen/product_screen.xml:0
 #: code:addons/pos_sale/static/src/overrides/components/product_screen/product_screen.xml:0
 #, python-format
+=======
+#: code:addons/pos_sale/static/src/overrides/components/orderline/orderline.xml:0
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 msgid "SO"
 msgstr "SO"
 
@@ -383,10 +520,12 @@ msgid "Sales Analysis Report"
 msgstr "Myyntianalyysi"
 
 #. module: pos_sale
+<<<<<<< HEAD
 #. odoo-javascript
 #: code:addons/pos_sale/static/src/app/order_management_screen/sale_order_row/sale_order_row.js:0
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 #: model:ir.model,name:pos_sale.model_sale_order
-#, python-format
 msgid "Sales Order"
 msgstr "Myyntitilaus"
 
@@ -415,6 +554,7 @@ msgid "Sales are reported to the following sales team"
 msgstr "Myynnistä raportoidaan seuraavalle myyntiryhmälle"
 
 #. module: pos_sale
+<<<<<<< HEAD
 #. odoo-javascript
 #: code:addons/pos_sale/static/src/app/order_management_screen/sale_order_row/sale_order_row.xml:0
 #, python-format
@@ -429,6 +569,8 @@ msgid "Salesperson"
 msgstr "Myyjä"
 
 #. module: pos_sale
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 #: model_terms:ir.ui.view,arch_db:pos_sale.crm_team_view_kanban_dashboard
 msgid "Session Running"
 msgstr "Nykyinen istunto"
@@ -445,20 +587,29 @@ msgstr "Avoimet istunnot"
 
 #. module: pos_sale
 #. odoo-javascript
+<<<<<<< HEAD
 #: code:addons/pos_sale/static/src/app/set_sale_order_button/set_sale_order_button.xml:0
 #: code:addons/pos_sale/static/src/app/set_sale_order_button/set_sale_order_button.xml:0
 #, python-format
+=======
+#: code:addons/pos_sale/static/src/overrides/components/control_buttons/control_buttons.xml:0
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 msgid "Set Sale Order"
 msgstr "Aseta myyntijärjestys"
 
 #. module: pos_sale
 #. odoo-javascript
+<<<<<<< HEAD
 #: code:addons/pos_sale/static/src/app/order_management_screen/sale_order_management_screen/sale_order_management_screen.js:0
 #, python-format
+=======
+#: code:addons/pos_sale/static/src/overrides/models/pos_store.js:0
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 msgid "Settle the order"
 msgstr "Tilauksen selvittäminen"
 
 #. module: pos_sale
+<<<<<<< HEAD
 #. odoo-javascript
 #: code:addons/pos_sale/static/src/app/order_management_screen/sale_order_management_screen/sale_order_management_screen.js:0
 #, python-format
@@ -470,11 +621,14 @@ msgstr ""
 "tuoda ne?"
 
 #. module: pos_sale
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 #: model:ir.model.fields,field_description:pos_sale.field_pos_order_line__sale_order_line_id
 msgid "Source Sale Order Line"
 msgstr "Lähteenä olevan myyntitilauksen rivi"
 
 #. module: pos_sale
+<<<<<<< HEAD
 #. odoo-javascript
 #: code:addons/pos_sale/static/src/app/order_management_screen/sale_order_list/sale_order_list.xml:0
 #: code:addons/pos_sale/static/src/app/order_management_screen/sale_order_row/sale_order_row.xml:0
@@ -483,14 +637,11 @@ msgid "State"
 msgstr "Alue"
 
 #. module: pos_sale
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 #: model:ir.model.fields,field_description:pos_sale.field_sale_report__state
 msgid "Status"
 msgstr "Tila"
-
-#. module: pos_sale
-#: model:ir.model.fields,help:pos_sale.field_sale_order__amount_unpaid
-msgid "The amount due from the sale order."
-msgstr "Myyntitilauksesta maksettava määrä."
 
 #. module: pos_sale
 #: model:ir.model.fields,help:pos_sale.field_pos_order__currency_rate
@@ -499,6 +650,7 @@ msgid ""
 "the order"
 msgstr ""
 "Valuutan kurssi suhteessa tilauspäivänä sovellettavaan valuuttakurssiin"
+<<<<<<< HEAD
 
 #. module: pos_sale
 #. odoo-javascript
@@ -506,6 +658,8 @@ msgstr ""
 #, python-format
 msgid "There was a problem in loading the %s customer."
 msgstr "Asiakkaan %s lataamisessa oli ongelma."
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 #. module: pos_sale
 #: model:ir.model.fields,help:pos_sale.field_pos_config__crm_team_id
@@ -526,12 +680,18 @@ msgid "This product will be used as down payment on a sale order."
 msgstr "Tätä tuotetta käytetään käsirahana myyntitilauksessa."
 
 #. module: pos_sale
+<<<<<<< HEAD
 #. odoo-javascript
 #: code:addons/pos_sale/static/src/app/order_management_screen/sale_order_list/sale_order_list.xml:0
 #: code:addons/pos_sale/static/src/app/order_management_screen/sale_order_row/sale_order_row.xml:0
 #, python-format
 msgid "Total"
 msgstr "Yhteensä"
+=======
+#: model:ir.model,name:pos_sale.model_stock_picking
+msgid "Transfer"
+msgstr "Siirto"
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 #. module: pos_sale
 #: model:ir.model,name:pos_sale.model_stock_picking
@@ -541,7 +701,7 @@ msgstr "Siirto"
 #. module: pos_sale
 #: model_terms:ir.ui.view,arch_db:pos_sale.view_pos_order_form_inherit_pos_sale
 msgid ""
-"Transfered<br/>\n"
+"Transferred<br/>\n"
 "                                from Sale"
 msgstr ""
 "Siirretty<br/>\n"
@@ -550,26 +710,26 @@ msgstr ""
 #. module: pos_sale
 #: model_terms:ir.ui.view,arch_db:pos_sale.view_order_form_inherit_pos_sale
 msgid ""
-"Transfered<br/>\n"
+"Transferred<br/>\n"
 "                                to POS"
 msgstr ""
 "Siirretty<br/>\n"
-"                                kassaan"
-
-#. module: pos_sale
-#: model:ir.model.fields,field_description:pos_sale.field_sale_order__amount_unpaid
-msgid "Unpaid Amount"
-msgstr "Maksamaton määrä"
+"                                kassa-järjestelmään"
 
 #. module: pos_sale
 #. odoo-javascript
+<<<<<<< HEAD
 #: code:addons/pos_sale/static/src/app/order_management_screen/sale_order_management_screen/sale_order_management_screen.js:0
 #, python-format
+=======
+#: code:addons/pos_sale/static/src/overrides/models/pos_store.js:0
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 msgid "What do you want to do?"
 msgstr "Mitä haluat tehdä?"
 
 #. module: pos_sale
 #. odoo-javascript
+<<<<<<< HEAD
 #: code:addons/pos_sale/static/src/app/order_management_screen/sale_order_management_screen/sale_order_management_screen.js:0
 #: code:addons/pos_sale/static/src/app/order_management_screen/sale_order_management_screen/sale_order_management_screen.js:0
 #, python-format
@@ -586,3 +746,18 @@ msgid ""
 msgstr ""
 "Olet yrittänyt veloittaa käsirahan %s, mutta vain %s on maksamatta, %s "
 "kohdistetaan ostotilausriville."
+=======
+#: code:addons/pos_sale/static/src/overrides/models/pos_store.js:0
+msgid ""
+"You have tried to charge a down payment of %s but only %s remains to be "
+"paid, %s will be applied to the purchase order line."
+msgstr ""
+"Olet yrittänyt veloittaa käsirahan %s, mutta vain %s on maksamatta, %s "
+"kohdistetaan ostotilausriville."
+
+#. module: pos_sale
+#. odoo-javascript
+#: code:addons/pos_sale/static/src/overrides/components/product_info_popup/product_info_popup.xml:0
+msgid "from"
+msgstr "alkaen"
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8

@@ -1,4 +1,7 @@
+<<<<<<< HEAD
 # -*- coding: utf-8 -*-
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
 
 from odoo import Command

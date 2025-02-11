@@ -2,12 +2,20 @@
 
 import { patch } from "@web/core/utils/patch";
 import { VideoSelector } from '@web_editor/components/media_dialog/video_selector';
+<<<<<<< HEAD
 import wTourUtils from '@website/js/tours/tour_utils';
 
 wTourUtils.registerWebsitePreviewTour(
     "snippet_background_video",
     {
         test: true,
+=======
+import { insertSnippet, registerWebsitePreviewTour } from "@website/js/tours/tour_utils";
+
+registerWebsitePreviewTour(
+    "snippet_background_video",
+    {
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
         url: "/",
         edition: true,
     }, () => [
@@ -43,6 +51,7 @@ wTourUtils.registerWebsitePreviewTour(
                 });
             },
         },
+<<<<<<< HEAD
         wTourUtils.dragNDrop({
             id: "s_text_block",
             name: "Text",
@@ -50,28 +59,58 @@ wTourUtils.registerWebsitePreviewTour(
         {
             content: "Click on the text block.",
             trigger: "iframe #wrap section.s_text_block",
+=======
+        ...insertSnippet({
+            id: "s_text_block",
+            name: "Text",
+            groupName: "Text",
+        }),
+        {
+            content: "Click on the text block.",
+            trigger: ":iframe #wrap section.s_text_block",
+            run: "click",
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
         },
         {
             content: "Click on the 'Background Video' button option.",
             trigger: "we-button[data-name='bg_video_toggler_opt']",
+<<<<<<< HEAD
+=======
+            run: "click",
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
         },
         {
             content: "Click on the first sample video in the modal.",
             trigger: "#video-suggestion .o_sample_video",
+<<<<<<< HEAD
+=======
+            run: "click",
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
         },
         {
             content: "Check the video is select.",
             trigger: "textarea.is-valid",
+<<<<<<< HEAD
             isCheck: true,
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
         },
         {
             content: "Click on the 'Add' button to apply the selected video as the background.",
             trigger: ".modal-footer button.btn-primary",
+<<<<<<< HEAD
         },
         {
             content: "Verify that the video is set as the background of the snippet.",
             trigger: "iframe #wrap section.o_background_video",
             isCheck: true,
+=======
+            run: "click",
+        },
+        {
+            content: "Verify that the video is set as the background of the snippet.",
+            trigger: ":iframe #wrap section.o_background_video",
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
         },
     ]
 );

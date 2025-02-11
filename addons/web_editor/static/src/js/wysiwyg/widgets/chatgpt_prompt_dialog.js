@@ -3,12 +3,17 @@
 import { ChatGPTDialog } from '@web_editor/js/wysiwyg/widgets/chatgpt_dialog';
 import { useState, useEffect, useRef } from "@odoo/owl";
 import { useAutofocus, useChildRef } from "@web/core/utils/hooks";
+<<<<<<< HEAD
 import { session } from "@web/session";
 import { browser } from "@web/core/browser/browser";
+=======
+import { browser } from "@web/core/browser/browser";
+import { user } from "@web/core/user";
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 import { scrollTo } from "@web/core/utils/scrolling";
 
 export class ChatGPTPromptDialog extends ChatGPTDialog {
-    static template = 'web_edior.ChatGPTPromptDialog';
+    static template = 'web_editor.ChatGPTPromptDialog';
     static props = {
         ...super.props,
         initialPrompt: { type: String, optional: true },
@@ -20,7 +25,7 @@ export class ChatGPTPromptDialog extends ChatGPTDialog {
     setup() {
         super.setup();
         this.assistantAvatarUrl = `${browser.location.origin}/web_editor/static/src/img/odoobot_transparent.png`;
-        this.userAvatarUrl = `${browser.location.origin}/web/image?model=res.users&field=avatar_128&id=${encodeURIComponent(session.uid)}`;
+        this.userAvatarUrl = `${browser.location.origin}/web/image?model=res.users&field=avatar_128&id=${encodeURIComponent(user.userId)}`;
         this.state = useState({
             ...this.state,
             prompt: this.props.initialPrompt,

@@ -3,6 +3,7 @@
 # 	* project_mrp
 # 
 # Translators:
+<<<<<<< HEAD
 # Henri Komulainen <henri.komulainen@web-veistamo.fi>, 2023
 # Martin Trigaux, 2023
 # Ossi Mantylahti <ossi.mantylahti@obs-solutions.fi>, 2023
@@ -15,6 +16,22 @@ msgstr ""
 "POT-Creation-Date: 2023-10-26 21:55+0000\n"
 "PO-Revision-Date: 2023-10-26 23:09+0000\n"
 "Last-Translator: Svante Suominen <svante.suominen@web-veistamo.fi>, 2023\n"
+=======
+# Henri Komulainen <henri.komulainen@web-veistamo.fi>, 2024
+# Martin Trigaux, 2024
+# Svante Suominen <svante.suominen@web-veistamo.fi>, 2024
+# Tuomas Lyyra <tuomas.lyyra@legenda.fi>, 2024
+# Jussi Lehto <jussi@gulfeo.com>, 2024
+# Ossi Mantylahti <ossi.mantylahti@obs-solutions.fi>, 2025
+# 
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 18.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2024-10-25 07:49+0000\n"
+"PO-Revision-Date: 2024-09-25 09:41+0000\n"
+"Last-Translator: Ossi Mantylahti <ossi.mantylahti@obs-solutions.fi>, 2025\n"
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 "Language-Team: Finnish (https://app.transifex.com/odoo/teams/41243/fi/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -23,36 +40,92 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #. module: project_mrp
+<<<<<<< HEAD
 #. odoo-python
 #: code:addons/project_mrp/models/project_project.py:0
 #, python-format
+=======
+#: model:ir.model,name:project_mrp.model_mrp_bom
+msgid "Bill of Material"
+msgstr "Osaluettelo"
+
+#. module: project_mrp
+#. odoo-python
+#: code:addons/project_mrp/models/project_project.py:0
+#: model:ir.embedded.actions,name:project_mrp.project_embedded_action_bills_of_materials
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 msgid "Bills of Materials"
 msgstr "Osaluettelot"
 
 #. module: project_mrp
+<<<<<<< HEAD
 #: model:ir.model.fields,field_description:project_mrp.field_project_project__bom_count
 msgid "BoM Count"
 msgstr "Osaluetteloiden määrä"
+=======
+#. odoo-python
+#: code:addons/project_mrp/models/project_project.py:0
+msgid ""
+"Bills of materials allow you to define the list of required raw materials "
+"used to make a finished product; through a manufacturing order or a pack of "
+"products."
+msgstr ""
+"Osaluetteloiden avulla voit määritellä luettelon tarvittavista raaka-"
+"aineista, joita käytetään valmiin tuotteen valmistamiseen; "
+"valmistustilauksen tai tuotepaketin avulla."
+
+#. module: project_mrp
+#: model:ir.model,name:project_mrp.model_mrp_production
+msgid "Manufacturing Order"
+msgstr "Valmistustilaus"
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 #. module: project_mrp
 #. odoo-python
 #: code:addons/project_mrp/models/project_project.py:0
+<<<<<<< HEAD
 #: code:addons/project_mrp/models/project_project.py:0
 #, python-format
+=======
+#: model:ir.embedded.actions,name:project_mrp.project_embedded_action_manufacturing_orders
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 msgid "Manufacturing Orders"
 msgstr "Valmistustilaukset"
 
 #. module: project_mrp
+<<<<<<< HEAD
 #: model:ir.model.fields,field_description:project_mrp.field_project_project__production_count
 msgid "Manufacturing Orders Count"
 msgstr "Vaklmistustilausten määrä"
 
 #. module: project_mrp
 #: model:ir.model,name:project_mrp.model_project_project
+=======
+#. odoo-python
+#: code:addons/project_mrp/models/project_project.py:0
+msgid "No bill of materials found. Let's create one."
+msgstr "Osaluetteloa ei löytynyt. Luodaan sellainen."
+
+#. module: project_mrp
+#: model:ir.model,name:project_mrp.model_project_project
+#: model:ir.model.fields,field_description:project_mrp.field_mrp_bom__project_id
+#: model:ir.model.fields,field_description:project_mrp.field_mrp_production__project_id
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 msgid "Project"
 msgstr "Projektit"
 
 #. module: project_mrp
+<<<<<<< HEAD
 #: model:ir.model.fields,field_description:project_mrp.field_project_project__workorder_count
 msgid "Work Order Count"
 msgstr "Työtilausten määrä"
+=======
+#: model:ir.model,name:project_mrp.model_stock_move
+msgid "Stock Move"
+msgstr "Varastosiirto"
+
+#. module: project_mrp
+#: model:ir.model,name:project_mrp.model_stock_rule
+msgid "Stock Rule"
+msgstr "Varaston sääntö"
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8

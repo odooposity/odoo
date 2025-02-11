@@ -1,5 +1,3 @@
-/** @odoo-module **/
-
 import { registry } from "@web/core/registry";
 import { CommandPalette } from "./command_palette";
 
@@ -40,6 +38,10 @@ const commandProviderRegistry = registry.category("command_provider");
 const commandSetupRegistry = registry.category("command_setup");
 
 class DefaultFooter extends Component {
+    static template = "web.DefaultFooter";
+    static props = {
+        switchNamespace: { type: Function },
+    };
     setup() {
         this.elements = commandSetupRegistry
             .getEntries()
@@ -51,7 +53,10 @@ class DefaultFooter extends Component {
         this.props.switchNamespace(namespace);
     }
 }
+<<<<<<< HEAD
 DefaultFooter.template = "web.DefaultFooter";
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 export const commandService = {
     dependencies: ["dialog", "hotkey", "ui"],

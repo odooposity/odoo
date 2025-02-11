@@ -1,5 +1,8 @@
+<<<<<<< HEAD
 /** @odoo-module */
 
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 import { browser } from "@web/core/browser/browser";
 import { registry } from "@web/core/registry";
 import { _t, translationIsReady } from "@web/core/l10n/translation";

@@ -1,3 +1,8 @@
+<<<<<<< HEAD
+=======
+from datetime import datetime, timedelta
+
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 from odoo import Command
 from odoo.http import Request
 from odoo.tests.common import HttpCase, tagged
@@ -15,7 +20,15 @@ class TestUsersHttp(HttpCase):
             'password': login,
             'groups_id': [Command.set([self.env.ref('base.group_portal').id])],
         })
+<<<<<<< HEAD
         self.env['res.users.apikeys'].with_user(portal_user)._generate(None, 'Portal API Key')
+=======
+        self.env['res.users.apikeys'].with_user(portal_user)._generate(
+            None,
+            'Portal API Key',
+            datetime.now() + timedelta(days=1)
+        )
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
         self.assertTrue(portal_user.api_key_ids)
 
         # Request the deactivation of the portal account as portal through the route meant for this purpose

@@ -3,6 +3,7 @@
 # 	* snailmail_account
 # 
 # Translators:
+<<<<<<< HEAD
 # Wil Odoo, 2023
 # Daye Jeong, 2023
 # 
@@ -13,6 +14,19 @@ msgstr ""
 "POT-Creation-Date: 2023-10-26 21:55+0000\n"
 "PO-Revision-Date: 2023-10-26 23:09+0000\n"
 "Last-Translator: Daye Jeong, 2023\n"
+=======
+# Wil Odoo, 2024
+# Daye Jeong, 2024
+# Sarah Park, 2024
+# 
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 18.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2024-09-26 08:56+0000\n"
+"PO-Revision-Date: 2024-09-25 09:41+0000\n"
+"Last-Translator: Sarah Park, 2024\n"
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 "Language-Team: Korean (https://app.transifex.com/odoo/teams/41243/ko/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -21,6 +35,7 @@ msgstr ""
 "Plural-Forms: nplurals=1; plural=0;\n"
 
 #. module: snailmail_account
+<<<<<<< HEAD
 #: model_terms:ir.ui.view,arch_db:snailmail_account.account_move_send_inherit_snailmail
 msgid ""
 "<i class=\"fa fa-question-circle\" role=\"img\" aria-label=\"Warning\" "
@@ -29,6 +44,12 @@ msgid ""
 msgstr ""
 "<i class=\"fa fa-question-circle\" role=\"img\" aria-label=\"경고\" "
 "title=\"협력사의 주소를 알 수 없습니다.\" invisible=\"not send_by_post_readonly\"/>"
+=======
+#. odoo-python
+#: code:addons/snailmail_account/wizard/account_move_send_batch_wizard.py:0
+msgid "(Stamps: %s)"
+msgstr "(스탬프: %s)"
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 #. module: snailmail_account
 #: model_terms:ir.ui.view,arch_db:snailmail_account.res_config_settings_view_form
@@ -45,16 +66,24 @@ msgid "Account Move Send"
 msgstr "계정 이동 보내기"
 
 #. module: snailmail_account
+<<<<<<< HEAD
 #: model:ir.model.fields,field_description:snailmail_account.field_account_move_send__checkbox_send_by_post
 msgid "By Post"
 msgstr "일반 우편"
+=======
+#: model:ir.model,name:snailmail_account.model_account_move_send_batch_wizard
+msgid "Account Move Send Batch Wizard"
+msgstr "계정 이동 일괄 전송 마법사"
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 #. module: snailmail_account
-#: model:ir.model,name:snailmail_account.model_res_company
-msgid "Companies"
-msgstr "회사"
+#. odoo-python
+#: code:addons/snailmail_account/models/account_move_send.py:0
+msgid "Check Invoice(s)"
+msgstr "청구서 확인"
 
 #. module: snailmail_account
+<<<<<<< HEAD
 #: model:ir.model,name:snailmail_account.model_res_config_settings
 msgid "Config Settings"
 msgstr "환경 설정"
@@ -78,12 +107,36 @@ msgstr "읽기 전용으로 우편 전송"
 #: model:ir.model.fields,field_description:snailmail_account.field_account_move_send__send_by_post_warning_message
 msgid "Send By Post Warning Message"
 msgstr "우편으로 경고 메시지 전송"
+=======
+#: model:ir.model,name:snailmail_account.model_res_partner
+msgid "Contact"
+msgstr "연락처"
 
 #. module: snailmail_account
-#: model:ir.model.fields,field_description:snailmail_account.field_res_company__invoice_is_snailmail
-#: model:ir.model.fields,field_description:snailmail_account.field_res_config_settings__invoice_is_snailmail
-msgid "Send by Post"
-msgstr "우편으로 보내기"
+#: model:ir.model.fields,field_description:snailmail_account.field_res_partner__invoice_sending_method
+#: model:ir.model.fields,field_description:snailmail_account.field_res_users__invoice_sending_method
+msgid "Invoice sending"
+msgstr "청구서 전송"
+
+#. module: snailmail_account
+#: model:ir.model.fields,field_description:snailmail_account.field_account_move_send_batch_wizard__send_by_post_stamps
+msgid "Send By Post Stamps"
+msgstr "우표로 우편 전송"
+
+#. module: snailmail_account
+#. odoo-python
+#: code:addons/snailmail_account/models/account_move_send.py:0
+msgid ""
+"The partners on the following invoices have no valid address, so those "
+"invoices will not be sent: %s"
+msgstr "다음 청구서에 있는 협력사의 주소가 유효하지 않습니다. 해당 청구서는 전송되지 않습니다: %s"
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
+
+#. module: snailmail_account
+#. odoo-python
+#: code:addons/snailmail_account/models/account_move_send.py:0
+msgid "View Invoice(s)"
+msgstr "청구서 보기"
 
 #. module: snailmail_account
 #: model:ir.model.fields,field_description:snailmail_account.field_account_move_send__send_by_post_cost
@@ -92,9 +145,16 @@ msgstr "우표"
 
 #. module: snailmail_account
 #. odoo-python
+<<<<<<< HEAD
 #: code:addons/snailmail_account/wizard/account_move_send.py:0
 #, python-format
 msgid ""
 "The partners on the following invoices have no valid address, so those "
 "invoices will not be sent: %s"
 msgstr "다음 청구서에 있는 협력사의 주소가 유효하지 않습니다. 해당 청구서는 전송되지 않습니다: %s"
+=======
+#: code:addons/snailmail_account/controllers/portal.py:0
+#: model:ir.model.fields.selection,name:snailmail_account.selection__res_partner__invoice_sending_method__snailmail
+msgid "by Post"
+msgstr "일반 우편"
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8

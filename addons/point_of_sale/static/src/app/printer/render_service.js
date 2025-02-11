@@ -10,7 +10,11 @@ export class RenderContainer extends Component {
     // place where to momentarily render some html code
     // we should only intact with that div through the `whenMounted` function
     static template = xml`
+<<<<<<< HEAD
         <div style="left: -1000px; position: fixed;">
+=======
+        <div class="render-container-parent" style="left: -1000px; position: fixed;">
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
             <div t-ref="ref">
                 <t t-if="props.comp.component" t-component="props.comp.component" t-props="props.comp.props"/>
             </div>
@@ -65,6 +69,7 @@ const renderService = {
         };
         const whenMounted = async ({ el, container, callback }) => {
             container ||= document.querySelector(".render-container");
+            container.innerHTML = "";
             return await applyWhenMounted({ el, container, callback });
         };
         return { toHtml, toCanvas, toJpeg, whenMounted };
@@ -104,12 +109,18 @@ const sanitizeNodeText = (element) => {
  * This function assumes that the `renderer` service is available.
  */
 export const htmlToCanvas = async (el, options) => {
+<<<<<<< HEAD
     el.classList.add(options.addClass || "");
     if (options.addEmailMargins === true)
     {
         $('.pos-receipt-print').css({ 'padding': '15px', 'padding-bottom': '30px'})
     }
     sanitizeNodeText(el);
+=======
+    if (options.addClass) {
+        el.classList.add(...options.addClass.split(" "));
+    }
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
     return await applyWhenMounted({
         el,
         container: document.querySelector(".render-container"),

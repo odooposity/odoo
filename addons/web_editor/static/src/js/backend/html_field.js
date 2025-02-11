@@ -6,11 +6,7 @@ import { standardFieldProps } from "@web/views/fields/standard_field_props";
 import { QWebPlugin } from '@web_editor/js/backend/QWebPlugin';
 import { TranslationButton } from "@web/views/fields/translation_button";
 import { useDynamicPlaceholder } from "@web/views/fields/dynamic_placeholder_hook";
-import {
-    useBus,
-    useService,
-    useSpellCheck,
-} from "@web/core/utils/hooks";
+import { useBus, useSpellCheck } from "@web/core/utils/hooks";
 import {
     getAdjacentPreviousSiblings,
     getAdjacentNextSiblings,
@@ -18,6 +14,7 @@ import {
 } from '@web_editor/js/editor/odoo-editor/src/utils/utils';
 import { toInline } from '@web_editor/js/backend/convert_inline';
 import { getBundle, loadBundle } from '@web/core/assets';
+import { ensureJQuery } from '@web/core/ensure_jquery';
 import {
     Component,
     useRef,
@@ -30,6 +27,7 @@ import {
     status,
 } from "@odoo/owl";
 import { uniqueId } from '@web/core/utils/functions';
+import { rpc } from "@web/core/network/rpc";
 // Ensure `@web/views/fields/html/html_field` is loaded first as this module
 // must override the html field in the registry.
 import '@web/views/fields/html/html_field';
@@ -70,7 +68,6 @@ export class HtmlField extends Component {
         if (this.props.dynamicPlaceholder) {
             this.dynamicPlaceholder = useDynamicPlaceholder();
         }
-        this.rpc = useService("rpc");
 
         this.onIframeUpdated = this.env.onIframeUpdated || (() => {});
 
@@ -190,12 +187,12 @@ export class HtmlField extends Component {
             dynamicPlaceholderOptions = {
                 // Add the powerbox option to open the Dynamic Placeholder
                 // generator.
-                powerboxCommands: [
+                powerboxItems: [
                     {
                         category: _t('Marketing Tools'),
                         name: _t('Dynamic Placeholder'),
                         priority: 10,
-                        description: _t('Insert personalized content'),
+                        description: _t('Insert a field'),
                         fontawesome: 'fa-magic',
                         callback: () => {
                             this.wysiwygRangePosition = getRangePosition(document.createElement('x'), this.wysiwyg.options.document || document);
@@ -352,9 +349,9 @@ export class HtmlField extends Component {
             // before inserting the <t> element.
             this.wysiwyg.focus();
             let dynamicPlaceholder = "object." + chain;
-            dynamicPlaceholder += defaultValue && defaultValue !== '' ? ` or '''${defaultValue}'''` : '';
             const t = document.createElement('T');
             t.setAttribute('t-out', dynamicPlaceholder);
+            t.innerText = defaultValue;
             this.wysiwyg.odooEditor.execCommand('insert', t);
             // Ensure the dynamic placeholder <t> element is sanitized.
             this.wysiwyg.odooEditor.sanitize(t);
@@ -427,6 +424,7 @@ export class HtmlField extends Component {
         this.MoveNodePlugin = (await odoo.loader.modules.get('@web_editor/js/wysiwyg/MoveNodePlugin'))?.MoveNodePlugin;
         // Otherwise, load the module.
         if (!wysiwygModule) {
+            await ensureJQuery();
             await loadBundle('web_editor.backend_assets_wysiwyg');
             wysiwygModule = await odoo.loader.modules.get('@web_editor/js/wysiwyg/wysiwyg');
             this.MoveNodePlugin = (await odoo.loader.modules.get('@web_editor/js/wysiwyg/MoveNodePlugin')).MoveNodePlugin;
@@ -530,13 +528,6 @@ export class HtmlField extends Component {
                         link.setAttribute('href', cssLib);
                         cwindow.document.head.append(link);
                     }
-                    for (const cssContent of this.cssReadonlyAsset.cssContents) {
-                        const style = cwindow.document.createElement('style');
-                        style.setAttribute('type', 'text/css');
-                        const textNode = cwindow.document.createTextNode(cssContent);
-                        style.append(textNode);
-                        cwindow.document.head.append(style);
-                    }
                 }
 
                 if (!this.sandboxedPreview) {
@@ -590,8 +581,12 @@ export class HtmlField extends Component {
         // Remove temporarily the class so that css editing will not be converted.
         $odooEditor.removeClass('odoo-editor-editable');
         $editable.html(html);
+<<<<<<< HEAD
 
         await toInline($editable, undefined, this.wysiwyg.$iframe);
+=======
+        await toInline($editable, { $iframe: this.wysiwyg.$iframe, wysiwyg:this.wysiwyg });
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
         $odooEditor.addClass('odoo-editor-editable');
 
         this.wysiwyg.setValue($editable.html());
@@ -629,7 +624,7 @@ export class HtmlField extends Component {
         checklistId = checklistId && checklistId.replace('checkId-', '');
         checklistId = parseInt(checklistId || '0');
 
-        const value = await this.rpc('/web_editor/checklist', {
+        const value = await rpc('/web_editor/checklist', {
             res_model: this.props.record.resModel,
             res_id: this.props.record.resId,
             filename: this.props.name,
@@ -657,7 +652,7 @@ export class HtmlField extends Component {
         let starsId = $(node).parent().attr('id');
         starsId = starsId && starsId.replace('checkId-', '');
         starsId = parseInt(starsId || '0');
-        const value = await this.rpc('/web_editor/stars', {
+        const value = await rpc('/web_editor/stars', {
             res_model: this.props.record.resModel,
             res_id: this.props.record.resId,
             filename: this.props.name,
@@ -779,9 +774,10 @@ export const htmlField = {
             hasReadonlyModifiers: dynamicInfo.readonly,
         };
     },
+    additionalClasses: ["o_field_html"],
 };
 
-registry.category("fields").add("html", htmlField, { force: true });
+registry.category("fields").add("html_legacy", htmlField, { force: true });
 
 // Ensure all links are opened in a new tab.
 const retargetLinks = (container) => {

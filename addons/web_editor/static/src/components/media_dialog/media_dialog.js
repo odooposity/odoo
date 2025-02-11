@@ -1,5 +1,3 @@
-/** @odoo-module **/
-
 import { _t } from "@web/core/l10n/translation";
 import { useService, useChildRef } from '@web/core/utils/hooks';
 import { Mutex } from "@web/core/utils/concurrency";
@@ -36,13 +34,22 @@ export const TABS = {
 };
 
 export class MediaDialog extends Component {
+    static template = "web_editor.MediaDialog";
+    static defaultProps = {
+        useMediaLibrary: true,
+    };
+    static components = {
+        ...Object.keys(TABS).map((key) => TABS[key].Component),
+        Dialog,
+        Notebook,
+    };
+    static props = ["*"];
+
     setup() {
         this.size = 'xl';
         this.contentClass = 'o_select_media_dialog h-100';
-        this.title = _t("Select a media");
         this.modalRef = useChildRef();
 
-        this.rpc = useService('rpc');
         this.orm = useService('orm');
         this.notificationService = useService('notification');
         this.mutex = new Mutex();
@@ -160,7 +167,11 @@ export class MediaDialog extends Component {
         // static, the mutex has to be set on the media dialog itself to be
         // destroyed with its instance.
         const elements = await this.mutex.exec(async() =>
+<<<<<<< HEAD
             await TABS[this.state.activeTab].Component.createElements(selectedMedia, { rpc: this.rpc, orm: this.orm })
+=======
+            await TABS[this.state.activeTab].Component.createElements(selectedMedia, { orm: this.orm })
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
         );
         elements.forEach(element => {
             if (this.props.media) {
@@ -194,6 +205,12 @@ export class MediaDialog extends Component {
                     if (this.props.media.dataset.hoverEffectIntensity) {
                         element.dataset.hoverEffectIntensity = this.props.media.dataset.hoverEffectIntensity;
                     }
+<<<<<<< HEAD
+=======
+                    if (this.props.media.dataset.shapeAnimationSpeed) {
+                        element.dataset.shapeAnimationSpeed = this.props.media.dataset.shapeAnimationSpeed;
+                    }
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
                 } else if ([TABS.VIDEOS.id, TABS.DOCUMENTS.id].includes(this.state.activeTab)) {
                     const parentEl = this.props.media.parentElement;
                     if (
@@ -279,9 +296,9 @@ export class MediaDialog extends Component {
         if (saveSelectedMedia) {
             const elements = await this.renderMedia(selectedMedia);
             if (this.props.multiImages) {
-                this.props.save(elements);
+                await this.props.save(elements);
             } else {
-                this.props.save(elements[0]);
+                await this.props.save(elements[0]);
             }
         }
         this.props.close();
@@ -291,12 +308,3 @@ export class MediaDialog extends Component {
         this.state.activeTab = tab;
     }
 }
-MediaDialog.template = 'web_editor.MediaDialog';
-MediaDialog.defaultProps = {
-    useMediaLibrary: true,
-};
-MediaDialog.components = {
-    ...Object.keys(TABS).map(key => TABS[key].Component),
-    Dialog,
-    Notebook,
-};

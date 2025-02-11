@@ -4,17 +4,25 @@
 import odoo.tests
 
 from odoo import Command
+<<<<<<< HEAD
 from odoo.addons.point_of_sale.tests.common import archive_products
+=======
+from odoo.addons.mail.tests.common import mail_new_test_user
+from odoo.addons.point_of_sale.tests.common import archive_products
+
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 @odoo.tests.tagged("post_install", "-at_install")
 class SelfOrderCommonTest(odoo.tests.HttpCase):
     browser_size = "375x667"
     touch_enabled = True
+    allow_inherited_tests_method = True
 
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
         archive_products(cls.env)
+<<<<<<< HEAD
         cls.pos_user = cls.env['res.users'].create({
             'name': 'POS User',
             'login': 'pos_user',
@@ -23,6 +31,92 @@ class SelfOrderCommonTest(odoo.tests.HttpCase):
                 (4, cls.env.ref('base.group_user').id),
                 (4, cls.env.ref('point_of_sale.group_pos_user').id),
             ],
+=======
+        cls.pos_user = mail_new_test_user(
+            cls.env,
+            groups="base.group_user,point_of_sale.group_pos_user",
+            login="pos_user",
+            name="POS User",
+            tz="Europe/Brussels",
+        )
+        cls.pos_admin = mail_new_test_user(
+            cls.env,
+            groups="base.group_user,point_of_sale.group_pos_manager",
+            login="pos_admin",
+            name="POS Admin",
+            tz="Europe/Brussels",
+        )
+
+        pos_categ_misc = cls.env['pos.category'].create({
+            'name': 'Miscellaneous',
+        })
+
+        cls.cola = cls.env['product.product'].create({
+            'name': 'Coca-Cola',
+            'is_storable': True,
+            'list_price': 2.2,
+            'taxes_id': False,
+            'available_in_pos': True,
+            'pos_categ_ids': [(4, pos_categ_misc.id)],
+            'default_code': '12345',
+        })
+        cls.fanta = cls.env['product.product'].create({
+            'name': 'Fanta',
+            'is_storable': True,
+            'list_price': 2.2,
+            'taxes_id': False,
+            'available_in_pos': True,
+            'pos_categ_ids': [(4, pos_categ_misc.id)],
+        })
+
+        #desk organizer
+        cls.desk_organizer = cls.env['product.product'].create({
+            'name': 'Desk Organizer',
+            'available_in_pos': True,
+            'list_price': 5.10,
+            'pos_categ_ids': [(4, pos_categ_misc.id)],
+        })
+        desk_size_attribute = cls.env['product.attribute'].create({
+            'name': 'Size',
+            'display_type': 'radio',
+            'create_variant': 'no_variant',
+        })
+        desk_size_s = cls.env['product.attribute.value'].create({
+            'name': 'S',
+            'attribute_id': desk_size_attribute.id,
+        })
+        desk_size_m = cls.env['product.attribute.value'].create({
+            'name': 'M',
+            'attribute_id': desk_size_attribute.id,
+        })
+        desk_size_l = cls.env['product.attribute.value'].create({
+            'name': 'L',
+            'attribute_id': desk_size_attribute.id,
+        })
+        cls.env['product.template.attribute.line'].create({
+            'product_tmpl_id': cls.desk_organizer.product_tmpl_id.id,
+            'attribute_id': desk_size_attribute.id,
+            'value_ids': [(6, 0, [desk_size_s.id, desk_size_m.id, desk_size_l.id])]
+        })
+        desk_fabrics_attribute = cls.env['product.attribute'].create({
+            'name': 'Fabric',
+            'display_type': 'select',
+            'create_variant': 'no_variant',
+        })
+        desk_fabrics_leather = cls.env['product.attribute.value'].create({
+            'name': 'Leather',
+            'attribute_id': desk_fabrics_attribute.id,
+        })
+        desk_fabrics_other = cls.env['product.attribute.value'].create({
+            'name': 'Custom',
+            'attribute_id': desk_fabrics_attribute.id,
+            'is_custom': True,
+        })
+        cls.env['product.template.attribute.line'].create({
+            'product_tmpl_id': cls.desk_organizer.product_tmpl_id.id,
+            'attribute_id': desk_fabrics_attribute.id,
+            'value_ids': [(6, 0, [desk_fabrics_leather.id, desk_fabrics_other.id])]
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
         })
         cls.pos_admin = cls.env['res.users'].create({
             'name': 'POS Admin',
@@ -138,11 +232,31 @@ class SelfOrderCommonTest(odoo.tests.HttpCase):
 
     def setUp(self):
         super().setUp()
+        journal_obj = self.env['account.journal']
+        main_company = self.env.company
+        self.bank_journal = journal_obj.create({
+            'name': 'Bank Test',
+            'type': 'bank',
+            'company_id': main_company.id,
+            'code': 'BNK',
+            'sequence': 10,
+        })
+
+        self.bank_payment_method = self.env['pos.payment.method'].create({
+            'name': 'Bank',
+            'journal_id': self.bank_journal.id,
+        })
+
         self.pos_config = self.env["pos.config"].create(
             {
                 "name": "BarTest",
                 "module_pos_restaurant": True,
                 "self_ordering_mode": "consultation",
+<<<<<<< HEAD
+=======
+                "floor_ids": self.env["restaurant.floor"].search([]),
+                "payment_method_ids": [(4, self.bank_payment_method.id)],
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
             }
         )
 
@@ -162,7 +276,11 @@ class SelfOrderCommonTest(odoo.tests.HttpCase):
         })
 
         self.pos_table_1 = self.env['restaurant.table'].create({
+<<<<<<< HEAD
             'name': '1',
+=======
+            'table_number': 1,
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
             'floor_id': self.pos_main_floor.id,
             'seats': 4,
             'shape': 'square',

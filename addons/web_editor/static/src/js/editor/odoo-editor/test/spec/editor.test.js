@@ -77,10 +77,10 @@ describe('Editor', () => {
             it('should not transform indentation', async () => {
                 await testEditor(BasicEditor, {
                     contentBefore: `
-    <p>ab</p>  
+    <p>ab</p>
     <p>c</p>`,
                     contentAfter: `
-    <p>ab</p>  
+    <p>ab</p>
     <p>c</p>`,
                 });
             });
@@ -1813,7 +1813,11 @@ X[]
                             await deleteBackward(editor);
                             await insertText(editor, 'x');
                         },
+<<<<<<< HEAD
                         contentAfterEdit: '<div><p>cd</p><br><span class="a">x[]</span></div>',
+=======
+                        contentAfterEdit: '<div><p>cd</p><br><span class="a" data-oe-zws-empty-inline="">x[]\u200B</span></div>',
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
                         contentAfter: '<div><p>cd</p><br><span class="a">x[]</span></div>',
                     });
                 });
@@ -6860,6 +6864,7 @@ X[]
             it('should move past a zws (collapsed at the end of a block)', async () => {
                 await testEditor(BasicEditor, {
                     contentBefore: '<p>ab[]<span class="a">\u200B</span></p><p>cd</p>',
+<<<<<<< HEAD
                     stepFunction: async editor => {
                         await triggerEvent(editor.editable, 'keydown', { key: 'ArrowRight'});
                     },
@@ -6887,6 +6892,35 @@ X[]
                     stepFunction: async editor => {
                         await triggerEvent(editor.editable, 'keydown', { key: 'ArrowRight'});
                     },
+=======
+                    stepFunction: async editor => {
+                        await triggerEvent(editor.editable, 'keydown', { key: 'ArrowRight'});
+                    },
+                    contentAfter: '<p>ab<span class="a">\u200B[]</span></p><p>cd</p>',
+                    // Final state: '<p>ab<span class="a">\u200B</span></p><p>[]cd</p>'
+                });
+                await testEditor(BasicEditor, {
+                    contentBefore: '<p>ab<span class="a">[]\u200B</span></p><p>cd</p>',
+                    stepFunction: async editor => {
+                        await triggerEvent(editor.editable, 'keydown', { key: 'ArrowRight'});
+                    },
+                    contentAfter: '<p>ab<span class="a">\u200B[]</span></p><p>cd</p>',
+                    // Final state: '<p>ab<span class="a">\u200B</span></p><p>[]cd</p>'
+                });
+                await testEditor(BasicEditor, {
+                    contentBefore: '<p>ab<span class="a">\u200B[]</span></p><p><span class="b">\u200B</span></p>',
+                    stepFunction: async editor => {
+                        await triggerEvent(editor.editable, 'keydown', { key: 'ArrowRight'});
+                    },
+                    contentAfter: '<p>ab<span class="a">\u200B[]</span></p><p><span class="b">\u200B</span></p>',
+                    // Final state: '<p>ab<span class="a">\u200B</span></p><p><span class="b">[]\u200B</span></p>'
+                });
+                await testEditor(BasicEditor, {
+                    contentBefore: '<p>ab<span class="a">[]\u200B</span></p><p><span class="b">\u200B</span></p>',
+                    stepFunction: async editor => {
+                        await triggerEvent(editor.editable, 'keydown', { key: 'ArrowRight'});
+                    },
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
                     contentAfter: '<p>ab<span class="a">\u200B[]</span></p><p><span class="b">\u200B</span></p>',
                     // Final state: '<p>ab<span class="a">\u200B</span></p><p><span class="b">[]\u200B</span></p>'
                 });
@@ -6912,6 +6946,8 @@ X[]
             it('should select a zws (2)', async () => {
                 await testEditor(BasicEditor, {
                     contentBefore: '<p>a[b]<span class="a">\u200B</span>cd</p>',
+<<<<<<< HEAD
+=======
                     stepFunction: async editor => {
                         await triggerEvent(editor.editable, 'keydown', { key: 'ArrowRight', shiftKey: true });
                     },
@@ -6919,6 +6955,16 @@ X[]
                     // Final state: '<p>a[b<span class="a">\u200B</span>c]d</p>'
                 });
                 await testEditor(BasicEditor, {
+                    contentBefore: '<p>a[b<span class="a">]\u200B</span>cd</p>',
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
+                    stepFunction: async editor => {
+                        await triggerEvent(editor.editable, 'keydown', { key: 'ArrowRight', shiftKey: true });
+                    },
+                    contentAfter: '<p>a[b<span class="a">\u200B]</span>cd</p>',
+                    // Final state: '<p>a[b<span class="a">\u200B</span>c]d</p>'
+                });
+                await testEditor(BasicEditor, {
+<<<<<<< HEAD
                     contentBefore: '<p>a[b<span class="a">]\u200B</span>cd</p>',
                     stepFunction: async editor => {
                         await triggerEvent(editor.editable, 'keydown', { key: 'ArrowRight', shiftKey: true });
@@ -6931,6 +6977,12 @@ X[]
                     stepFunction: async editor => {
                         await triggerEvent(editor.editable, 'keydown', { key: 'ArrowRight', shiftKey: true });
                     },
+=======
+                    contentBefore: '<p>a[b]<span class="a">\u200B</span></p><p><span class="b">\u200B</span></p>',
+                    stepFunction: async editor => {
+                        await triggerEvent(editor.editable, 'keydown', { key: 'ArrowRight', shiftKey: true });
+                    },
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
                     contentAfter: '<p>a[b<span class="a">\u200B]</span></p><p><span class="b">\u200B</span></p>',
                     // Final state: '<p>a[b<span class="a">\u200B</span></p><p><span class="b">]\u200B</span></p>'
                 });
@@ -6990,6 +7042,8 @@ X[]
             it('should select a zws backwards (2)', async () => {
                 await testEditor(BasicEditor, {
                     contentBefore: '<p>ab<span class="a">]\u200B</span>c[d</p>',
+<<<<<<< HEAD
+=======
                     stepFunction: async editor => {
                         await triggerEvent(editor.editable, 'keydown', { key: 'ArrowRight', shiftKey: true });
                     },
@@ -6997,6 +7051,83 @@ X[]
                     // Final state: '<p>ab<span class="a">\u200B</span>c[]d</p>'
                 });
                 await testEditor(BasicEditor, {
+                    contentBefore: '<p>ab]<span class="a">\u200B</span>c[d</p>',
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
+                    stepFunction: async editor => {
+                        await triggerEvent(editor.editable, 'keydown', { key: 'ArrowRight', shiftKey: true });
+                    },
+                    contentAfter: '<p>ab<span class="a">\u200B</span>]c[d</p>', // Normalized by the browser
+                    // Final state: '<p>ab<span class="a">\u200B</span>c[]d</p>'
+<<<<<<< HEAD
+=======
+                });
+            });
+            it('should move into a link', async () => {
+                await testEditor(BasicEditor, {
+                    contentBefore: '<p>ab[]<a href="#">cd</a>ef</p>',
+                    contentBeforeEdit: '<p>ab[]' +
+                        '\ufeff' + // before zwnbsp
+                        '<a href="#">' +
+                            '\ufeff' + // start zwnbsp
+                            'cd' + // content
+                            '\ufeff' + // end zwnbsp
+                        '</a>' +
+                        '\ufeff' + // after zwnbsp
+                    'ef</p>',
+                    stepFunction: async editor => {
+                        triggerEvent(editor.editable, 'keydown', { key: 'ArrowRight' });
+                        // Set the selection to mimick that which keydown would
+                        // have set, were it not blocked when triggered
+                        // programmatically.
+                        const cd = editor.editable.querySelector('a').childNodes[1];
+                        await setTestSelection({
+                            anchorNode: cd, anchorOffset: 0,
+                            focusNode: cd, focusOffset: 0,
+                        }, editor.document);
+                    },
+                    contentAfterEdit: '<p>ab' +
+                        '\ufeff' + // before zwnbsp
+                        '<a href="#" class="o_link_in_selection">' +
+                            '\ufeff' + // start zwnbsp
+                            '[]cd' + // content
+                            '\ufeff' + // end zwnbsp
+                        '</a>' +
+                        '\ufeff' + // after zwnbsp
+                    'ef</p>',
+                    contentAfter: '<p>ab<a href="#">[]cd</a>ef</p>',
+                });
+            });
+            it('should move out of a link', async () => {
+                await testEditor(BasicEditor, {
+                    contentBefore: '<p>ab<a href="#">cd[]</a>ef</p>',
+                    contentBeforeEdit: '<p>ab' +
+                        '\ufeff' + // before zwnbsp
+                        '<a href="#" class="o_link_in_selection">' +
+                            '\ufeff' + // start zwnbsp
+                            'cd[]' + // content
+                            '\ufeff' + // end zwnbsp
+                        '</a>' +
+                        '\ufeff' + // after zwnbsp
+                    'ef</p>',
+                    stepFunction: async editor => {
+                        await triggerEvent(editor.editable, 'keydown', { key: 'ArrowRight' });
+                    },
+                    contentAfterEdit: '<p>ab' +
+                        '\ufeff' + // before zwnbsp
+                        '<a href="#" class="">' +
+                            '\ufeff' + // start zwnbsp
+                            'cd' + // content
+                            '\ufeff' + // end zwnbsp
+                        '</a>' +
+                        '\ufeff' + // after zwnbsp
+                    '[]ef</p>',
+                    contentAfter: '<p>ab<a href="#">cd</a>[]ef</p>',
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
+                });
+            });
+            it('should select banner forward', async () => {
+                await testEditor(BasicEditor, {
+<<<<<<< HEAD
                     contentBefore: '<p>ab]<span class="a">\u200B</span>c[d</p>',
                     stepFunction: async editor => {
                         await triggerEvent(editor.editable, 'keydown', { key: 'ArrowRight', shiftKey: true });
@@ -7084,6 +7215,23 @@ X[]
                     stepFunction: async editor => {
                         await triggerEvent(editor.editable, 'keydown', { key: 'ArrowRight', shiftKey: true });
                     },
+=======
+                    contentBefore: unformat(`
+                        <p>abc</p>
+                        <p>de[f]</p>
+                        <div class="o_editor_banner o_not_editable lh-1 d-flex align-items-center alert alert-info pb-0 pt-3" role="status" data-oe-protected="true" contenteditable="false">
+                            <i class="fs-4 fa fa-info-circle mb-3" aria-label="Banner Info"></i>
+                            <div class="w-100 px-3" data-oe-protected="false" contenteditable="true">
+                                <p>ghi</p>
+                                <p>jkl</p>
+                            </div>
+                        </div>
+                        <p>mno</p>
+                    `),
+                    stepFunction: async editor => {
+                        await triggerEvent(editor.editable, 'keydown', { key: 'ArrowRight', shiftKey: true });
+                    },
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
                     contentAfter: unformat(`
                         <p>abc</p>
                         <p>de[f</p>
@@ -7111,6 +7259,7 @@ X[]
                 });
                 await testEditor(BasicEditor, {
                     contentBefore: '<p>ab<span class="a">\u200B</span>[]cd</p>',
+<<<<<<< HEAD
                     stepFunction: async editor => {
                         await triggerEvent(editor.editable, 'keydown', { key: 'ArrowLeft'});
                     },
@@ -7130,6 +7279,27 @@ X[]
                     stepFunction: async editor => {
                         await triggerEvent(editor.editable, 'keydown', { key: 'ArrowLeft'});
                     },
+=======
+                    stepFunction: async editor => {
+                        await triggerEvent(editor.editable, 'keydown', { key: 'ArrowLeft'});
+                    },
+                    contentAfter: '<p>ab[]<span class="a">\u200B</span>cd</p>', // Normalized by the browser
+                    // Final state: '<p>a[]b<span class="a">\u200B</span>cd</p>'
+                });
+                await testEditor(BasicEditor, {
+                    contentBefore: '<p><span class="a">\u200B</span></p><p><span class="b">[]\u200B</span>ab</p>',
+                    stepFunction: async editor => {
+                        await triggerEvent(editor.editable, 'keydown', { key: 'ArrowLeft'});
+                    },
+                    contentAfter: '<p><span class="a">\u200B</span></p><p><span class="b">[]\u200B</span>ab</p>',
+                    // Final state: '<p><span class="a">\u200B[]</span></p><p><span class="b">\u200B</span>ab</p>'
+                });
+                await testEditor(BasicEditor, {
+                    contentBefore: '<p><span class="a">\u200B</span></p><p><span class="b">\u200B[]</span></p>',
+                    stepFunction: async editor => {
+                        await triggerEvent(editor.editable, 'keydown', { key: 'ArrowLeft'});
+                    },
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
                     contentAfter: '<p><span class="a">\u200B</span></p><p><span class="b">[]\u200B</span></p>',
                     // Final state: '<p><span class="a">\u200B[]</span></p><p><span class="a">\u200B</span></p>'
                 });
@@ -7287,6 +7457,7 @@ X[]
                         '</a>' +
                         '\ufeff' + // after zwnbsp
                     '[]ef</p>',
+<<<<<<< HEAD
                     stepFunction: async editor => {
                         triggerEvent(editor.editable, 'keydown', { key: 'ArrowLeft' });
                         // Set the selection to mimick that which keydown would
@@ -7381,6 +7552,111 @@ X[]
                     contentBefore: unformat(`
                         <p>abc</p>
                         <p>[def]</p>
+=======
+                    stepFunction: async editor => {
+                        triggerEvent(editor.editable, 'keydown', { key: 'ArrowLeft' });
+                        // Set the selection to mimick that which keydown would
+                        // have set, were it not blocked when triggered
+                        // programmatically.
+                        const cd = editor.editable.querySelector('a').childNodes[1];
+                        await setTestSelection({
+                            anchorNode: cd, anchorOffset: 2,
+                            focusNode: cd, focusOffset: 2,
+                        }, editor.document);
+                    },
+                    contentAfterEdit: '<p>ab' +
+                        '\ufeff' + // before zwnbsp
+                        '<a href="#" class="o_link_in_selection">' +
+                            '\ufeff' + // start zwnbsp
+                            'cd[]' + // content
+                            '\ufeff' + // end zwnbsp
+                        '</a>' +
+                        '\ufeff' + // after zwnbsp
+                    'ef</p>',
+                    contentAfter: '<p>ab<a href="#">cd[]</a>ef</p>',
+                });
+            });
+            it('should select banner backwards', async () => {
+                await testEditor(BasicEditor, {
+                    contentBefore: unformat(`
+                        <p>abc</p>
+                        <p>def</p>
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
+                        <div class="o_editor_banner o_not_editable lh-1 d-flex align-items-center alert alert-info pb-0 pt-3" role="status" data-oe-protected="true" contenteditable="false">
+                            <i class="fs-4 fa fa-info-circle mb-3" aria-label="Banner Info"></i>
+                            <div class="w-100 px-3" data-oe-protected="false" contenteditable="true">
+                                <p>ghi</p>
+                                <p>jkl</p>
+                            </div>
+                        </div>
+<<<<<<< HEAD
+                        <p>mno</p>
+                    `),
+                    stepFunction: async editor => {
+                        await triggerEvent(editor.editable, 'keydown', { key: 'ArrowDown', shiftKey: true });
+                    },
+                    contentAfter: unformat(`
+                        <p>abc</p>
+=======
+                        <p>]m[no</p>
+                    `),
+                    stepFunction: async editor => {
+                        await triggerEvent(editor.editable, 'keydown', { key: 'ArrowLeft', shiftKey: true });
+                    },
+                    contentAfter: unformat(`
+                        <p>abc</p>
+                        <p>def]</p>
+                        <div class="o_editor_banner o_not_editable lh-1 d-flex align-items-center alert alert-info pb-0 pt-3" role="status" data-oe-protected="true" contenteditable="false">
+                            <i class="fs-4 fa fa-info-circle mb-3" aria-label="Banner Info"></i>
+                            <div class="w-100 px-3" data-oe-protected="false" contenteditable="true">
+                                <p>ghi</p>
+                                <p>jkl</p>
+                            </div>
+                        </div>
+                        <p>m[no</p>
+                    `),
+                });
+            });
+        });
+        describe('ArrowUp', () => {
+            it('should select banner backwards', async () => {
+                await testEditor(BasicEditor, {
+                    contentBefore: unformat(`
+                        <p>abc</p>
+                        <p>def</p>
+                        <div class="o_editor_banner o_not_editable lh-1 d-flex align-items-center alert alert-info pb-0 pt-3" role="status" data-oe-protected="true" contenteditable="false">
+                            <i class="fs-4 fa fa-info-circle mb-3" aria-label="Banner Info"></i>
+                            <div class="w-100 px-3" data-oe-protected="false" contenteditable="true">
+                                <p>ghi</p>
+                                <p>jkl</p>
+                            </div>
+                        </div>
+                        <p>]mno[</p>
+                    `),
+                    stepFunction: async editor => {
+                        await triggerEvent(editor.editable, 'keydown', { key: 'ArrowUp', shiftKey: true });
+                    },
+                    contentAfter: unformat(`
+                        <p>abc</p>
+                        <p>def]</p>
+                        <div class="o_editor_banner o_not_editable lh-1 d-flex align-items-center alert alert-info pb-0 pt-3" role="status" data-oe-protected="true" contenteditable="false">
+                            <i class="fs-4 fa fa-info-circle mb-3" aria-label="Banner Info"></i>
+                            <div class="w-100 px-3" data-oe-protected="false" contenteditable="true">
+                                <p>ghi</p>
+                                <p>jkl</p>
+                            </div>
+                        </div>
+                        <p>mno[</p>
+                    `),
+                });
+            });
+        });
+        describe('ArrowDown', () => {
+            it('should select banner forwards', async () => {
+                await testEditor(BasicEditor, {
+                    contentBefore: unformat(`
+                        <p>abc</p>
+                        <p>[def]</p>
                         <div class="o_editor_banner o_not_editable lh-1 d-flex align-items-center alert alert-info pb-0 pt-3" role="status" data-oe-protected="true" contenteditable="false">
                             <i class="fs-4 fa fa-info-circle mb-3" aria-label="Banner Info"></i>
                             <div class="w-100 px-3" data-oe-protected="false" contenteditable="true">
@@ -7395,6 +7671,7 @@ X[]
                     },
                     contentAfter: unformat(`
                         <p>abc</p>
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
                         <p>[def</p>
                         <div class="o_editor_banner o_not_editable lh-1 d-flex align-items-center alert alert-info pb-0 pt-3" role="status" data-oe-protected="true" contenteditable="false">
                             <i class="fs-4 fa fa-info-circle mb-3" aria-label="Banner Info"></i>
@@ -8118,6 +8395,7 @@ X[]
                 });
             });
         });
+<<<<<<< HEAD
 
         it('should insert a p in empty div', async () => {
             await testEditor(BasicEditor, {
@@ -8125,5 +8403,7 @@ X[]
                 contentAfterEdit: '<div><p placeholder="Type &quot;/&quot; for commands" class="oe-hint oe-command-temporary-hint">[]<br></p></div>',
             });
         });
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
     });
 });

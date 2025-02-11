@@ -176,13 +176,41 @@ class TestProject(TestCommonSaleTimesheet):
         })
 
         self.project_global.invalidate_recordset()
-        self.project_global.analytic_account_id.invalidate_recordset()
+        self.project_global.account_id.invalidate_recordset()
         self.assertEqual(self.project_global.analytic_account_balance, expected_analytic_account_balance)
 
     def test_open_product_form_with_default_service_policy(self):
-        form = Form(self.env['product.product'].with_context(default_detailed_type='service', default_service_policy='delivered_timesheet'))
+        form = Form(self.env['product.product'].with_context(
+            default_type='service',
+            default_service_policy='delivered_timesheet',
+        ))
         self.assertEqual('delivered_timesheet', form.service_policy)
 
+<<<<<<< HEAD
+=======
+    def test_open_product_form_with_default_uom_id(self):
+        """ Test default product uom fallback when product is not service type """
+        uom_dozen = self.env.ref('uom.product_uom_dozen')
+        product_form = Form(self.env['product.product'].with_context(
+            default_uom_id=uom_dozen.id,
+        ))
+        self.assertEqual(uom_dozen, product_form.uom_id, "Default uom should be Dozen")
+        product_form.type = 'service'
+        product_form.service_policy = 'delivered_timesheet'
+        uom_hour = self.env.ref('uom.product_uom_hour')
+        self.assertEqual(
+            uom_hour,
+            product_form.uom_id,
+            "Uom should be updated to Hour for service_type=`timesheet` product"
+        )
+        product_form.type = 'consu'
+        self.assertEqual(
+            uom_dozen,
+            product_form.uom_id,
+            "Uom should be updated to Dozen for `Goods` type product"
+        )
+
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
     def test_duplicate_project_allocated_hours(self):
         self.project_global.allocated_hours = 10
         self.assertEqual(self.project_global.copy().allocated_hours, 10)

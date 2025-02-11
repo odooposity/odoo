@@ -3,6 +3,7 @@
 # 	* portal
 # 
 # Translators:
+<<<<<<< HEAD
 # Levent Karakaş <levent@mektup.at>, 2023
 # gezgin biri <gezginbiri@hotmail.com>, 2023
 # Ayhan KIZILTAN <akiziltan76@hotmail.com>, 2023
@@ -28,6 +29,36 @@ msgstr ""
 "POT-Creation-Date: 2024-08-13 10:29+0000\n"
 "PO-Revision-Date: 2023-10-26 23:09+0000\n"
 "Last-Translator: Ediz Duman <neps1192@gmail.com>, 2024\n"
+=======
+# emre oktem, 2024
+# Tiffany Chang, 2024
+# Güven YILMAZ <guvenyilmaz@outlook.com.tr>, 2024
+# Gökhan Erdoğdu <gokhan.erdogdu@mechsoft.com.tr>, 2024
+# Levent Karakaş <levent@mektup.at>, 2024
+# gezgin biri <gezginbiri@hotmail.com>, 2024
+# Tugay Hatıl <tugayh@projetgrup.com>, 2024
+# Ahmet Altinisik <aaltinisik@altinkaya.com.tr>, 2024
+# Murat Durmuş <muratd@projetgrup.com>, 2024
+# Ozlem Cikrikci <ozlemc@eskayazilim.com.tr>, 2024
+# abc Def <hdogan1974@gmail.com>, 2024
+# Murat Kaplan <muratk@projetgrup.com>, 2024
+# Ayhan KIZILTAN <akiziltan76@hotmail.com>, 2024
+# Halil, 2024
+# Martin Trigaux, 2024
+# Buket Şeker <buket_skr@hotmail.com>, 2024
+# Saban Yildiz <sabany@projetgrup.com>, 2024
+# Umur Akın <umura@projetgrup.com>, 2024
+# Ertuğrul Güreş <ertugrulg@projetgrup.com>, 2024
+# Ediz Duman <neps1192@gmail.com>, 2025
+# 
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 18.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2024-12-16 13:41+0000\n"
+"PO-Revision-Date: 2024-09-25 09:41+0000\n"
+"Last-Translator: Ediz Duman <neps1192@gmail.com>, 2025\n"
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 "Language-Team: Turkish (https://app.transifex.com/odoo/teams/41243/tr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -43,7 +74,6 @@ msgstr "\" İşleminizi doğrulamak için."
 #. module: portal
 #. odoo-javascript
 #: code:addons/portal/static/src/js/portal_sidebar.js:0
-#, python-format
 msgid "%s days overdue"
 msgstr "%s gecikmiş günler"
 
@@ -63,6 +93,7 @@ msgstr ""
 
 #. module: portal
 #: model_terms:ir.ui.view,arch_db:portal.my_account_link
+<<<<<<< HEAD
 msgid "<i class=\"fa fa-fw fa-id-card-o me-1 small text-primary\"/> My Account"
 msgstr "<i class=\"fa fa-fw fa-id-card-o me-1 small text-primary\"/> Hesabım"
 
@@ -75,6 +106,32 @@ msgstr "<i class=\"fa fa-fw fa-sign-out me-1 small text-primary\"/> Çıkış Ya
 #: model_terms:ir.ui.view,arch_db:portal.user_dropdown
 msgid "<i class=\"fa fa-fw fa-th me-1 small text-primary\"/> Apps"
 msgstr "<i class=\"fa fa-fw fa-th me-1 small text-primary\"/>Uygulamalar"
+=======
+msgid ""
+"<i class=\"fa fa-fw fa-id-card-o me-1 small text-primary text-primary-"
+"emphasis\"/> My Account"
+msgstr ""
+"<i class=\"fa fa-fw fa-id-card-o me-1 small text-primary text-primary-"
+"emphasis\"/>Hesabım"
+
+#. module: portal
+#: model_terms:ir.ui.view,arch_db:portal.user_dropdown
+msgid ""
+"<i class=\"fa fa-fw fa-sign-out me-1 small text-primary text-primary-"
+"emphasis\"/> Logout"
+msgstr ""
+"<i class=\"fa fa-fw fa-sign-out me-1 small text-primary text-primary-"
+"emphasis\"/> Çıkış Yap"
+
+#. module: portal
+#: model_terms:ir.ui.view,arch_db:portal.user_dropdown
+msgid ""
+"<i class=\"fa fa-fw fa-th me-1 small text-primary text-primary-emphasis\"/> "
+"Apps"
+msgstr ""
+"<i class=\"fa fa-fw fa-th me-1 small text-primary text-primary-emphasis\"/> "
+"Uygulamalar"
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 #. module: portal
 #: model_terms:ir.ui.view,arch_db:portal.side_content
@@ -173,13 +230,13 @@ msgid ""
 "        <td align=\"center\" style=\"min-width: 590px;\">\n"
 "            <table border=\"0\" cellpadding=\"0\" cellspacing=\"0\" width=\"590\" style=\"min-width: 590px; background-color: white; padding: 0px 8px 0px 8px; border-collapse:separate;\">\n"
 "                <tr><td valign=\"middle\">\n"
-"                    <span style=\"font-size: 10px;\">Your Account</span><br>\n"
+"                    <span style=\"font-size: 10px;\">Your Account</span><br/>\n"
 "                    <span style=\"font-size: 20px; font-weight: bold;\" t-out=\"object.user_id.name or ''\">Marc Demo</span>\n"
 "                </td><td valign=\"middle\" align=\"right\" t-if=\"not object.user_id.company_id.uses_default_logo\">\n"
-"                    <img t-attf-src=\"/logo.png?company={{ object.user_id.company_id.id }}\" style=\"padding: 0px; margin: 0px; height: auto; width: 80px;\" t-att-alt=\"object.user_id.company_id.name\">\n"
+"                    <img t-attf-src=\"/logo.png?company={{ object.user_id.company_id.id }}\" style=\"padding: 0px; margin: 0px; height: auto; width: 80px;\" t-att-alt=\"object.user_id.company_id.name\"/>\n"
 "                </td></tr>\n"
 "                <tr><td colspan=\"2\" style=\"text-align:center;\">\n"
-"                  <hr width=\"100%\" style=\"background-color:rgb(204,204,204);border:medium none;clear:both;display:block;font-size:0px;min-height:1px;line-height:0; margin:16px 0px 16px 0px;\">\n"
+"                  <hr width=\"100%\" style=\"background-color:rgb(204,204,204);border:medium none;clear:both;display:block;font-size:0px;min-height:1px;line-height:0; margin:16px 0px 16px 0px;\"/>\n"
 "                </td></tr>\n"
 "            </table>\n"
 "        </td>\n"
@@ -190,12 +247,12 @@ msgid ""
 "            <table border=\"0\" cellpadding=\"0\" cellspacing=\"0\" width=\"590\" style=\"min-width: 590px; background-color: white; padding: 0px 8px 0px 8px; border-collapse:separate;\">\n"
 "                <tr><td valign=\"top\" style=\"font-size: 13px;\">\n"
 "                    <div>\n"
-"                        Dear <t t-out=\"object.user_id.name or ''\">Marc Demo</t>,<br> <br>\n"
-"                        Welcome to <t t-out=\"object.user_id.company_id.name\">YourCompany</t>'s Portal!<br><br>\n"
-"                        An account has been created for you with the following login: <t t-out=\"object.user_id.login\">demo</t><br><br>\n"
+"                        Dear <t t-out=\"object.user_id.name or ''\">Marc Demo</t>,<br/> <br/>\n"
+"                        Welcome to <t t-out=\"object.user_id.company_id.name\">YourCompany</t>'s Portal!<br/><br/>\n"
+"                        An account has been created for you with the following login: <t t-out=\"object.user_id.login\">demo</t><br/><br/>\n"
 "                        Click on the button below to pick a password and activate your account.\n"
 "                        <div style=\"margin: 16px 0px 16px 0px; text-align: center;\">\n"
-"                            <a t-att-href=\"object.user_id.signup_url\" style=\"display: inline-block; padding: 10px; text-decoration: none; font-size: 12px; background-color: #875A7B; color: #fff; border-radius: 5px;\">\n"
+"                            <a t-att-href=\"object.user_id.partner_id._get_signup_url()\" style=\"display: inline-block; padding: 10px; text-decoration: none; font-size: 12px; background-color: #875A7B; color: #fff; border-radius: 5px;\">\n"
 "                                <strong>Activate Account</strong>\n"
 "                            </a>\n"
 "                        </div>\n"
@@ -203,7 +260,7 @@ msgid ""
 "                    </div>\n"
 "                </td></tr>\n"
 "                <tr><td style=\"text-align:center;\">\n"
-"                  <hr width=\"100%\" style=\"background-color:rgb(204,204,204);border:medium none;clear:both;display:block;font-size:0px;min-height:1px;line-height:0; margin: 16px 0px 16px 0px;\">\n"
+"                  <hr width=\"100%\" style=\"background-color:rgb(204,204,204);border:medium none;clear:both;display:block;font-size:0px;min-height:1px;line-height:0; margin: 16px 0px 16px 0px;\"/>\n"
 "                </td></tr>\n"
 "            </table>\n"
 "        </td>\n"
@@ -249,6 +306,7 @@ msgstr ""
 "        <td align=\"center\" style=\"min-width: 590px;\">\n"
 "            <table border=\"0\" cellpadding=\"0\" cellspacing=\"0\" width=\"590\" style=\"min-width: 590px; background-color: white; padding: 0px 8px 0px 8px; border-collapse:separate;\">\n"
 "                <tr><td valign=\"middle\">\n"
+<<<<<<< HEAD
 "                    <span style=\"font-size: 10px;\">Hesabınız</span><br>\n"
 "                    <span style=\"font-size: 20px; font-weight: bold;\" t-out=\"object.user_id.name or ''\">Marc Demo</span>\n"
 "                </td><td valign=\"middle\" align=\"right\" t-if=\"not object.user_id.company_id.uses_default_logo\">\n"
@@ -256,6 +314,15 @@ msgstr ""
 "                </td></tr>\n"
 "                <tr><td colspan=\"2\" style=\"text-align:center;\">\n"
 "                  <hr width=\"100%\" style=\"background-color:rgb(204,204,204);border:medium none;clear:both;display:block;font-size:0px;min-height:1px;line-height:0; margin:16px 0px 16px 0px;\">\n"
+=======
+"                    <span style=\"font-size: 10px;\">Hesabınız</span><br/>\n"
+"                    <span style=\"font-size: 20px; font-weight: bold;\" t-out=\"object.user_id.name or ''\">Marc Demo</span>\n"
+"                </td><td valign=\"middle\" align=\"right\" t-if=\"not object.user_id.company_id.uses_default_logo\">\n"
+"                    <img t-attf-src=\"/logo.png?company={{ object.user_id.company_id.id }}\" style=\"padding: 0px; margin: 0px; height: auto; width: 80px;\" t-att-alt=\"object.user_id.company_id.name\"/>\n"
+"                </td></tr>\n"
+"                <tr><td colspan=\"2\" style=\"text-align:center;\">\n"
+"                  <hr width=\"100%\" style=\"background-color:rgb(204,204,204);border:medium none;clear:both;display:block;font-size:0px;min-height:1px;line-height:0; margin:16px 0px 16px 0px;\"/>\n"
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 "                </td></tr>\n"
 "            </table>\n"
 "        </td>\n"
@@ -266,6 +333,7 @@ msgstr ""
 "            <table border=\"0\" cellpadding=\"0\" cellspacing=\"0\" width=\"590\" style=\"min-width: 590px; background-color: white; padding: 0px 8px 0px 8px; border-collapse:separate;\">\n"
 "                <tr><td valign=\"top\" style=\"font-size: 13px;\">\n"
 "                    <div>\n"
+<<<<<<< HEAD
 "                        Sayın <t t-out=\"object.user_id.name or ''\">Marc Demo</t>,<br> <br>\n"
 "                        Hoşgeldiniz <t t-out=\"object.user_id.company_id.name\">YourCompany</t>'s Portal!<br><br>\n"
 "                        Sizin için aşağıdaki giriş bilgilerine sahip bir hesap oluşturuldu:<t t-out=\"object.user_id.login\">demo</t><br><br>\n"
@@ -280,6 +348,22 @@ msgstr ""
 "                </td></tr>\n"
 "                <tr><td style=\"text-align:center;\">\n"
 "                  <hr width=\"100%\" style=\"background-color:rgb(204,204,204);border:medium none;clear:both;display:block;font-size:0px;min-height:1px;line-height:0; margin: 16px 0px 16px 0px;\">\n"
+=======
+"                        Sayın <t t-out=\"object.user_id.name or ''\">Marc Demo</t>,<br/> <br/>\n"
+"                        Hoş geldiniz <t t-out=\"object.user_id.company_id.name\">YourCompany</t>'s Portal!<br/><br/>\n"
+"                        Aşağıdaki giriş bilgileriyle sizin için bir hesap oluşturuldu:<t t-out=\"object.user_id.login\">demo</t><br/><br/>\n"
+"                       Aşağıdaki butona tıklayarak şifrenizi seçin ve hesabınızı aktifleştirin.\n"
+"                        <div style=\"margin: 16px 0px 16px 0px; text-align: center;\">\n"
+"                            <a t-att-href=\"object.user_id.partner_id._get_signup_url()\" style=\"display: inline-block; padding: 10px; text-decoration: none; font-size: 12px; background-color: #875A7B; color: #fff; border-radius: 5px;\">\n"
+"                                <strong>Hesabı Etkinleştir</strong>\n"
+"                            </a>\n"
+"                        </div>\n"
+"                        <t t-out=\"object.wizard_id.welcome_message or ''\">Şirket portalına hoş geldiniz.</t>\n"
+"                    </div>\n"
+"                </td></tr>\n"
+"                <tr><td style=\"text-align:center;\">\n"
+"                  <hr width=\"100%\" style=\"background-color:rgb(204,204,204);border:medium none;clear:both;display:block;font-size:0px;min-height:1px;line-height:0; margin: 16px 0px 16px 0px;\"/>\n"
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 "                </td></tr>\n"
 "            </table>\n"
 "        </td>\n"
@@ -325,14 +409,20 @@ msgstr "API Anahtar Açıklama"
 #. module: portal
 #. odoo-javascript
 #: code:addons/portal/static/src/js/portal_security.js:0
+<<<<<<< HEAD
 #, python-format
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 msgid "API Key Ready"
 msgstr "API Anahtarı Hazır"
 
 #. module: portal
 #. odoo-javascript
 #: code:addons/portal/static/src/signature_form/signature_form.js:0
+<<<<<<< HEAD
 #, python-format
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 msgid "Accept & Sign"
 msgstr "Kabul Et & İmzala"
 
@@ -345,7 +435,6 @@ msgstr "Erişim uyarısı"
 #. module: portal
 #. odoo-python
 #: code:addons/portal/controllers/portal.py:0
-#, python-format
 msgid "Account deleted!"
 msgstr "Hesap silindi!"
 
@@ -357,7 +446,6 @@ msgstr "Bir Not Ekle"
 #. module: portal
 #. odoo-javascript
 #: code:addons/portal/static/src/xml/portal_chatter.xml:0
-#, python-format
 msgid "Add attachment"
 msgstr "Eklenti ekle"
 
@@ -389,7 +477,6 @@ msgstr "Bunu yapmak istediğinden emin misin?"
 #. module: portal
 #. odoo-javascript
 #: code:addons/portal/static/src/xml/portal_chatter.xml:0
-#, python-format
 msgid "Avatar"
 msgstr "Avatar"
 
@@ -408,7 +495,10 @@ msgstr "Parolayı Değiştir"
 #. odoo-python
 #: code:addons/portal/controllers/portal.py:0
 #: model_terms:ir.ui.view,arch_db:portal.portal_my_details_fields
+<<<<<<< HEAD
 #, python-format
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 msgid ""
 "Changing VAT number is not allowed once document(s) have been issued for "
 "your account. Please contact us directly for this operation."
@@ -416,6 +506,8 @@ msgstr ""
 "Hesabınız için belge(ler) düzenlendikten sonra KDV numarasının "
 "değiştirilmesine izin verilmez. Bu işlem için lütfen doğrudan bizimle "
 "iletişime geçin."
+<<<<<<< HEAD
+=======
 
 #. module: portal
 #: model_terms:ir.ui.view,arch_db:portal.portal_my_details_fields
@@ -426,10 +518,24 @@ msgstr ""
 "Hesabınız için belge(ler) düzenlendikten sonra şirket adının "
 "değiştirilmesine izin verilmez. Bu işlem için lütfen doğrudan bizimle "
 "iletişime geçin."
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 #. module: portal
 #: model_terms:ir.ui.view,arch_db:portal.portal_my_details_fields
 msgid ""
+<<<<<<< HEAD
+"Changing company name is not allowed once document(s) have been issued for "
+"your account. Please contact us directly for this operation."
+msgstr ""
+"Hesabınız için belge(ler) düzenlendikten sonra şirket adının "
+"değiştirilmesine izin verilmez. Bu işlem için lütfen doğrudan bizimle "
+"iletişime geçin."
+
+#. module: portal
+#: model_terms:ir.ui.view,arch_db:portal.portal_my_details_fields
+msgid ""
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 "Changing the country is not allowed once document(s) have been issued for "
 "your account. Please contact us directly for this operation."
 msgstr ""
@@ -439,8 +545,11 @@ msgstr ""
 #. module: portal
 #. odoo-javascript
 #: code:addons/portal/static/src/js/portal_security.js:0
+<<<<<<< HEAD
 #: code:addons/portal/static/src/js/portal_security.js:0
 #, python-format
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 msgid "Check failed"
 msgstr "Kontrol başarısız"
 
@@ -452,7 +561,10 @@ msgstr "Semt/İlçe"
 #. module: portal
 #. odoo-javascript
 #: code:addons/portal/static/src/signature_form/signature_form.xml:0
+<<<<<<< HEAD
 #, python-format
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 msgid "Click here to see your document."
 msgstr "Dokümanınızı görmek için buraya tıklayınız."
 
@@ -462,7 +574,6 @@ msgstr "Dokümanınızı görmek için buraya tıklayınız."
 #: model_terms:ir.ui.view,arch_db:portal.portal_back_in_edit_mode
 #: model_terms:ir.ui.view,arch_db:portal.side_content
 #: model_terms:ir.ui.view,arch_db:portal.wizard_view
-#, python-format
 msgid "Close"
 msgstr "Kapat"
 
@@ -484,14 +595,20 @@ msgstr "Bağlantı parametrelerinizi yapılandırın"
 #. module: portal
 #. odoo-javascript
 #: code:addons/portal/static/src/js/portal_security.js:0
+<<<<<<< HEAD
 #, python-format
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 msgid "Confirm"
 msgstr "Onayla"
 
 #. module: portal
 #. odoo-javascript
 #: code:addons/portal/static/src/js/portal_security.js:0
+<<<<<<< HEAD
 #, python-format
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 msgid "Confirm Password"
 msgstr "Parolayı Doğrula"
 
@@ -505,6 +622,10 @@ msgstr "Bağlantı &amp; Güvenlik"
 #: model:ir.model,name:portal.model_res_partner
 #: model:ir.model.fields,field_description:portal.field_portal_wizard_user__partner_id
 #: model_terms:ir.ui.view,arch_db:portal.portal_layout
+<<<<<<< HEAD
+=======
+#: model_terms:ir.ui.view,arch_db:portal.portal_my_contact
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 #: model_terms:ir.ui.view,arch_db:portal.side_content
 msgid "Contact"
 msgstr "Kontak"
@@ -522,7 +643,6 @@ msgstr "Kontaklar"
 #. module: portal
 #. odoo-javascript
 #: code:addons/portal/static/src/js/portal_composer.js:0
-#, python-format
 msgid "Could not save file <strong>%s</strong>"
 msgstr "Dosya kaydedilemedi <strong>%s</strong>"
 
@@ -536,13 +656,14 @@ msgstr "Ülke"
 #: model:ir.model.fields,field_description:portal.field_portal_wizard__create_uid
 #: model:ir.model.fields,field_description:portal.field_portal_wizard_user__create_uid
 msgid "Created by"
-msgstr "Oluşturan"
+msgstr "Tarafından oluşturuldu"
 
 #. module: portal
 #: model:ir.model.fields,field_description:portal.field_portal_share__create_date
 #: model:ir.model.fields,field_description:portal.field_portal_wizard__create_date
 #: model:ir.model.fields,field_description:portal.field_portal_wizard_user__create_date
 msgid "Created on"
+<<<<<<< HEAD
 msgstr "Oluşturulma"
 
 #. module: portal
@@ -566,6 +687,9 @@ msgid ""
 msgstr ""
 "Şu anda şirket içi çalışanlarla sınırlı, bu belgeyi görüntüleyen herkesin "
 "kullanımına sunmak için tıklayın."
+=======
+msgstr "Oluşturuldu"
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 #. module: portal
 #: model:ir.model.fields,field_description:portal.field_res_config_settings__portal_allow_api_keys
@@ -590,7 +714,6 @@ msgstr "Sayın"
 #. module: portal
 #. odoo-javascript
 #: code:addons/portal/static/src/xml/portal_chatter.xml:0
-#, python-format
 msgid "Delete"
 msgstr "Sil"
 
@@ -632,26 +755,28 @@ msgstr ""
 #. module: portal
 #: model_terms:ir.ui.view,arch_db:portal.portal_my_details
 msgid "Discard"
-msgstr "Vazgeç"
+msgstr "Sil"
 
 #. module: portal
 #: model:ir.model.fields,field_description:portal.field_portal_share__display_name
 #: model:ir.model.fields,field_description:portal.field_portal_wizard__display_name
 #: model:ir.model.fields,field_description:portal.field_portal_wizard_user__display_name
 msgid "Display Name"
+<<<<<<< HEAD
 msgstr "Görünüm Adı"
+=======
+msgstr "İsim Göster"
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 #. module: portal
 #. odoo-javascript
 #: code:addons/portal/static/src/js/portal_sidebar.js:0
-#, python-format
 msgid "Due in %s days"
 msgstr "Kalan süre %s gün"
 
 #. module: portal
 #. odoo-javascript
 #: code:addons/portal/static/src/js/portal_sidebar.js:0
-#, python-format
 msgid "Due today"
 msgstr "Ödeme son günü"
 
@@ -674,21 +799,23 @@ msgstr "E-Posta İşlemleri"
 #. module: portal
 #. odoo-javascript
 #: code:addons/portal/static/src/xml/portal_security.xml:0
-#, python-format
 msgid "Enter a description of and purpose for the key."
 msgstr "Anahtarın açıklamasını ve amacını girin."
 
 #. module: portal
 #. odoo-javascript
 #: code:addons/portal/static/src/xml/portal_security.xml:0
-#, python-format
 msgid "Forgot password?"
 msgstr "Parolanızı mı unuttunuz?"
 
 #. module: portal
 #: model_terms:ir.ui.view,arch_db:portal.portal_my_security
 msgid "Go Back"
+<<<<<<< HEAD
 msgstr "Geri dön"
+=======
+msgstr "Geri Dön"
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 #. module: portal
 #: model_terms:ir.ui.view,arch_db:portal.wizard_view
@@ -714,7 +841,6 @@ msgstr "HTTP Yönlendirme"
 #. module: portal
 #. odoo-javascript
 #: code:addons/portal/static/src/xml/portal_security.xml:0
-#, python-format
 msgid ""
 "Here is your new API key, use it instead of a password for RPC access.\n"
 "                Your login is still necessary for interactive usage."
@@ -737,28 +863,13 @@ msgstr "ID"
 #. module: portal
 #. odoo-javascript
 #: code:addons/portal/static/src/xml/portal_security.xml:0
-#, python-format
 msgid "Important:"
 msgstr "Önemli:"
-
-#. module: portal
-#. odoo-javascript
-#: code:addons/portal/static/src/xml/portal_chatter.xml:0
-#, python-format
-msgid "Internal Note"
-msgstr "İç Not"
 
 #. module: portal
 #: model_terms:ir.ui.view,arch_db:portal.wizard_view
 msgid "Internal User"
 msgstr "İç Kullanıcılar"
-
-#. module: portal
-#. odoo-javascript
-#: code:addons/portal/static/src/xml/portal_chatter.xml:0
-#, python-format
-msgid "Internal notes are only displayed to internal users."
-msgstr "Dahili notlar yalnızca dahili kullanıcılara gösterilir."
 
 #. module: portal
 #: model:ir.model.fields.selection,name:portal.selection__portal_wizard_user__email_state__ko
@@ -773,14 +884,12 @@ msgstr "Geçersiz e-posta adresi"
 #. module: portal
 #. odoo-python
 #: code:addons/portal/controllers/portal.py:0
-#, python-format
 msgid "Invalid Email! Please enter a valid email address."
 msgstr "Geçersiz Eposta! Lütfen geçerli eposta adresi girin."
 
 #. module: portal
 #. odoo-python
 #: code:addons/portal/controllers/portal.py:0
-#, python-format
 msgid "Invalid report type: %s"
 msgstr "Geçersiz rapor türü: %s"
 
@@ -797,8 +906,11 @@ msgstr "Bir kullanıcı hesabı oluşturmak için kişilere davet e-postası"
 #. module: portal
 #. odoo-python
 #: code:addons/portal/wizard/portal_share.py:0
+<<<<<<< HEAD
 #: code:addons/portal/wizard/portal_share.py:0
 #, python-format
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 msgid "Invitation to access %s"
 msgstr " %s erişimine davet"
 
@@ -815,7 +927,6 @@ msgstr "Portal"
 #. module: portal
 #. odoo-javascript
 #: code:addons/portal/static/src/xml/portal_security.xml:0
-#, python-format
 msgid ""
 "It is very important that this description be clear\n"
 "                and complete,"
@@ -826,7 +937,10 @@ msgstr ""
 #. module: portal
 #. odoo-javascript
 #: code:addons/portal/static/src/xml/portal_security.xml:0
+<<<<<<< HEAD
 #, python-format
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 msgid "Key Description"
 msgstr "Anahtar Açıklama"
 
@@ -852,7 +966,6 @@ msgstr "En Son Kimlik Doğrulama"
 #. module: portal
 #. odoo-javascript
 #: code:addons/portal/static/src/xml/portal_chatter.xml:0
-#, python-format
 msgid "Leave a comment"
 msgstr "Bir yorum yazın"
 
@@ -862,14 +975,19 @@ msgid "Link"
 msgstr "Bağlantı"
 
 #. module: portal
+<<<<<<< HEAD
 #. odoo-javascript
 #: code:addons/portal/static/src/js/portal_security.js:0
 #: model_terms:ir.ui.view,arch_db:portal.portal_my_security
 #, python-format
+=======
+#: model_terms:ir.ui.view,arch_db:portal.portal_my_security
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 msgid "Log out from all devices"
 msgstr "Tüm cihazlardan çıkış yapın"
 
 #. module: portal
+<<<<<<< HEAD
 #. odoo-javascript
 #: code:addons/portal/static/src/js/portal_security.js:0
 #, python-format
@@ -877,6 +995,8 @@ msgid "Log out from all devices?"
 msgstr "Tüm cihazlardan çıkış yapın?"
 
 #. module: portal
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 #: model:ir.model,name:portal.model_mail_message
 msgid "Message"
 msgstr "Mesaj"
@@ -884,7 +1004,10 @@ msgstr "Mesaj"
 #. module: portal
 #. odoo-python
 #: code:addons/portal/models/mail_thread.py:0
+<<<<<<< HEAD
 #, python-format
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 msgid ""
 "Model %(model_name)s does not support token signature, as it does not have "
 "%(field_name)s field."
@@ -895,7 +1018,6 @@ msgstr ""
 #. module: portal
 #. odoo-python
 #: code:addons/portal/controllers/portal.py:0
-#, python-format
 msgid "Multi company reports are not supported."
 msgstr "Çoklu şirket raporları desteklenmez."
 
@@ -912,7 +1034,6 @@ msgstr "Adı"
 #. module: portal
 #. odoo-javascript
 #: code:addons/portal/static/src/xml/portal_security.xml:0
-#, python-format
 msgid "Name your key"
 msgstr "Anahtarınızı adlandırın"
 
@@ -920,7 +1041,6 @@ msgstr "Anahtarınızı adlandırın"
 #. odoo-javascript
 #: code:addons/portal/static/src/js/portal_security.js:0
 #: model_terms:ir.ui.view,arch_db:portal.portal_my_security
-#, python-format
 msgid "New API Key"
 msgstr "Yeni API Anahtarı"
 
@@ -932,8 +1052,11 @@ msgstr "Yeni Parola:"
 #. module: portal
 #. odoo-javascript
 #: code:addons/portal/static/src/xml/portal_chatter.xml:0
+<<<<<<< HEAD
 #: code:addons/portal/static/src/xml/portal_chatter.xml:0
 #, python-format
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 msgid "Next"
 msgstr "Sonraki"
 
@@ -950,14 +1073,12 @@ msgstr "Odoo Logo"
 #. module: portal
 #. odoo-python
 #: code:addons/portal/models/res_users_apikeys_description.py:0
-#, python-format
 msgid "Only internal and portal users can create API keys"
 msgstr "Yalnızca iç ve portal kullanıcıları API anahtarları oluşturabilir"
 
 #. module: portal
 #. odoo-javascript
 #: code:addons/portal/static/src/xml/portal_chatter.xml:0
-#, python-format
 msgid "Oops! Something went wrong. Try to reload the page and log in."
 msgstr ""
 "Oops! Birşey ters gitti. Sayfayı tekrar yüklemeyi deneyin ve yeniden giriş "
@@ -991,7 +1112,6 @@ msgstr "Telefon"
 #. module: portal
 #. odoo-javascript
 #: code:addons/portal/static/src/xml/portal_security.xml:0
-#, python-format
 msgid "Please enter your password to confirm you own this account"
 msgstr "Bu hesabın sahibi olduğunuzu onaylamak için lütfen şifrenizi girin"
 
@@ -999,7 +1119,6 @@ msgstr "Bu hesabın sahibi olduğunuzu onaylamak için lütfen şifrenizi girin"
 #. odoo-python
 #: code:addons/portal/wizard/portal_wizard.py:0
 #: model_terms:ir.ui.view,arch_db:portal.wizard_view
-#, python-format
 msgid "Portal Access Management"
 msgstr "Portal Giriş Yönetimi"
 
@@ -1034,6 +1153,7 @@ msgid "Powered by"
 msgstr "Hazırlayan"
 
 #. module: portal
+<<<<<<< HEAD
 #. odoo-javascript
 #: code:addons/portal/static/src/xml/portal_chatter.xml:0
 #: code:addons/portal/static/src/xml/portal_chatter.xml:0
@@ -1057,6 +1177,14 @@ msgid "Published on"
 msgstr "Yayınlandı"
 
 #. module: portal
+=======
+#. odoo-javascript
+#: code:addons/portal/static/src/xml/portal_chatter.xml:0
+msgid "Previous"
+msgstr "Önceki"
+
+#. module: portal
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 #: model_terms:ir.ui.view,arch_db:portal.portal_my_security
 msgid ""
 "Put my email and phone in a block list to make sure I'm never contacted "
@@ -1129,7 +1257,10 @@ msgstr "Güvenlik"
 #. odoo-javascript
 #: code:addons/portal/static/src/js/portal_security.js:0
 #: code:addons/portal/static/src/xml/portal_security.xml:0
+<<<<<<< HEAD
 #, python-format
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 msgid "Security Control"
 msgstr "Güvenlik Kontrolü"
 
@@ -1151,11 +1282,18 @@ msgstr ""
 
 #. module: portal
 #. odoo-javascript
-#: code:addons/portal/static/src/xml/portal_chatter.xml:0
+#: code:addons/portal/static/src/js/portal_composer.js:0
 #: model_terms:ir.ui.view,arch_db:portal.portal_share_wizard
-#, python-format
 msgid "Send"
 msgstr "Gönder"
+<<<<<<< HEAD
+=======
+
+#. module: portal
+#: model_terms:ir.ui.view,arch_db:portal.portal_my_contact
+msgid "Send message"
+msgstr "Mesaj Gönder"
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 #. module: portal
 #: model:ir.actions.act_window,name:portal.portal_share_action
@@ -1174,9 +1312,17 @@ msgid "Sign in"
 msgstr "Portal"
 
 #. module: portal
+#: model_terms:ir.ui.view,arch_db:portal.frontend_layout
+msgid "Skip to Content"
+msgstr "İçereği Atla"
+
+#. module: portal
 #. odoo-javascript
 #: code:addons/portal/static/src/js/portal_composer.js:0
+<<<<<<< HEAD
 #, python-format
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 msgid ""
 "Some fields are required. Please make sure to write a message or attach a "
 "document"
@@ -1187,7 +1333,6 @@ msgstr ""
 #. module: portal
 #. odoo-python
 #: code:addons/portal/controllers/portal.py:0
-#, python-format
 msgid "Some required fields are empty."
 msgstr "Bazı zorunlu alanlar boş."
 
@@ -1207,23 +1352,33 @@ msgid "Street"
 msgstr "Sokak/Cadde"
 
 #. module: portal
+#: model_terms:ir.ui.view,arch_db:portal.portal_my_details_fields
+msgid "Street 2"
+msgstr "Adres  2"
+
+#. module: portal
 #. odoo-javascript
 #: code:addons/portal/static/src/signature_form/signature_form.xml:0
+<<<<<<< HEAD
 #, python-format
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 msgid "Thank You!"
 msgstr "Teşekkürler!"
 
 #. module: portal
 #. odoo-python
 #: code:addons/portal/controllers/portal.py:0
-#, python-format
 msgid "The attachment %s cannot be removed because it is linked to a message."
 msgstr "%s eki, bir iletiye bağlı olduğu için kaldırılamaz."
 
 #. module: portal
 #. odoo-python
 #: code:addons/portal/controllers/portal.py:0
+<<<<<<< HEAD
 #, python-format
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 msgid ""
 "The attachment %s cannot be removed because it is not in a pending state."
 msgstr "%s eki, bekleme durumunda olmadığı için kaldırılamaz."
@@ -1231,7 +1386,10 @@ msgstr "%s eki, bekleme durumunda olmadığı için kaldırılamaz."
 #. module: portal
 #. odoo-python
 #: code:addons/portal/controllers/portal.py:0
+<<<<<<< HEAD
 #, python-format
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 msgid ""
 "The attachment does not exist or you do not have the rights to access it."
 msgstr "Ek mevcut değil veya eke erişim haklarınız yok."
@@ -1239,18 +1397,17 @@ msgstr "Ek mevcut değil veya eke erişim haklarınız yok."
 #. module: portal
 #. odoo-python
 #: code:addons/portal/wizard/portal_wizard.py:0
-#, python-format
 msgid "The contact \"%s\" does not have a valid email."
 msgstr "\"%s\" kişisinin geçerli bir e-posta adresi yok."
 
 #. module: portal
 #. odoo-python
 #: code:addons/portal/wizard/portal_wizard.py:0
-#, python-format
 msgid "The contact \"%s\" has the same email as an existing user"
 msgstr "Kontak \"%s\" mevcut bir kullanıcıyla aynı e-postaya sahip"
 
 #. module: portal
+<<<<<<< HEAD
 #. odoo-python
 #: code:addons/portal/controllers/portal.py:0
 #, python-format
@@ -1259,23 +1416,26 @@ msgid ""
 msgstr "Doküman mevcut değil veya dokümana erişim haklarınız yok."
 
 #. module: portal
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 #. odoo-javascript
 #: code:addons/portal/static/src/xml/portal_security.xml:0
-#, python-format
 msgid "The key cannot be retrieved later and provides"
 msgstr "Anahtar daha sonra alınamaz ve"
 
 #. module: portal
 #. odoo-python
 #: code:addons/portal/controllers/portal.py:0
-#, python-format
 msgid "The new password and its confirmation must be identical."
 msgstr "Yeni şifre ve onayı aynı olmalıdır."
 
 #. module: portal
 #. odoo-python
 #: code:addons/portal/controllers/portal.py:0
+<<<<<<< HEAD
 #, python-format
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 msgid ""
 "The old password you provided is incorrect, your password was not changed."
 msgstr "Eski şifrenizi yanlış girdiniz, şifreniz değiştirilemedi."
@@ -1283,27 +1443,29 @@ msgstr "Eski şifrenizi yanlış girdiniz, şifreniz değiştirilemedi."
 #. module: portal
 #. odoo-python
 #: code:addons/portal/wizard/portal_wizard.py:0
-#, python-format
 msgid "The partner \"%s\" already has the portal access."
 msgstr "İş ortağı \"%s\" zaten portal erişimine sahip."
 
 #. module: portal
 #. odoo-python
 #: code:addons/portal/wizard/portal_wizard.py:0
-#, python-format
 msgid "The partner \"%s\" has no portal access or is internal."
 msgstr "\"%s\" İş ortağının portal erişimi yok veya dahili."
 
 #. module: portal
 #. odoo-python
 #: code:addons/portal/wizard/portal_wizard.py:0
+<<<<<<< HEAD
 #, python-format
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 msgid ""
 "The template \"Portal: new user\" not found for sending email to the portal "
 "user."
 msgstr ""
 "Portal kullanıcısına e-posta göndermek için \"Portal: yeni kullanıcı\" "
 "şablonu bulunamadı."
+<<<<<<< HEAD
 
 #. module: portal
 #. odoo-javascript
@@ -1311,11 +1473,12 @@ msgstr ""
 #, python-format
 msgid "There are no comments for now."
 msgstr "Burada şimdilik hiç yorum yok."
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 #. module: portal
 #. odoo-python
 #: code:addons/portal/controllers/portal.py:0
-#, python-format
 msgid "This document does not exist."
 msgstr "Bu belge mevcut değil."
 
@@ -1403,12 +1566,17 @@ msgstr "Görüntüle"
 #: model:ir.model.fields,field_description:portal.field_fleet_vehicle__website_message_ids
 #: model:ir.model.fields,field_description:portal.field_fleet_vehicle_log_contract__website_message_ids
 #: model:ir.model.fields,field_description:portal.field_fleet_vehicle_log_services__website_message_ids
+#: model:ir.model.fields,field_description:portal.field_fleet_vehicle_model__website_message_ids
 #: model:ir.model.fields,field_description:portal.field_gamification_badge__website_message_ids
 #: model:ir.model.fields,field_description:portal.field_gamification_challenge__website_message_ids
+<<<<<<< HEAD
 #: model:ir.model.fields,field_description:portal.field_hr_department__website_message_ids
 #: model:ir.model.fields,field_description:portal.field_hr_employee__website_message_ids
 #: model:ir.model.fields,field_description:portal.field_hr_job__website_message_ids
 #: model:ir.model.fields,field_description:portal.field_loyalty_card__website_message_ids
+=======
+#: model:ir.model.fields,field_description:portal.field_iap_account__website_message_ids
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 #: model:ir.model.fields,field_description:portal.field_lunch_supplier__website_message_ids
 #: model:ir.model.fields,field_description:portal.field_mail_blacklist__website_message_ids
 #: model:ir.model.fields,field_description:portal.field_mail_thread__website_message_ids
@@ -1420,6 +1588,10 @@ msgstr "Görüntüle"
 #: model:ir.model.fields,field_description:portal.field_maintenance_equipment_category__website_message_ids
 #: model:ir.model.fields,field_description:portal.field_maintenance_request__website_message_ids
 #: model:ir.model.fields,field_description:portal.field_phone_blacklist__website_message_ids
+<<<<<<< HEAD
+=======
+#: model:ir.model.fields,field_description:portal.field_product_category__website_message_ids
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 #: model:ir.model.fields,field_description:portal.field_product_pricelist__website_message_ids
 #: model:ir.model.fields,field_description:portal.field_product_product__website_message_ids
 #: model:ir.model.fields,field_description:portal.field_product_template__website_message_ids
@@ -1438,12 +1610,17 @@ msgstr "Websitesi Mesajları"
 #: model:ir.model.fields,help:portal.field_fleet_vehicle__website_message_ids
 #: model:ir.model.fields,help:portal.field_fleet_vehicle_log_contract__website_message_ids
 #: model:ir.model.fields,help:portal.field_fleet_vehicle_log_services__website_message_ids
+#: model:ir.model.fields,help:portal.field_fleet_vehicle_model__website_message_ids
 #: model:ir.model.fields,help:portal.field_gamification_badge__website_message_ids
 #: model:ir.model.fields,help:portal.field_gamification_challenge__website_message_ids
+<<<<<<< HEAD
 #: model:ir.model.fields,help:portal.field_hr_department__website_message_ids
 #: model:ir.model.fields,help:portal.field_hr_employee__website_message_ids
 #: model:ir.model.fields,help:portal.field_hr_job__website_message_ids
 #: model:ir.model.fields,help:portal.field_loyalty_card__website_message_ids
+=======
+#: model:ir.model.fields,help:portal.field_iap_account__website_message_ids
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 #: model:ir.model.fields,help:portal.field_lunch_supplier__website_message_ids
 #: model:ir.model.fields,help:portal.field_mail_blacklist__website_message_ids
 #: model:ir.model.fields,help:portal.field_mail_thread__website_message_ids
@@ -1455,6 +1632,10 @@ msgstr "Websitesi Mesajları"
 #: model:ir.model.fields,help:portal.field_maintenance_equipment_category__website_message_ids
 #: model:ir.model.fields,help:portal.field_maintenance_request__website_message_ids
 #: model:ir.model.fields,help:portal.field_phone_blacklist__website_message_ids
+<<<<<<< HEAD
+=======
+#: model:ir.model.fields,help:portal.field_product_category__website_message_ids
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 #: model:ir.model.fields,help:portal.field_product_pricelist__website_message_ids
 #: model:ir.model.fields,help:portal.field_product_product__website_message_ids
 #: model:ir.model.fields,help:portal.field_product_template__website_message_ids
@@ -1467,7 +1648,6 @@ msgstr "Websitesi iletişim geçmişi"
 #. module: portal
 #. odoo-javascript
 #: code:addons/portal/static/src/xml/portal_security.xml:0
-#, python-format
 msgid "What's this key for?"
 msgstr "Bu anahtar ne için?"
 
@@ -1479,14 +1659,18 @@ msgstr "Sihirbaz"
 #. module: portal
 #. odoo-javascript
 #: code:addons/portal/static/src/xml/portal_chatter.xml:0
-#, python-format
 msgid "Write a message..."
 msgstr "Bir mesaj yaz..."
 
 #. module: portal
 #. odoo-javascript
+#: code:addons/portal/static/src/chatter/core/composer_patch.js:0
+msgid "Write a message…"
+msgstr "Bir mesaj yaz..."
+
+#. module: portal
+#. odoo-javascript
 #: code:addons/portal/static/src/xml/portal_security.xml:0
-#, python-format
 msgid "Write down your key"
 msgstr "Anahtarınızı yazın"
 
@@ -1496,6 +1680,7 @@ msgid "Wrong password."
 msgstr "Yanlış şifre."
 
 #. module: portal
+<<<<<<< HEAD
 #. odoo-javascript
 #: code:addons/portal/static/src/xml/portal_security.xml:0
 #, python-format
@@ -1507,16 +1692,16 @@ msgstr ""
 "üzeresiniz."
 
 #. module: portal
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 #. odoo-python
 #: code:addons/portal/controllers/portal.py:0
-#, python-format
 msgid "You cannot leave any password empty."
 msgstr "Hiçbir parolayı boş bırakamazsınız."
 
 #. module: portal
 #. odoo-javascript
 #: code:addons/portal/static/src/xml/portal_chatter.xml:0
-#, python-format
 msgid "You must be"
 msgstr "Olmalısın"
 
@@ -1528,7 +1713,6 @@ msgstr "Girmelisiniz \""
 #. module: portal
 #. odoo-python
 #: code:addons/portal/wizard/portal_wizard.py:0
-#, python-format
 msgid "You should first grant the portal access to the partner \"%s\"."
 msgstr "Önce portala \"%s\" iş ortağına erişim izni vermelisiniz."
 
@@ -1549,29 +1733,7 @@ msgstr "Posta Kodu"
 
 #. module: portal
 #. odoo-javascript
-#: code:addons/portal/static/src/xml/portal_chatter.xml:0
-#, python-format
-msgid "avatar"
-msgstr "avatar"
-
-#. module: portal
-#. odoo-javascript
-#: code:addons/portal/static/src/xml/portal_chatter.xml:0
-#, python-format
-msgid "comment"
-msgstr "yorum"
-
-#. module: portal
-#. odoo-javascript
-#: code:addons/portal/static/src/xml/portal_chatter.xml:0
-#, python-format
-msgid "comments"
-msgstr "yorumlar"
-
-#. module: portal
-#. odoo-javascript
 #: code:addons/portal/static/src/xml/portal_security.xml:0
-#, python-format
 msgid "full access"
 msgstr "tam erişim"
 
@@ -1583,7 +1745,6 @@ msgstr "sizi aşağıdaki bilgilere erişmeye davet etti"
 #. module: portal
 #. odoo-javascript
 #: code:addons/portal/static/src/xml/portal_security.xml:0
-#, python-format
 msgid ""
 "it will be the only way to\n"
 "                identify the key once created"
@@ -1594,7 +1755,6 @@ msgstr ""
 #. module: portal
 #. odoo-javascript
 #: code:addons/portal/static/src/xml/portal_chatter.xml:0
-#, python-format
 msgid "logged in"
 msgstr "oturum açıldı"
 
@@ -1618,14 +1778,12 @@ msgstr "Geriye al"
 #. module: portal
 #. odoo-javascript
 #: code:addons/portal/static/src/xml/portal_chatter.xml:0
-#, python-format
 msgid "to post a comment."
 msgstr "bir yorum gönder."
 
 #. module: portal
 #. odoo-javascript
 #: code:addons/portal/static/src/xml/portal_security.xml:0
-#, python-format
 msgid "to your user account, it is very important to store it securely."
 msgstr ""
 "kullanıcı hesabınız için güvenli bir şekilde saklamanız çok önemlidir."

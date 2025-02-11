@@ -39,12 +39,20 @@ QUnit.module("CountedQuantityWidget", (hooks) => {
             type: "list",
             serverData,
             resModel: "stock.quant",
+<<<<<<< HEAD
             arch: `<tree editable="bottom">
+=======
+            arch: `<list editable="bottom">
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
                         <field name="quantity"/>
                         <field name="inventory_quantity" widget="counted_quantity_widget"/>
                         <field name="inventory_quantity_set"/>
                         <field name="inventory_diff_quantity"/>
+<<<<<<< HEAD
                    </tree>
+=======
+                   </list>
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
                 `,
         });
 
@@ -79,12 +87,20 @@ QUnit.module("CountedQuantityWidget", (hooks) => {
             type: "list",
             serverData,
             resModel: "stock.quant",
+<<<<<<< HEAD
             arch: `<tree editable="bottom">
+=======
+            arch: `<list editable="bottom">
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
                         <field name="quantity"/>
                         <field name="inventory_quantity" widget="counted_quantity_widget"/>
                         <field name="inventory_quantity_set"/>
                         <field name="inventory_diff_quantity"/>
+<<<<<<< HEAD
                    </tree>
+=======
+                   </list>
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
                 `,
         });
 

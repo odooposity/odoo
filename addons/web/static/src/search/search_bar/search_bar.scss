@@ -10,4 +10,21 @@
     }
 
     animation: animate .25s ease-out;
+<<<<<<< HEAD
+=======
+
+    .btn, .btn:focus {
+        // Boostrap plays around with the z-index of buttons, but this is not needed here
+        // It was causing issues with the hotkey overlay
+        z-index: 0;
+    }
+
+    .o_facet_value {
+        max-width: $o-search-bar-facet-value-width;
+
+        @include media-breakpoint-down(md) {
+            max-width: $o-search-bar-facet-value-width / 2;
+        }
+    }
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 }

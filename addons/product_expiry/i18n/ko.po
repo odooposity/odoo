@@ -3,6 +3,7 @@
 # 	* product_expiry
 # 
 # Translators:
+<<<<<<< HEAD
 # Wil Odoo, 2023
 # Daye Jeong, 2023
 # 
@@ -13,6 +14,17 @@ msgstr ""
 "POT-Creation-Date: 2023-10-26 21:55+0000\n"
 "PO-Revision-Date: 2023-10-26 23:09+0000\n"
 "Last-Translator: Daye Jeong, 2023\n"
+=======
+# Wil Odoo, 2024
+# 
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 18.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2024-09-26 08:55+0000\n"
+"PO-Revision-Date: 2024-09-25 09:41+0000\n"
+"Last-Translator: Wil Odoo, 2024\n"
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 "Language-Team: Korean (https://app.transifex.com/odoo/teams/41243/ko/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -25,6 +37,7 @@ msgstr ""
 msgid ""
 "<span class=\"badge text-bg-danger\" invisible=\"not "
 "product_expiry_alert\">Expiration Alert</span>"
+<<<<<<< HEAD
 msgstr ""
 "<span class=\"badge text-bg-danger\" invisible=\"not "
 "product_expiry_alert\">만료 경고</span>"
@@ -36,6 +49,19 @@ msgid ""
 "invisible=\"product_qty &lt;= 0 or not product_expiry_alert or not "
 "expiration_date\"/>"
 msgstr ""
+=======
+msgstr ""
+"<span class=\"badge text-bg-danger\" invisible=\"not "
+"product_expiry_alert\">만료 경고</span>"
+
+#. module: product_expiry
+#: model_terms:ir.ui.view,arch_db:product_expiry.view_production_lot_view_kanban
+msgid ""
+"<span title=\"Alert\" class=\"fa fa-exclamation-triangle text-danger ms-2\" "
+"invisible=\"product_qty &lt;= 0 or not product_expiry_alert or not "
+"expiration_date\"/>"
+msgstr ""
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 "<span title=\"경고\" class=\"fa fa-exclamation-triangle text-danger ms-2\" "
 "invisible=\"product_qty <= 0 or not product_expiry_alert or not "
 "expiration_date\"/>"
@@ -97,7 +123,6 @@ msgstr "유효기간 승인"
 #. odoo-python
 #: code:addons/product_expiry/models/stock_picking.py:0
 #: model_terms:ir.ui.view,arch_db:product_expiry.confirm_expiry_view
-#, python-format
 msgid "Confirmation"
 msgstr "확인"
 
@@ -332,7 +357,6 @@ msgstr "유통기한이 임박했습니다."
 #. module: product_expiry
 #. odoo-python
 #: code:addons/product_expiry/models/production_lot.py:0
-#, python-format
 msgid "The alert date has been reached for this lot/serial number"
 msgstr "LOT/일련번호에 대한 경고 날짜가 임박했습니다."
 
@@ -361,6 +385,7 @@ msgid ""
 msgstr "이 일련번호를 가진 상품이 아직 위험하진 않지만 상태가 악화되기 시작하는 날짜입니다."
 
 #. module: product_expiry
+<<<<<<< HEAD
 #: model_terms:ir.ui.view,arch_db:product_expiry.view_stock_move_line_detailed_operation_tree_expiry
 #: model_terms:ir.ui.view,arch_db:product_expiry.view_stock_move_line_operation_tree_expiry
 msgid "This lot is expired"
@@ -373,6 +398,8 @@ msgid "This lot is expired."
 msgstr "유효기간이 만료된 로트입니다."
 
 #. module: product_expiry
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 #: model:ir.model,name:product_expiry.model_stock_picking
 msgid "Transfer"
 msgstr "전송"
@@ -403,7 +430,6 @@ msgstr "체크박스가 선택되면, 품목과 관련된 lot/일련번호에 �
 #. module: product_expiry
 #. odoo-python
 #: code:addons/product_expiry/wizard/confirm_expiry.py:0
-#, python-format
 msgid ""
 "You are going to deliver some product expired lots.\n"
 "Do you confirm you want to proceed?"
@@ -414,7 +440,6 @@ msgstr ""
 #. module: product_expiry
 #. odoo-python
 #: code:addons/product_expiry/wizard/confirm_expiry.py:0
-#, python-format
 msgid ""
 "You are going to deliver the product %(product_name)s, %(lot_name)s which is expired.\n"
 "Do you confirm you want to proceed?"

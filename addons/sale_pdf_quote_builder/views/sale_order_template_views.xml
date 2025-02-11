@@ -7,6 +7,7 @@
         <field name="inherit_id" ref="sale_management.sale_order_template_view_form"/>
         <field name="arch" type="xml">
             <notebook position="inside">
+<<<<<<< HEAD
                 <page name="pdf_quote" string="PDF Quote Builder">
                     <group>
                         <p class="text-muted" colspan="2">
@@ -41,6 +42,28 @@
                             </a>
                         </p>
                     </group>
+=======
+                <page name="pdf_quote" string="Quote Builder">
+                    <field
+                        name="quotation_document_ids"
+                        mode="kanban"
+                        widget="quotation_document_many2many"
+                        class="w-100"
+                        nolabel="1"
+                        options="{'create': False}"
+                        context="{
+                            'kanban_view_ref': 'sale_pdf_quote_builder.quotation_document_kanban',
+                        }"
+                    />
+                    <p class="text-muted">
+                        Provide header pages and footer pages to compose an attractive quotation with more information
+                        about your company, your products and you services. <br/>
+                        The pdf of your quotes will be built by putting together header pages, product descriptions,
+                        details of the quote and then the footer pages. <br/>
+                        If empty, it will use those define in the company settings. <br/>
+                        <widget name="documentation_link" path="/_downloads/5f0840ed187116c425fdac2ab4b592e1/pdfquotebuilderexamples.zip" label=" Download examples" icon="fa-arrow-right"/>
+                    </p>
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
                 </page>
             </notebook>
         </field>

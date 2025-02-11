@@ -51,6 +51,7 @@ class TestCompany(TransactionCase):
         company.partner_id.image_1920 = "R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"
         self.assertFalse(company.uses_default_logo)
 
+<<<<<<< HEAD
     def test_unlink_company_with_children(self):
         """Ensure that companies with child companies cannot be deleted."""
 
@@ -65,6 +66,8 @@ class TestCompany(TransactionCase):
             parent_company.unlink()
         self.assertTrue(parent_company.exists())
 
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
     def test_create_branch_with_default_parent_id(self):
         branch = self.env['res.company'].with_context(default_parent_id=self.env.company.id).create({'name': 'Branch Company'})
         self.assertFalse(branch.partner_id.parent_id)

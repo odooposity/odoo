@@ -1,11 +1,9 @@
-/** @odoo-module **/
-
 import { _t } from "@web/core/l10n/translation";
 import { AutoComplete } from "@web/core/autocomplete/autocomplete";
 import { makeContext } from "@web/core/context";
 import { Dialog } from "@web/core/dialog/dialog";
 import { Domain } from "@web/core/domain";
-import { RPCError } from "@web/core/network/rpc_service";
+import { RPCError } from "@web/core/network/rpc";
 import { Cache } from "@web/core/utils/cache";
 import {
     useBus,
@@ -16,7 +14,7 @@ import {
 } from "@web/core/utils/hooks";
 import { createElement, parseXML } from "@web/core/utils/xml";
 import { FormArchParser } from "@web/views/form/form_arch_parser";
-import { loadSubViews } from "@web/views/form/form_controller";
+import { loadSubViews, useFormViewInDialog } from "@web/views/form/form_controller";
 import { FormRenderer } from "@web/views/form/form_renderer";
 import { extractFieldsFromArchInfo, useRecordObserver } from "@web/model/relational_model/utils";
 import { computeViewClassName, isNull } from "@web/views/utils";
@@ -182,6 +180,42 @@ export function useSpecialData(loadFn) {
 //
 
 export class Many2XAutocomplete extends Component {
+    static template = "web.Many2XAutocomplete";
+    static components = { AutoComplete };
+    static props = {
+        value: { type: String, optional: true },
+        activeActions: Object,
+        context: { type: Object, optional: true },
+        nameCreateField: { type: String, optional: true },
+        setInputFloats: { type: Function, optional: true },
+        update: Function,
+        resModel: String,
+        getDomain: Function,
+        searchLimit: { type: Number, optional: true },
+        quickCreate: { type: [Function, { value: null }], optional: true },
+        noSearchMore: { type: Boolean, optional: true },
+        searchMoreLimit: { type: Number, optional: true },
+        fieldString: String,
+        id: { type: String, optional: true },
+        placeholder: { type: String, optional: true },
+        autoSelect: { type: Boolean, optional: true },
+        isToMany: { type: Boolean, optional: true },
+        autocomplete_container: { type: Function, optional: true },
+        dropdown: { type: Boolean, optional: true },
+        autofocus: { type: Boolean, optional: true },
+        getOptionClassnames: { type: Function, optional: true },
+    };
+    static defaultProps = {
+        searchLimit: 7,
+        searchMoreLimit: 320,
+        nameCreateField: "name",
+        value: "",
+        setInputFloats: () => {},
+        quickCreate: null,
+        context: {},
+        dropdown: true,
+        getOptionClassnames: () => "",
+    };
     setup() {
         this.orm = useService("orm");
 
@@ -269,6 +303,13 @@ export class Many2XAutocomplete extends Component {
         this.props.update([record], params);
     }
 
+    abortableSearch(name) {
+        const originalPromise = this.search(name);
+        return {
+            promise: originalPromise,
+            abort: originalPromise.abort ? originalPromise.abort.bind(originalPromise) : () => {},
+        };
+    }
     search(name) {
         return this.orm.call(this.props.resModel, "name_search", [], {
             name: name,
@@ -283,14 +324,15 @@ export class Many2XAutocomplete extends Component {
             value: result[0],
             label: result[1] ? result[1].split("\n")[0] : _t("Unnamed"),
             displayName: result[1],
+            classList: this.props.getOptionClassnames({ id: result[0], display_name: result[1] }),
         };
     }
     async loadOptionsSource(request) {
         if (this.lastProm) {
             this.lastProm.abort(false);
         }
-        this.lastProm = this.search(request);
-        const records = await this.lastProm;
+        this.lastProm = this.abortableSearch(request);
+        const records = await this.lastProm.promise;
 
         const options = records.map((result) => this.mapRecordToOption(result));
 
@@ -306,8 +348,10 @@ export class Many2XAutocomplete extends Component {
                             e instanceof RPCError &&
                             e.exceptionName === "odoo.exceptions.ValidationError"
                         ) {
-                            const context = this.getCreationContext(request);
-                            return this.openMany2X({ context });
+                            return this.openMany2X({
+                                context: this.getCreationContext(request),
+                                nextRecordsContext: this.props.context,
+                            });
                         }
                         throw e;
                     }
@@ -317,7 +361,7 @@ export class Many2XAutocomplete extends Component {
 
         if (!this.props.noSearchMore && records.length > 0) {
             options.push({
-                label: _t("Search More..."),
+                label: this.SearchMoreButtonLabel,
                 action: this.onSearchMore.bind(this, request),
                 classList: "o_m2o_dropdown_option o_m2o_dropdown_option_search_more",
             });
@@ -336,11 +380,14 @@ export class Many2XAutocomplete extends Component {
         }
 
         if (request.length && canCreateEdit) {
-            const context = this.getCreationContext(request);
             options.push({
                 label: _t("Create and edit..."),
                 classList: "o_m2o_dropdown_option o_m2o_dropdown_option_create_edit",
-                action: () => this.openMany2X({ context }),
+                action: () =>
+                    this.openMany2X({
+                        context: this.getCreationContext(request),
+                        nextRecordsContext: this.props.context,
+                    }),
             });
         }
 
@@ -353,6 +400,10 @@ export class Many2XAutocomplete extends Component {
         }
 
         return options;
+    }
+
+    get SearchMoreButtonLabel() {
+        return _t("Search More...");
     }
 
     async onBarcodeSearch() {
@@ -397,40 +448,6 @@ export class Many2XAutocomplete extends Component {
         }
     }
 }
-Many2XAutocomplete.template = "web.Many2XAutocomplete";
-Many2XAutocomplete.components = { AutoComplete };
-Many2XAutocomplete.props = {
-    value: { type: String, optional: true },
-    activeActions: Object,
-    context: { type: Object, optional: true },
-    nameCreateField: { type: String, optional: true },
-    setInputFloats: { type: Function, optional: true },
-    update: Function,
-    resModel: String,
-    getDomain: Function,
-    searchLimit: { type: Number, optional: true },
-    quickCreate: { type: [Function, { value: null }], optional: true },
-    noSearchMore: { type: Boolean, optional: true },
-    searchMoreLimit: { type: Number, optional: true },
-    fieldString: String,
-    id: { type: String, optional: true },
-    placeholder: { type: String, optional: true },
-    autoSelect: { type: Boolean, optional: true },
-    isToMany: { type: Boolean, optional: true },
-    autocomplete_container: { type: Function, optional: true },
-    dropdown: { type: Boolean, optional: true },
-    autofocus: { type: Boolean, optional: true },
-};
-Many2XAutocomplete.defaultProps = {
-    searchLimit: 7,
-    searchMoreLimit: 320,
-    nameCreateField: "name",
-    value: "",
-    setInputFloats: () => {},
-    quickCreate: null,
-    context: {},
-    dropdown: true,
-};
 
 export class AvatarMany2XAutocomplete extends Many2XAutocomplete {
     mapRecordToOption(result) {
@@ -460,7 +477,7 @@ export function useOpenMany2XRecord({
     const orm = useService("orm");
 
     return async function openDialog(
-        { resId = false, forceModel = null, title, context },
+        { resId = false, forceModel = null, title, context, nextRecordsContext },
         immediate = false
     ) {
         const model = forceModel || resModel;
@@ -486,6 +503,7 @@ export function useOpenMany2XRecord({
                 preventEdit: !canWrite,
                 title,
                 context,
+                nextRecordsContext,
                 mode,
                 resId,
                 resModel: model,
@@ -516,7 +534,21 @@ export function useOpenMany2XRecord({
 //
 
 export class X2ManyFieldDialog extends Component {
+    static template = "web.X2ManyFieldDialog";
+    static components = { Dialog, FormRenderer, ViewButton };
+    static props = {
+        archInfo: Object,
+        close: Function,
+        record: Object,
+        addNew: Function,
+        save: Function,
+        title: String,
+        delete: { optional: true },
+        deleteButtonLabel: { optional: true },
+        config: Object,
+    };
     setup() {
+        this.actionService = useService("action");
         this.archInfo = this.props.archInfo;
         this.record = this.props.record;
         this.title = this.props.title;
@@ -530,7 +562,7 @@ export class X2ManyFieldDialog extends Component {
 
         const reload = () => this.record.load();
 
-        useViewButtons(this.props.record.model, this.modalRef, {
+        useViewButtons(this.modalRef, {
             reload,
             beforeExecuteAction: this.beforeExecuteActionButton.bind(this),
         }); // maybe pass the model directly in props
@@ -571,6 +603,28 @@ export class X2ManyFieldDialog extends Component {
                 () => [this.record.isInEdition]
             );
         }
+        useFormViewInDialog();
+    }
+
+    get dialogProps() {
+        const props = {
+            title: this.title,
+            withBodyPadding: false,
+            modalRef: this.modalRef,
+            contentClass: this.contentClass,
+        };
+        if (!this.record.isNew) {
+            props.onExpand = async () => {
+                await this.save({ saveAndNew: false });
+                this.actionService.doAction({
+                    type: "ir.actions.act_window",
+                    res_model: this.props.record.resModel,
+                    res_id: this.props.record.resId,
+                    views: [[false, "form"]],
+                });
+            };
+        }
+        return props;
     }
 
     async beforeExecuteActionButton(clickParams) {
@@ -619,6 +673,7 @@ export class X2ManyFieldDialog extends Component {
         }
     }
 }
+<<<<<<< HEAD
 X2ManyFieldDialog.components = { Dialog, FormRenderer, ViewButton };
 X2ManyFieldDialog.props = {
     archInfo: Object,
@@ -634,6 +689,10 @@ X2ManyFieldDialog.props = {
 X2ManyFieldDialog.template = "web.X2ManyFieldDialog";
 
 async function getFormViewInfo({ list, context, activeField, viewService, userService, env }) {
+=======
+
+async function getFormViewInfo({ list, context, activeField, viewService, env }) {
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
     let formArchInfo = activeField.views.form;
     let fields = activeField.fields;
     const comodel = list.resModel;
@@ -661,7 +720,6 @@ async function getFormViewInfo({ list, context, activeField, viewService, userSe
         {}, // context
         comodel,
         viewService,
-        userService,
         env.isSmall
     );
 
@@ -685,7 +743,6 @@ export function useAddInlineRecord({ addNew }) {
 }
 
 export function useOpenX2ManyRecord({
-    resModel,
     activeField, // TODO: this should be renamed (object with keys "viewMode", "views" and "string")
     activeActions,
     getList,
@@ -694,7 +751,6 @@ export function useOpenX2ManyRecord({
     isMany2Many,
 }) {
     const viewService = useService("view");
-    const userService = useService("user");
     const env = useEnv();
     const component = useComponent();
 
@@ -713,7 +769,6 @@ export function useOpenX2ManyRecord({
             context,
             activeField,
             viewService,
-            userService,
             env,
         });
         if (!component.props.record.isInEdition) {

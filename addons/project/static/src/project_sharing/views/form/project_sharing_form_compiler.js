@@ -1,9 +1,6 @@
-/** @odoo-module */
-
 import { append, createElement, setAttributes } from "@web/core/utils/xml";
 import { registry } from "@web/core/registry";
 import { SIZES } from "@web/core/ui/ui_service";
-import { getModifier, ViewCompiler } from "@web/views/view_compiler";
 import { patch } from "@web/core/utils/patch";
 import { FormCompiler } from "@web/views/form/form_compiler";
 
@@ -15,20 +12,28 @@ import { FormCompiler } from "@web/views/form/form_compiler";
  * @returns
  */
 function compileChatter(node, params) {
-    const chatterContainerXml = createElement('ChatterContainer');
+    const chatterContainerXml = createElement("Chatter");
     const parentURLQuery = new URLSearchParams(window.parent.location.search);
     setAttributes(chatterContainerXml, {
-        token: `'${parentURLQuery.get('access_token')}'` || '',
-        resModel: params.resModel,
-        resId: params.resId,
+        token: `'${parentURLQuery.get("access_token")}'` || "",
+        threadModel: params.resModel,
+        threadId: params.resId,
         projectSharingId: params.projectSharingId,
+        isFollower: params.isFollower,
+        displayFollowButton: params.displayFollowButton,
     });
+<<<<<<< HEAD
     const chatterContainerHookXml = createElement('div');
     chatterContainerHookXml.classList.add("o-mail-ChatterContainer", 'o-mail-Form-chatter');
+=======
+    const chatterContainerHookXml = createElement("div");
+    chatterContainerHookXml.classList.add("o-mail-ChatterContainer", "o-mail-Form-chatter", "pt-2");
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
     append(chatterContainerHookXml, chatterContainerXml);
     return chatterContainerHookXml;
 }
 
+<<<<<<< HEAD
 export class ProjectSharingChatterCompiler extends ViewCompiler {
     setup() {
         this.compilers.push({ selector: "t", fn: this.compileT });
@@ -70,39 +75,49 @@ export class ProjectSharingChatterCompiler extends ViewCompiler {
     }
 }
 
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 registry.category("form_compilers").add("portal_chatter_compiler", {
-    selector: "div.oe_chatter",
+    selector: "chatter",
     fn: (node) =>
         compileChatter(node, {
             resId: "__comp__.props.record.resId or undefined",
             resModel: "__comp__.props.record.resModel",
             projectSharingId: "__comp__.props.record.context.active_id_chatter",
+            isFollower: "__comp__.props.record.data.message_is_follower",
+            displayFollowButton: "__comp__.props.record.data.display_follow_button",
         }),
 });
 
 patch(FormCompiler.prototype, {
     compile(node, params) {
         const res = super.compile(node, params);
-        const chatterContainerHookXml = res.querySelector('.o-mail-Form-chatter');
+        const chatterContainerHookXml = res.querySelector(".o-mail-Form-chatter");
         if (!chatterContainerHookXml) {
             return res; // no chatter, keep the result as it is
         }
-        if (chatterContainerHookXml.parentNode.classList.contains('o_form_sheet')) {
+        if (chatterContainerHookXml.parentNode.classList.contains("o_form_sheet")) {
             return res; // if chatter is inside sheet, keep it there
         }
-        const formSheetBgXml = res.querySelector('.o_form_sheet_bg');
+        const formSheetBgXml = res.querySelector(".o_form_sheet_bg");
         const parentXml = formSheetBgXml && formSheetBgXml.parentNode;
         if (!parentXml) {
             return res; // miss-config: a sheet-bg is required for the rest
         }
         // after sheet bg (standard position, below form)
         setAttributes(chatterContainerHookXml, {
+<<<<<<< HEAD
             't-att-class': `{
                 'overflow-x-hidden overflow-y-auto o-aside h-100': __comp__.uiService.size >= ${SIZES.XXL},
                 'px-3 py-0': __comp__.uiService.size < ${SIZES.XXL},
+=======
+            "t-att-class": `{
+                "overflow-x-hidden overflow-y-auto o-aside h-100": __comp__.uiService.size >= ${SIZES.XXL},
+                "px-3 py-0": __comp__.uiService.size < ${SIZES.XXL},
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
             }`,
         });
         append(parentXml, chatterContainerHookXml);
         return res;
-    }
+    },
 });

@@ -7,24 +7,27 @@
     'category': 'Sales/Point of Sale',
     'sequence': 40,
     'summary': 'User-friendly PoS interface for shops and restaurants',
-    'depends': ['stock_account', 'barcodes', 'web_editor', 'digest'],
+    'depends': ['stock_account', 'barcodes', 'web_editor', 'digest', 'phone_validation'],
     'uninstall_hook': 'uninstall_hook',
     'data': [
         'security/point_of_sale_security.xml',
         'security/ir.model.access.csv',
         'data/default_barcode_patterns.xml',
         'data/digest_data.xml',
+        'data/pos_note_data.xml',
+        'data/mail_template_data.xml',
+        'data/point_of_sale_tour.xml',
         'wizard/pos_details.xml',
         'wizard/pos_payment.xml',
         'wizard/pos_close_session_wizard.xml',
         'wizard/pos_daily_sales_reports.xml',
         'views/pos_assets_index.xml',
-        'views/pos_assets_qunit.xml',
         'views/point_of_sale_report.xml',
         'views/point_of_sale_view.xml',
+        'views/pos_note_view.xml',
         'views/pos_order_view.xml',
         'views/pos_category_view.xml',
-        'views/pos_combo_view.xml',
+        'views/product_combo_views.xml',
         'views/product_view.xml',
         'views/account_journal_view.xml',
         'views/pos_payment_method_views.xml',
@@ -45,9 +48,12 @@
         'views/pos_printer_view.xml',
         'views/pos_ticket_view.xml',
         'views/res_config_settings_views.xml',
+        'views/customer_display_index.xml',
+        'views/account_move_views.xml',
+        'views/pos_session_sales_details.xml'
     ],
     'demo': [
-        'data/point_of_sale_demo.xml',
+        'data/demo_data.xml',
     ],
     'installable': True,
     'application': True,
@@ -60,42 +66,78 @@
         # correct spot.
         #
         # Files in /static/src/backend will be loaded in the backend
-        # Files in /static/src/app will be loaded in the PoS UI and unit tests
+        # Files in /static/src/app will be loaded in the PoS UI
         # Files in /static/tests/tours will be loaded in the backend in test mode
-        # Files in /static/tests/unit will be loaded in the qunit tests (/pos/ui/tests)
+        # Files in /static/tests/unit will be loaded in the unit tests
 
         # web assets
         'web.assets_backend': [
             'point_of_sale/static/src/scss/pos_dashboard.scss',
             'point_of_sale/static/src/backend/tours/point_of_sale.js',
-            'point_of_sale/static/src/backend/debug_manager.js',
+            'point_of_sale/static/src/backend/pos_kanban_view/*',
+            'point_of_sale/static/src/app/utils/hooks.js',
         ],
         'web.assets_tests': [
             'barcodes/static/tests/helpers.js',
             'point_of_sale/static/tests/tours/**/*',
         ],
+        'web.assets_unit_tests': [
+            # for the related_models.test.js
+            'point_of_sale/static/src/app/models/related_models.js',
+            # for the data_service.test.js
+            'point_of_sale/static/src/app/models/utils/indexed_db.js',
+            'point_of_sale/static/src/app/models/data_service_options.js',
+            'point_of_sale/static/src/utils.js',
+            'point_of_sale/static/src/app/models/data_service.js',
+            'point_of_sale/static/tests/unit/**/*',
+        ],
 
         # PoS assets
 
-        # Main PoS assets, they are loaded in the PoS UI and in the PoS unit tests
+        'point_of_sale.base_app': [
+            ("include", "web._assets_helpers"),
+            ("include", "web._assets_backend_helpers"),
+            ("include", "web._assets_primary_variables"),
+            "web/static/src/scss/pre_variables.scss",
+            "web/static/lib/bootstrap/scss/_functions.scss",
+            "web/static/lib/bootstrap/scss/_variables.scss",
+            'web/static/lib/bootstrap/scss/_variables-dark.scss',
+            'web/static/lib/bootstrap/scss/_maps.scss',
+            ("include", "web._assets_bootstrap"),
+            ("include", "web._assets_bootstrap_backend"),
+            ('include', 'web._assets_core'),
+            ("remove", "web/static/src/core/browser/router.js"),
+            ("remove", "web/static/src/core/debug/**/*"),
+            "web/static/src/libs/fontawesome/css/font-awesome.css",
+            "web/static/src/views/fields/formatters.js",
+            "web/static/lib/odoo_ui_icons/*",
+            'web/static/src/legacy/scss/ui.scss',
+            "point_of_sale/static/src/utils.js",
+            'bus/static/src/services/bus_service.js',
+            'bus/static/src/bus_parameters_service.js',
+            'bus/static/src/multi_tab_service.js',
+            'bus/static/src/workers/*',
+        ],
+
+        # Main PoS assets, they are loaded in the PoS UI
         'point_of_sale._assets_pos': [
-            # 'preparation_display' bootstrap customization layer
             'web/static/src/scss/functions.scss',
-            # 'point_of_sale/static/src/scss/primary_variables.scss', TO DO - CREATE
 
-            # 'webclient' bootstrap customization layer
-            ('include', 'web._assets_helpers'),
-            ('include', 'web._assets_backend_helpers'),
+            # JS boot
+            'web/static/src/module_loader.js',
+            # libs (should be loaded before framework)
+            'point_of_sale/static/lib/**/*',
+            'web/static/lib/luxon/luxon.js',
+            'web/static/lib/owl/owl.js',
+            'web/static/lib/owl/odoo_module.js',
+            'web/static/lib/zxing-library/zxing-library.js',
 
-            'web/static/src/scss/pre_variables.scss',
-            'web/static/lib/bootstrap/scss/_variables.scss',
 
-            # Import Bootstrap
-            ('include', 'web._assets_bootstrap_backend'),
+            ('include', 'point_of_sale.base_app'),
 
-            # Icons
-            'web/static/src/libs/fontawesome/css/font-awesome.css',
-            'web/static/lib/odoo_ui_icons/*',
+            'web/static/src/core/colorlist/colorlist.scss',
+            'web/static/src/webclient/webclient_layout.scss',
+
             'web/static/src/webclient/icons.scss',
 
             # scss variables and utilities
@@ -103,6 +145,7 @@
             'web/static/src/scss/bootstrap_overridden.scss',
             'web/static/src/scss/fontawesome_overridden.scss',
             'web/static/fonts/fonts.scss',
+<<<<<<< HEAD
             # JS boot
             'web/static/src/module_loader.js',
             # libs (should be loaded before framework)
@@ -113,15 +156,19 @@
             'web/static/lib/zxing-library/zxing-library.js',
             # JS framework
             ('include', 'web._assets_core'),
+=======
+
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
             ('remove', 'web/static/src/core/errors/error_handlers.js'), # error handling in PoS is different from the webclient
-            # formatMonetary
-            'web/static/src/views/fields/formatters.js',
+            ('remove', '/web/static/src/core/dialog/dialog.scss'),
+            'web/static/src/core/currency.js',
             # barcode scanner
             'barcodes/static/src/barcode_service.js',
             'barcodes/static/src/js/barcode_parser.js',
             'barcodes_gs1_nomenclature/static/src/js/barcode_parser.js',
             'barcodes_gs1_nomenclature/static/src/js/barcode_service.js',
             'web/static/src/views/fields/parsers.js',
+<<<<<<< HEAD
             'web/static/src/webclient/barcode/barcode_scanner.*',
             'web/static/src/webclient/barcode/ZXingBarcodeDetector.js',
             'web/static/src/webclient/barcode/crop_overlay.*',
@@ -130,18 +177,32 @@
             'bus/static/src/bus_parameters_service.js',
             'bus/static/src/multi_tab_service.js',
             'bus/static/src/workers/*',
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
             # report download utils
             'web/static/src/webclient/actions/reports/utils.js',
             # PoS files
             'point_of_sale/static/src/**/*',
             ('remove', 'point_of_sale/static/src/backend/**/*'),
+            ('remove', 'point_of_sale/static/src/customer_display/**/*'),
             # main.js boots the pos app, it is only included in the prod bundle as tests mount the app themselves
             ('remove', 'point_of_sale/static/src/app/main.js'),
+<<<<<<< HEAD
             # tour system FIXME: can this be added only in test mode? Are there any onboarding tours in PoS?
             'web/static/lib/jquery/jquery.js',
             'web/static/src/legacy/js/libs/jquery.js',
             'web_tour/static/src/tour_pointer/**/*',
             'web_tour/static/src/tour_service/**/*',
+=======
+            ("include", "point_of_sale.base_tests"),
+            # account
+            'account/static/src/helpers/*.js',
+            'account/static/src/services/account_move_service.js',
+
+            'mail/static/src/core/common/sound_effects_service.js',
+            "web/static/src/core/browser/router.js",
+            "web/static/src/core/debug/**/*",
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
             'web/static/src/model/**/*',
             'web/static/src/views/**/*',
             'web/static/src/search/**/*',
@@ -149,12 +210,22 @@
             ('remove', 'web/static/src/webclient/actions/reports/layout_assets/**/*'),
             ('remove', 'web/static/src/webclient/actions/**/*css'),
             'web/static/src/webclient/company_service.js',
+<<<<<<< HEAD
+=======
+        ],
+        'point_of_sale.base_tests': [
+            "web/static/lib/hoot-dom/**/*",
+            "web_tour/static/src/tour_pointer/**/*.xml",
+            "web_tour/static/src/tour_pointer/**/*.js",
+            "web_tour/static/src/tour_service/**/*",
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
         ],
         # Bundle that starts the pos, loaded on /pos/ui
         'point_of_sale.assets_prod': [
             ('include', 'point_of_sale._assets_pos'),
             'point_of_sale/static/src/app/main.js',
         ],
+<<<<<<< HEAD
         # Bundle for the unit tests at /pos/ui/tests
         'point_of_sale.assets_qunit_tests': [
             ('include', 'point_of_sale._assets_pos'),
@@ -226,6 +297,32 @@
             ## END copy of web.tests_assets
             # pos unit tests
             'point_of_sale/static/tests/unit/**/*',
+=======
+        'point_of_sale.customer_display_assets': [
+            ('include', 'point_of_sale.base_app'),
+            "point_of_sale/static/src/app/generic_components/odoo_logo/*",
+            "point_of_sale/static/src/app/generic_components/order_widget/*",
+            "point_of_sale/static/src/app/generic_components/orderline/*",
+            "point_of_sale/static/src/app/generic_components/centered_icon/*",
+            "point_of_sale/static/src/utils.js",
+            "point_of_sale/static/src/customer_display/**/*",
+        ],
+        'point_of_sale.customer_display_assets_test': [
+            ('include', 'point_of_sale.base_tests'),
+            "point_of_sale/static/tests/tours/**/*",
+            "barcodes/static/tests/helpers.js",
+            "web/static/tests/legacy/helpers/utils.js",
+            "web/static/tests/legacy/helpers/cleanup.js",
+        ],
+        'point_of_sale.assets_debug': [
+            'web_tour/static/src/tour_pointer/**/*',
+            'web_tour/static/src/tour_service/**/*',
+            ('remove', 'web_tour/static/src/tour_pointer/**/*.scss'),
+            'web/static/tests/legacy/helpers/utils.js',
+            'web/static/tests/legacy/helpers/cleanup.js',
+            'barcodes/static/tests/helpers.js',
+            'point_of_sale/static/tests/tours/**/*',
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
         ],
     },
     'license': 'LGPL-3',

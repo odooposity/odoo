@@ -1,8 +1,9 @@
 /** @odoo-module **/
 
 import { _t } from "@web/core/l10n/translation";
-import { AddPageDialog } from "@website/components/dialog/add_page_dialog";
+import { rpc } from "@web/core/network/rpc";
 import {useService} from "@web/core/utils/hooks";
+import { AddPageDialog } from "@website/components/dialog/add_page_dialog";
 import { onWillStart, useState } from "@odoo/owl";
 
 /**
@@ -20,7 +21,10 @@ export const PageControllerMixin = (component) => class extends component {
         super.setup();
         this.website = useService('website');
         this.dialog = useService('dialog');
+<<<<<<< HEAD
         this.rpc = useService('rpc');
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
         this.orm = useService('orm');
 
         this.websiteSelection = odoo.debug ? [{id: 0, name: _t("All Websites")}] : [];
@@ -49,7 +53,7 @@ export const PageControllerMixin = (component) => class extends component {
         const action = this.props.context.create_action;
         if (action) {
             if (/^\//.test(action)) {
-                const url = await this.rpc(action);
+                const url = await rpc(action);
                 this.website.goToWebsite({ path: url, edition: true });
                 return;
             }
@@ -77,6 +81,7 @@ export const PageControllerMixin = (component) => class extends component {
     onSelectWebsite(website) {
         this.state.activeWebsite = website;
         this.env.searchModel.notifyWebsiteChange(website.id);
+<<<<<<< HEAD
     }
 };
 
@@ -96,5 +101,7 @@ export const PageRendererMixin = (component) => class extends component {
         return !this.props.activeWebsite.id
             || this.props.activeWebsite.id === websiteId
             || !websiteId && records.filter(rec => rec.data.website_url === record.data.website_url).length === 1;
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
     }
 };

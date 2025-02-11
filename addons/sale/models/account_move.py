@@ -2,7 +2,10 @@
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
 
 from odoo import api, fields, models, _
+<<<<<<< HEAD
 from odoo.exceptions import UserError
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 from odoo.tools import groupby
 
 
@@ -32,6 +35,7 @@ class AccountMove(models.Model):
     @api.depends('invoice_user_id', 'partner_id')
     def _compute_team_id(self):
         sale_moves = self.filtered(lambda move: move.is_sale_document(include_receipts=True))
+<<<<<<< HEAD
         for ((user_id, company_id, partner_team_id), moves) in groupby(
             sale_moves,
             key=lambda m: (m.invoice_user_id.id, m.company_id.id, m.partner_id.team_id.id)
@@ -40,6 +44,14 @@ class AccountMove(models.Model):
             self.env['account.move'].concat(*moves).team_id = self.env['crm.team'].with_context(
                 allowed_company_ids=[company_id],
                 default_team_id=default_team_id
+=======
+        for ((user_id, company_id), moves) in groupby(
+            sale_moves,
+            key=lambda m: (m.invoice_user_id.id, m.company_id.id)
+        ):
+            self.concat(*moves).team_id = self.env['crm.team'].with_context(
+                allowed_company_ids=[company_id],
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
             )._get_default_team_id(
                 user_id=user_id,
             )
@@ -100,8 +112,8 @@ class AccountMove(models.Model):
         posted = super()._post(soft)
 
         for invoice in posted.filtered(lambda move: move.is_invoice()):
-            payments = invoice.mapped('transaction_ids.payment_id').filtered(lambda x: x.state == 'posted')
-            move_lines = payments.line_ids.filtered(lambda line: line.account_type in ('asset_receivable', 'liability_payable') and not line.reconciled)
+            payments = invoice.mapped('transaction_ids.payment_id').filtered(lambda x: x.state == 'in_process')
+            move_lines = payments.move_id.line_ids.filtered(lambda line: line.account_type in ('asset_receivable', 'liability_payable') and not line.reconciled)
             for line in move_lines:
                 invoice.js_assign_outstanding_line(line.id)
         return posted
@@ -184,17 +196,16 @@ class AccountMove(models.Model):
             exclude_amount += order_amount_company
         return exclude_amount
 
+<<<<<<< HEAD
+=======
+    # todo need to remove both the field and compute method in master as this field is neither used in python nor in XML
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
     @api.depends('line_ids.sale_line_ids.order_id', 'currency_id', 'tax_totals', 'date')
     def _compute_partner_credit(self):
         super()._compute_partner_credit()
         for move in self.filtered(lambda m: m.is_invoice(include_receipts=True)):
             sale_orders = move.line_ids.sale_line_ids.order_id
-            amount_total_currency = move.currency_id._convert(
-                move.tax_totals['amount_total'],
-                move.company_currency_id,
-                move.company_id,
-                move.date
-            )
+            amount_total_currency = move.tax_totals['total_amount_currency']
             amount_to_invoice_currency = sum(
                 sale_order.currency_id._convert(
                     sale_order.amount_to_invoice,

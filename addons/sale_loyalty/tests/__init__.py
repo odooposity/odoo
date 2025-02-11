@@ -11,3 +11,8 @@ from . import test_program_with_code_operations
 from . import test_program_without_code_operations
 from . import test_sale_invoicing
 from . import test_unlink_reward
+<<<<<<< HEAD
+=======
+from . import test_sale_auto_invoice
+from . import test_loyalty_history
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8

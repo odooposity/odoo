@@ -85,7 +85,11 @@ class TestPostInstallProjectSharingWithSms(TestProjectSharingWithSms):
                 Command.link(sale_manager_group.id),
             ]
         })
+<<<<<<< HEAD
         self.assertTrue(self.task_cow.with_user(self.user_projectuser).check_access_rights('write'))
+=======
+        self.assertTrue(self.task_cow.with_user(self.user_projectuser).has_access('write'))
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
         with self.mockSMSGateway():
             self.task_cow.with_user(self.user_projectuser).write({
                 'stage_id': self.task_stage_with_sms.id,

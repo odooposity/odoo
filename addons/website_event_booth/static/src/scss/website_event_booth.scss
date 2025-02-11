@@ -20,11 +20,14 @@ label.o_wbooth_category_unavailable {
         position: absolute;
     }
 
+<<<<<<< HEAD
     & > input + div {
         opacity: .4;
         border: 3px solid $o-gray-600;
     }
 
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
     &:not(.o_wbooth_category_unavailable) > input + div {
         cursor: pointer;
     }
@@ -35,7 +38,13 @@ label.o_wbooth_category_unavailable {
 
     & > input:checked + div,
     &:hover > input:checked + div {
+<<<<<<< HEAD
         opacity: 1;
+=======
+        --o-border-color: #{$primary};
+
+        box-shadow: 0 0 0 ($border-width * 2) $primary;
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
     }
 
     & img {
@@ -51,6 +60,7 @@ label.o_wbooth_category_unavailable {
     & > input {
         visibility: hidden;
         position: absolute;
+<<<<<<< HEAD
     }
     & > input + label {
         opacity: .4;
@@ -67,13 +77,30 @@ label.o_wbooth_category_unavailable {
         opacity: 1;
         background-color: $o-gray-600;
         color: $o-white;
+=======
     }
 
+    & > input + label {
+        padding: map-get($spacers, 2) map-get($spacers, 3);
+        border: $card-border-width solid $card-border-color;
+        border-radius: $btn-border-radius;
+        background: $card-bg;
+        color: $card-color;
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
+    }
+
+    & > input:checked + label,
+    &:hover > input:checked + label {
+        --o-border-color: #{$primary};
+
+            box-shadow: 0 0 0 ($border-width) $primary;
+    }
 }
 
 .o_wevent_booth_category {
     background-color: $o-wevent-bg-color-light;
 }
+<<<<<<< HEAD
 
 .o_wevent_booth_order_progress {
     li {
@@ -82,3 +109,5 @@ label.o_wbooth_category_unavailable {
         }
     }
 }
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8

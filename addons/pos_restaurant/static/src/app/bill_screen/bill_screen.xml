@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <templates id="template" xml:space="preserve">
-
     <t t-name="pos_restaurant.BillScreen">
+<<<<<<< HEAD
         <div class="receipt-screen screen h-100 bg-100">
             <div class="screen-content d-flex flex-column h-100">
                 <div class="top-content d-flex align-items-center p-2 border-bottom text-center">
@@ -23,10 +23,21 @@
                         <div class="d-inline-block m-3 p-3 border rounded bg-view text-start overflow-hidden">
                             <OrderReceipt data="{...pos.get_order().export_for_printing(), isBill: isBill}" formatCurrency="env.utils.formatCurrency" />
                         </div>
+=======
+        <Dialog title.translate="Bill Printing" bodyClass="'text-center'">
+            <div class="d-inline-block m-3 p-3 border rounded bg-view">
+                <OrderReceipt data="{...pos.orderExportForPrinting(pos.get_order()), isBill: true, show_change: false }" formatCurrency="env.utils.formatCurrency" />
+            </div>
+            <t t-set-slot="footer">
+                <div class="d-flex w-100 justify-content-start gap-2">
+                    <div class="button print btn btn-lg btn-primary" t-on-click="print">
+                        <i t-attf-class="fa {{printer.state.isPrinting ? 'fa-fw fa-spin fa-circle-o-notch' : 'fa-print'}} me-1" />
+                        Print
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
                     </div>
                 </div>
-            </div>
-        </div>
+            </t>
+        </Dialog>
     </t>
 
 </templates>

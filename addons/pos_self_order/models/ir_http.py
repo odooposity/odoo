@@ -2,7 +2,11 @@
 
 import re
 
+<<<<<<< HEAD
 from odoo import models
+=======
+from odoo import api, models
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 from odoo.http import request
 
 
@@ -17,8 +21,13 @@ class IrHttp(models.AbstractModel):
     # With the website module installed, there is an issue where
     # the default website's languages override the kiosk languages.
     # This override works around the issue.
+<<<<<<< HEAD
     @classmethod
     def get_nearest_lang(cls, lang_code: str) -> str:
+=======
+    @api.model
+    def get_nearest_lang(self, lang_code: str) -> str:
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
         if lang_code and '/pos-self/' in request.httprequest.path:
             config_id_match = re.search(r'/pos-self/(\d+)', request.httprequest.path)
             if config_id_match:

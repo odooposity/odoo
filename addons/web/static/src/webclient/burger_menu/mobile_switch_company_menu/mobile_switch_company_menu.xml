@@ -2,6 +2,7 @@
 <templates id="template" xml:space="preserve">
 
 <t t-name="web.MobileSwitchCompanyMenu">
+<<<<<<< HEAD
     <div class="o_burger_menu_companies p-3">
         <div class="o_burger_menu_user_title h6 mb-3">Companies</div>
         <t t-foreach="Object.values(companyService.allowedCompaniesWithAncestors)
@@ -20,22 +21,17 @@
             <span class="btn border-0 p-2" t-att-class="{'disabled': !isCompanyAllowed }">
                 <i t-attf-class="fa fa-fw fs-2 m-0 {{checkIcon}}"/>
             </span>
+=======
+    <div class="o_burger_menu_companies p-3 pb-0">
+        <div class="w-100" t-on-click="() => this.toggleCollapsible()">
+            <i t-if="hasLotsOfCompanies" class="fa me-2" style="width: 10px" t-att-class="{ 'fa-caret-right': !state.isOpen, 'fa-caret-down': state.isOpen }"/>
+            <span class="mb-3 fs-4">Companies</span>
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
         </div>
-        <div
-            class="flex-grow-1 p-2 log_into"
-            t-att-class="{'alert-primary': isCurrent, 'text-muted': !isCompanyAllowed}" t-on-click="() => this.logIntoCompany()"
-        >
-            <span
-                t-esc="props.company.name" class="company_label"
-                t-att-class="isCurrent ? 'text-900 fw-bold' : ''"
-                t-att-style="'padding-left:' + (props.level * 10) + 'px';"
-            />
-            <small t-if="isCurrent" class="ms-1">(current)</small>
+        <div t-if="show" class="mt-2">
+            <t t-call="web.SwitchCompanyMenu.Items"/>
         </div>
     </div>
-    <t t-foreach="props.company.child_ids" t-as="child" t-key="child">
-        <MobileSwitchCompanyItem company="companyService.getCompany(child)" level="props.level + 1"/>
-    </t>
 </t>
 
 </templates>

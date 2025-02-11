@@ -9,10 +9,10 @@ import {
     onWillStart,
     onMounted,
     onWillUpdateProps,
-    onWillDestroy,
     useState,
     useRef,
 } from "@odoo/owl";
+import { useService } from "@web/core/utils/hooks";
 import { deduceURLfromText } from "@web_editor/js/editor/odoo-editor/src/utils/sanitize";
 
 const { getDeepRange, getInSelection, EMAIL_REGEX, PHONE_REGEX } = OdooEditorLib;
@@ -21,6 +21,7 @@ const { getDeepRange, getInSelection, EMAIL_REGEX, PHONE_REGEX } = OdooEditorLib
  * Allows to customize link content and style.
  */
 export class Link extends Component {
+    static template = "";
     static props = {
         editable: true,
         link: true,
@@ -38,8 +39,8 @@ export class Link extends Component {
     linkComponentWrapperRef = useRef("linkComponentWrapper");
     colorsData = [
         {type: '', label: _t("Link"), btnPreview: 'link'},
-        {type: 'primary', label: _t("Primary"), btnPreview: 'primary'},
-        {type: 'secondary', label: _t("Secondary"), btnPreview: 'secondary'},
+        {type: 'primary', label: _t("Button Primary"), btnPreview: 'primary'},
+        {type: 'secondary', label: _t("Button Secondary"), btnPreview: 'secondary'},
         {type: 'custom', label: _t("Custom"), btnPreview: 'custom'},
         // Note: by compatibility the dialog should be able to remove old
         // colors that were suggested like the BS status colors or the
@@ -47,12 +48,15 @@ export class Link extends Component {
         // all btn-* classes anyway.
     ];
     setup() {
+        this.orm = useService("orm");
         this.state = useState({});
         // We need to wait for the `onMounted` changes to be done before
         // accessing `this.$el`.
         this.mountedPromise = new Promise(resolve => this.mountedResolve = resolve);
 
-        onWillStart(() => this._updateState(this.props));
+        onWillStart(async () => {
+            await this._updateState(this.props);
+        });
         let started = false;
         onMounted(async () => {
             if (started) {
@@ -87,6 +91,7 @@ export class Link extends Component {
             await this.start();
             this.mountedResolve();
         });
+<<<<<<< HEAD
         onWillUpdateProps(async (newProps) => {
             await this.mountedPromise;
             this._updateState(newProps);
@@ -96,25 +101,26 @@ export class Link extends Component {
         onWillDestroy(() => {
             this.destroy();
         });
+=======
+        onWillUpdateProps(this.willUpdateProps);
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
     }
     /**
      * @override
      */
     async start() {
         this._setSelectOptionFromLink();
-
+        this.buttonOptsCollapseEl = this.linkComponentWrapperRef.el.querySelector('#o_link_dialog_button_opts_collapse');
         this._updateOptionsUI();
 
         this.$el[0].querySelector('#o_link_dialog_label_input').value = this.state.originalText;
         this._setUrl({ shouldFocus: this.props.shouldFocusUrl });
     }
-    /**
-     * @override
-     */
-    destroy () {
-        if (this._savedURLInputOnDestroy) {
-            this._adaptPreview();
-        }
+    async willUpdateProps(newProps) {
+        await this.mountedPromise;
+        await this._updateState(newProps);
+        this.state.url = newProps.link.getAttribute("href") || "";
+        this._setUrl({ shouldFocus: newProps.shouldFocusUrl });
     }
 
     //--------------------------------------------------------------------------
@@ -204,7 +210,6 @@ export class Link extends Component {
             const protocolLessUrl = this.state.url.replace(/^(https?|mailto|tel):(\/\/)?/i, '');
             this.$el.find('input[name="url"]').val(protocolLessUrl);
             this._onURLInput();
-            this._savedURLInputOnDestroy = false;
         }
         if (shouldFocus) {
             this.focusUrl();
@@ -309,14 +314,33 @@ export class Link extends Component {
             (type && size ? (' btn-' + size) : '');
         var isNewWindow = this._isNewWindow(url);
         var doStripDomain = this._doStripDomain();
+<<<<<<< HEAD
         if (this.state.url.indexOf(location.origin) === 0 && doStripDomain) {
             this.state.url = this.state.url.slice(location.origin.length);
+=======
+        let urlWithoutDomain = this.state.url;
+        if (this.state.url.indexOf(location.origin) === 0) {
+            urlWithoutDomain = this.state.url.slice(location.origin.length);
+            if (doStripDomain) {
+                this.state.url = urlWithoutDomain;
+            }
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
         } else if (url.indexOf(location.origin) === 0 && !doStripDomain) {
             this.state.url = url;
         }
         var allWhitespace = /\s+/gi;
         var allStartAndEndSpace = /^\s+|\s+$/gi;
         const isImage = this.props.link && this.props.link.querySelector('img');
+<<<<<<< HEAD
+=======
+        let isDocument = false;
+        let directDownload = true;
+        if (urlWithoutDomain && urlWithoutDomain.startsWith("/web/content/")) {
+            isDocument = !this.isLastAttachmentUrl;
+            directDownload = urlWithoutDomain.includes("&download=true");
+        } 
+        
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
         return {
             content: content,
             url: this._correctLink(this.state.url),
@@ -327,9 +351,14 @@ export class Link extends Component {
             customBorderWidth: customBorderWidth,
             customBorderStyle: customBorderStyle,
             oldAttributes: this.state.oldAttributes,
-            isNewWindow: isNewWindow,
+            isNewWindow: isDocument || isNewWindow,
             doStripDomain: doStripDomain,
             isImage,
+<<<<<<< HEAD
+=======
+            isDocument,
+            directDownload: directDownload && isDocument,
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
         };
     }
     /**
@@ -512,6 +541,8 @@ export class Link extends Component {
      * @private
      */
     async _updateState(props) {
+        // TODO In master move to link_tools.
+        this.initialIsNewWindowFromProps = props.initialIsNewWindow;
         this.initialNewWindow = props.initialIsNewWindow;
 
         this.state.className = "";
@@ -565,6 +596,7 @@ export class Link extends Component {
 
         if (this.linkEl) {
             this.initialNewWindow = this.initialNewWindow || this.linkEl.target === '_blank';
+            await this._determineAttachmentType(this.linkEl.pathname);
         }
 
         const classesToKeep = [
@@ -585,6 +617,28 @@ export class Link extends Component {
         // 'o_submit' class will force anchor to be handled as a button in linkdialog.
         if (/(?:s_website_form_send|o_submit)/.test(this.state.className)) {
             this.state.isButton = true;
+        }
+    }
+    /**
+     * If the current link is an attachment: stores the attachment id in
+     * lastAttachmentId, and if not yet known fetches the type of the
+     * attachment and stores true in isLastAttachmentUrl if its type is URL.
+     */
+    async _determineAttachmentType(pathname) {
+        if (pathname?.startsWith("/web/content/")) {
+            const attachmentId = parseInt(pathname.substr("/web/content/".length));
+            if (this.lastAttachmentId === attachmentId) {
+                return;
+            }
+            this.lastAttachmentId = attachmentId;
+            // Find out about attachment type.
+            try {
+                const fetched = await this.orm.read("ir.attachment", [attachmentId], ["type"]);
+                this.isLastAttachmentUrl = fetched[0].type === "url";
+            } catch {
+                // Not a reachable attachment
+                this.isLastAttachmentUrl = undefined;
+            }
         }
     }
     /**
@@ -650,7 +704,6 @@ export class Link extends Component {
      * @private
      */
     _onURLInput() {
-        this._savedURLInputOnDestroy = true;
         var $linkUrlInput = this.$el.find('#o_link_dialog_url_input');
         let value = $linkUrlInput.val();
         let isLink = !EMAIL_REGEX.test(value) && !PHONE_REGEX.test(value);
@@ -662,7 +715,11 @@ export class Link extends Component {
      */
     _onURLInputChange() {
         this._adaptPreview();
-        this._savedURLInputOnDestroy = false;
+        // Make sure that if an entered URL is for an attachment, its related
+        // fields visibility ultimately gets applied.
+        this._determineAttachmentType(this.state.url).then(() => {
+            this.__onURLInput();
+        });
     }
 }
 

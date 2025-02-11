@@ -1,7 +1,9 @@
 /** @odoo-module **/
 
 import { WebsiteSale } from '@website_sale/js/website_sale';
+import { rpc } from "@web/core/network/rpc";
 import { isEmail } from '@web/core/utils/strings';
+import VariantMixin from "@website_sale/js/sale_variant_mixin";
 
 WebsiteSale.include({
     events: Object.assign({}, WebsiteSale.prototype.events, {
@@ -38,7 +40,7 @@ WebsiteSale.include({
             return this._displayEmailIncorrectMessage(stockNotificationEl);
         }
 
-        this.rpc("/shop/add/stock_notification", {
+        rpc("/shop/add/stock_notification", {
             product_id: productId,
             email,
         }).then((data) => {
@@ -54,6 +56,26 @@ WebsiteSale.include({
     _displayEmailIncorrectMessage(stockNotificationEl) {
         const incorrectIconEl = stockNotificationEl.querySelector('#stock_notification_input_incorrect');
         incorrectIconEl.classList.remove('d-none');
+    },
+
+    /**
+     * Adds the stock checking to the regular _onChangeCombination method
+     * @override
+     */
+    _onChangeCombination: function () {
+        this._super.apply(this, arguments);
+        VariantMixin._onChangeCombinationStock.apply(this, arguments);
+    },
+    /**
+     * Recomputes the combination after adding a product to the cart
+     * @override
+     */
+    _onClickAdd(ev) {
+        return this._super.apply(this, arguments).then(() => {
+            if ($('div.availability_messages').length) {
+                this._getCombinationInfo(ev);
+            }
+        });
     }
 });
 

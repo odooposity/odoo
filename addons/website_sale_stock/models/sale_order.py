@@ -8,6 +8,7 @@ from odoo.exceptions import ValidationError
 class SaleOrder(models.Model):
     _inherit = 'sale.order'
 
+    # NB: dropped in 18.1
     def _get_warehouse_available(self):
         self.ensure_one()
         warehouse = self.website_id._get_warehouse_available()
@@ -21,12 +22,17 @@ class SaleOrder(models.Model):
         website_orders = self.filtered('website_id')
         super(SaleOrder, self - website_orders)._compute_warehouse_id()
         for order in website_orders:
-            order.warehouse_id = order._get_warehouse_available()
+            if order.website_id.warehouse_id:
+                order.warehouse_id = order.website_id.warehouse_id
+            else:
+                super(SaleOrder, order)._compute_warehouse_id()
+            if not order.warehouse_id:
+                order.warehouse_id = self.env.user._get_default_warehouse_id()
 
     def _verify_updated_quantity(self, order_line, product_id, new_qty, **kwargs):
         self.ensure_one()
         product = self.env['product.product'].browse(product_id)
-        if product.type == 'product' and not product.allow_out_of_stock_order:
+        if product.is_storable and not product.allow_out_of_stock_order:
             product_qty_in_cart, available_qty = self._get_cart_and_free_qty(
                 product, line=order_line
             )
@@ -70,7 +76,10 @@ class SaleOrder(models.Model):
         if not line and not product:
             return 0, 0
         cart_qty = sum(self._get_common_product_lines(line, product).mapped('product_uom_qty'))
-        free_qty = (product or line.product_id).with_context(warehouse=self.warehouse_id.id).free_qty
+        free_qty = (product or line.product_id).with_context(
+            warehouse_id=self.website_id.warehouse_id.id
+        ).free_qty
+
         return cart_qty, free_qty
 
     def _get_common_product_lines(self, line=None, product=None):
@@ -87,7 +96,7 @@ class SaleOrder(models.Model):
     def _check_cart_is_ready_to_be_paid(self):
         values = []
         for line in self.order_line:
-            if line.product_id.type == 'product' and not line.product_id.allow_out_of_stock_order:
+            if line.product_id.is_storable and not line.product_id.allow_out_of_stock_order:
                 cart_qty, avl_qty = self._get_cart_and_free_qty(line.product_id, line=line)
                 if cart_qty > avl_qty:
                     line._set_shop_warning_stock(cart_qty, max(avl_qty, 0))
@@ -114,7 +123,7 @@ class SaleOrder(models.Model):
         self.ensure_one()
         for line in self.with_context(website_sale_stock_get_quantity=True).order_line:
             product = line.product_id
-            if product.type != 'product' or product.allow_out_of_stock_order:
+            if not product.is_storable or product.allow_out_of_stock_order:
                 continue
             free_qty = self.website_id._get_product_available_qty(product)
             if free_qty == 0:

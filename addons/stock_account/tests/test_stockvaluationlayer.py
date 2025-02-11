@@ -3,8 +3,10 @@
 
 """ Implementation of "INVENTORY VALUATION TESTS (With valuation layers)" spreadsheet. """
 
+from odoo import Command
 from odoo.addons.account.tests.common import AccountTestInvoicingCommon
 from odoo.addons.stock_account.tests.test_stockvaluation import _create_accounting_data
+from odoo.exceptions import ValidationError
 from odoo.tests import Form, tagged
 from odoo.tests.common import TransactionCase
 
@@ -19,7 +21,7 @@ class TestStockValuationCommon(TransactionCase):
         cls.uom_unit = cls.env.ref('uom.product_uom_unit')
         cls.product1 = cls.env['product.product'].create({
             'name': 'product1',
-            'type': 'product',
+            'is_storable': True,
             'categ_id': cls.env.ref('product.product_category_all').id,
         })
         cls.picking_type_in = cls.env.ref('stock.picking_type_in')
@@ -31,7 +33,7 @@ class TestStockValuationCommon(TransactionCase):
         # Counter automatically incremented by `_make_in_move` and `_make_out_move`.
         self.days = 0
 
-    def _make_in_move(self, product, quantity, unit_cost=None, create_picking=False, loc_dest=None, pick_type=None):
+    def _make_in_move(self, product, quantity, unit_cost=None, create_picking=False, loc_dest=None, pick_type=None, lot_ids=False):
         """ Helper to create and validate a receipt move.
         """
         unit_cost = unit_cost or product.standard_price
@@ -57,14 +59,25 @@ class TestStockValuationCommon(TransactionCase):
             in_move.write({'picking_id': picking.id})
 
         in_move._action_confirm()
-        in_move._action_assign()
+        if lot_ids:
+            in_move.move_line_ids.unlink()
+            in_move.move_line_ids = [Command.create({
+                'location_id': self.supplier_location.id,
+                'location_dest_id': loc_dest.id,
+                'quantity': quantity / len(lot_ids),
+                'product_id': product.id,
+                'lot_id': lot.id,
+            }) for lot in lot_ids]
+        else:
+            in_move._action_assign()
+
         in_move.picked = True
         in_move._action_done()
 
         self.days += 1
         return in_move.with_context(svl=True)
 
-    def _make_out_move(self, product, quantity, force_assign=None, create_picking=False, loc_src=None, pick_type=None):
+    def _make_out_move(self, product, quantity, force_assign=None, create_picking=False, loc_src=None, pick_type=None, lot_ids=False):
         """ Helper to create and validate a delivery move.
         """
         loc_src = loc_src or self.stock_location
@@ -97,14 +110,24 @@ class TestStockValuationCommon(TransactionCase):
                 'location_id': out_move.location_id.id,
                 'location_dest_id': out_move.location_dest_id.id,
             })
-        out_move.move_line_ids.quantity = quantity
+        if lot_ids:
+            out_move.move_line_ids.unlink()
+            out_move.move_line_ids = [Command.create({
+                'location_id': loc_src.id,
+                'location_dest_id': self.customer_location.id,
+                'quantity': quantity / len(lot_ids),
+                'product_id': product.id,
+                'lot_id': lot.id,
+            }) for lot in lot_ids]
+        else:
+            out_move.move_line_ids.quantity = quantity
         out_move.picked = True
         out_move._action_done()
 
         self.days += 1
         return out_move.with_context(svl=True)
 
-    def _make_dropship_move(self, product, quantity, unit_cost=None):
+    def _make_dropship_move(self, product, quantity, unit_cost=None, lot_ids=False):
         dropshipped = self.env['stock.move'].create({
             'name': 'dropship %s units' % str(quantity),
             'product_id': product.id,
@@ -118,7 +141,17 @@ class TestStockValuationCommon(TransactionCase):
             dropshipped.price_unit = unit_cost
         dropshipped._action_confirm()
         dropshipped._action_assign()
-        dropshipped.move_line_ids.quantity = quantity
+        if lot_ids:
+            dropshipped.move_line_ids = [Command.clear()]
+            dropshipped.move_line_ids = [Command.create({
+                'location_id': self.supplier_location.id,
+                'location_dest_id': self.customer_location.id,
+                'quantity': quantity / len(lot_ids),
+                'product_id': product.id,
+                'lot_id': lot.id,
+            }) for lot in lot_ids]
+        else:
+            dropshipped.move_line_ids.quantity = quantity
         dropshipped.picked = True
         dropshipped._action_done()
         return dropshipped
@@ -128,7 +161,7 @@ class TestStockValuationCommon(TransactionCase):
             .with_context(active_ids=[move.picking_id.id], active_id=move.picking_id.id, active_model='stock.picking'))
         stock_return_picking = stock_return_picking.save()
         stock_return_picking.product_return_moves.quantity = quantity_to_return
-        stock_return_picking_action = stock_return_picking.create_returns()
+        stock_return_picking_action = stock_return_picking.action_create_returns()
         return_pick = self.env['stock.picking'].browse(stock_return_picking_action['res_id'])
         return_pick.move_ids[0].move_line_ids[0].quantity = quantity_to_return
         return_pick.move_ids[0].picked = True
@@ -274,11 +307,11 @@ class TestStockValuationStandard(TestStockValuationCommon):
     def test_empty_stock_move_valorisation(self):
         product1 = self.env['product.product'].create({
             'name': 'p1',
-            'type': 'product',
+            'is_storable': True,
         })
         product2 = self.env['product.product'].create({
             'name': 'p2',
-            'type': 'product',
+            'is_storable': True,
         })
         picking = self.env['stock.picking'].create({
             'picking_type_id': self.picking_type_in.id,
@@ -334,6 +367,31 @@ class TestStockValuationStandard(TestStockValuationCommon):
             self.assertEqual(product.value_svl, 0.0)
         finally:
             self.env.user.company_id = old_company
+
+    def test_change_qty_and_locations_of_done_sml(self):
+        sub_stock_loc = self.env['stock.location'].create({
+            'name': 'shelf1',
+            'usage': 'internal',
+            'location_id': self.stock_location.id,
+        })
+
+        move_in = self._make_in_move(self.product1, 25)
+        self.assertEqual(self.product1.value_svl, 250)
+        self.assertEqual(self.product1.qty_available, 25)
+
+        move_in.move_line_ids.write({
+            'location_dest_id': sub_stock_loc.id,
+            'quantity': 30,
+        })
+        self.assertEqual(self.product1.value_svl, 300)
+        self.assertEqual(self.product1.qty_available, 30)
+
+        sub_loc_quant = self.product1.stock_quant_ids.filtered(lambda q: q.location_id == sub_stock_loc)
+        self.assertEqual(sub_loc_quant.quantity, 30)
+
+        with self.assertRaises(ValidationError):
+            move_in.move_line_ids.location_id = self.stock_location
+
 
 class TestStockValuationAVCO(TestStockValuationCommon):
     @classmethod
@@ -987,9 +1045,9 @@ class TestStockValuationChangeValuation(TestStockValuationCommon):
             'property_stock_journal': self.stock_journal.id,
         })
 
-        # Try to change the product category with a `default_detailed_type` key in the context and
+        # Try to change the product category with a `default_type` key in the context and
         # check it doesn't break the account move generation.
-        self.product1.with_context(default_detailed_type='product').categ_id = cat2
+        self.product1.with_context(default_is_storable=True).categ_id = cat2
         self.assertEqual(self.product1.categ_id, cat2)
 
         self.assertEqual(self.product1.value_svl, 100)
@@ -1057,8 +1115,8 @@ class TestStockValuationChangeValuation(TestStockValuationCommon):
 @tagged('post_install', '-at_install')
 class TestAngloSaxonAccounting(AccountTestInvoicingCommon, TestStockValuationCommon):
     @classmethod
-    def setUpClass(cls, chart_template_ref=None):
-        super().setUpClass(chart_template_ref=chart_template_ref)
+    def setUpClass(cls):
+        super().setUpClass()
         cls.env.ref('base.EUR').active = True
         cls.company_data['company'].anglo_saxon_accounting = True
         cls.stock_location = cls.env['stock.location'].create({
@@ -1124,7 +1182,7 @@ class TestAngloSaxonAccounting(AccountTestInvoicingCommon, TestStockValuationCom
         cls.uom_unit = cls.env.ref('uom.product_uom_unit')
         cls.product1 = cls.env['product.product'].create({
             'name': 'product1',
-            'type': 'product',
+            'is_storable': True,
             'categ_id': cls.env.ref('product.product_category_all').id,
             'property_account_expense_id': cls.expense_account.id,
         })
@@ -1193,7 +1251,7 @@ class TestAngloSaxonAccounting(AccountTestInvoicingCommon, TestStockValuationCom
             .with_context(active_ids=[move.picking_id.id], active_id=move.picking_id.id, active_model='stock.picking'))
         stock_return_picking = stock_return_picking.save()
         stock_return_picking.product_return_moves.quantity = quantity_to_return
-        stock_return_picking_action = stock_return_picking.create_returns()
+        stock_return_picking_action = stock_return_picking.action_create_returns()
         return_pick = self.env['stock.picking'].browse(stock_return_picking_action['res_id'])
         return_pick.move_ids[0].move_line_ids[0].quantity = quantity_to_return
         return_pick.move_ids.picked = True
@@ -1318,9 +1376,9 @@ class TestAngloSaxonAccounting(AccountTestInvoicingCommon, TestStockValuationCom
             .with_context(active_ids=[move1.picking_id.id], active_id=move1.picking_id.id, active_model='stock.picking'))
         stock_return_picking = stock_return_picking.save()
         stock_return_picking.product_return_moves.quantity = 2
-        stock_return_picking.location_id = self.stock_location
-        stock_return_picking_action = stock_return_picking.create_returns()
+        stock_return_picking_action = stock_return_picking.action_create_returns()
         return_pick = self.env['stock.picking'].browse(stock_return_picking_action['res_id'])
+        return_pick.location_dest_id = self.stock_location
         return_pick.move_ids[0].move_line_ids[0].quantity = 2
         return_pick.move_ids[0].picked = True
         return_pick._action_done()

@@ -7,7 +7,13 @@ from werkzeug import urls
 
 from odoo import _, models
 from odoo.exceptions import ValidationError
+<<<<<<< HEAD
 
+=======
+from odoo.tools import float_round
+
+from odoo.addons.payment import utils as payment_utils
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 from odoo.addons.payment_xendit import const
 
 
@@ -17,6 +23,31 @@ _logger = logging.getLogger(__name__)
 class PaymentTransaction(models.Model):
     _inherit = 'payment.transaction'
 
+<<<<<<< HEAD
+=======
+    def _get_specific_processing_values(self, processing_values):
+        """ Override of payment to return Xendit-specific processing values.
+
+        Note: self.ensure_one() from `_get_processing_values`
+
+        :param dict processing_values: The generic processing values of the transaction
+        :return: The dict of provider-specific processing values
+        :rtype: dict
+        """
+        res = super()._get_specific_processing_values(processing_values)
+        if self.provider_code != 'xendit':
+            return res
+
+        if self.currency_id.name in const.CURRENCY_DECIMALS:
+            rounding = const.CURRENCY_DECIMALS.get(self.currency_id.name)
+        else:
+            rounding = self.currency_id.decimal_places
+        rounded_amount = float_round(self.amount, rounding, rounding_method='DOWN')
+        return {
+            'rounded_amount': rounded_amount
+        }
+
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
     def _get_specific_rendering_values(self, processing_values):
         """ Override of `payment` to return Xendit-specific rendering values.
 
@@ -27,13 +58,21 @@ class PaymentTransaction(models.Model):
         :rtype: dict
         """
         res = super()._get_specific_rendering_values(processing_values)
+<<<<<<< HEAD
         if self.provider_code != 'xendit':
+=======
+        if self.provider_code != 'xendit' or self.payment_method_code == 'card':
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
             return res
 
         # Initiate the payment and retrieve the invoice data.
         payload = self._xendit_prepare_invoice_request_payload()
         _logger.info("Sending invoice request for link creation:\n%s", pprint.pformat(payload))
+<<<<<<< HEAD
         invoice_data = self.provider_id._xendit_make_request(payload)
+=======
+        invoice_data = self.provider_id._xendit_make_request('v2/invoices', payload=payload)
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
         _logger.info("Received invoice request response:\n%s", pprint.pformat(invoice_data))
 
         # Extract the payment link URL and embed it in the redirect form.
@@ -85,6 +124,48 @@ class PaymentTransaction(models.Model):
 
         return payload
 
+<<<<<<< HEAD
+=======
+    def _send_payment_request(self):
+        """ Override of `payment` to send a payment request to Xendit.
+
+        Note: self.ensure_one()
+
+        :return: None
+        :raise UserError: If the transaction is not linked to a token.
+        """
+        super()._send_payment_request()
+        if self.provider_code != 'xendit':
+            return
+
+        if not self.token_id:
+            raise ValidationError("Xendit: " + _("The transaction is not linked to a token."))
+
+        self._xendit_create_charge(self.token_id.provider_ref)
+
+    def _xendit_create_charge(self, token_ref):
+        """ Create a charge on Xendit using the `credit_card_charges` endpoint.
+
+        :param str token_ref: The reference of the Xendit token to use to make the payment.
+        :return: None
+        """
+        if self.currency_id.name in const.CURRENCY_DECIMALS:
+            rounding = const.CURRENCY_DECIMALS.get(self.currency_id.name)
+        else:
+            rounding = self.currency_id.decimal_places
+        rounded_amount = float_round(self.amount, rounding, rounding_method='DOWN')
+        payload = {
+            'token_id': token_ref,
+            'external_id': self.reference,
+            'amount': rounded_amount,
+            'currency': self.currency_id.name,
+        }
+        charge_notification_data = self.provider_id._xendit_make_request(
+            'credit_card_charges', payload=payload
+        )
+        self._handle_notification_data('xendit', charge_notification_data)
+
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
     def _get_tx_from_notification_data(self, provider_code, notification_data):
         """ Override of `payment` to find the transaction based on the notification data.
 
@@ -140,11 +221,53 @@ class PaymentTransaction(models.Model):
         if payment_status in const.PAYMENT_STATUS_MAPPING['pending']:
             self._set_pending()
         elif payment_status in const.PAYMENT_STATUS_MAPPING['done']:
+<<<<<<< HEAD
+=======
+            if self.tokenize:
+                self._xendit_tokenize_from_notification_data(notification_data)
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
             self._set_done()
         elif payment_status in const.PAYMENT_STATUS_MAPPING['cancel']:
             self._set_canceled()
         elif payment_status in const.PAYMENT_STATUS_MAPPING['error']:
+<<<<<<< HEAD
             self._set_error(_(
                 "An error occurred during the processing of your payment (status %s). Please try "
                 "again."
             ))
+=======
+            failure_reason = notification_data.get('failure_reason')
+            self._set_error(_(
+                "An error occurred during the processing of your payment (%s). Please try again.",
+                failure_reason,
+            ))
+
+    def _xendit_tokenize_from_notification_data(self, notification_data):
+        """ Create a new token based on the notification data.
+
+        :param dict notification_data: Xendit's response to a charge API request.
+        :return: None
+        """
+        card_info = notification_data['masked_card_number'][-4:]  # Xendit pads details with X's.
+        token_id = notification_data['credit_card_token_id']
+        token = self.env['payment.token'].create({
+            "provider_id": self.provider_id.id,
+            "payment_method_id": self.payment_method_id.id,
+            "payment_details": card_info,
+            "partner_id": self.partner_id.id,
+            "provider_ref": token_id,
+        })
+        self.write({
+            'token_id': token.id,
+            'tokenize': False,
+        })
+        _logger.info(
+            "created token with id %(token_id)s for partner with id %(partner_id)s from "
+            "transaction with reference %(ref)s",
+            {
+                'token_id': token.id,
+                'partner_id': self.partner_id.id,
+                'ref': self.reference,
+            },
+        )
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8

@@ -1,9 +1,20 @@
 .pos-receipt-container {
     direction: ltr;
-}
 
+<<<<<<< HEAD
 .receipt-screen .default-view .pos-receipt-container {
     flex-basis: 400px;
+=======
+    .order-container {
+        padding: 0;
+        pointer-events: none;
+
+        .orderline:hover {
+            background: none;
+        }
+    
+    }    
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 }
 
 @page {
@@ -11,17 +22,26 @@
 }
 
 @media print {
+<<<<<<< HEAD
     body {
         background-color: transparent;
     }
     body * {
         visibility: hidden;
+=======
+    .pos-receipt {
+        contain: paint;
+        background-color: transparent;
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
     }
     .pos, .pos * {
         position: static !important;
     }
     .render-container .pos-receipt * {
+<<<<<<< HEAD
         visibility: visible;
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
         background-color: transparent !important;
         color: black !important;
     }
@@ -43,4 +63,12 @@
         top: 0;
         left: 0;
     }
+<<<<<<< HEAD
+=======
+    body > *:not(.o-main-components-container),
+    .o-main-components-container > *:not(.render-container-parent),
+    .render-container-parent > *:not(.render-container) {
+        display: none !important;
+    }
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 }

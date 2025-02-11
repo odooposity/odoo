@@ -1,18 +1,59 @@
-/** @odoo-module **/
-
 import { Deferred } from "@web/core/utils/concurrency";
 import { useAutofocus, useForwardRefToParent, useService } from "@web/core/utils/hooks";
+import { isScrollableY, scrollTo } from "@web/core/utils/scrolling";
 import { useDebounced } from "@web/core/utils/timing";
 import { getActiveHotkey } from "@web/core/hotkeys/hotkey_service";
-import { usePosition } from "@web/core/position_hook";
+import { usePosition } from "@web/core/position/position_hook";
 import { Component, onWillUpdateProps, useExternalListener, useRef, useState } from "@odoo/owl";
 
 export class AutoComplete extends Component {
+    static template = "web.AutoComplete";
+    static props = {
+        value: { type: String, optional: true },
+        id: { type: String, optional: true },
+        onSelect: { type: Function },
+        sources: {
+            type: Array,
+            element: {
+                type: Object,
+                shape: {
+                    placeholder: { type: String, optional: true },
+                    optionTemplate: { type: String, optional: true },
+                    options: [Array, Function],
+                },
+            },
+        },
+        placeholder: { type: String, optional: true },
+        autoSelect: { type: Boolean, optional: true },
+        resetOnSelect: { type: Boolean, optional: true },
+        onInput: { type: Function, optional: true },
+        onCancel: { type: Function, optional: true },
+        onChange: { type: Function, optional: true },
+        onBlur: { type: Function, optional: true },
+        onFocus: { type: Function, optional: true },
+        input: { type: Function, optional: true },
+        dropdown: { type: Boolean, optional: true },
+        autofocus: { type: Boolean, optional: true },
+        class: { type: String, optional: true },
+    };
+    static defaultProps = {
+        value: "",
+        placeholder: "",
+        autoSelect: false,
+        dropdown: true,
+        onInput: () => {},
+        onCancel: () => {},
+        onChange: () => {},
+        onBlur: () => {},
+        onFocus: () => {},
+    };
+
     setup() {
         this.nextSourceId = 0;
         this.nextOptionId = 0;
         this.sources = [];
         this.inEdition = false;
+        this.timeout = 250;
 
         this.state = useState({
             navigationRev: 0,
@@ -23,6 +64,7 @@ export class AutoComplete extends Component {
         });
 
         this.inputRef = useForwardRefToParent("input");
+        this.listRef = useRef("sourcesList");
         if (this.props.autofocus) {
             useAutofocus({ refName: "input" });
         }
@@ -44,7 +86,7 @@ export class AutoComplete extends Component {
                     this.loadingPromise = null;
                 }
             }
-        }, this.constructor.timeout);
+        }, this.timeout);
 
         useExternalListener(window, "scroll", this.externalClose, true);
         useExternalListener(window, "pointerdown", this.externalClose, true);
@@ -343,6 +385,7 @@ export class AutoComplete extends Component {
                 this.cancel();
                 break;
             case "tab":
+            case "shift+tab":
                 if (!this.isOpened) {
                     return;
                 }
@@ -360,12 +403,14 @@ export class AutoComplete extends Component {
                 if (!this.isOpened) {
                     this.open(true);
                 }
+                this.scroll();
                 break;
             case "arrowdown":
                 this.navigate(+1);
                 if (!this.isOpened) {
                     this.open(true);
                 }
+                this.scroll();
                 break;
             default:
                 return;
@@ -389,6 +434,7 @@ export class AutoComplete extends Component {
     externalClose(ev) {
         if (this.isOpened && !this.root.el.contains(ev.target)) {
             this.cancel();
+<<<<<<< HEAD
         }
     }
 }
@@ -435,3 +481,17 @@ Object.assign(AutoComplete, {
     },
     timeout: 250,
 });
+=======
+        }
+    }
+
+    scroll() {
+        if (!this.activeSourceOptionId) {
+            return;
+        }
+        if (isScrollableY(this.listRef.el)) {
+            scrollTo(this.listRef.el.querySelector(`#${this.activeSourceOptionId}`));
+        }
+    }
+}
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8

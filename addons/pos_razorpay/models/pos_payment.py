@@ -1,9 +1,14 @@
+<<<<<<< HEAD
 from odoo import api, models, fields
+=======
+from odoo import models, fields
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 class PosPayment(models.Model):
 
     _inherit = "pos.payment"
 
+<<<<<<< HEAD
     razorpay_authcode = fields.Char('Razorpay APPR Code')
     razorpay_issuer_card_no = fields.Char('Razorpay Issue Card No Last 4 digits')
     razorpay_issuer_bank = fields.Char('Razorpay Issuer Bank')
@@ -31,3 +36,6 @@ class PosOrder(models.Model):
                 'razorpay_card_owner_name': ui_paymentline.get('razorpay_card_owner_name'),
             })
         return payment_fields
+=======
+    razorpay_reverse_ref_no = fields.Char('Razorpay Reverse Reference No.')
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8

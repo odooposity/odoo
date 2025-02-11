@@ -28,45 +28,60 @@
                             icon="button.icon"
                             string="button.string"
                             title="button.title"
+                            attrs="button.attrs"
                         />
                     </t>
                 </t>
 
                 <t t-set-slot="layout-actions">
-                    <SearchBar t-if="searchBarToggler.state.showSearchBar" autofocus="firstLoad"/>
+                    <SearchBar toggler="searchBarToggler" autofocus="firstLoad"/>
                 </t>
                 <t t-set-slot="control-panel-navigation-additional">
-                    <t t-component="searchBarToggler.component" t-props="searchBarToggler.props"/>
+                    <t t-if="!hasSelectedRecords" t-component="searchBarToggler.component" t-props="searchBarToggler.props"/>
                 </t>
 
                 <t t-set-slot="control-panel-additional-actions">
-                    <CogMenu t-if="!nbSelected"/>
+                    <CogMenu t-if="!hasSelectedRecords"/>
+                    <CogMenu t-elif="env.isSmall and (props.info.actionMenus or archInfo.headerButtons.length)" t-props="this.actionMenuProps" hasSelectedRecords="hasSelectedRecords">
+                        <t t-foreach="archInfo.headerButtons" t-as="button" t-key="button.id" t-if="!evalViewModifier(button.invisible)">
+                            <DropdownItem class="'o-dropdown-item-unstyled-button'">
+                                <MultiRecordViewButton
+                                    t-if="button.display !== 'always'"
+                                    list="model.root"
+                                    className="button.className"
+                                    clickParams="button.clickParams"
+                                    defaultRank="'btn-secondary'"
+                                    domain="props.domain"
+                                    icon="button.icon"
+                                    string="button.string"
+                                    title="button.title"
+                                    attrs="button.attrs"
+                                />
+                            </DropdownItem>
+                        </t>
+                    </CogMenu>
                 </t>
                 <t t-set-slot="control-panel-selection-actions">
-                    <div t-if="nbSelected" class="d-flex gap-1">
+                    <div t-if="hasSelectedRecords" class="o_list_selection_container m-1 m-md-0 d-flex gap-1">
                         <t t-call="web.ListView.Selection"/>
-                        <t t-foreach="archInfo.headerButtons" t-as="button" t-key="button.id" t-if="!evalViewModifier(button.invisible)">
-                            <MultiRecordViewButton
-                                t-if="button.display !== 'always'"
-                                list="model.root"
-                                className="button.className"
-                                clickParams="button.clickParams"
-                                defaultRank="'btn-secondary'"
-                                domain="props.domain"
-                                icon="button.icon"
-                                string="button.string"
-                                title="button.title"
-                            />
-                        </t>
-                        <t t-if="props.info.actionMenus">
-                            <ActionMenus
-                                getActiveIds="() => model.root.selection.map((r) => r.resId)"
-                                context="props.context"
-                                domain="props.domain"
-                                items="actionMenuItems"
-                                isDomainSelected="model.root.isDomainSelected"
-                                resModel="model.root.resModel"
-                                onActionExecuted="() => model.load()"/>
+                        <t t-if="!env.isSmall">
+                            <t t-foreach="archInfo.headerButtons" t-as="button" t-key="button.id" t-if="!evalViewModifier(button.invisible)">
+                                <MultiRecordViewButton
+                                    t-if="button.display !== 'always'"
+                                    list="model.root"
+                                    className="button.className"
+                                    clickParams="button.clickParams"
+                                    defaultRank="'btn-secondary'"
+                                    domain="props.domain"
+                                    icon="button.icon"
+                                    string="button.string"
+                                    title="button.title"
+                                    attrs="button.attrs"
+                                />
+                            </t>
+                            <t t-if="props.info.actionMenus">
+                                <ActionMenus t-props="this.actionMenuProps"/>
+                            </t>
                         </t>
                     </div>
                 </t>
@@ -76,12 +91,12 @@
                     archInfo="archInfo"
                     allowSelectors="props.allowSelectors"
                     editable="editable"
-                    onOpenFormView="onOpenFormView" 
+                    onOpenFormView="onOpenFormView"
+                    hasOpenFormViewButton="hasOpenFormViewButton"
                     openRecord.bind="openRecord"
                     noContentHelp="props.info.noContentHelp"
                     onAdd.bind="createRecord"
-                    onOptionalFieldsChanged.bind="onOptionalFieldsChanged"
-                    evalViewModifier.bind="evalViewModifier"
+                    optionalActiveFields="optionalActiveFields"
                 />
             </Layout>
         </div>
@@ -101,6 +116,7 @@
     </t>
 
     <t t-name="web.ListView.Selection">
+<<<<<<< HEAD
         <div class="o_list_selection_box list-group flex-row" role="alert">
             <span class="list-group-item active d-flex align-items-center pe-0 py-0 rounded-1 lh-1">
                 <span t-if="isDomainSelected">All <b t-esc="isTotalTrustable ? nbTotal : nbRecordsMatchingDomain"/> selected</span>
@@ -118,7 +134,31 @@
                 <a href="#" title="Unselect All" class="o_list_unselect_all btn btn-link py-0" t-on-click="onUnselectAll">
                     <i class="oi oi-close"/>
                 </a>
+=======
+        <div class="o_list_selection_box list-group flex-row w-auto" t-att-class="{'m-1 gap-1': env.isSmall}" role="alert">
+            <span class="list-group-item active d-flex align-items-center pe-0 py-0 rounded-1 gap-1 flex-grow-1" t-att-class="{'shadow': env.isSmall}">
+                <span t-if="isDomainSelected">All <b t-esc="nbTotal"/> selected</span>
+                <t t-else="">
+                    <b t-esc="nbSelected"/> selected
+                    <button t-if="!env.isSmall and isPageSelected and (!model.root.isRecordCountTrustable or nbTotal > nbSelected)"
+                        class="o_list_select_domain btn btn-sm btn-info p-1 ms-2 me-n2 border-0 fw-normal"
+                        title="Select all records matching the search"
+                        t-on-click="onSelectDomain">
+                        <i class="oi oi-fw oi-arrow-right"/>
+                        Select all <span t-if="model.root.isRecordCountTrustable" t-esc="nbTotal"/>
+                    </button>
+                </t>
+                <button title="Unselect All" class="o_list_unselect_all btn btn-link ms-auto border-0" t-on-click="onUnselectAll">
+                    <i class="oi oi-close"/>
+                </button>
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
             </span>
+            <button t-if="env.isSmall and !isDomainSelected and (!model.root.isRecordCountTrustable or nbTotal > nbSelected)"
+                class="o_list_select_domain btn btn-info shadow"
+                title="Select all records matching the search"
+                t-on-click="onSelectDomain">
+                All
+            </button>
         </div>
     </t>
 

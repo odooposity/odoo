@@ -14,7 +14,7 @@
                     '<span class="highlighted-text">#</span>' to link to an anchor.
                 </small>
             </div>
-            <we-row class="o_link_dialog_page_anchor d-none" t-attf-class="#{state.isButton ? ' d-none' : ''}">
+            <we-row class="o_link_dialog_page_anchor d-none" t-attf-class="#{state.isButton || state.isDocument ? ' d-none' : ''}">
                 <we-select class="o_we_user_value_widget o_we_sublevel_1">
                     <we-title>Page Anchor</we-title>
                     <div>
@@ -37,6 +37,7 @@
     </t>
 
     <t t-inherit="web_editor.toolbar" t-inherit-mode="extension">
+<<<<<<< HEAD
         <xpath expr="//t[@t-if='this.isMobile()']//div[@id='list']" position="inside">
             <div t-if="props.showAnimateText" title="Animate text" class="btn fa fa-play fa-fw o_we_animate_text" data-text-selector=".o_animated_text"/>
         </xpath>
@@ -47,11 +48,16 @@
                     <span>Animate</span>
                 </div>
             </div>
+=======
+        <xpath expr="//div[@id='open-chatgpt']" position="inside">
+            <span>AI</span>
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
         </xpath>
 
         <xpath expr="//div[@id='open-chatgpt']" position="inside">
             <span>AI</span>
         </xpath>
+<<<<<<< HEAD
 
         <xpath expr="//div[@id='strikethrough']" position="attributes">
             <attribute name="t-if">!props.showTextHighlights</attribute>
@@ -66,5 +72,7 @@
                 </div>
             </div>
         </xpath>
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
     </t>
 </templates>

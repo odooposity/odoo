@@ -1,6 +1,6 @@
 /** @odoo-module */
 import { useSubEnv } from "@odoo/owl";
-import { useService } from "@web/core/utils/hooks";
+import { rpc } from "@web/core/network/rpc";
 import { useDebounced } from "@web/core/utils/timing";
 import { KanbanRecord } from "@web/views/kanban/kanban_record";
 import { ProductCatalogOrderLine } from "./order_line/order_line";
@@ -14,7 +14,6 @@ export class ProductCatalogKanbanRecord extends KanbanRecord {
 
     setup() {
         super.setup();
-        this.rpc = useService("rpc");
         this.debouncedUpdateQuantity = useDebounced(this._updateQuantity, 500, {
             execBeforeUnmount: true,
         });
@@ -32,6 +31,7 @@ export class ProductCatalogKanbanRecord extends KanbanRecord {
             increaseQuantity: this.increaseQuantity.bind(this),
             setQuantity: this.setQuantity.bind(this),
             decreaseQuantity: this.decreaseQuantity.bind(this),
+            childField: this.props.record.context?.child_field
         });
     }
 
@@ -65,16 +65,28 @@ export class ProductCatalogKanbanRecord extends KanbanRecord {
     }
 
     _updateQuantityAndGetPrice() {
+<<<<<<< HEAD
         return this.rpc("/product/catalog/update_order_line_info", this._getUpdateQuantityAndGetPrice());
     }
 
     _getUpdateQuantityAndGetPrice() {
+=======
+        return rpc("/product/catalog/update_order_line_info", this._getUpdateQuantityAndGetPriceParams());
+    }
+
+    _getUpdateQuantityAndGetPriceParams() {
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
         return {
             order_id: this.env.orderId,
             product_id: this.env.productId,
             quantity: this.productCatalogData.quantity,
             res_model: this.env.orderResModel,
+<<<<<<< HEAD
         };
+=======
+            child_field: this.env.childField,
+        }
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
     }
 
     //--------------------------------------------------------------------------

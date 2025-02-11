@@ -18,12 +18,22 @@
         </tbody>
 
         <div id="sale_invoices" position="after">
+<<<<<<< HEAD
             <t t-set="delivery_orders" t-value="sale_order.picking_ids.filtered(lambda picking: picking.picking_type_id.code == 'outgoing').sorted('date', reverse=True)[:3]"/>
             <div t-if="delivery_orders" class="col-12 col-lg-6 mb-4">
                 <h4 class="mb-1">Last Delivery Orders</h4>
                 <hr class="mt-1 mb-2"/>
                 <div>
                     <t t-foreach="delivery_orders" t-as="picking">
+=======
+            <t t-set="delivery_orders" t-value="sale_order.picking_ids.filtered(lambda picking: picking.picking_type_id.code == 'outgoing')"/>
+            <t t-set="latest_delivery_orders" t-value="delivery_orders.sorted('date', reverse=True)[:3]"/>
+            <div t-if="delivery_orders" class="col-12 col-lg-6 mb-4">
+                <h5 class="mb-1">Last Delivery Orders</h5>
+                <hr class="mt-1 mb-2"/>
+                <div class="d-flex flex-column gap-2">
+                    <t t-foreach="latest_delivery_orders" t-as="picking">
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
                         <t t-set="delivery_report_url"
                            t-value="'/my/picking/pdf/%s?%s' % (picking.id, keep_query())"/>
                         <div name="delivery_order"
@@ -33,20 +43,35 @@
                                     <span t-esc="picking.name"/>
                                 </a>
                                 <div t-if="picking.state == 'done'">
+<<<<<<< HEAD
                                     <span class="small badge text-bg-success orders_label_text_align">
                                         <i class="fa fa-fw fa-truck"/> Shipped
                                     </span>
                                     <a class="badge text-bg-secondary orders_label_text_align" target="_blank"
+=======
+                                    <span class="small badge rounded-pill text-bg-success orders_label_text_align">
+                                        <i class="fa fa-fw fa-truck"/> Shipped
+                                    </span>
+                                    <a class="badge rounded-pill text-bg-secondary orders_label_text_align" target="_blank"
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
                                         t-att-href="'/my/picking/return/pdf/%s?%s' % (picking.id, keep_query())">
                                         RETURN
                                     </a>
                                 </div>
                                 <span t-elif="picking.state == 'cancel'"
+<<<<<<< HEAD
                                     class="small badge text-bg-danger orders_label_text_align">
                                     <i class="fa fa-fw fa-times"/>Cancelled
                                 </span>
                                 <span t-elif="picking.state in ['draft', 'waiting', 'confirmed', 'assigned']"
                                     class="small badge text-bg-info orders_label_text_align">
+=======
+                                    class="small badge rounded-pill text-bg-danger orders_label_text_align">
+                                    <i class="fa fa-fw fa-times"/>Cancelled
+                                </span>
+                                <span t-elif="picking.state in ['draft', 'waiting', 'confirmed', 'assigned']"
+                                    class="small badge rounded-pill text-bg-info orders_label_text_align">
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
                                     <i class="fa fa-fw fa-clock-o"/>Preparation
                                 </span>
                             </div>
@@ -64,7 +89,11 @@
                     </t>
                 </div>
             </div>
+<<<<<<< HEAD
             <t t-set="returns" t-value="sale_order.picking_ids.filtered(lambda picking: picking.picking_type_id.code == 'incoming')"/>
+=======
+            <t t-set="returns" t-value="delivery_orders.return_ids.sorted('date', reverse=True)"/>
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
             <div t-if="returns" class="col-12 col-lg-6 mb-4">
                 <h4 class="mb-1">Returns</h4>
                 <hr class="mt-1 mb-2"/>
@@ -77,6 +106,7 @@
                                 <span t-esc="picking.name"/>
                             </a>
                             <span t-if="picking.state == 'done'"
+<<<<<<< HEAD
                                 class="small badge text-bg-success orders_label_text_align">
                                 <i class="fa fa-fw fa-truck"/> Received
                             </span>
@@ -86,6 +116,17 @@
                             </span>
                             <span t-elif="picking.state in ['draft', 'waiting', 'confirmed', 'assigned']"
                                 class="small badge text-bg-info orders_label_text_align">
+=======
+                                class="small badge rounded-pill text-bg-success orders_label_text_align">
+                                <i class="fa fa-fw fa-truck"/> Received
+                            </span>
+                            <span t-elif="picking.state == 'cancel'"
+                                class="small badge rounded-pill text-bg-danger orders_label_text_align">
+                                <i class="fa fa-fw fa-times"/> Cancelled
+                            </span>
+                            <span t-elif="picking.state in ['draft', 'waiting', 'confirmed', 'assigned']"
+                                class="small badge rounded-pill text-bg-info orders_label_text_align">
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
                                 <i class="fa fa-fw fa-clock-o"/> Awaiting arrival
                             </span>
                         </div>

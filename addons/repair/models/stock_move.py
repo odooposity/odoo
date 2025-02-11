@@ -37,11 +37,25 @@ class StockMove(models.Model):
                 remaining_moves -= move
         return super(StockMove, remaining_moves)._compute_picking_type_id()
 
+    @api.depends('repair_id', 'repair_id.location_dest_id')
+    def _compute_location_dest_id(self):
+        ids_to_super = set()
+        for move in self:
+            if move.repair_id and move.repair_line_type:
+                move.location_dest_id = move.repair_id[
+                    MAP_REPAIR_LINE_TYPE_TO_MOVE_LOCATIONS_FROM_REPAIR[move.repair_line_type]['location_dest_id']
+                ]
+            else:
+                ids_to_super.add(move.id)
+        return super(StockMove, self.browse(ids_to_super))._compute_location_dest_id()
+
     def copy_data(self, default=None):
         default = dict(default or {})
-        if 'repair_id' in default or self.repair_id:
-            default['sale_line_id'] = False
-        return super().copy_data(default)
+        vals_list = super().copy_data(default=default)
+        for move, vals in zip(self, vals_list):
+            if 'repair_id' in default or move.repair_id:
+                vals['sale_line_id'] = False
+        return vals_list
 
     @api.ondelete(at_uninstall=False)
     def _unlink_if_draft_or_cancel(self):
@@ -77,7 +91,11 @@ class StockMove(models.Model):
         draft_repair_moves = repair_moves.filtered(lambda m: m.state == 'draft' and m.repair_id.state in ('confirmed', 'under_repair'))
         other_repair_moves = repair_moves - draft_repair_moves
         draft_repair_moves._check_company()
+<<<<<<< HEAD
         draft_repair_moves._adjust_procure_method()
+=======
+        draft_repair_moves._adjust_procure_method(picking_type_code='repair_operation')
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
         res = draft_repair_moves._action_confirm()
         res._trigger_scheduler()
         confirmed_repair_moves = (res | other_repair_moves)
@@ -103,6 +121,10 @@ class StockMove(models.Model):
         moves_to_create_so_line._create_repair_sale_order_line()
         return res
 
+    def action_add_from_catalog_repair(self):
+        repair_order = self.env['repair.order'].browse(self.env.context.get('order_id'))
+        return repair_order.action_add_from_catalog()
+
     # Needed to also cancel the lastly added part
     def _action_cancel(self):
         self._clean_repair_sale_order_line()
@@ -120,7 +142,9 @@ class StockMove(models.Model):
                 'order_id': move.repair_id.sale_order_id.id,
                 'product_id': move.product_id.id,
                 'product_uom_qty': product_qty, # When relying only on so_line compute method, the sol quantity is only updated on next sol creation
+                'product_uom': move.product_uom.id,
                 'move_ids': [Command.link(move.id)],
+                'qty_delivered': move.quantity if move.state == 'done' else 0.0,
             })
             if move.repair_id.under_warranty:
                 so_line_vals[-1]['price_unit'] = 0.0
@@ -177,14 +201,17 @@ class StockMove(models.Model):
                 m.location_id, m.location_dest_id = m._get_repair_locations(line_type)
 
     def _should_be_assigned(self):
+<<<<<<< HEAD
         if self.repair_id:
             return False
         return super()._should_be_assigned()
 
     def _create_extra_move(self):
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
         if self.repair_id:
-            return self
-        return super(StockMove, self)._create_extra_move()
+            return False
+        return super()._should_be_assigned()
 
     def _split(self, qty, restrict_partner_id=False):
         # When setting the Repair Order as done with partially done moves, do not split these moves

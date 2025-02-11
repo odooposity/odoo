@@ -1,10 +1,7 @@
 /** @odoo-module **/
 
-import { uniqueId } from '@web/core/utils/functions';
-import { renderToElement } from "@web/core/utils/render";
-import { getDataURLFromFile } from "@web/core/utils/urls";
-import Dialog from '@web/legacy/js/core/dialog';
 import publicWidget from '@web/legacy/js/public/public_widget';
+<<<<<<< HEAD
 import wUtils from '@website/js/utils';
 import { _t } from "@web/core/l10n/translation";
 
@@ -757,6 +754,9 @@ var SlideUploadDialog = Dialog.extend({
         this._bindSelect2Dropdown();  // rebind select2 at each modal body rendering
     },
 });
+=======
+import { SlideUploadDialog } from "@website_slides/js/public/components/slide_upload_dialog/slide_upload_dialog";
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 publicWidget.registry.websiteSlidesUpload = publicWidget.Widget.extend({
     selector: '.o_wslides_js_slide_upload',
@@ -784,9 +784,16 @@ publicWidget.registry.websiteSlidesUpload = publicWidget.Widget.extend({
     //--------------------------------------------------------------------------
 
     _openDialog: function ($element) {
-        return new SlideUploadDialog(this, $element.data()).open();
+        const dataset = $element.data();
+        this.call("dialog", "add", SlideUploadDialog, {
+            categoryId: dataset.categoryId,
+            channelId: dataset.channelId,
+            canPublish: dataset.canPublish === "True",
+            canUpload: dataset.canUpload === "True",
+            modulesToInstall: dataset.modulesToInstall || [],
+            openModal: dataset.openModal,
+        });
     },
-
     //--------------------------------------------------------------------------
     // Handlers
     //--------------------------------------------------------------------------
@@ -802,6 +809,5 @@ publicWidget.registry.websiteSlidesUpload = publicWidget.Widget.extend({
 });
 
 export default {
-    SlideUploadDialog: SlideUploadDialog,
     websiteSlidesUpload: publicWidget.registry.websiteSlidesUpload
 };

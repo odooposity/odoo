@@ -1,15 +1,40 @@
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
 
 from odoo import Command
+<<<<<<< HEAD
 from odoo.tests.common import HttpCase
 from odoo.tests import tagged
+=======
+from odoo.tests import HttpCase, tagged
+
+from odoo.addons.base.tests.common import DISABLED_MAIL_CONTEXT
+from odoo.addons.website.tools import MockRequest
+from odoo.addons.website_sale.tests.common import WebsiteSaleCommon
+from odoo.addons.website_sale_loyalty.controllers.delivery import WebsiteSaleLoyaltyDelivery
+
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 from odoo.addons.base.tests.common import DISABLED_MAIL_CONTEXT
 
 
 @tagged('post_install', '-at_install')
-class TestWebsiteSaleDelivery(HttpCase):
+class TestWebsiteSaleDelivery(HttpCase, WebsiteSaleCommon):
 
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
+        cls.Controller = WebsiteSaleLoyaltyDelivery()
+
+        # Disable mail logic
+        cls.env = cls.env['base'].with_context(**DISABLED_MAIL_CONTEXT).env
+        # Disable existing pricelists
+        cls.env['product.pricelist'].with_context(active_test=False).search([]).unlink()
+        # Disable existing reward programs
+        cls.env['loyalty.program'].search([]).active = False
+        # Remove taxes completely during the following tests.
+        cls.env.companies.account_sale_tax_id = False
+
+<<<<<<< HEAD
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
@@ -30,6 +55,10 @@ class TestWebsiteSaleDelivery(HttpCase):
         cls.env['loyalty.program'].search([]).active = False
         # Remove taxes completely during the following tests.
         cls.env.companies.account_sale_tax_id = False
+=======
+        cls.partner_admin = cls.env.ref('base.partner_admin')
+        cls.partner_admin.write(cls.dummy_partner_address_values)
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
         cls.env['product.product'].create({
             'name': "Plumbus",
@@ -103,10 +132,17 @@ class TestWebsiteSaleDelivery(HttpCase):
             })],
         })
 
+<<<<<<< HEAD
         cls.ewallet = cls.env['loyalty.card'].create({
             'program_id': ewallet_program.id,
             'points': 6e66,
             'code': 'infinite-money-glitch',
+=======
+        cls.env['loyalty.card'].create({
+            'program_id': ewallet_program.id,
+            'partner_id': cls.partner_admin.id,
+            'points': 1000000,
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
         })
 
         delivery_product1, delivery_product2 = cls.env['product.product'].create([{
@@ -136,9 +172,7 @@ class TestWebsiteSaleDelivery(HttpCase):
     def test_shop_sale_gift_card_keep_delivery(self):
         # Get admin user and set his preferred shipping method to normal delivery
         # This test also tests that we can indeed pay delivery fees with gift cards/ewallet
-        admin_user = self.env.ref('base.user_admin')
-        admin_user.partner_id.write({'property_delivery_carrier_id': self.normal_delivery.id})
-
+        self.partner_admin.property_delivery_carrier_id = self.normal_delivery
         self.start_tour("/", 'shop_sale_loyalty_delivery', login='admin')
 
     def test_shipping_discount(self):
@@ -147,6 +181,7 @@ class TestWebsiteSaleDelivery(HttpCase):
         combined with another reward (eWallet).
         """
         self.env['loyalty.program'].create({
+<<<<<<< HEAD
             'name': "Buy 3, get up to $75 discount on shipping",
             'program_type': 'promotion',
             'applies_on': 'current',
@@ -160,6 +195,20 @@ class TestWebsiteSaleDelivery(HttpCase):
             })],
         })
         self.normal_delivery.fixed_price = 100
+=======
+            'name': "Buy 3, get up to $6 discount on shipping!",
+            'program_type': 'promotion',
+            'applies_on': 'current',
+            'trigger': 'auto',
+            'rule_ids': [Command.create({
+                'minimum_qty': 3.0,
+            })],
+            'reward_ids': [Command.create({
+                'reward_type': 'shipping',
+                'discount_max_amount': 6.0,
+            })],
+        })
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
         self.start_tour("/", 'check_shipping_discount', login="admin")
 
     def test_update_shipping_after_discount(self):
@@ -168,3 +217,37 @@ class TestWebsiteSaleDelivery(HttpCase):
         """
         self.normal_delivery.write({'free_over': True, 'amount': 75.0})
         self.start_tour("/shop", 'update_shipping_after_discount', login="admin")
+<<<<<<< HEAD
+=======
+
+    def test_express_checkout_shipping_discount(self):
+        """
+        Check display of shipping discount promotion in express checkout form by ensuring is present
+        in the values returned to the form.
+        """
+        # Create a discount code
+        program = self.env['loyalty.program'].sudo().create({
+            'name': 'Free Shipping',
+            'program_type': 'promo_code',
+            'rule_ids': [
+                Command.create({
+                    'code': "FREE",
+                    'minimum_amount': 0,
+                })
+            ],
+            'reward_ids': [
+                Command.create({
+                    'reward_type': 'shipping',
+                    'discount_max_amount': 6.0,
+                })
+            ]
+        })
+
+        # Apply discount
+        self.cart._try_apply_code("FREE")
+        self.cart._apply_program_reward(program.reward_ids, program.coupon_ids)
+
+        with MockRequest(self.env, sale_order_id=self.cart.id, website=self.website):
+            result = self.Controller.shop_set_delivery_method(self.normal_delivery2.id)
+        self.assertEqual(result['delivery_discount_minor_amount'], -600)
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8

@@ -1,6 +1,5 @@
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
 
-import math
 from collections import defaultdict
 
 from odoo import api, fields, models, _
@@ -11,15 +10,20 @@ from odoo.tools import float_compare, format_duration
 class SaleOrder(models.Model):
     _inherit = 'sale.order'
 
+<<<<<<< HEAD
     timesheet_count = fields.Float(string='Timesheet activities', compute='_compute_timesheet_count', groups="hr_timesheet.group_hr_timesheet_user")
 
     # override domain
     project_id = fields.Many2one(domain="[('pricing_type', '!=', 'employee_rate'), ('analytic_account_id', '!=', False)]", check_company=True)
     timesheet_encode_uom_id = fields.Many2one('uom.uom', related='company_id.timesheet_encode_uom_id')
+=======
+    timesheet_count = fields.Float(string='Timesheet activities', compute='_compute_timesheet_count', groups="hr_timesheet.group_hr_timesheet_user", export_string_translation=False)
+    timesheet_encode_uom_id = fields.Many2one('uom.uom', related='company_id.timesheet_encode_uom_id', export_string_translation=False)
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
     timesheet_total_duration = fields.Integer("Timesheet Total Duration", compute='_compute_timesheet_total_duration',
         help="Total recorded duration, expressed in the encoding UoM, and rounded to the unit", compute_sudo=True,
-        groups="hr_timesheet.group_hr_timesheet_user")
-    show_hours_recorded_button = fields.Boolean(compute="_compute_show_hours_recorded_button", groups="hr_timesheet.group_hr_timesheet_user")
+        groups="hr_timesheet.group_hr_timesheet_user", export_string_translation=False)
+    show_hours_recorded_button = fields.Boolean(compute="_compute_show_hours_recorded_button", groups="hr_timesheet.group_hr_timesheet_user", export_string_translation=False)
 
 
     def _compute_timesheet_count(self):
@@ -76,14 +80,15 @@ class SaleOrder(models.Model):
             order.show_hours_recorded_button = order.timesheet_count or order.project_count and order.id in show_button_ids
 
     def _get_order_with_valid_service_product(self):
-        return self.env['sale.order.line']._read_group([
-            ('order_id', 'in', self.ids),
-            ('state', '=', 'sale'),
-            ('is_service', '=', True),
-            '|',
-                ('product_id.service_type', 'not in', ['milestones', 'manual']),
-                ('product_id.invoice_policy', '!=', 'delivery'),
-        ], aggregates=['order_id:array_agg'])[0][0]
+        SaleOrderLine = self.env['sale.order.line']
+        return SaleOrderLine._read_group(expression.AND([
+            SaleOrderLine._domain_sale_line_service(),
+            [
+                ('order_id', 'in', self.ids),
+                '|', ('product_id.service_type', 'not in', ['milestones', 'manual']),
+                     ('product_id.invoice_policy', '!=', 'delivery'),
+            ]
+        ]), aggregates=['order_id:array_agg'])[0][0]
 
     def _get_prepaid_service_lines_to_upsell(self):
         """ Retrieve all sols which need to display an upsell activity warning in the SO
@@ -119,11 +124,11 @@ class SaleOrder(models.Model):
             'default_so_line': default_sale_line.id,
         }  # erase default filters
 
-        tasks = self.order_line.task_id._filter_access_rules_python('write')
+        tasks = self.order_line.task_id._filtered_access('write')
         if tasks:
             context['default_task_id'] = tasks[0].id
         else:
-            projects = self.order_line.project_id._filter_access_rules_python('write')
+            projects = self.order_line.project_id._filtered_access('write')
             if projects:
                 context['default_project_id'] = projects[0].id
             elif self.project_ids:
@@ -156,6 +161,7 @@ class SaleOrder(models.Model):
         moves._link_timesheets_to_invoice(self.env.context.get("timesheet_start_date"), self.env.context.get("timesheet_end_date"))
         self._reset_has_displayed_warning_upsell_order_lines()
         return moves
+<<<<<<< HEAD
 
 
 class SaleOrderLine(models.Model):
@@ -352,3 +358,5 @@ class SaleOrderLine(models.Model):
             if sol.is_service and len(timesheet_ids) > 0:
                 action_per_sol[sol.id] = timesheet_action, timesheet_ids[0] if len(timesheet_ids) == 1 else False
         return action_per_sol
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8

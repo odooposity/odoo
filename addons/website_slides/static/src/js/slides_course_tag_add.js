@@ -1,10 +1,9 @@
 /** @odoo-module **/
 
-import { uniqueId } from '@web/core/utils/functions';
-import { _t } from "@web/core/l10n/translation";
-import Dialog from '@web/legacy/js/core/dialog';
+import { CourseTagAddDialog } from "@website_slides/js/public/components/course_tag_add_dialog/course_tag_add_dialog";
 import publicWidget from '@web/legacy/js/public/public_widget';
 
+<<<<<<< HEAD
 var TagCourseDialog = Dialog.extend({
     template: 'website.slides.tag.add',
     events: Object.assign({}, Dialog.prototype.events, {
@@ -345,20 +344,12 @@ var TagCourseDialog = Dialog.extend({
     },
 });
 
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 publicWidget.registry.websiteSlidesTag = publicWidget.Widget.extend({
     selector: '.o_wslides_js_channel_tag_add',
     events: {
         'click': '_onAddTagClick',
-    },
-
-
-    //--------------------------------------------------------------------------
-    // Private
-    //--------------------------------------------------------------------------
-
-    _openDialog: function ($element) {
-        var data = $element.data();
-        return new TagCourseDialog(this, data).open();
     },
 
     //--------------------------------------------------------------------------
@@ -371,11 +362,14 @@ publicWidget.registry.websiteSlidesTag = publicWidget.Widget.extend({
      */
     _onAddTagClick: function (ev) {
         ev.preventDefault();
-        this._openDialog($(ev.currentTarget));
+        const channelTagIds = ev.currentTarget.dataset.channelTagIds;
+        this.call("dialog", "add", CourseTagAddDialog, {
+            channelId: parseInt(ev.currentTarget.dataset.channelId, 10),
+            tagIds: channelTagIds ? JSON.parse(channelTagIds) : [],
+        });
     },
 });
 
 export default {
-    TagCourseDialog: TagCourseDialog,
-    websiteSlidesTag: publicWidget.registry.websiteSlidesTag
+    websiteSlidesTag: publicWidget.registry.websiteSlidesTag,
 };

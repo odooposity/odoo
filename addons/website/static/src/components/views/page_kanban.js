@@ -1,12 +1,21 @@
 /** @odoo-module **/
 
+<<<<<<< HEAD
 import {PageControllerMixin, PageRendererMixin} from "./page_views_mixin";
+=======
+import {PageControllerMixin} from "./page_views_mixin";
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 import {PageSearchModel} from "./page_search_model";
 import {registry} from '@web/core/registry';
 import {kanbanView} from "@web/views/kanban/kanban_view";
 import {CheckboxItem} from "@web/core/dropdown/checkbox_item";
 
 export class PageKanbanController extends PageControllerMixin(kanbanView.Controller) {
+    static template = "website.PageKanbanView";
+    static components = {
+        ...kanbanView.Controller.components,
+        CheckboxItem,
+    };
     /**
      * @override
      */
@@ -14,6 +23,7 @@ export class PageKanbanController extends PageControllerMixin(kanbanView.Control
         return this.createWebsiteContent();
     }
 }
+<<<<<<< HEAD
 PageKanbanController.template = 'website.PageKanbanView';
 PageKanbanController.components = {
     ...kanbanView.Controller.components,
@@ -27,10 +37,11 @@ PageKanbanRenderer.props = [
     "activeWebsite",
 ];
 PageKanbanRenderer.template = 'website.PageKanbanRenderer';
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 export const PageKanbanView = {
     ...kanbanView,
-    Renderer: PageKanbanRenderer,
     Controller: PageKanbanController,
     SearchModel: PageSearchModel,
 };

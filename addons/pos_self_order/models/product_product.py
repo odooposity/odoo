@@ -1,6 +1,6 @@
-# -*- coding: utf-8 -*-
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
 from __future__ import annotations
+<<<<<<< HEAD
 
 from typing import List, Dict, Optional
 
@@ -8,6 +8,11 @@ from odoo import api, models, fields
 from copy import deepcopy
 
 from odoo.addons.point_of_sale.models.pos_config import PosConfig
+=======
+from typing import List, Dict
+from odoo import api, models, fields
+from odoo.osv.expression import AND
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 
 class ProductTemplate(models.Model):
@@ -17,9 +22,6 @@ class ProductTemplate(models.Model):
         string="Available in Self Order",
         help="If this product is available in the Self Order screens",
         default=True,
-    )
-    description_self_order = fields.Html(
-        string="Product Description for Self Order",
     )
 
     @api.onchange('available_in_pos')
@@ -44,14 +46,72 @@ class ProductTemplate(models.Model):
 class ProductProduct(models.Model):
     _inherit = "product.product"
 
-    def _get_name(self) -> str:
-        """
-        Returns the name of the product without the code.
-        ex: product_sudo.display_name is '[FURN_7888] Desk Stand with Screen (Red)'
-        :return: 'Desk Stand with Screen (Red)' (we remove the [FURN_7888] part)
-        """
-        self.ensure_one()
-        return self.with_context(display_default_code=False).display_name
+    @api.model
+    def _load_pos_data_fields(self, config_id):
+        params = super()._load_pos_data_fields(config_id)
+        params += ['self_order_available']
+        return params
+
+    @api.model
+    def _load_pos_self_data_fields(self, config_id):
+        params = super()._load_pos_self_data_fields(config_id)
+        params += ['public_description']
+        return params
+    
+    @api.model
+    def _load_pos_self_data_domain(self, data):
+        domain = super()._load_pos_self_data_domain(data)
+        return AND([domain, [('self_order_available', '=', True)]])
+
+    def _load_pos_self_data(self, data):
+        domain = self._load_pos_data_domain(data)
+        config_id = data['pos.config']['data'][0]['id']
+
+        # Add custom fields for 'formula' taxes.
+        fields = set(self._load_pos_self_data_fields(config_id))
+        taxes = self.env['account.tax'].search(self.env['account.tax']._load_pos_data_domain(data))
+        product_fields = taxes._eval_taxes_computation_prepare_product_fields()
+        fields = list(fields.union(product_fields))
+
+        config = self.env['pos.config'].browse(config_id)
+        products = self.with_context(display_default_code=False).search_read(
+            domain,
+            fields,
+            limit=config.get_limited_product_count(),
+            order='sequence,default_code,name',
+            load=False
+        )
+        for product in products:
+            product['image_128'] = bool(product['image_128'])
+
+        data['pos.config']['data'][0]['_product_default_values'] = \
+            self.env['account.tax']._eval_taxes_computation_prepare_product_default_values(product_fields)
+
+        self._compute_product_price_with_pricelist(products, config_id)
+        return {
+            'data': products,
+            'fields': fields,
+        }
+
+    def _compute_product_price_with_pricelist(self, products, config_id):
+        config = self.env['pos.config'].browse(config_id)
+        pricelist = config.pricelist_id
+
+        product_ids = [product['id'] for product in products]
+        product_objs = self.env['product.product'].browse(product_ids)
+
+        product_map = {product.id: product for product in product_objs}
+        loaded_product_tmpl_ids = list({p['product_tmpl_id'] for p in products})
+        archived_combinations = self._get_archived_combinations_per_product_tmpl_id(loaded_product_tmpl_ids)
+
+        for product in products:
+            product_obj = product_map.get(product['id'])
+            if product_obj:
+                product['lst_price'] = pricelist._get_product_price(
+                    product_obj, 1.0, currency=config.currency_id
+                )
+            if archived_combinations.get(product['product_tmpl_id']):
+                product['_archived_combinations'] = archived_combinations[product['product_tmpl_id']]
 
     def _filter_applicable_attributes(self, attributes_by_ptal_id: Dict) -> List[Dict]:
         """
@@ -66,6 +126,7 @@ class ProductProduct(models.Model):
             if attributes_by_ptal_id.get(id) is not None
         ]
 
+<<<<<<< HEAD
     def _get_attributes(self, pos_config_sudo: PosConfig) -> List[Dict]:
         self.ensure_one()
 
@@ -222,6 +283,8 @@ class ProductProduct(models.Model):
             for product in self
         ]
 
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
     def write(self, vals_list):
         res = super().write(vals_list)
         if 'self_order_available' in vals_list:
@@ -233,6 +296,6 @@ class ProductProduct(models.Model):
         config_self = self.env['pos.config'].sudo().search([('self_ordering_mode', '!=', 'nothing')])
         for config in config_self:
             if config.current_session_id and config.access_token:
-                self.env['bus.bus']._sendone(f'pos_config-{config.access_token}', 'PRODUCT_CHANGED', {
-                    'product': self._get_product_for_ui(config)
+                config._notify('PRODUCT_CHANGED', {
+                    'product.product': self.read(self._load_pos_self_data_fields(config.id), load=False)
                 })

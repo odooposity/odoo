@@ -3,20 +3,35 @@
 # 	* website_sale_slides
 # 
 # Translators:
+<<<<<<< HEAD
 # sixsix six, 2023
 # 5768b353f27900ae76ad88cc42dfd5b8_3bb349f, 2023
 # krnkris, 2023
 # Tamás Németh <ntomasz81@gmail.com>, 2023
 # Krisztián Juhász <juhasz.krisztian@josafar.hu>, 2023
 # Martin Trigaux, 2023
+=======
+# sixsix six, 2024
+# 5768b353f27900ae76ad88cc42dfd5b8_3bb349f, 2024
+# krnkris, 2024
+# Tamás Németh <ntomasz81@gmail.com>, 2024
+# Martin Trigaux, 2024
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 # gezza <geza.nagy@oregional.hu>, 2024
 # 
 msgid ""
 msgstr ""
+<<<<<<< HEAD
 "Project-Id-Version: Odoo Server 17.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-10-26 21:56+0000\n"
 "PO-Revision-Date: 2023-10-26 23:09+0000\n"
+=======
+"Project-Id-Version: Odoo Server 18.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2024-09-26 08:56+0000\n"
+"PO-Revision-Date: 2024-09-25 09:42+0000\n"
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 "Last-Translator: gezza <geza.nagy@oregional.hu>, 2024\n"
 "Language-Team: Hungarian (https://app.transifex.com/odoo/teams/41243/hu/)\n"
 "MIME-Version: 1.0\n"
@@ -36,23 +51,16 @@ msgid "<i class=\"fa fa-shopping-cart\"/> Add to Cart"
 msgstr "<i class=\"fa fa-shopping-cart\"/>Kosárba"
 
 #. module: website_sale_slides
-#: model:ir.model.fields,help:website_sale_slides.field_product_product__detailed_type
-#: model:ir.model.fields,help:website_sale_slides.field_product_template__detailed_type
-msgid ""
-"A storable product is a product for which you manage stock. The Inventory app has to be installed.\n"
-"A consumable product is a product for which stock is not managed.\n"
-"A service is a non-material product you provide."
-msgstr ""
-"A készletezett termék olyan materiális termék, mely készletre kerül. Ehhez telepíteni kell a Készlet app-ot.\n"
-"A fogyóeszköz termék olyan materiális termék, mely nem kerül készletre.\n"
-"A szolgálatás immateriális termék."
-
-#. module: website_sale_slides
 #. odoo-python
 #: code:addons/website_sale_slides/models/product_product.py:0
+<<<<<<< HEAD
 #, python-format
 msgid "Access to: %s%s"
 msgstr "Hozzáférés: %s%s"
+=======
+msgid "Access to: %(new_line)s%(channel_list)s"
+msgstr ""
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 #. module: website_sale_slides
 #: model:product.template,name:website_sale_slides.product_course_channel_5_product_template
@@ -67,14 +75,12 @@ msgstr "Vásárlás most gomb"
 #. module: website_sale_slides
 #. odoo-javascript
 #: code:addons/website_sale_slides/static/src/xml/website_sale_slides_quiz.xml:0
-#, python-format
 msgid "Buy the course to validate your answers!"
 msgstr "Vegye meg a kurzust a válaszok ellenőrzéséhez!"
 
 #. module: website_sale_slides
 #. odoo-javascript
 #: code:addons/website_sale_slides/static/src/xml/slide_course_join.xml:0
-#, python-format
 msgid "Buy this Course"
 msgstr "Kurzus megvásárlása"
 
@@ -87,11 +93,11 @@ msgstr ""
 
 #. module: website_sale_slides
 #: model:ir.model,name:website_sale_slides.model_slide_channel
-#: model:ir.model.fields.selection,name:website_sale_slides.selection__product_template__detailed_type__course
 msgid "Course"
 msgstr "Kurzus"
 
 #. module: website_sale_slides
+#: model:ir.model.fields.selection,name:website_sale_slides.selection__product_template__service_tracking__course
 #: model:product.template,name:website_sale_slides.default_product_course_product_template
 msgid "Course Access"
 msgstr "Kurzus hozzáférés"
@@ -110,6 +116,12 @@ msgstr "Kurzus elérhető"
 #: model:ir.model.fields,field_description:website_sale_slides.field_product_product__channel_ids
 msgid "Courses"
 msgstr "Kurzusok"
+
+#. module: website_sale_slides
+#: model:ir.model.fields,field_description:website_sale_slides.field_product_product__service_tracking
+#: model:ir.model.fields,field_description:website_sale_slides.field_product_template__service_tracking
+msgid "Create on Order"
+msgstr ""
 
 #. module: website_sale_slides
 #: model:ir.model.fields,field_description:website_sale_slides.field_slide_channel__currency_id
@@ -136,6 +148,15 @@ msgstr "Beiratkozási politika"
 #: model_terms:ir.ui.view,arch_db:website_sale_slides.course_slides_list_slide
 msgid "Free Preview"
 msgstr "Ingyenes előnézet"
+<<<<<<< HEAD
+=======
+
+#. module: website_sale_slides
+#. odoo-python
+#: code:addons/website_sale_slides/models/product_template.py:0
+msgid "Grant access to the eLearning course linked to this product."
+msgstr ""
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 #. module: website_sale_slides
 #: model_terms:ir.ui.view,arch_db:website_sale_slides.course_buy_course_link
@@ -145,7 +166,10 @@ msgstr "Csatlakozás a kurzushoz"
 #. module: website_sale_slides
 #. odoo-javascript
 #: code:addons/website_sale_slides/static/src/xml/website_slides_unsubscribe.xml:0
+<<<<<<< HEAD
 #, python-format
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 msgid ""
 "Leaving the course and re-enrolling afterwards means that you'll be charged "
 "again."
@@ -191,12 +215,6 @@ msgid "Product"
 msgstr "Termék"
 
 #. module: website_sale_slides
-#: model:ir.model.fields,field_description:website_sale_slides.field_product_product__detailed_type
-#: model:ir.model.fields,field_description:website_sale_slides.field_product_template__detailed_type
-msgid "Product Type"
-msgstr "Terméktípus"
-
-#. module: website_sale_slides
 #: model:ir.model,name:website_sale_slides.model_product_product
 msgid "Product Variant"
 msgstr "Termékváltozat"
@@ -215,7 +233,7 @@ msgstr "Bevételek"
 #: model_terms:ir.ui.view,arch_db:website_sale_slides.slide_channel_view_form
 #: model_terms:ir.ui.view,arch_db:website_sale_slides.slide_channel_view_kanban
 msgid "Sales"
-msgstr "Értékesítések"
+msgstr "Értékesítés"
 
 #. module: website_sale_slides
 #: model:ir.model,name:website_sale_slides.model_sale_order
@@ -225,14 +243,12 @@ msgstr "Vevői rendelés"
 #. module: website_sale_slides
 #. odoo-javascript
 #: code:addons/website_sale_slides/static/src/xml/slide_course_join.xml:0
-#, python-format
 msgid "Sign in"
 msgstr "Bejelentkezés"
 
 #. module: website_sale_slides
 #. odoo-javascript
 #: code:addons/website_sale_slides/static/src/xml/website_sale_slides_quiz.xml:0
-#, python-format
 msgid "Sign in and buy the course to take the quiz"
 msgstr "Lépjen be és vegye meg a kurzust a kérdőív kitöltéséhez"
 
@@ -264,7 +280,6 @@ msgstr "Ezt a kurzust nem lehet megvenni a kapcsolt termék miatt."
 #. module: website_sale_slides
 #. odoo-javascript
 #: code:addons/website_sale_slides/static/src/xml/website_slides_unsubscribe.xml:0
-#, python-format
 msgid "This course is paid."
 msgstr "Kurzus fizetve."
 
@@ -277,16 +292,22 @@ msgstr "Összes bevétel"
 #: model:ir.model.fields,field_description:website_sale_slides.field_slide_channel__product_sale_revenues
 msgid "Total revenues"
 msgstr "Összes bevétel"
+<<<<<<< HEAD
 
 #. module: website_sale_slides
 #: model:ir.model,name:website_sale_slides.model_website
 msgid "Website"
 msgstr "Weboldal"
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 #. module: website_sale_slides
 #. odoo-python
 #: code:addons/website_sale_slides/models/slide_channel.py:0
+<<<<<<< HEAD
 #, python-format
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 msgid ""
 "You are not allowed to add members to this course. Please contact the course"
 " responsible or an administrator."
@@ -297,7 +318,6 @@ msgstr ""
 #. module: website_sale_slides
 #. odoo-python
 #: code:addons/website_sale_slides/models/sale_order.py:0
-#, python-format
 msgid "You can only add a course once in your cart."
 msgstr "Egy kurzust csak egyszer lehet kosárba tenni."
 

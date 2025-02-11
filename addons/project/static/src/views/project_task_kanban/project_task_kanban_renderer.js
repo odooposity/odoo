@@ -5,8 +5,18 @@ import { ProjectTaskKanbanRecord } from './project_task_kanban_record';
 import { ProjectTaskKanbanHeader } from './project_task_kanban_header';
 import { useService } from '@web/core/utils/hooks';
 import { onWillStart } from "@odoo/owl";
+<<<<<<< HEAD
+=======
+import { user } from "@web/core/user";
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 export class ProjectTaskKanbanRenderer extends KanbanRenderer {
+    static components = {
+        ...KanbanRenderer.components,
+        KanbanRecord: ProjectTaskKanbanRecord,
+        KanbanHeader: ProjectTaskKanbanHeader,
+    };
+
     setup() {
         super.setup();
         this.action = useService('action');
@@ -31,9 +41,3 @@ export class ProjectTaskKanbanRenderer extends KanbanRenderer {
         );
     }
 }
-
-ProjectTaskKanbanRenderer.components = {
-    ...KanbanRenderer.components,
-    KanbanRecord: ProjectTaskKanbanRecord,
-    KanbanHeader: ProjectTaskKanbanHeader,
-};

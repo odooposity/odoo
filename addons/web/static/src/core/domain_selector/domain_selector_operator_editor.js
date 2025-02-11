@@ -1,5 +1,3 @@
-/** @odoo-module **/
-
 export function getDomainDisplayedOperators(fieldDef) {
     if (!fieldDef) {
         fieldDef = {};
@@ -16,7 +14,7 @@ export function getDomainDisplayedOperators(fieldDef) {
                 return ["=", "!=", "set", "not_set"];
         }
     }
-
+    const hierarchyOperators = fieldDef.allow_hierachy_operators ? ["child_of", "parent_of"] : [];
     switch (type) {
         case "boolean":
             return ["is", "is_not"];
@@ -25,10 +23,21 @@ export function getDomainDisplayedOperators(fieldDef) {
         case "char":
         case "text":
         case "html":
-            return ["=", "!=", "ilike", "not ilike", "in", "not in", "set", "not_set"];
+            return [
+                "=",
+                "!=",
+                "ilike",
+                "not ilike",
+                "in",
+                "not in",
+                "set",
+                "not_set",
+                "starts_with",
+                "ends_with",
+            ];
         case "date":
         case "datetime":
-            return ["=", "!=", ">", ">=", "<", "<=", "between", "set", "not_set"];
+            return ["=", "!=", ">", ">=", "<", "<=", "between", "within", "set", "not_set"];
         case "integer":
         case "float":
         case "monetary":
@@ -48,7 +57,21 @@ export function getDomainDisplayedOperators(fieldDef) {
         case "many2one":
         case "many2many":
         case "one2many":
-            return ["in", "not in", "=", "!=", "ilike", "not ilike", "set", "not_set"];
+            return [
+                "in",
+                "not in",
+                "=",
+                "!=",
+                "ilike",
+                "not ilike",
+                ...hierarchyOperators,
+                "set",
+                "not_set",
+                "starts_with",
+                "ends_with",
+                "any",
+                "not any",
+            ];
         case "json":
             return ["=", "!=", "ilike", "not ilike", "set", "not_set"];
         case "properties":
@@ -69,8 +92,6 @@ export function getDomainDisplayedOperators(fieldDef) {
                 "not like",
                 "=like",
                 "=ilike",
-                "child_of",
-                "parent_of",
                 "in",
                 "not in",
                 "set",

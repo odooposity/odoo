@@ -60,7 +60,7 @@ def get_video_source_data(video_url):
     return None
 
 
-def get_video_url_data(video_url, autoplay=False, loop=False, hide_controls=False, hide_fullscreen=False, hide_yt_logo=False, hide_dm_logo=False, hide_dm_share=False):
+def get_video_url_data(video_url, autoplay=False, loop=False, hide_controls=False, hide_fullscreen=False, hide_dm_logo=False, hide_dm_share=False):
     """ Computes the platform name, the embed_url, the video id and the video params of the given URL
         (or error message in case of invalid URL).
     """
@@ -93,10 +93,16 @@ def get_video_url_data(video_url, autoplay=False, loop=False, hide_controls=Fals
             params['playlist'] = video_id
         if hide_fullscreen:
             params['fs'] = 0
+<<<<<<< HEAD
         yt_extra = platform_match[1] or ''
         embed_url = f'//www.youtube{yt_extra}.com/embed/{video_id}'
+=======
+        embed_url = f'//www.youtube-nocookie.com/embed/{video_id}'
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
     elif platform == 'vimeo':
         params['autoplay'] = autoplay and 1 or 0
+        # Always enable "do not track" parameter.
+        params['dnt'] = 1
         if autoplay:
             params['muted'] = 1
             params['autopause'] = 0
@@ -225,7 +231,12 @@ def handle_history_divergence(record, html_field_name, vals):
             server_last_history_id = server_history_matches[1].split(',')[-1]
             if server_last_history_id not in incoming_history_ids:
                 logger.warning('The document was already saved from someone with a different history for model %r, field %r with id %r.', record._name, html_field_name, record.id)
-                raise ValidationError(_('The document was already saved from someone with a different history for model %r, field %r with id %r.', record._name, html_field_name, record.id))
+                raise ValidationError(_(
+                    'The document was already saved from someone with a different history for model "%(model)s", field "%(field)s" with id "%(id)d".',
+                    model=record._name,
+                    field=html_field_name,
+                    id=record.id,
+                ))
 
     # Save only the latest id.
     vals[html_field_name] = incoming_html[0:incoming_history_matches.start(1)] + last_step_id + incoming_html[incoming_history_matches.end(1):]

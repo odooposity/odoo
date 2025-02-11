@@ -128,7 +128,11 @@ class TestKarmaGain(common.SlidesCase):
         self.assertEqual(len(channel_partners), 4)
 
         # Set courses as completed and update karma
+<<<<<<< HEAD
         with self.assertQueryCount(57):
+=======
+        with self.assertQueryCount(57):  # com 55
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
             channel_partners._post_completion_update_hook()
 
         computed_karma = self.channel.karma_gen_channel_finish + self.channel_2.karma_gen_channel_finish

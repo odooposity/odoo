@@ -71,8 +71,17 @@ class StockMove(models.Model):
                 # Adjust unit price to account for discounts before adding taxes.
                 adjusted_unit_price = invoice_line.price_unit * (1 - (invoice_line.discount / 100)) if invoice_line.discount else invoice_line.price_unit
                 if invoice_line.tax_ids:
+<<<<<<< HEAD
                     invoice_line_value = invoice_line.tax_ids.with_context(round=False).compute_all(
                         adjusted_unit_price, currency=invoice_line.currency_id, quantity=invoice_line.quantity)['total_void']
+=======
+                    invoice_line_value = invoice_line.tax_ids.compute_all(
+                        adjusted_unit_price,
+                        currency=invoice_line.currency_id,
+                        quantity=invoice_line.quantity,
+                        rounding_method="round_globally",
+                    )['total_void']
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
                 else:
                     invoice_line_value = adjusted_unit_price * invoice_line.quantity
                 total_invoiced_value += invoice_line.currency_id._convert(
@@ -102,7 +111,13 @@ class StockMove(models.Model):
                 convert_date = max(line.sudo().invoice_lines.move_id.filtered(lambda m: m.state == 'posted').mapped('invoice_date'), default=convert_date)
             price_unit = order.currency_id._convert(
                 price_unit, order.company_id.currency_id, order.company_id, convert_date, round=False)
+<<<<<<< HEAD
         return price_unit
+=======
+        if self.product_id.lot_valuated:
+            return dict.fromkeys(self.lot_ids, price_unit)
+        return {self.env['stock.lot']: price_unit}
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
     def _generate_valuation_lines_data(self, partner_id, qty, debit_value, credit_value, debit_account_id, credit_account_id, svl_id, description):
         """ Overridden from stock_account to support amount_currency on valuation lines generated from po
@@ -201,12 +216,15 @@ class StockMove(models.Model):
         am_vals_list.append(vals)
 
         return am_vals_list
+<<<<<<< HEAD
 
     def _prepare_extra_move_vals(self, qty):
         vals = super(StockMove, self)._prepare_extra_move_vals(qty)
         vals['purchase_line_id'] = self.purchase_line_id.id
         vals['created_purchase_line_ids'] = [Command.set(self.created_purchase_line_ids.ids)]
         return vals
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
     def _prepare_move_split_vals(self, uom_qty):
         vals = super(StockMove, self)._prepare_move_split_vals(uom_qty)
@@ -261,7 +279,11 @@ class StockMove(models.Model):
 
     def _is_purchase_return(self):
         self.ensure_one()
+<<<<<<< HEAD
         return self.location_dest_id.usage == "supplier" or self.location_dest_id == self.env.ref('stock.stock_location_inter_wh', raise_if_not_found=False)
+=======
+        return self.location_dest_id.usage == "supplier" or (self.origin_returned_move_id and self.location_dest_id == self.env.ref('stock.stock_location_inter_company', raise_if_not_found=False))
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
     def _get_all_related_aml(self):
         # The back and for between account_move and account_move_line is necessary to catch the

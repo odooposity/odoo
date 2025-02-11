@@ -1,8 +1,13 @@
 # -*- coding: utf-8 -*-
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
+import logging
 
 from odoo.tests.common import HttpCase, tagged, ChromeBrowser
+<<<<<<< HEAD
 from odoo.tools import config, logging
+=======
+from odoo.tools import config
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 from unittest.mock import patch
 
 @tagged('-at_install', 'post_install')
@@ -46,10 +51,30 @@ class TestHttpCase(HttpCase):
                 text = log.split('.browser:', 1)[1]
                 if text == 'test successful':
                     continue
+                if text.startswith('heap '):
+                    continue
                 self.assertEqual(text, "Object(custom=Object, value=1, description='dummy')")
                 console_log_count += 1
         self.assertEqual(console_log_count, 1)
 
+<<<<<<< HEAD
+=======
+@tagged('-at_install', 'post_install')
+class TestRunbotLog(HttpCase):
+    def test_runbot_js_log(self):
+        """Test that a ChromeBrowser console.dir is handled server side as a log of level RUNBOT."""
+        log_message = 'this is a small test'
+        with self.assertLogs() as log_catcher:
+            self.browser_js("about:blank", f"console.runbot = console.dir; console.runbot('{log_message}'); console.log('test successful');")
+        found = False
+        for record in log_catcher.records:
+            if record.message == log_message:
+                self.assertEqual(record.levelno, logging.RUNBOT)
+                self.assertTrue(record.name.endswith('browser'))
+                found = True
+        self.assertTrue(found, "Runbot log not found")
+
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 @tagged('-at_install', 'post_install')
 class TestChromeBrowser(HttpCase):

@@ -1,11 +1,12 @@
-/** @odoo-module */
-
-import { ReceiptScreen } from "@point_of_sale/app/screens/receipt_screen/receipt_screen";
+import { Dialog } from "@web/core/dialog/dialog";
 import { OrderReceipt } from "@point_of_sale/app/screens/receipt_screen/receipt/order_receipt";
-import { registry } from "@web/core/registry";
+import { Component, useState } from "@odoo/owl";
+import { usePos } from "@point_of_sale/app/store/pos_hook";
+import { useService } from "@web/core/utils/hooks";
 
-export class BillScreen extends ReceiptScreen {
+export class BillScreen extends Component {
     static template = "pos_restaurant.BillScreen";
+<<<<<<< HEAD
     static components = { OrderReceipt };
     confirm() {
         if (!this.env.isMobile) {
@@ -20,11 +21,19 @@ export class BillScreen extends ReceiptScreen {
         const order = this.currentOrder;
         await super.printReceipt();
         order._printed = false;
+=======
+    static components = { OrderReceipt, Dialog };
+    static props = {
+        close: Function,
+    };
+    setup() {
+        this.pos = usePos();
+        this.printer = useState(useService("printer"));
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
     }
-
-    get isBill() {
-        return true;
+    async print() {
+        await this.pos.printReceipt({
+            printBillActionTriggered: true,
+        });
     }
 }
-
-registry.category("pos_screens").add("BillScreen", BillScreen);

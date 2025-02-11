@@ -138,7 +138,11 @@ describe('insert HTML', () => {
                 contentAfter: '<p><br><br><br>[]<br></p>',
             });
         });
+<<<<<<< HEAD
         it('should paste an "empty" block', async () => {
+=======
+        it('should insert an "empty" block', async () => {
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
             await testEditor(BasicEditor, {
                 contentBefore: '<p>abcd[]</p>',
                 stepFunction: async editor => {

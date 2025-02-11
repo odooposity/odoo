@@ -26,7 +26,7 @@ options.registry.facebookPage = options.Class.extend({
             width: 350,
             tabs: '',
             small_header: true,
-            hide_cover: true,
+            hide_cover: "true",
         };
         this.fbData = Object.assign({}, defaults, pick(this.$target[0].dataset, ...Object.keys(defaults)));
         if (!this.fbData.href) {
@@ -78,7 +78,7 @@ options.registry.facebookPage = options.Class.extend({
             }
         } else {
             if (optionName === 'show_cover') {
-                this.fbData.hide_cover = !widgetValue;
+                this.fbData.hide_cover = widgetValue ? "false" : "true";
             } else {
                 this.fbData[optionName] = widgetValue;
             }
@@ -130,8 +130,12 @@ options.registry.facebookPage = options.Class.extend({
                     return this.fbData.tabs.split(',').includes(optionName.replace(/^tab./, ''));
                 } else {
                     if (optionName === 'show_cover') {
+<<<<<<< HEAD
                         // Sometimes a string, sometimes a boolean.
                         return String(this.fbData.hide_cover) === "false";
+=======
+                        return this.fbData.hide_cover === "false";
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
                     }
                     return this.fbData[optionName];
                 }

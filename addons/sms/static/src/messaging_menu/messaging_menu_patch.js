@@ -1,6 +1,6 @@
 /** @odoo-module */
 
-import { MessagingMenu } from "@mail/core/web/messaging_menu";
+import { MessagingMenu } from "@mail/core/public_web/messaging_menu";
 import { _t } from "@web/core/l10n/translation";
 import { patch } from "@web/core/utils/patch";
 
@@ -23,6 +23,12 @@ patch(MessagingMenu.prototype, {
             domain: [["message_has_sms_error", "=", true]],
             context: { create: false },
         });
-        this.close();
+        this.dropdown.close();
+    },
+    getFailureNotificationName(failure) {
+        if (failure.type === "sms") {
+            return _t("SMS Failure: %(modelName)s", { modelName: failure.modelName });
+        }
+        return super.getFailureNotificationName(...arguments);
     },
 });

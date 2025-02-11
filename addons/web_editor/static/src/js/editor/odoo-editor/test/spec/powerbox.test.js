@@ -66,6 +66,7 @@ describe('Powerbox', () => {
                 contentAfter: '<h1>ab[]</h1>',
             });
         });
+<<<<<<< HEAD
         it('should not reinsert the selected text after command validation', async () => {
             await testEditor(BasicEditor, {
                 contentBefore: '<p>[]<br></p>',
@@ -80,6 +81,18 @@ describe('Powerbox', () => {
                     await triggerEvent(editor.editable, "keydown", { key: "Enter" });
                 },
                 contentAfter: '<h1>[]<br></h1>',
+=======
+        it('should execute command and remove term and hot character on Tab', async () => {
+            await testEditor(BasicEditor, {
+                contentBefore: '<p>ab[]</p>',
+                stepFunction: async editor => {
+                    await insertText(editor, '/');
+                    await insertText(editor, 'head');
+                    await triggerEvent(editor.editable, 'keyup');
+                    await triggerEvent(editor.editable, 'keydown', { key: 'Tab' });
+                },
+                contentAfter: '<h1>ab[]</h1>',
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
             });
         });
         it('should close the powerbox if keyup event is called on other block', async () => {
@@ -191,6 +204,34 @@ describe('Powerbox', () => {
             powerbox.open();
             await triggerEvent(editable, 'keydown', { key: 'ArrowDown'});
             await triggerEvent(editable, 'keydown', { key: 'Enter'});
+<<<<<<< HEAD
+=======
+            window.chai.expect(editable.innerText).to.eql('2');
+            powerbox.destroy();
+            editable.remove();
+        });
+        it('should execute command on press Tab', async () => {
+            const editable = document.createElement('div');
+            editable.classList.add('odoo-editor-editable');
+            document.body.append(editable);
+            const powerbox = new Powerbox({
+                categories: [],
+                commands: [
+                    {category: 'a', name: '2', callback: () => editable.innerText = '2'},
+                    {category: 'a', name: '3', callback: () => editable.innerText = '3'},
+                    {category: 'a', name: '1', callback: () => editable.innerText = '1'},
+                ],
+                editable,
+            });
+            setSelection(editable, 0);
+            powerbox.open();
+            window.chai.expect(editable.innerText).to.eql('');
+            await triggerEvent(editable, 'keydown', { key: 'Enter'});
+            window.chai.expect(editable.innerText).to.eql('1');
+            powerbox.open();
+            await triggerEvent(editable, 'keydown', { key: 'ArrowDown'});
+            await triggerEvent(editable, 'keydown', { key: 'Tab'});
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
             window.chai.expect(editable.innerText).to.eql('2');
             powerbox.destroy();
             editable.remove();

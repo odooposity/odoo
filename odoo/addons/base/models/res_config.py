@@ -1,16 +1,11 @@
 # -*- coding: utf-8 -*-
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
-
-import json
 import logging
 import re
-
 from ast import literal_eval
-from lxml import etree
 
 from odoo import api, models, _
 from odoo.exceptions import AccessError, RedirectWarning, UserError
-from odoo.tools import ustr
 
 _logger = logging.getLogger(__name__)
 
@@ -120,6 +115,7 @@ class ResConfigConfigurable(models.TransientModel):
         return self.cancel() or self.next()
 
 
+<<<<<<< HEAD
 class ResConfigInstaller(models.TransientModel, ResConfigModuleInstallationMixin):
     """ New-style configuration base specialized for addons selection
     and installation.
@@ -309,6 +305,8 @@ class ResConfigInstaller(models.TransientModel, ResConfigModuleInstallationMixin
         return self._install_modules(modules)
 
 
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 class ResConfigSettings(models.TransientModel, ResConfigModuleInstallationMixin):
     """ Base configuration wizard for application settings.  It provides support for setting
         default values, assigning groups to employee users, and installing modules.

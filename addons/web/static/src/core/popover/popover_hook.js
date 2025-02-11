@@ -1,9 +1,15 @@
-/** @odoo-module **/
-
+import { onWillUnmount, status, useComponent } from "@odoo/owl";
 import { useService } from "@web/core/utils/hooks";
 
+<<<<<<< HEAD
 import { onWillUnmount, status, useComponent, useEnv } from "@odoo/owl";
 import { POPOVER_SYMBOL } from "./popover_controller";
+=======
+/**
+ * @typedef {import("@web/core/popover/popover_service").PopoverServiceAddFunction} PopoverServiceAddFunction
+ * @typedef {import("@web/core/popover/popover_service").PopoverServiceAddOptions} PopoverServiceAddOptions
+ */
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 /**
  * @typedef PopoverHookReturnType
@@ -16,7 +22,13 @@ import { POPOVER_SYMBOL } from "./popover_controller";
  *  - Whether the popover is currently open.
  */
 
-export function makePopover(popoverService, component, options) {
+/**
+ * @param {PopoverServiceAddFunction} addFn
+ * @param {typeof import("@odoo/owl").Component} component
+ * @param {PopoverServiceAddOptions} options
+ * @returns {PopoverHookReturnType}
+ */
+export function makePopover(addFn, component, options) {
     let removeFn = null;
     function close() {
         removeFn?.();
@@ -29,7 +41,7 @@ export function makePopover(popoverService, component, options) {
                 removeFn = null;
                 options.onClose?.();
             };
-            removeFn = popoverService.add(target, component, props, newOptions);
+            removeFn = addFn(target, component, props, newOptions);
         },
         close,
         get isOpen() {
@@ -42,7 +54,7 @@ export function makePopover(popoverService, component, options) {
  * Manages a component to be used as a popover.
  *
  * @param {typeof import("@odoo/owl").Component} component
- * @param {import("@web/core/popover/popover_service").PopoverServiceAddOptions} [options]
+ * @param {PopoverServiceAddOptions} [options]
  * @returns {PopoverHookReturnType}
  */
 export function usePopover(component, options = {}) {
@@ -56,7 +68,7 @@ export function usePopover(component, options = {}) {
             options.onClose?.();
         }
     };
-    const popover = makePopover(popoverService, component, newOptions);
+    const popover = makePopover(popoverService.add, component, newOptions);
     onWillUnmount(popover.close);
     return popover;
 }

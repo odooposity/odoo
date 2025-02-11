@@ -42,6 +42,12 @@ class PdfReader(_Reader):
     def getDocumentInfo(self):
         return self.metadata
 
+<<<<<<< HEAD
+=======
+    def getFormTextFields(self):
+        return self.get_form_text_fields()
+
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 class PdfWriter(_Writer):
     def add_metadata(self, infos: Dict[str, Any]) -> None:

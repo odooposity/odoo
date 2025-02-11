@@ -8,9 +8,6 @@ from odoo.osv.expression import AND
 class ProductReplenish(models.TransientModel):
     _inherit = 'product.replenish'
 
-    supplier_id = fields.Many2one("product.supplierinfo", string="Vendor")
-    show_vendor = fields.Boolean(compute="_compute_show_vendor")
-
     @api.model
     def default_get(self, fields):
         res = super().default_get(fields)
@@ -37,6 +34,7 @@ class ProductReplenish(models.TransientModel):
             if 'buy' in rec.route_id.rule_ids.mapped('action'):
                 rec.date_planned = rec._get_date_planned(rec.route_id, supplier=rec.supplier_id, show_vendor=rec.show_vendor)
 
+<<<<<<< HEAD
     @api.depends('route_id')
     def _compute_show_vendor(self):
         for rec in self:
@@ -47,6 +45,8 @@ class ProductReplenish(models.TransientModel):
     def _onchange_route_id(self):
         pass
 
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
     def _prepare_run_values(self):
         res = super()._prepare_run_values()
         if self.supplier_id:
@@ -76,10 +76,16 @@ class ProductReplenish(models.TransientModel):
 
     def _get_replenishment_order_notification_link(self, order_line):
         if order_line._name == 'purchase.order.line':
+<<<<<<< HEAD
             action = self.env.ref('purchase.action_rfq_form')
             return [{
                 'label': order_line.order_id.display_name,
                 'url': f'#action={action.id}&id={order_line.order_id.id}&model=purchase.order',
+=======
+            return [{
+                'label': order_line.order_id.display_name,
+                'url': f'/odoo/action-purchase.action_rfq_form/{order_line.order_id.id}',
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
             }]
         return super()._get_replenishment_order_notification_link(order_line)
 
@@ -99,9 +105,12 @@ class ProductReplenish(models.TransientModel):
             delay += self.env.company.po_lead
         return fields.Datetime.add(date, days=delay)
 
+<<<<<<< HEAD
     def _get_show_vendor(self, route):
         return route == self.env.ref('purchase_stock.route_warehouse0_buy', raise_if_not_found=False)
 
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
     def _get_route_domain(self, product_tmpl_id):
         domain = super()._get_route_domain(product_tmpl_id)
         if not product_tmpl_id.seller_ids:

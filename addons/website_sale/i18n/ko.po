@@ -3,6 +3,7 @@
 # 	* website_sale
 # 
 # Translators:
+<<<<<<< HEAD
 # Sarah Park, 2023
 # Daye Jeong, 2024
 # Wil Odoo, 2024
@@ -14,6 +15,19 @@ msgstr ""
 "POT-Creation-Date: 2024-08-13 10:26+0000\n"
 "PO-Revision-Date: 2023-10-26 23:09+0000\n"
 "Last-Translator: Wil Odoo, 2024\n"
+=======
+# Sarah Park, 2024
+# Daye Jeong, 2024
+# Wil Odoo, 2025
+# 
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 18.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-01-27 13:02+0000\n"
+"PO-Revision-Date: 2024-09-25 09:42+0000\n"
+"Last-Translator: Wil Odoo, 2025\n"
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 "Language-Team: Korean (https://app.transifex.com/odoo/teams/41243/ko/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -34,6 +48,11 @@ msgid ""
 msgstr "\"선택사항\"을 통해 고객이 주문 확인 이메일에서 등록하여 주문을 추적할 수 있습니다."
 
 #. module: website_sale
+#: model_terms:ir.ui.view,arch_db:website_sale.product_image_view_kanban
+msgid "#{record.name.value}"
+msgstr "#{record.name.value}"
+
+#. module: website_sale
 #: model_terms:ir.ui.view,arch_db:website_sale.product
 msgid "%s review"
 msgstr "%s 리뷰"
@@ -44,9 +63,25 @@ msgid "%s reviews"
 msgstr "%s 리뷰"
 
 #. module: website_sale
+<<<<<<< HEAD
 #: model_terms:ir.ui.view,arch_db:website_sale.address_on_payment
 msgid "&amp; Shipping"
 msgstr "&amp; 선적"
+=======
+#: model_terms:ir.ui.view,arch_db:website_sale.confirmation
+msgid "&amp; Delivery"
+msgstr "&amp; 배송"
+
+#. module: website_sale
+#: model_terms:ir.ui.view,arch_db:website_sale.products_item
+msgid "&amp;nbsp;"
+msgstr "&amp;nbsp;"
+
+#. module: website_sale
+#: model_terms:ir.ui.view,arch_db:website_sale.checkout_layout
+msgid "&amp;nbsp;item(s)&amp;nbsp;-&amp;nbsp;"
+msgstr "&amp;nbsp;item(s)&amp;nbsp;-&amp;nbsp;"
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 #. module: website_sale
 #: model_terms:ir.ui.view,arch_db:website_sale.address
@@ -101,6 +136,7 @@ msgstr "<b class=\"w-100\">주문 요약</b>"
 #. module: website_sale
 #: model_terms:ir.ui.view,arch_db:website_sale.o_wsale_offcanvas
 #: model_terms:ir.ui.view,arch_db:website_sale.products_categories_list
+#: model_terms:ir.ui.view,arch_db:website_sale.products_categories_list_collapsible
 msgid "<b>Categories</b>"
 msgstr "<b>카테고리</b>"
 
@@ -108,6 +144,17 @@ msgstr "<b>카테고리</b>"
 #: model_terms:ir.ui.view,arch_db:website_sale.payment_confirmation_status
 msgid "<b>Communication: </b>"
 msgstr "<b>의사소통 : </b>"
+
+#. module: website_sale
+#: model_terms:ir.ui.view,arch_db:website_sale.address_on_payment
+msgid "<b>Deliver to pickup point: </b>"
+msgstr "<b>픽업 지점까지 배송: </b>"
+
+#. module: website_sale
+#: model_terms:ir.ui.view,arch_db:website_sale.address_on_payment
+#: model_terms:ir.ui.view,arch_db:website_sale.confirmation
+msgid "<b>Delivery: </b>"
+msgstr "<b>배송: </b>"
 
 #. module: website_sale
 #: model_terms:ir.ui.view,arch_db:website_sale.filter_products_price
@@ -120,11 +167,14 @@ msgid "<b>Pricelist</b>"
 msgstr "<b>가격표</b>"
 
 #. module: website_sale
+<<<<<<< HEAD
 #: model_terms:ir.ui.view,arch_db:website_sale.address_on_payment
 msgid "<b>Shipping: </b>"
 msgstr "<b>배송: </b>"
 
 #. module: website_sale
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 #: model_terms:ir.ui.view,arch_db:website_sale.o_wsale_offcanvas
 msgid "<b>Sort By</b>"
 msgstr "<b>정렬 기준</b>"
@@ -190,6 +240,7 @@ msgid "<i class=\"fa fa-pencil me-1\"/>Edit"
 msgstr "<i class=\"fa fa-pencil me-1\"/>편집"
 
 #. module: website_sale
+<<<<<<< HEAD
 #: model_terms:ir.ui.view,arch_db:website_sale.row_addresses
 msgid ""
 "<i class=\"fa fa-plus me-md-2\"/><span class=\"d-none d-md-inline\">Add "
@@ -197,6 +248,15 @@ msgid ""
 msgstr ""
 "<i class=\"fa fa-plus me-md-2\"/><span class=\"d-none d-md-inline\">주소 "
 "추가</span>"
+=======
+#: model_terms:ir.ui.view,arch_db:website_sale.address_row
+msgid ""
+"<i class=\"fa fa-plus me-md-2\"/>\n"
+"                    <span class=\"d-none d-md-inline\">Add address</span>"
+msgstr ""
+"<i class=\"fa fa-plus me-md-2\"/>\n"
+"                    <span class=\"d-none d-md-inline\">주소 추가</span>"
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 #. module: website_sale
 #: model_terms:ir.ui.view,arch_db:website_sale.confirmation
@@ -220,6 +280,7 @@ msgid ""
 msgstr ""
 "<i class=\"fa fa-shopping-cart me-2\"/>\n"
 "                                                장바구니에 추가"
+<<<<<<< HEAD
 
 #. module: website_sale
 #: model_terms:ir.ui.view,arch_db:website_sale.address
@@ -230,6 +291,43 @@ msgstr "<i class=\"fw-light fa fa-angle-left me-2\"/>취소"
 #: model_terms:ir.ui.view,arch_db:website_sale.products_attributes
 msgid "<option value=\"\" selected=\"true\">-</option>"
 msgstr "<option value=\"\" selected=\"true\">-</option>"
+=======
+
+#. module: website_sale
+#: model_terms:ir.ui.view,arch_db:website_sale.address
+msgid "<i class=\"fw-light fa fa-angle-left me-2\"/>Discard"
+msgstr "<i class=\"fw-light fa fa-angle-left me-2\"/>취소"
+
+#. module: website_sale
+#: model_terms:ir.ui.view,arch_db:website_sale.product
+msgid ""
+"<i class=\"oi oi-chevron-left d-lg-none me-1\" role=\"presentation\"/>All "
+"Products"
+msgstr "<i class=\"oi oi-chevron-left d-lg-none me-1\" role=\"프레젠테이션\"/>모든 품목"
+
+#. module: website_sale
+#: model_terms:ir.ui.view,arch_db:website_sale.product
+msgid "<i class=\"oi oi-chevron-left me-1\" role=\"presentation\"/>All Products"
+msgstr "<i class=\"oi oi-chevron-left me-1\" role=\"프레젠테이션\"/>모든 품목"
+
+#. module: website_sale
+#: model_terms:ir.ui.view,arch_db:website_sale.shop_product_carousel
+msgid ""
+"<i class=\"oi oi-chevron-left oe_unmovable border bg-white text-900\" "
+"role=\"img\" aria-label=\"Previous\" title=\"Previous\"/>"
+msgstr ""
+"<i class=\"oi oi-chevron-left oe_unmovable border bg-white text-900\" "
+"role=\"img\" aria-label=\"이전\" title=\"이전\"/>"
+
+#. module: website_sale
+#: model_terms:ir.ui.view,arch_db:website_sale.shop_product_carousel
+msgid ""
+"<i class=\"oi oi-chevron-right oe_unmovable border bg-white text-900\" "
+"role=\"img\" aria-label=\"Next\" title=\"Next\"/>"
+msgstr ""
+"<i class=\"oi oi-chevron-right oe_unmovable border bg-white text-900\" "
+"role=\"img\" aria-label=\"다음\" title=\"다음\"/>"
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 #. module: website_sale
 #: model_terms:ir.ui.view,arch_db:website_sale.address
@@ -244,7 +342,6 @@ msgstr "<option value=\"\">시/도</option>"
 #. module: website_sale
 #. odoo-python
 #: code:addons/website_sale/models/crm_team.py:0
-#, python-format
 msgid ""
 "<p class=\"o_view_nocontent_smiling_face\">\n"
 "                        You can find all abandoned carts here, i.e. the carts generated by your website's visitors from over an hour ago that haven't been confirmed yet.</p>\n"
@@ -264,27 +361,38 @@ msgstr "<small class=\"d-none d-lg-inline text-muted\">정렬 기준:</small>"
 #. module: website_sale
 #: model_terms:ir.ui.view,arch_db:website_sale.address
 msgid ""
+<<<<<<< HEAD
 "<small class=\"form-text text-muted\">Changing company name or VAT number is"
 " not allowed once document(s) have been issued for your account. Please "
 "contact us directly for this operation.</small>"
 msgstr ""
 "<small class=\"form-text text-muted\">계정 관련된 문서 발급이 완료된 이후에는 회사 이름 또는 VAT "
 "번호를 변경할 수 없습니다. 관련된 내용은 직접 연락주시기 바랍니다. </small>"
+=======
+"<small class=\"form-text text-muted\">\n"
+"                                                        Changing company name or VAT number is not allowed once document(s) have been issued for your account. Please contact us directly for this operation.\n"
+"                                                    </small>"
+msgstr ""
+"<small class=\"form-text text-muted\">\n"
+"                                                         계정 관련된 문서 발급이 완료된 이후에는 회사 이름 또는 VAT 번호를 변경할 수 없습니다. 관련된 내용은 직접 연락주시기 바랍니다.\n"
+"                                                    </small>"
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 #. module: website_sale
 #: model_terms:ir.ui.view,arch_db:website_sale.products_attributes
 msgid ""
 "<small class=\"mx-auto\"><b>Clear Filters</b></small>\n"
-"                        <i class=\"oi oi-close\"/>"
+"                            <i class=\"oi oi-close\" role=\"presentation\"/>"
 msgstr ""
-"<small class=\"mx-auto\"><b>필터 삭제</b></small>\n"
-"                        <i class=\"oi oi-close\"/>"
+"<small class=\"mx-auto\"><b>필터 제거</b></small>\n"
+"                            <i class=\"oi oi-close\" role=\"프레젠테이션\"/>"
 
 #. module: website_sale
 #: model_terms:ir.ui.view,arch_db:website_sale.suggested_products_list
 msgid ""
 "<span class=\"d-md-none fa fa-shopping-cart\"/>\n"
 "                            <span class=\"d-none d-md-inline\">Add to cart</span>"
+<<<<<<< HEAD
 msgstr ""
 "<span class=\"d-md-none fa fa-shopping-cart\"/>\n"
 "                            <span class=\"d-none d-md-inline\">장바구니에 추가</span>"
@@ -297,22 +405,29 @@ msgid ""
 msgstr ""
 "<span class=\"fa fa-lg fa-globe\" title=\"Values set here are website-"
 "specific.\" groups=\"website.group_multi_website\"/>"
-
-#. module: website_sale
-#: model_terms:ir.ui.view,arch_db:website_sale.snippet_options
-msgid "<span class=\"mx-2 o_wsale_ppr_by\">by</span>"
-msgstr "<span class=\"mx-2 o_wsale_ppr_by\">주관사</span>"
-
-#. module: website_sale
-#: model_terms:ir.ui.view,arch_db:website_sale.payment_delivery_methods
-msgid ""
-"<span class=\"o_order_location\">\n"
-"                    <b class=\"o_order_location_name\"/>\n"
-"                    <br/>\n"
-"                    <i class=\"o_order_location_address\"/>\n"
-"                </span>\n"
-"                <span class=\"fa fa-times ms-2 o_remove_order_location\" aria-label=\"Remove this location\" title=\"Remove this location\"/>"
+=======
 msgstr ""
+"<span class=\"d-md-none fa fa-shopping-cart\"/>\n"
+"                            <span class=\"d-none d-md-inline\">장바구니에 추가</span>"
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
+
+#. module: website_sale
+#: model_terms:ir.ui.view,arch_db:website_sale.res_config_settings_view_form
+msgid ""
+"<span class=\"fa fa-lg fa-globe\" title=\"Values set here are website-"
+"specific.\" groups=\"website.group_multi_website\"/>"
+msgstr ""
+"<span class=\"fa fa-lg fa-globe\" title=\"Values set here are website-"
+"specific.\" groups=\"website.group_multi_website\"/>"
+
+#. module: website_sale
+#: model_terms:ir.ui.view,arch_db:website_sale.s_dynamic_snippet_products_preview_data
+msgid ""
+"<span class=\"fw-bold\" name=\"product_price\" data-oe-type=\"monetary\" data-oe-expression=\"data['price']\">\n"
+"                                                <span class=\"oe_currency_value\">1,500.00</span>\n"
+"                                            </span>"
+msgstr ""
+<<<<<<< HEAD
 "<span class=\"o_order_location\">\n"
 "                    <b class=\"o_order_location_name\"/>\n"
 "                    <br/>\n"
@@ -348,6 +463,62 @@ msgstr ""
 "label=\"Next\" title=\"Next\"/>"
 
 #. module: website_sale
+=======
+"<span class=\"fw-bold\" name=\"product_price\" data-oe-type=\"monetary\" data-oe-expression=\"data['price']\">\n"
+"                                                <span class=\"oe_currency_value\">1,500.00</span>\n"
+"                                            </span>"
+
+#. module: website_sale
+#: model_terms:ir.ui.view,arch_db:website_sale.s_dynamic_snippet_products_preview_data
+msgid ""
+"<span class=\"fw-bold\" name=\"product_price\" data-oe-type=\"monetary\" data-oe-expression=\"data['price']\">\n"
+"                                                <span class=\"oe_currency_value\">140.00</span>\n"
+"                                            </span>"
+msgstr ""
+"<span class=\"fw-bold\" name=\"product_price\" data-oe-type=\"monetary\" data-oe-expression=\"data['price']\">\n"
+"                                                <span class=\"oe_currency_value\">140.00</span>\n"
+"                                            </span>"
+
+#. module: website_sale
+#: model_terms:ir.ui.view,arch_db:website_sale.s_dynamic_snippet_products_preview_data
+msgid ""
+"<span class=\"fw-bold\" name=\"product_price\" data-oe-type=\"monetary\" data-oe-expression=\"data['price']\">\n"
+"                                                <span class=\"oe_currency_value\">33.00</span>\n"
+"                                            </span>"
+msgstr ""
+"<span class=\"fw-bold\" name=\"product_price\" data-oe-type=\"monetary\" data-oe-expression=\"data['price']\">\n"
+"                                                <span class=\"oe_currency_value\">33.00</span>\n"
+"                                            </span>"
+
+#. module: website_sale
+#: model_terms:ir.ui.view,arch_db:website_sale.s_dynamic_snippet_products_preview_data
+msgid ""
+"<span class=\"fw-bold\" name=\"product_price\" data-oe-type=\"monetary\" data-oe-expression=\"data['price']\">\n"
+"                                                <span class=\"oe_currency_value\">750.00</span>\n"
+"                                            </span>"
+msgstr ""
+"<span class=\"fw-bold\" name=\"product_price\" data-oe-type=\"monetary\" data-oe-expression=\"data['price']\">\n"
+"                                                <span class=\"oe_currency_value\">750.00</span>\n"
+"                                            </span>"
+
+#. module: website_sale
+#: model_terms:ir.ui.view,arch_db:website_sale.snippet_options
+msgid "<span class=\"mx-2 o_wsale_ppr_by\">by</span>"
+msgstr "<span class=\"mx-2 o_wsale_ppr_by\">주관사</span>"
+
+#. module: website_sale
+#: model_terms:ir.ui.view,arch_db:website_sale.delivery_method
+msgid ""
+"<span class=\"o_wsale_delivery_price_badge float-end fw-bold\" name=\"price\">\n"
+"                    Select to compute delivery rate\n"
+"                </span>"
+msgstr ""
+"<span class=\"o_wsale_delivery_price_badge float-end fw-bold\" name=\"price\">\n"
+"                    배송료 계산을 선택하려면 다음을 선택합니다.\n"
+"                </span>"
+
+#. module: website_sale
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 #: model_terms:ir.ui.view,arch_db:website_sale.address
 #: model_terms:ir.ui.view,arch_db:website_sale.extra_info
 #: model_terms:ir.ui.view,arch_db:website_sale.navigation_buttons
@@ -382,6 +553,19 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:website_sale.products
 msgid "<span class=\"visually-hidden\">filters active</span>"
 msgstr "<span class=\"visually-hidden\">필터 활성화</span>"
+<<<<<<< HEAD
+=======
+
+#. module: website_sale
+#: model_terms:web_tour.tour,rainbow_man_message:website_sale.test_01_admin_shop_tour
+msgid "<span><b>Good job!</b> You went through all steps of this tour.</span>"
+msgstr "<span><b>잘하셨습니다!</b>  이번 여정의 모든 단계를 마쳤습니다.</span>"
+
+#. module: website_sale
+#: model_terms:ir.ui.view,arch_db:website_sale.address
+msgid "<span>Already have an account?</span>"
+msgstr "<span>이미 계정이 있으신가요?</span>"
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 #. module: website_sale
 #: model_terms:ir.ui.view,arch_db:website_sale.confirmation
@@ -390,8 +574,13 @@ msgstr "<span>주문</span>"
 
 #. module: website_sale
 #: model_terms:ir.ui.view,arch_db:website_sale.product_document_kanban
+<<<<<<< HEAD
 msgid "<span>Show on product page</span>"
 msgstr "<span>상품 페이지에 표시</span>"
+=======
+msgid "<span>Publish on website</span>"
+msgstr "<span>웹사이트에 게시</span>"
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 #. module: website_sale
 #: model_terms:ir.ui.view,arch_db:website_sale.payment_confirmation_status
@@ -408,6 +597,7 @@ msgid "<span>Video Preview</span>"
 msgstr "<span>동영상 미리보기</span>"
 
 #. module: website_sale
+<<<<<<< HEAD
 #: model_terms:ir.ui.view,arch_db:website_sale.payment
 msgid "<strong><i class=\"oi oi-arrow-right\"/> View alternatives</strong>"
 msgstr "<strong><i class=\"oi oi-arrow-right\"/> 대안 보기</strong>"
@@ -416,6 +606,11 @@ msgstr "<strong><i class=\"oi oi-arrow-right\"/> 대안 보기</strong>"
 #: model_terms:ir.ui.view,arch_db:website_sale.payment
 msgid "<strong>No suitable payment option could be found.</strong><br/>"
 msgstr "<strong>적절한 결제 옵션을 찾을 수 없습니다.</strong><br/>"
+=======
+#: model_terms:ir.ui.view,arch_db:website_sale.delivery_form
+msgid "<strong>No suitable delivery method could be found.</strong>"
+msgstr "<strong>적절한 배송 방법을 찾을 수 없습니다..</strong>"
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 #. module: website_sale
 #: model_terms:ir.ui.view,arch_db:website_sale.confirmation
@@ -444,17 +639,17 @@ msgid ""
 "            <table border=\"0\" cellpadding=\"0\" cellspacing=\"0\" width=\"590\" style=\"min-width: 590px; background-color: white; padding: 0px 0px 0px 0px; border-collapse:separate;\">\n"
 "                <tr><td valign=\"top\" style=\"font-size: 13px;\">\n"
 "                    <h1 style=\"color:#A9A9A9;\">THERE'S SOMETHING IN YOUR CART.</h1>\n"
-"                    Would you like to complete your purchase?<br><br>\n"
+"                    Would you like to complete your purchase?<br/><br/>\n"
 "                    <t t-if=\"object.order_line\">\n"
 "                        <t t-foreach=\"object.website_order_line\" t-as=\"line\">\n"
-"                            <hr>\n"
+"                            <hr/>\n"
 "                            <table width=\"100%\">\n"
 "                                <tr>\n"
 "                                    <td style=\"padding: 10px; width:150px;\">\n"
-"                                        <img t-attf-src=\"/web/image/product.product/{{ line.product_id.id }}/image_128\" style=\"width: 100px; height: 100px; object-fit: contain;\" alt=\"Product image\">\n"
+"                                        <img t-attf-src=\"/web/image/product.product/{{ line.product_id.id }}/image_128\" style=\"width: 100px; height: 100px; object-fit: contain;\" alt=\"Product image\"/>\n"
 "                                    </td>\n"
 "                                    <td>\n"
-"                                        <strong t-out=\"line.product_id.display_name or ''\">[FURN_7800] Desk Combination</strong><br><t t-out=\"line.name or ''\">[FURN_7800] Desk Combination Desk combination, black-brown: chair + desk + drawer.</t>\n"
+"                                        <strong t-out=\"line.product_id.display_name or ''\">[FURN_7800] Desk Combination</strong><br/><t t-out=\"line.name or ''\">[FURN_7800] Desk Combination Desk combination, black-brown: chair + desk + drawer.</t>\n"
 "                                    </td>\n"
 "                                    <td width=\"100px\" align=\"right\">\n"
 "                                        <t t-out=\"int(line.product_uom_qty) or ''\">10000</t> <t t-out=\"line.product_uom.name or ''\">Units</t>\n"
@@ -462,14 +657,14 @@ msgid ""
 "                                </tr>\n"
 "                            </table>\n"
 "                        </t>\n"
-"                        <hr>\n"
+"                        <hr/>\n"
 "                    </t>\n"
 "                    <div style=\"text-align: center; padding: 16px 0px 16px 0px; font-size: 14px;\">\n"
 "                        <a t-attf-href=\"{{ object.get_base_url() }}/shop/cart?access_token={{ object.access_token }}\" target=\"_blank\" style=\"background-color: #875A7B; padding: 8px 16px 8px 16px; text-decoration: none; color: #fff; border-radius: 5px; font-size:13px;\">\n"
 "                            Resume order\n"
 "                        </a>\n"
 "                    </div>\n"
-"                    <t t-set=\"company\" t-value=\"object.company_id or object.user_id.company_id or user.company_id\"></t>\n"
+"                    <t t-set=\"company\" t-value=\"object.company_id or object.user_id.company_id or user.company_id\"/>\n"
 "                    <div style=\"text-align: center;\"><strong>Thank you for shopping with <t t-out=\"company.name or ''\">My Company (San Francisco)</t>!</strong></div>\n"
 "                </td></tr>\n"
 "            </table>\n"
@@ -487,6 +682,7 @@ msgstr ""
 "            <table border=\"0\" cellpadding=\"0\" cellspacing=\"0\" width=\"590\" style=\"min-width: 590px; background-color: white; padding: 0px 0px 0px 0px; border-collapse:separate;\">\n"
 "                <tr><td valign=\"top\" style=\"font-size: 13px;\">\n"
 "                    <h1 style=\"color:#A9A9A9;\">장바구니에 담겨 있는 상품이 있습니다.</h1>\n"
+<<<<<<< HEAD
 "                    결제를 진행하시겠습니까?<br><br>\n"
 "                    <t t-if=\"object.order_line\">\n"
 "                        <t t-foreach=\"object.website_order_line\" t-as=\"line\">\n"
@@ -498,6 +694,19 @@ msgstr ""
 "                                    </td>\n"
 "                                    <td>\n"
 "                                        <strong t-out=\"line.product_id.display_name or ''\">[FURN_7800] 책상 세트</strong><br><t t-out=\"line.name or ''\">[FURN_7800] 책상 세트, 다크 브라운: 의자 + 책상 + 서랍.</t>\n"
+=======
+"                    결제 단계를 진행하시겠습니까?<br/><br/>\n"
+"                    <t t-if=\"object.order_line\">\n"
+"                        <t t-foreach=\"object.website_order_line\" t-as=\"line\">\n"
+"                            <hr/>\n"
+"                            <table width=\"100%\">\n"
+"                                <tr>\n"
+"                                    <td style=\"padding: 10px; width:150px;\">\n"
+"                                        <img t-attf-src=\"/web/image/product.product/{{ line.product_id.id }}/image_128\" style=\"width: 100px; height: 100px; object-fit: contain;\" alt=\"Product image\"/>\n"
+"                                    </td>\n"
+"                                    <td>\n"
+"                                        <strong t-out=\"line.product_id.display_name or ''\">[FURN_7800] 책상 세트</strong><br/><t t-out=\"line.name or ''\">[FURN_7800] 책상 세트 책상 세트, 검정-갈색: 의자 + 책상 + 서랍.</t>\n"
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 "                                    </td>\n"
 "                                    <td width=\"100px\" align=\"right\">\n"
 "                                        <t t-out=\"int(line.product_uom_qty) or ''\">10000</t> <t t-out=\"line.product_uom.name or ''\">개</t>\n"
@@ -505,14 +714,22 @@ msgstr ""
 "                                </tr>\n"
 "                            </table>\n"
 "                        </t>\n"
+<<<<<<< HEAD
 "                        <hr>\n"
+=======
+"                        <hr/>\n"
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 "                    </t>\n"
 "                    <div style=\"text-align: center; padding: 16px 0px 16px 0px; font-size: 14px;\">\n"
 "                        <a t-attf-href=\"{{ object.get_base_url() }}/shop/cart?access_token={{ object.access_token }}\" target=\"_blank\" style=\"background-color: #875A7B; padding: 8px 16px 8px 16px; text-decoration: none; color: #fff; border-radius: 5px; font-size:13px;\">\n"
 "                            주문으로 돌아가기\n"
 "                        </a>\n"
 "                    </div>\n"
+<<<<<<< HEAD
 "                    <t t-set=\"company\" t-value=\"object.company_id or object.user_id.company_id or user.company_id\"></t>\n"
+=======
+"                    <t t-set=\"company\" t-value=\"object.company_id or object.user_id.company_id or user.company_id\"/>\n"
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 "                    <div style=\"text-align: center;\"><strong>저희 <t t-out=\"company.name or ''\">My Company (San Francisco)</t> 제품을 이용해주셔서 감사합니다!</strong></div>\n"
 "                </td></tr>\n"
 "            </table>\n"
@@ -534,6 +751,7 @@ msgid ""
 " This description will be copied to every Sales Order, Delivery Order and "
 "Customer Invoice/Credit Note"
 msgstr "고객에게 전달하고자 하는 품목 설명. 이 설명은 모든 판매 주문, 배송 주문 및 고객 청구서/대변전표에 복사됩니다"
+<<<<<<< HEAD
 
 #. module: website_sale
 #: model_terms:ir.ui.view,arch_db:website_sale.product
@@ -548,13 +766,35 @@ msgid ""
 "A product can be either a physical product or a service that you sell to "
 "your customers."
 msgstr "상품은 실제 상품이거나 고객에게 판매하는 서비스일 수 있습니다."
+=======
 
 #. module: website_sale
 #: model_terms:ir.ui.view,arch_db:website_sale.product
-msgid "A short description that will also appear on documents."
-msgstr "문서에 표시되는 간단한 설명입니다."
+msgid ""
+"A detailed, formatted description to promote your product on this page. Use "
+"'/' to discover more features."
+msgstr "이 페이지에서 제품을 돋보이게 하는 자세한 설명입니다. '/'를 눌러 더 많은 기능을 살펴보세요."
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 #. module: website_sale
+#: model_terms:ir.ui.view,arch_db:website_sale.product_template_form_view
+msgid ""
+"A detailed,formatted description to promote your product on"
+"                                      this page. Use '/' to discover more "
+"features."
+msgstr "이 페이지에서 제품을 홍보하기 위한 상세하고 형식화된 설명입니다. 더 많은 기능을 찾으려면 '/'를 사용하세요."
+
+#. module: website_sale
+<<<<<<< HEAD
+=======
+#: model_terms:ir.actions.act_window,help:website_sale.product_template_action_website
+msgid ""
+"A product can be either a physical product or a service that you sell to "
+"your customers."
+msgstr "상품은 실제 상품이거나 고객에게 판매하는 서비스일 수 있습니다."
+
+#. module: website_sale
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 #: model_terms:ir.ui.view,arch_db:website_sale.view_sales_order_filter_ecommerce
 msgid "Abandoned"
 msgstr "취소함"
@@ -570,7 +810,6 @@ msgstr "취소한 장바구니"
 #: code:addons/website_sale/models/crm_team.py:0
 #: model:ir.actions.act_window,name:website_sale.action_view_abandoned_tree
 #: model:ir.ui.menu,name:website_sale.menu_orders_abandoned_orders
-#, python-format
 msgid "Abandoned Carts"
 msgstr "이전 장바구니 보기"
 
@@ -580,6 +819,7 @@ msgid "Abandoned Carts to Recover"
 msgstr "복구된 취소한 장바구니"
 
 #. module: website_sale
+#: model:ir.model.fields,field_description:website_sale.field_res_config_settings__cart_abandoned_delay
 #: model:ir.model.fields,field_description:website_sale.field_website__cart_abandoned_delay
 msgid "Abandoned Delay"
 msgstr "취소 지연"
@@ -639,9 +879,14 @@ msgid "Add"
 msgstr "추가"
 
 #. module: website_sale
+#: model_terms:ir.ui.view,arch_db:website_sale.product_product_view_form_easy_inherit_website_sale
+#: model_terms:ir.ui.view,arch_db:website_sale.product_template_form_view
+msgid "Add Media"
+msgstr "미디어 추가"
+
+#. module: website_sale
 #. odoo-javascript
 #: code:addons/website_sale/static/src/xml/website_sale_reorder_modal.xml:0
-#, python-format
 msgid "Add To Cart"
 msgstr "장바구니에 담기"
 
@@ -650,12 +895,15 @@ msgstr "장바구니에 담기"
 #: model:ir.model.fields,field_description:website_sale.field_website__add_to_cart_action
 msgid "Add To Cart Action"
 msgstr "장바구니 추가 "
+<<<<<<< HEAD
 
 #. module: website_sale
 #: model_terms:ir.ui.view,arch_db:website_sale.product_product_view_form_easy_inherit_website_sale
 #: model_terms:ir.ui.view,arch_db:website_sale.product_template_form_view
 msgid "Add a Media"
 msgstr "이미지나 동영상 추가"
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 #. module: website_sale
 #: model_terms:ir.ui.view,arch_db:website_sale.res_config_settings_view_form
@@ -670,6 +918,18 @@ msgid ""
 msgstr "판매가 외에 제품의 UoM당 참조 가격 (예: $/kg)이 추가됩니다."
 
 #. module: website_sale
+<<<<<<< HEAD
+=======
+#: model:ir.model.fields,help:website_sale.field_product_product__compare_list_price
+#: model:ir.model.fields,help:website_sale.field_product_template__compare_list_price
+#: model:ir.model.fields,help:website_sale.field_res_config_settings__group_product_price_comparison
+msgid ""
+"Add a strikethrough price to your /shop and product pages for comparison "
+"purposes.It will not be displayed if pricelists apply."
+msgstr "비교 목적으로 /shop 및 제품 페이지에 취소선 가격을 추가합니다. 가격 목록이 적용되면 표시되지 않습니다."
+
+#. module: website_sale
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 #: model_terms:ir.ui.view,arch_db:website_sale.res_config_settings_view_form
 msgid "Add a strikethrough price, as a comparison"
 msgstr "취소선을 그은 정상가와 함께 할인된 현재 가격이 표시됩니다."
@@ -680,7 +940,6 @@ msgstr "취소선을 그은 정상가와 함께 할인된 현재 가격이 표�
 #: code:addons/website_sale/static/src/xml/website_sale_reorder_modal.xml:0
 #: model_terms:ir.ui.view,arch_db:website_sale.cart_lines
 #: model_terms:ir.ui.view,arch_db:website_sale.product_quantity
-#, python-format
 msgid "Add one"
 msgstr "하나 추가하기"
 
@@ -695,7 +954,6 @@ msgstr "하나 추가하기"
 #: model_terms:ir.ui.view,arch_db:website_sale.res_config_settings_view_form
 #: model_terms:ir.ui.view,arch_db:website_sale.s_add_to_cart_options
 #: model_terms:ir.ui.view,arch_db:website_sale.snippet_options
-#, python-format
 msgid "Add to Cart"
 msgstr "장바구니에 담기"
 
@@ -705,6 +963,7 @@ msgid "Add to Cart Button"
 msgstr "장바구니 추가 버튼"
 
 #. module: website_sale
+<<<<<<< HEAD
 #: model_terms:ir.ui.view,arch_db:website_sale.checkout
 msgid "Address"
 msgstr "주소"
@@ -713,9 +972,19 @@ msgstr "주소"
 #: model:ir.model.fields,field_description:website_sale.field_res_config_settings__module_website_sale_autocomplete
 msgid "Address Autocomplete"
 msgstr "주소 자동 완성"
+=======
+#: model:ir.model.fields,field_description:website_sale.field_res_config_settings__module_website_sale_autocomplete
+msgid "Address Autocomplete"
+msgstr "주소 자동 완성"
 
 #. module: website_sale
-#: model_terms:ir.ui.view,arch_db:website_sale.product
+#: model_terms:ir.ui.view,arch_db:website_sale.product_template_form_view
+#: model_terms:ir.ui.view,arch_db:website_sale.products_attributes
+msgid "All"
+msgstr "전체"
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
+
+#. module: website_sale
 #: model_terms:ir.ui.view,arch_db:website_sale.products_categories_list
 #: model_terms:ir.ui.view,arch_db:website_sale.s_dynamic_snippet_products_template_options
 msgid "All Products"
@@ -727,9 +996,21 @@ msgid "All pricelists"
 msgstr "전체 가격표"
 
 #. module: website_sale
+#: model:ir.model.fields.selection,name:website_sale.selection__website__ecommerce_access__everyone
+msgid "All users"
+msgstr "모든 사용자"
+
+#. module: website_sale
+#: model_terms:ir.ui.view,arch_db:website_sale.view_delivery_carrier_form_website_delivery
+msgid "All websites"
+msgstr "모든 웹사이트"
+
+#. module: website_sale
 #: model_terms:ir.ui.view,arch_db:website_sale.res_config_settings_view_form
-msgid "Allow customers to pay in person at your stores"
-msgstr "고객이 매장에서 직접 결제할 수 있도록 허용"
+msgid ""
+"Allow customers to pick up their online purchases at your store and pay in "
+"person"
+msgstr "고객이 온라인 구매 제품을 스토어에서 수령하고 직접 결제할 수 있도록 허용"
 
 #. module: website_sale
 #: model_terms:ir.ui.view,arch_db:website_sale.res_config_settings_view_form
@@ -767,8 +1048,11 @@ msgstr "취소된 장바구니의 금액"
 #. module: website_sale
 #. odoo-python
 #: code:addons/website_sale/controllers/delivery.py:0
+<<<<<<< HEAD
 #: code:addons/website_sale/controllers/delivery.py:0
 #, python-format
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 msgid "Anonymous express checkout partner for order %s"
 msgstr "%s 주문 관련 익명 익스프레스 결제 협력사"
 
@@ -785,9 +1069,14 @@ msgstr "적용"
 #. module: website_sale
 #. odoo-javascript
 #: code:addons/website_sale/static/src/js/website_sale.editor.js:0
+<<<<<<< HEAD
 #, python-format
 msgid "Are you sure you want to delete this badge?"
 msgstr "이 배지를 삭제하시겠습니까?"
+=======
+msgid "Are you sure you want to delete this ribbon?"
+msgstr "이 리본을 정말로 삭제하시겠습니까?"
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 #. module: website_sale
 #: model_terms:ir.ui.view,arch_db:website_sale.res_config_settings_view_form
@@ -812,14 +1101,29 @@ msgid "Attributes"
 msgstr "속성"
 
 #. module: website_sale
+#: model:product.public.category,name:website_sale.public_category_multimedia_augmented_reality
+msgid "Augmented Reality Tools"
+msgstr "증강 현실 도구"
+
+#. module: website_sale
 #: model_terms:ir.ui.view,arch_db:website_sale.res_config_settings_view_form
 msgid "Automatically send abandoned checkout emails"
 msgstr "결제 단계에서 중단된 건에 대해 이메일 자동 발송"
+<<<<<<< HEAD
+=======
+
+#. module: website_sale
+#. odoo-javascript
+#: code:addons/website_sale/static/src/js/product_list/product_list.js:0
+msgid "Available options"
+msgstr "사용 가능한 옵션"
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 #. module: website_sale
 #: model:ir.model.fields,field_description:website_sale.field_product_template__rating_avg
 msgid "Average Rating"
 msgstr "평균 평점"
+<<<<<<< HEAD
 
 #. module: website_sale
 #. odoo-python
@@ -828,14 +1132,24 @@ msgstr "평균 평점"
 #, python-format
 msgid "Back to cart"
 msgstr "장바구니로 돌아가기"
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
+
+#. module: website_sale
+#. odoo-python
+#: code:addons/website_sale/models/website.py:0
+msgid "Back to cart"
+msgstr "장바구니로 돌아가기"
+
+#. module: website_sale
+#. odoo-python
+#: code:addons/website_sale/models/website.py:0
+msgid "Back to delivery"
+msgstr "배송으로 돌아가기"
 
 #. module: website_sale
 #: model_terms:ir.ui.view,arch_db:website_sale.snippet_options
-msgid "Background"
-msgstr "배경"
-
-#. module: website_sale
-#: model_terms:ir.ui.view,arch_db:website_sale.snippet_options
+<<<<<<< HEAD
 msgid "Badge"
 msgstr "배지"
 
@@ -845,6 +1159,15 @@ msgstr "배지"
 #, python-format
 msgid "Badge Text"
 msgstr "배지 텍스트"
+=======
+msgid "Background"
+msgstr "배경"
+
+#. module: website_sale
+#: model:ir.model.fields,field_description:website_sale.field_product_ribbon__bg_color
+msgid "Background Color"
+msgstr "배경 색상"
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 #. module: website_sale
 #: model:ir.model.fields,field_description:website_sale.field_product_product__base_unit_count
@@ -867,6 +1190,14 @@ msgstr "기본 단위 가격"
 #: model:ir.actions.act_window,name:website_sale.base_unit_action
 msgid "Base Units"
 msgstr "기본 단위"
+<<<<<<< HEAD
+=======
+
+#. module: website_sale
+#: model:product.public.category,name:website_sale.public_category_cabinets_bathroom
+msgid "Bathroom Cabinets"
+msgstr "욕실 캐비닛"
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 #. module: website_sale
 #: model_terms:ir.ui.view,arch_db:website_sale.address
@@ -879,6 +1210,11 @@ msgid "BeNeLux"
 msgstr "베네룩스"
 
 #. module: website_sale
+#: model:product.public.category,name:website_sale.public_category_furnitures_beds
+msgid "Beds"
+msgstr "침대"
+
+#. module: website_sale
 #: model:product.pricelist,name:website_sale.list_benelux
 msgid "Benelux"
 msgstr "베네룩스"
@@ -889,20 +1225,37 @@ msgid "Big"
 msgstr "크게"
 
 #. module: website_sale
+<<<<<<< HEAD
 #: model_terms:ir.ui.view,arch_db:website_sale.address_on_payment
 #: model_terms:ir.ui.view,arch_db:website_sale.checkout
+=======
+#: model_terms:ir.ui.view,arch_db:website_sale.snippet_options
+msgid "Big Icons Subtitles"
+msgstr "큰 아이콘 소제목"
+
+#. module: website_sale
+#: model_terms:ir.ui.view,arch_db:website_sale.confirmation
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 msgid "Billing"
 msgstr "청구"
 
 #. module: website_sale
 #: model_terms:ir.ui.view,arch_db:website_sale.address
+<<<<<<< HEAD
+=======
+#: model_terms:ir.ui.view,arch_db:website_sale.billing_address_row
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 msgid "Billing address"
 msgstr "청구지 주소"
 
 #. module: website_sale
+#: model_terms:ir.ui.view,arch_db:website_sale.address_on_payment
+msgid "Billing:"
+msgstr "청구:"
+
+#. module: website_sale
 #. odoo-python
 #: code:addons/website_sale/models/website_snippet_filter.py:0
-#, python-format
 msgid "Bin"
 msgstr "휴지통"
 
@@ -935,7 +1288,6 @@ msgstr "맨 아래"
 #. module: website_sale
 #. odoo-python
 #: code:addons/website_sale/models/website_snippet_filter.py:0
-#, python-format
 msgid "Box"
 msgstr "상자"
 
@@ -951,7 +1303,11 @@ msgstr "상표"
 
 #. module: website_sale
 #: model:ir.model.fields,field_description:website_sale.field_res_config_settings__website_sale_contact_us_button_url
+<<<<<<< HEAD
 msgid "Button URL"
+=======
+msgid "Button Url"
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 msgstr "버튼 URL"
 
 #. module: website_sale
@@ -974,9 +1330,13 @@ msgstr "지금 구입하기"
 #. module: website_sale
 #. odoo-javascript
 #: code:addons/website_sale/static/src/snippets/s_add_to_cart/options.js:0
-#, python-format
 msgid "Buy now"
 msgstr "지금 구입하기"
+
+#. module: website_sale
+#: model_terms:ir.ui.view,arch_db:website_sale.s_dynamic_snippet_products_preview_data
+msgid "Cabinet with Doors"
+msgstr "문이 달려있는 캐비넷"
 
 #. module: website_sale
 #: model:product.public.category,name:website_sale.public_category_cabinets
@@ -1042,10 +1402,10 @@ msgstr "카테고리"
 #: model_terms:ir.actions.act_window,help:website_sale.product_public_category_action
 msgid ""
 "Categories are used to browse your products through the\n"
-"            touchscreen interface."
+"                touchscreen interface."
 msgstr ""
-"범주는 터치 스크린 인터페이스를 통해 상품을\n"
-"            탐색하는데 사용됩니다."
+"범주는 터치스크린 인터페이스를 통해 \n"
+"                  제품을 검색하는 데 사용됩니다."
 
 #. module: website_sale
 #: model_terms:ir.ui.view,arch_db:website_sale.product_category_extra_link
@@ -1064,14 +1424,26 @@ msgid "Category Description"
 msgstr "범주 설명"
 
 #. module: website_sale
+#: model:ir.model.fields,field_description:website_sale.field_product_public_category__website_footer
+msgid "Category Footer"
+msgstr "카테고리 바닥글"
+
+#. module: website_sale
 #: model_terms:ir.ui.view,arch_db:website_sale.product_category_extra_link
 msgid "Category:"
 msgstr "카테고리:"
+<<<<<<< HEAD
+=======
+
+#. module: website_sale
+#: model:product.public.category,name:website_sale.public_category_lamps_ceiling
+msgid "Ceiling Lamps"
+msgstr "천장 조명"
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 #. module: website_sale
 #. odoo-python
 #: code:addons/website_sale/models/website_snippet_filter.py:0
-#, python-format
 msgid "Chair"
 msgstr "의자"
 
@@ -1081,6 +1453,18 @@ msgid "Chairs"
 msgstr "의자"
 
 #. module: website_sale
+#: model:product.public.category,name:website_sale.public_category_lamps_chandelier
+msgid "Chandeliers"
+msgstr "샹들리에"
+
+#. module: website_sale
+#: model_terms:ir.ui.view,arch_db:website_sale.delivery_method
+msgid "Change location"
+msgstr "위치 변경"
+
+#. module: website_sale
+#. odoo-python
+#: code:addons/website_sale/controllers/main.py:0
 #: model_terms:ir.ui.view,arch_db:website_sale.address
 msgid ""
 "Changing VAT number is not allowed once document(s) have been issued for "
@@ -1097,7 +1481,10 @@ msgstr "귀하의 계정에 대한 문서가 발급되면 회사 이름을 변�
 #. module: website_sale
 #. odoo-python
 #: code:addons/website_sale/controllers/main.py:0
+<<<<<<< HEAD
 #, python-format
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 msgid ""
 "Changing your name is not allowed once invoices have been issued for your "
 "account. Please contact us directly for this operation."
@@ -1106,7 +1493,10 @@ msgstr "계정으로 청구서 발행이 완료된 이후에는 이름을 변경
 #. module: website_sale
 #. odoo-python
 #: code:addons/website_sale/models/website.py:0
+<<<<<<< HEAD
 #, python-format
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 msgid "Checkout"
 msgstr "체크아웃"
 
@@ -1121,9 +1511,25 @@ msgid "Children Categories"
 msgstr "하위 범주"
 
 #. module: website_sale
-#: model_terms:ir.ui.view,arch_db:website_sale.payment_delivery
+#: model_terms:ir.ui.view,arch_db:website_sale.delivery_form
 msgid "Choose a delivery method"
 msgstr "배송 방법을 선택하십시오"
+<<<<<<< HEAD
+=======
+
+#. module: website_sale
+#. odoo-javascript
+#: code:addons/website_sale/static/src/js/location_selector/location_selector_dialog/location_selector_dialog.js:0
+msgid "Choose a pick-up point"
+msgstr "픽업 지점 선택"
+
+#. module: website_sale
+#. odoo-javascript
+#: code:addons/website_sale/static/src/js/location_selector/location_selector_dialog/location_selector_dialog.js:0
+#: code:addons/website_sale/static/src/js/location_selector/map_container/map_container.js:0
+msgid "Choose this location"
+msgstr "이 위치를 선택하세요."
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 #. module: website_sale
 #: model:product.pricelist,name:website_sale.list_christmas
@@ -1137,8 +1543,17 @@ msgstr "시/군/구"
 
 #. module: website_sale
 #: model_terms:ir.ui.view,arch_db:website_sale.o_wsale_offcanvas
+#: model_terms:ir.ui.view,arch_db:website_sale.products_attributes
 msgid "Clear Filters"
 msgstr "필터 해제"
+<<<<<<< HEAD
+=======
+
+#. module: website_sale
+#: model:ir.model.fields,field_description:website_sale.field_res_config_settings__module_website_sale_collect
+msgid "Click & Collect"
+msgstr "클릭 & 수령"
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 #. module: website_sale
 #: model_terms:ir.ui.view,arch_db:website_sale.products
@@ -1154,21 +1569,18 @@ msgstr "여기를 클릭하세요"
 #. module: website_sale
 #. odoo-javascript
 #: code:addons/website_sale/static/src/js/tours/website_sale_shop.js:0
-#, python-format
 msgid "Click here to open the reporting menu"
 msgstr "신고하기 메뉴를 사용하시려면 클릭하세요"
 
 #. module: website_sale
 #. odoo-javascript
 #: code:addons/website_sale/static/src/js/tours/website_sale_shop.js:0
-#, python-format
 msgid "Click on <em>Save</em> to create the product."
 msgstr "<em>저장</em>을 클릭하시면 품목을 생성합니다."
 
 #. module: website_sale
 #. odoo-javascript
 #: code:addons/website_sale/static/src/js/tours/website_sale_shop.js:0
-#, python-format
 msgid "Click on this button so your customers can see it."
 msgstr "고객이 볼 수 있도록 이 버튼을 클릭하십시오."
 
@@ -1176,14 +1588,39 @@ msgstr "고객이 볼 수 있도록 이 버튼을 클릭하십시오."
 #. odoo-javascript
 #: code:addons/website_sale/static/src/js/notification/cart_notification/cart_notification.xml:0
 #: model_terms:ir.ui.view,arch_db:website_sale.o_wsale_offcanvas
+<<<<<<< HEAD
 #, python-format
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 msgid "Close"
 msgstr "닫기"
+
+#. module: website_sale
+<<<<<<< HEAD
+#: model_terms:ir.ui.view,arch_db:website_sale.snippet_options
+msgid "Collapse Category Recursive"
+msgstr "카테고리 항목 접기"
+=======
+#. odoo-javascript
+#: code:addons/website_sale/static/src/js/location_selector/location_schedule/location_schedule.js:0
+msgid "Closed"
+msgstr "마감됨"
 
 #. module: website_sale
 #: model_terms:ir.ui.view,arch_db:website_sale.snippet_options
 msgid "Collapse Category Recursive"
 msgstr "카테고리 항목 접기"
+
+#. module: website_sale
+#: model:product.public.category,name:website_sale.public_category_boxes_collapsible
+msgid "Collapsible Boxes"
+msgstr "접이식 박스"
+
+#. module: website_sale
+#: model_terms:ir.ui.view,arch_db:website_sale.snippet_options
+msgid "Collapsible sidebar"
+msgstr "접이식 사이드바"
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 #. module: website_sale
 #: model_terms:ir.ui.view,arch_db:website_sale.snippet_options
@@ -1194,6 +1631,11 @@ msgstr "색상"
 #: model_terms:ir.ui.view,arch_db:website_sale.snippet_options
 msgid "Columns"
 msgstr "열"
+
+#. module: website_sale
+#: model:ir.ui.menu,name:website_sale.menu_product_combos
+msgid "Combo Choices"
+msgstr "콤보 선택 사항"
 
 #. module: website_sale
 #: model_terms:ir.ui.view,arch_db:website_sale.s_dynamic_snippet_products_template_options
@@ -1271,6 +1713,14 @@ msgstr "bpost로 배송비를 계산 및 배송합니다."
 #: model_terms:ir.ui.view,arch_db:website_sale.res_config_settings_view_form
 msgid "Compute shipping costs on orders"
 msgstr "주문 시 배송비를 계산합니다."
+<<<<<<< HEAD
+=======
+
+#. module: website_sale
+#: model_terms:ir.ui.view,arch_db:website_sale.s_dynamic_snippet_products_preview_data
+msgid "Conference Chair"
+msgstr "회의용 의자"
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 #. module: website_sale
 #: model:ir.model,name:website_sale.model_res_config_settings
@@ -1283,9 +1733,20 @@ msgid "Configure Form"
 msgstr "양식 설정"
 
 #. module: website_sale
+<<<<<<< HEAD
 #. odoo-python
 #: code:addons/website_sale/models/website.py:0
 #, python-format
+=======
+#. odoo-javascript
+#: code:addons/website_sale/static/src/js/product_configurator_dialog/product_configurator_dialog.js:0
+msgid "Configure your product"
+msgstr "품목 구성"
+
+#. module: website_sale
+#. odoo-python
+#: code:addons/website_sale/models/website.py:0
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 msgid "Confirm"
 msgstr "승인"
 
@@ -1325,15 +1786,20 @@ msgid "Contact Us Button URL"
 msgstr "문의 버튼 URL"
 
 #. module: website_sale
-#: model_terms:ir.ui.view,arch_db:website_sale.snippet_options
-msgid "Content"
-msgstr "내용"
+#. odoo-javascript
+#: code:addons/website_sale/static/src/js/combo_configurator_dialog/combo_configurator_dialog.xml:0
+#: code:addons/website_sale/static/src/js/product_configurator_dialog/product_configurator_dialog.xml:0
+msgid "Continue Shopping"
+msgstr "계속 쇼핑하기"
 
 #. module: website_sale
 #. odoo-python
 #: code:addons/website_sale/models/website.py:0
 #: model_terms:ir.ui.view,arch_db:website_sale.address
+<<<<<<< HEAD
 #, python-format
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 msgid "Continue checkout"
 msgstr "결제 계속하기"
 
@@ -1349,7 +1815,10 @@ msgstr ""
 #. module: website_sale
 #. odoo-python
 #: code:addons/website_sale/models/website.py:0
+<<<<<<< HEAD
 #, python-format
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 msgid "Continue shopping"
 msgstr "쇼핑 계속하기"
 
@@ -1359,7 +1828,6 @@ msgid "Couches"
 msgstr "소파"
 
 #. module: website_sale
-#: model:ir.model,name:website_sale.model_res_country
 #: model_terms:ir.ui.view,arch_db:website_sale.address
 msgid "Country"
 msgstr "국가"
@@ -1382,6 +1850,14 @@ msgstr "신규 품목 만들기"
 #: model:ir.model.fields,field_description:website_sale.field_website_sale_extra_field__create_uid
 msgid "Created by"
 msgstr "작성자"
+
+#. module: website_sale
+#: model_terms:ir.ui.view,arch_db:website_sale.s_mega_menu_images_subtitles
+#: model_terms:ir.ui.view,arch_db:website_sale.s_mega_menu_little_icons
+msgid ""
+"Created in 2021, the company is young and dynamic. Discover the composition "
+"of the team and their skills."
+msgstr "2021년에 설립된 젊고 역동적인 회사입니다. 회사의 내부 구성과 보유하고 있는 기술에 대해 알아보십시오."
 
 #. module: website_sale
 #: model:ir.model.fields,field_description:website_sale.field_product_image__create_date
@@ -1472,6 +1948,11 @@ msgid "Customers"
 msgstr "고객"
 
 #. module: website_sale
+#: model_terms:ir.ui.view,arch_db:website_sale.s_dynamic_snippet_products_preview_data
+msgid "Customizable Desk"
+msgstr "맞춤형 책상"
+
+#. module: website_sale
 #: model_terms:ir.ui.view,arch_db:website_sale.res_config_settings_view_form
 msgid "Customize Abandoned Email Template"
 msgstr "취소 이메일 템플릿 커스터마이징"
@@ -1479,8 +1960,11 @@ msgstr "취소 이메일 템플릿 커스터마이징"
 #. module: website_sale
 #. odoo-python
 #: code:addons/website_sale/models/res_config_settings.py:0
+<<<<<<< HEAD
 #: code:addons/website_sale/models/res_config_settings.py:0
 #, python-format
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 msgid "Customize Email Templates"
 msgstr "사용자 지정 이메일 서식"
 
@@ -1508,6 +1992,14 @@ msgstr "기본"
 #: model_terms:ir.ui.view,arch_db:website_sale.snippet_options
 msgid "Default (1/1)"
 msgstr "기본값 (1/1)"
+<<<<<<< HEAD
+=======
+
+#. module: website_sale
+#: model_terms:ir.ui.view,arch_db:website_sale.snippet_options
+msgid "Default (1x1)"
+msgstr "기본값 (1x1)"
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 #. module: website_sale
 #: model:ir.model.fields,field_description:website_sale.field_website__currency_id
@@ -1531,6 +2023,8 @@ msgstr "기본 정렬"
 msgid ""
 "Define a custom unit to display in the price per unit of measure field."
 msgstr "측정 단위 당 가격 필드에 표시할 사용자 지정 단위를 설정합니다."
+<<<<<<< HEAD
+=======
 
 #. module: website_sale
 #: model_terms:ir.actions.act_window,help:website_sale.product_public_category_action
@@ -1538,6 +2032,26 @@ msgid "Define a new category"
 msgstr "새 범주 정의"
 
 #. module: website_sale
+#: model_terms:ir.actions.act_window,help:website_sale.product_ribbon_action
+msgid "Define a new ribbon"
+msgstr "새 리본 정의"
+
+#. module: website_sale
+#: model_terms:ir.ui.view,arch_db:website_sale.snippet_options
+msgid "Delete Ribbon"
+msgstr "리본 삭제"
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
+
+#. module: website_sale
+#. odoo-python
+#: code:addons/website_sale/models/website.py:0
+#: model_terms:ir.ui.view,arch_db:website_sale.res_config_settings_view_form
+#: model_terms:ir.ui.view,arch_db:website_sale.total
+msgid "Delivery"
+msgstr "배송"
+
+#. module: website_sale
+<<<<<<< HEAD
 #: model_terms:ir.ui.view,arch_db:website_sale.snippet_options
 msgid "Delete Badge"
 msgstr "배지 삭제"
@@ -1546,6 +2060,11 @@ msgstr "배지 삭제"
 #: model_terms:ir.ui.view,arch_db:website_sale.cart_delivery
 msgid "Delivery"
 msgstr "배송"
+=======
+#: model_terms:ir.ui.view,arch_db:website_sale.address_on_payment
+msgid "Delivery &amp;"
+msgstr "배달 &amp;"
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 #. module: website_sale
 #: model:ir.model.fields,field_description:website_sale.field_sale_order__amount_delivery
@@ -1553,12 +2072,33 @@ msgid "Delivery Amount"
 msgstr "배송 금액"
 
 #. module: website_sale
+<<<<<<< HEAD
 #: model:ir.model.fields,field_description:website_sale.field_sale_order__access_point_address
 msgid "Delivery Point Address"
 msgstr "배송지 주소"
 
 #. module: website_sale
 #: model_terms:ir.ui.view,arch_db:website_sale.cart_delivery
+=======
+#: model:ir.ui.menu,name:website_sale.menu_ecommerce_delivery
+#: model_terms:ir.ui.view,arch_db:website_sale.res_config_settings_view_form
+msgid "Delivery Methods"
+msgstr "배송 방법"
+
+#. module: website_sale
+#: model_terms:ir.ui.view,arch_db:website_sale.address
+#: model_terms:ir.ui.view,arch_db:website_sale.delivery_address_row
+msgid "Delivery address"
+msgstr "배송 주소"
+
+#. module: website_sale
+#: model:product.public.category,name:website_sale.public_category_services_delivery_and_installation
+msgid "Delivery and Installation"
+msgstr "배송 및 설치"
+
+#. module: website_sale
+#: model_terms:ir.ui.view,arch_db:website_sale.total
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 msgid "Delivery will be updated after choosing a new delivery method"
 msgstr "새로운 배송 방법을 선택하면 배송이 업데이트됩니다"
 
@@ -1571,6 +2111,14 @@ msgstr "설명"
 #: model_terms:ir.ui.view,arch_db:website_sale.view_delivery_carrier_form_website_delivery
 msgid "Description displayed on the eCommerce and on online quotations."
 msgstr "전자 상거래 및 온라인 견적서에 표시되는 설명."
+<<<<<<< HEAD
+=======
+
+#. module: website_sale
+#: model_terms:ir.ui.view,arch_db:website_sale.product_public_category_form_view
+msgid "Description displayed on the eCommerce categories page."
+msgstr "이커머스 카테고리 페이지에 표시되는 설명입니다."
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 #. module: website_sale
 #: model:ir.model.fields,field_description:website_sale.field_delivery_carrier__website_description
@@ -1582,6 +2130,16 @@ msgstr "온라인 견적에 대한 설명"
 #: model:ir.model.fields,field_description:website_sale.field_product_template__website_description
 msgid "Description for the website"
 msgstr "웹 사이트에 대한 설명"
+
+#. module: website_sale
+#: model:product.public.category,name:website_sale.public_category_services_design_and_planning
+msgid "Design and Planning"
+msgstr "디자인 및 계획"
+
+#. module: website_sale
+#: model:product.public.category,name:website_sale.public_category_lamps_desk
+msgid "Desk Lamps"
+msgstr "데스크 램프"
 
 #. module: website_sale
 #: model:product.public.category,name:website_sale.public_category_desks
@@ -1608,7 +2166,6 @@ msgstr "비활성화됨 (손님으로 구입)"
 #. module: website_sale
 #. odoo-javascript
 #: code:addons/website_sale/static/src/xml/website_sale_reorder_modal.xml:0
-#, python-format
 msgid "Discard"
 msgstr "취소"
 
@@ -1621,6 +2178,12 @@ msgstr "할인 코드..."
 #: model_terms:ir.ui.view,arch_db:website_sale.res_config_settings_view_form
 msgid "Discounts, Loyalty & Gift Card"
 msgstr "할인, 적립 및 기프트 카드"
+
+#. module: website_sale
+#: model_terms:ir.ui.view,arch_db:website_sale.s_mega_menu_images_subtitles
+#: model_terms:ir.ui.view,arch_db:website_sale.s_mega_menu_little_icons
+msgid "Discover our team"
+msgstr "팀 소개"
 
 #. module: website_sale
 #: model:ir.model.fields,field_description:website_sale.field_product_image__display_name
@@ -1665,16 +2228,15 @@ msgstr "설정한 경우에는 품목에 사용자가 정의한 단위를 표시
 #. module: website_sale
 #. odoo-python
 #: code:addons/website_sale/models/digest.py:0
-#, python-format
 msgid "Do not have access, skip this data for user's digest email"
 msgstr "사용 권한 없음, 이 데이터는 사용자 요약 이메일에서 무시됩니다"
 
 #. module: website_sale
 #. odoo-javascript
 #: code:addons/website_sale/static/src/js/website_sale_reorder.js:0
-#, python-format
 msgid "Do you wish to clear your cart before adding products to it?"
 msgstr "장바구니에 상품을 추가하기 전에 장바구니를 비울까요?"
+<<<<<<< HEAD
 
 #. module: website_sale
 #: model_terms:ir.ui.view,arch_db:website_sale.product
@@ -1685,6 +2247,17 @@ msgstr "문서"
 #. odoo-python
 #: code:addons/website_sale/models/product_document.py:0
 #, python-format
+=======
+
+#. module: website_sale
+#: model_terms:ir.ui.view,arch_db:website_sale.product
+msgid "Documents"
+msgstr "문서"
+
+#. module: website_sale
+#. odoo-python
+#: code:addons/website_sale/models/product_document.py:0
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 msgid ""
 "Documents shown on product page cannot be restricted to a specific variant"
 msgstr "제품 페이지에 표시되는 문서는 특정 세부사항으로 제한할 수 없습니다."
@@ -1692,26 +2265,30 @@ msgstr "제품 페이지에 표시되는 문서는 특정 세부사항으로 제
 #. module: website_sale
 #. odoo-javascript
 #: code:addons/website_sale/static/src/js/tours/website_sale_shop.js:0
-#, python-format
 msgid "Double click here to set an image describing your product."
 msgstr "제품을 설명하는 이미지를 설정하려면 여기를 두 번 클릭하십시오."
 
 #. module: website_sale
 #: model_terms:ir.ui.view,arch_db:website_sale.products
-msgid "Drag building blocks here to customize the header for \""
-msgstr "다음에 대한 헤더를 사용자 정의하려면 제작 블록을 여기에 끌어다 놓습니다 \""
+msgid ""
+"Drag building blocks here to customize the footer for\n"
+"                                    \""
+msgstr ""
+"빌딩 블록을 여기로 드래그하여 다음과 같은 바닥글을 사용자 지정합니다.\n"
+"                                    \""
 
 #. module: website_sale
-#. odoo-javascript
-#: code:addons/website_sale/static/src/js/tours/website_sale_shop.js:0
-#, python-format
-msgid "Drag this website block and drop it in your page."
-msgstr "이 웹 사이트 블록을 끌어서 귀하의 페이지에 놓으세요."
+#: model_terms:ir.ui.view,arch_db:website_sale.products
+msgid ""
+"Drag building blocks here to customize the header for\n"
+"                                    \""
+msgstr ""
+"빌딩 블록을 여기로 드래그하여 다음과 같은 머리글을 사용자 지정합니다.\n"
+"                                    \""
 
 #. module: website_sale
 #. odoo-python
 #: code:addons/website_sale/models/website_snippet_filter.py:0
-#, python-format
 msgid "Drawer"
 msgstr "서랍장"
 
@@ -1754,6 +2331,30 @@ msgstr "Easypost"
 #: model_terms:ir.ui.view,arch_db:website_sale.res_config_settings_view_form
 msgid "Easypost Shipping Methods"
 msgstr "Easypost 배송 방법"
+<<<<<<< HEAD
+=======
+
+#. module: website_sale
+#: model_terms:ir.ui.view,arch_db:website_sale.website_sale_pricelist_form_view
+msgid "Ecommerce"
+msgstr "이커머스"
+
+#. module: website_sale
+#: model:ir.model.fields,field_description:website_sale.field_res_config_settings__ecommerce_access
+#: model:ir.model.fields,field_description:website_sale.field_website__ecommerce_access
+msgid "Ecommerce Access"
+msgstr "이커머스 액세스"
+
+#. module: website_sale
+#: model_terms:ir.ui.view,arch_db:website_sale.product_template_form_view
+msgid "Ecommerce Description"
+msgstr "이커머스 설명"
+
+#. module: website_sale
+#: model_terms:ir.ui.view,arch_db:website_sale.product_template_form_view
+msgid "Ecommerce Shop"
+msgstr "이커머스 상점"
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 #. module: website_sale
 #: model:mail.template,name:website_sale.mail_template_sale_cart_recovery
@@ -1769,7 +2370,6 @@ msgstr "편집"
 #. module: website_sale
 #. odoo-javascript
 #: code:addons/website_sale/static/src/js/tours/website_sale_shop.js:0
-#, python-format
 msgid "Edit the price of this product by clicking on the amount."
 msgstr "금액을 클릭하여 이 상품의 가격을 편집하십시오."
 
@@ -1779,7 +2379,13 @@ msgid "Edit this address"
 msgstr "주소 편집하기"
 
 #. module: website_sale
+#: model:product.public.category,name:website_sale.public_category_multimedia_education
+msgid "Education Tools"
+msgstr "교육 도구"
+
+#. module: website_sale
 #: model_terms:ir.ui.view,arch_db:website_sale.address
+#: model_terms:ir.ui.view,arch_db:website_sale.product_share_buttons
 msgid "Email"
 msgstr "이메일"
 
@@ -1789,21 +2395,31 @@ msgid "Embed Code"
 msgstr "퍼가기 코드"
 
 #. module: website_sale
+<<<<<<< HEAD
 #: model:ir.model.fields,field_description:website_sale.field_website__enabled_delivery
 msgid "Enable Shipping"
 msgstr "배송 기능 활성화"
+=======
+#: model_terms:ir.ui.view,arch_db:website_sale.res_config_settings_view_form
+msgid "Enforce a customer to be logged in to access 'Shop'"
+msgstr "고객이 '쇼핑'에 액세스하려면 로그인하도록 강제 적용"
+
+#. module: website_sale
+#. odoo-javascript
+#: code:addons/website_sale/static/src/js/product_template_attribute_line/product_template_attribute_line.js:0
+msgid "Enter a customized value"
+msgstr "사용자 지정 값 입력"
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 #. module: website_sale
 #. odoo-javascript
 #: code:addons/website_sale/static/src/js/tours/website_sale_shop.js:0
-#, python-format
 msgid "Enter a name for your new product"
 msgstr "새 상품의 이름을 입력하십시오"
 
 #. module: website_sale
 #. odoo-python
 #: code:addons/website_sale/models/product_public_category.py:0
-#, python-format
 msgid "Error! You cannot create recursive categories."
 msgstr "오류가 발생했습니다! 순환 참조되는 카테고리는 생성할 수 없습니다."
 
@@ -1815,14 +2431,16 @@ msgstr "추가 이미지"
 #. module: website_sale
 #. odoo-python
 #: code:addons/website_sale/models/website.py:0
+<<<<<<< HEAD
 #, python-format
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 msgid "Extra Info"
 msgstr "추가 정보"
 
 #. module: website_sale
 #: model:ir.model.fields,field_description:website_sale.field_product_product__product_template_image_ids
 #: model:ir.model.fields,field_description:website_sale.field_product_template__product_template_image_ids
-#: model_terms:ir.ui.view,arch_db:website_sale.product_template_form_view
 msgid "Extra Product Media"
 msgstr "추가 이미지 및 동영상"
 
@@ -1852,9 +2470,16 @@ msgid "Extra info"
 msgstr "추가 정보"
 
 #. module: website_sale
+<<<<<<< HEAD
+=======
+#: model_terms:ir.ui.view,arch_db:website_sale.product_share_buttons
+msgid "Facebook"
+msgstr "페이스북"
+
+#. module: website_sale
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 #. odoo-python
 #: code:addons/website_sale/models/website.py:0
-#, python-format
 msgid "Featured"
 msgstr "추천 상품"
 
@@ -1884,6 +2509,11 @@ msgid "Field Name"
 msgstr "필드명"
 
 #. module: website_sale
+#: model:product.public.category,name:website_sale.public_category_drawers_file
+msgid "File Drawers"
+msgstr "파일 서랍"
+
+#. module: website_sale
 #: model_terms:ir.ui.view,arch_db:website_sale.snippet_options
 msgid "Fill"
 msgstr "채우기"
@@ -1897,6 +2527,14 @@ msgstr "주소를 입력하세요"
 #: model:ir.model.fields,field_description:website_sale.field_website__fiscal_position_id
 msgid "Fiscal Position"
 msgstr "재정 위치"
+<<<<<<< HEAD
+=======
+
+#. module: website_sale
+#: model:product.public.category,name:website_sale.public_category_desks_foldable
+msgid "Foldable Desks"
+msgstr "접이식 책상"
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 #. module: website_sale
 #: model:ir.model.fields,field_description:website_sale.field_product_template__message_follower_ids
@@ -1907,11 +2545,18 @@ msgstr "팔로워"
 #: model:ir.model.fields,field_description:website_sale.field_product_template__message_partner_ids
 msgid "Followers (Partners)"
 msgstr "팔로워 (협력사)"
+<<<<<<< HEAD
+=======
+
+#. module: website_sale
+#: model:product.public.category,name:website_sale.public_category_bins_storage
+msgid "Food Storage Bins"
+msgstr "식품 보관함"
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 #. module: website_sale
 #. odoo-javascript
-#: code:addons/website_sale/static/src/js/website_sale_delivery.js:0
-#, python-format
+#: code:addons/website_sale/static/src/js/checkout.js:0
 msgid "Free"
 msgstr "무료"
 
@@ -1929,6 +2574,19 @@ msgstr "이름"
 #: model:product.public.category,name:website_sale.public_category_furnitures
 msgid "Furnitures"
 msgstr "가구"
+<<<<<<< HEAD
+=======
+
+#. module: website_sale
+#: model:product.public.category,name:website_sale.public_category_desks_gaming
+msgid "Gaming Desks"
+msgstr "게임용 책상"
+
+#. module: website_sale
+#: model_terms:ir.ui.view,arch_db:website_sale.snippet_options
+msgid "Gap"
+msgstr "차이"
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 #. module: website_sale
 #: model_terms:ir.ui.view,arch_db:website_sale.res_config_settings_view_form
@@ -1937,15 +2595,14 @@ msgid ""
 msgstr "온라인 결제가 확인되면 자동으로 청구서 생성"
 
 #. module: website_sale
-#: model:ir.model.fields,help:website_sale.field_product_public_category__sequence
-msgid "Gives the sequence order when displaying a list of product categories."
-msgstr "상품 분류 목록을 표시할 때 주문 순서를 제공합니다."
+#: model:product.public.category,name:website_sale.public_category_desks_glass
+msgid "Glass Desks"
+msgstr "유리 책상"
 
 #. module: website_sale
 #. odoo-javascript
 #: code:addons/website_sale/static/src/js/tours/tour_utils.js:0
 #: model:ir.model.fields.selection,name:website_sale.selection__website__add_to_cart_action__go_to_cart
-#, python-format
 msgid "Go to cart"
 msgstr "장바구니로 이동"
 
@@ -1956,6 +2613,11 @@ msgstr "장바구니로 이동"
 #: model_terms:ir.ui.view,arch_db:website_sale.snippet_options
 msgid "Grid"
 msgstr "그리드"
+
+#. module: website_sale
+#: model:ir.model.fields,field_description:website_sale.field_website__shop_gap
+msgid "Grid-gap on the shop"
+msgstr "상점의 그리드 간격"
 
 #. module: website_sale
 #: model_terms:ir.ui.view,arch_db:website_sale.sale_report_view_search_website
@@ -2035,6 +2697,7 @@ msgid ""
 "If the setting is set, sent to authenticated visitors who abandoned their "
 "cart"
 msgstr "설정할 경우, 장바구니 결제 전인 인증을 완료한 방문자들에게 전송합니다."
+<<<<<<< HEAD
 
 #. module: website_sale
 #. odoo-python
@@ -2054,6 +2717,29 @@ msgid ""
 "If you believe that it is an error, please contact the website "
 "administrator."
 msgstr "오류라고 생각되는 경우, 웹사이트 관리자에게 문의하시기 바랍니다."
+=======
+
+#. module: website_sale
+#. odoo-python
+#: code:addons/website_sale/controllers/main.py:0
+msgid ""
+"If you are ordering for an external person, please place your order via the "
+"backend. If you wish to change your name or email address, please do so in "
+"the account settings or contact your administrator."
+msgstr ""
+"외부인을 위한 주문은 백엔드를 통해 생성할 수 있습니다. 이름이나 이메일 주소를 수정하려면 계정 설정에서 변경하거나 관리자에게 문의하시기"
+" 바랍니다."
+
+#. module: website_sale
+#: model:ir.model.fields,help:website_sale.field_product_pricelist__website_id
+msgid ""
+"If you want a pricelist to be available on a website,you must fill in this "
+"field or make it selectable.Otherwise, the pricelist will not apply to any "
+"website."
+msgstr ""
+"웹사이트에서 가격표를 사용할 수 있도록 하려면 이 필드를 입력하거나 선택할 수 있도록 설정해야 합니다. 그렇지 않으면 가격표가 웹사이트에"
+" 적용되지 않습니다."
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 #. module: website_sale
 #: model:ir.model.fields,field_description:website_sale.field_product_image__image_1920
@@ -2088,6 +2774,11 @@ msgid "Image 512"
 msgstr "512 이미지"
 
 #. module: website_sale
+#: model_terms:ir.ui.view,arch_db:website_sale.snippet_options
+msgid "Image Menu"
+msgstr "이미지 메뉴"
+
+#. module: website_sale
 #: model_terms:ir.ui.view,arch_db:website_sale.view_product_image_form
 msgid "Image Name"
 msgstr "이미지 이름"
@@ -2101,11 +2792,27 @@ msgstr "이미지 간격"
 #: model_terms:ir.ui.view,arch_db:website_sale.snippet_options
 msgid "Image Zoom"
 msgstr "이미지 확대"
+<<<<<<< HEAD
+=======
+
+#. module: website_sale
+#: model_terms:ir.ui.view,arch_db:website_sale.snippet_options
+msgid "Images Ratio"
+msgstr "이미지 비율"
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 #. module: website_sale
 #: model_terms:ir.ui.view,arch_db:website_sale.snippet_options
 msgid "Images Size"
 msgstr "이미지 크기"
+<<<<<<< HEAD
+=======
+
+#. module: website_sale
+#: model_terms:ir.ui.view,arch_db:website_sale.snippet_options
+msgid "Images Subtitles"
+msgstr "이미지 소제목"
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 #. module: website_sale
 #: model_terms:ir.ui.view,arch_db:website_sale.snippet_options
@@ -2120,14 +2827,12 @@ msgstr "장바구니 추가 없이 즉시 결제"
 #. module: website_sale
 #. odoo-python
 #: code:addons/website_sale/controllers/main.py:0
-#, python-format
 msgid "Invalid Email! Please enter a valid email address."
 msgstr "이메일이 잘못되었습니다! 유효한 이메일 주소를 입력하세요."
 
 #. module: website_sale
 #. odoo-python
 #: code:addons/website_sale/controllers/main.py:0
-#, python-format
 msgid "Invalid image"
 msgstr "잘못된 이미지"
 
@@ -2163,14 +2868,16 @@ msgstr "고객에게 청구서 발행"
 #. module: website_sale
 #. odoo-python
 #: code:addons/website_sale/models/sale_order.py:0
-#, python-format
 msgid "It is forbidden to modify a sales order which is not in draft status."
 msgstr "초안 상태가 아닌 판매 주문을 수정하는 것은 금지되어 있습니다."
 
 #. module: website_sale
 #. odoo-python
 #: code:addons/website_sale/controllers/delivery.py:0
+<<<<<<< HEAD
 #, python-format
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 msgid ""
 "It seems that a delivery method is not compatible with your address. Please "
 "refresh the page and try again."
@@ -2179,6 +2886,7 @@ msgstr "배송 방법이 귀하의 주소와 호환되지 않는 것 같습니�
 #. module: website_sale
 #. odoo-python
 #: code:addons/website_sale/controllers/delivery.py:0
+<<<<<<< HEAD
 #, python-format
 msgid ""
 "It seems that there is already a transaction for your order, you can not "
@@ -2196,6 +2904,33 @@ msgstr "장바구니에 상품이 추가되었습니다."
 #: model:ir.model,name:website_sale.model_account_move
 msgid "Journal Entry"
 msgstr "전표 입력"
+=======
+msgid ""
+"It seems that there is already a transaction for your order; you can't "
+"change the delivery method anymore."
+msgstr "주문에 대한 결제가 완료되었으므로 배송 방법을 변경하실 수 없습니다."
+
+#. module: website_sale
+#. odoo-javascript
+#: code:addons/website_sale/static/src/js/website_sale_utils.js:0
+msgid "Item(s) added to your cart"
+msgstr "장바구니에 상품이 추가되었습니다."
+
+#. module: website_sale
+#: model:ir.model,name:website_sale.model_account_move
+msgid "Journal Entry"
+msgstr "전표 입력"
+
+#. module: website_sale
+#: model:product.public.category,name:website_sale.public_category_cabinets_kitchen
+msgid "Kitchen Cabinets"
+msgstr "주방 캐비닛"
+
+#. module: website_sale
+#: model:product.public.category,name:website_sale.public_category_drawers_kitchen
+msgid "Kitchen Drawer Units"
+msgstr "주방 서랍 유닛"
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 #. module: website_sale
 #: model:ir.model.fields,field_description:website_sale.field_digest_digest__kpi_website_sale_total_value
@@ -2205,7 +2940,6 @@ msgstr "Kpi 웹사이트 판매 총액"
 #. module: website_sale
 #. odoo-python
 #: code:addons/website_sale/models/website_snippet_filter.py:0
-#, python-format
 msgid "Lamp"
 msgstr "스탠드"
 
@@ -2265,19 +2999,25 @@ msgid "Last Year"
 msgstr "지난 해"
 
 #. module: website_sale
+#: model:product.public.category,name:website_sale.public_category_bins_laundry
+msgid "Laundry Bins"
+msgstr "세탁실"
+
+#. module: website_sale
 #: model_terms:ir.ui.view,arch_db:website_sale.snippet_options
 msgid "Layout"
 msgstr "배치"
 
 #. module: website_sale
+#: model:ir.model.fields.selection,name:website_sale.selection__product_ribbon__position__left
 #: model_terms:ir.ui.view,arch_db:website_sale.snippet_options
 msgid "Left"
 msgstr "왼쪽"
 
 #. module: website_sale
 #: model_terms:ir.ui.view,arch_db:website_sale.res_config_settings_view_form
-msgid "Let the customer enter a shipping address"
-msgstr "고객이 배송 주소를 입력하도록 합니다"
+msgid "Let the customer enter a delivery address"
+msgstr "고객이 배송 주소를 입력하도록 합니다."
 
 #. module: website_sale
 #: model_terms:ir.ui.view,arch_db:website_sale.res_config_settings_view_form
@@ -2285,16 +3025,23 @@ msgid "Let the customer select a Mondial Relay shipping point"
 msgstr "고객이 Mondial Relay 배송 지역을 선택하도록 합니다."
 
 #. module: website_sale
+#: model:ir.model.fields.selection,name:website_sale.selection__website__add_to_cart_action__force_dialog
+msgid "Let the user decide (dialog)"
+msgstr "사용자가 결정하도록 허용 (대화 상자)"
+
+#. module: website_sale
 #. odoo-javascript
 #: code:addons/website_sale/static/src/js/tours/website_sale_shop.js:0
-#, python-format
 msgid "Let's create your first product."
 msgstr "첫 번째 상품을 만들어 보겠습니다."
 
 #. module: website_sale
 #. odoo-javascript
 #: code:addons/website_sale/static/src/js/tours/website_sale_shop.js:0
+<<<<<<< HEAD
 #, python-format
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 msgid ""
 "Let's now take a look at your eCommerce dashboard to get your eCommerce "
 "website ready in no time."
@@ -2303,7 +3050,6 @@ msgstr "이커머스 웹사이트를 바로 제작하기 위해 이제 이커머
 #. module: website_sale
 #. odoo-python
 #: code:addons/website_sale/models/website_snippet_filter.py:0
-#, python-format
 msgid "Lightbulb sold separately"
 msgstr "전구 별도 판매"
 
@@ -2314,9 +3060,9 @@ msgid "Line Subtotals Tax Display"
 msgstr "내역 소계 세금 표시"
 
 #. module: website_sale
-#: model:ir.model.fields,field_description:website_sale.field_sale_order_line__linked_line_id
-msgid "Linked Order Line"
-msgstr "연결된 주문 명세"
+#: model_terms:ir.ui.view,arch_db:website_sale.product_share_buttons
+msgid "LinkedIn"
+msgstr "링크드인"
 
 #. module: website_sale
 #: model_terms:ir.ui.view,arch_db:website_sale.add_grid_or_list_option
@@ -2325,6 +3071,41 @@ msgid "List"
 msgstr "목록"
 
 #. module: website_sale
+<<<<<<< HEAD
+=======
+#. odoo-javascript
+#: code:addons/website_sale/static/src/js/location_selector/location_selector_dialog/location_selector_dialog.js:0
+msgid "List view"
+msgstr "목록 보기"
+
+#. module: website_sale
+#: model_terms:ir.ui.view,arch_db:website_sale.snippet_options
+msgid "Little Icons"
+msgstr "작은 아이콘"
+
+#. module: website_sale
+#. odoo-javascript
+#: code:addons/website_sale/static/src/js/location_selector/location_selector_dialog/location_selector_dialog.js:0
+msgid "Loading..."
+msgstr "불러오는 중..."
+
+#. module: website_sale
+#: model:ir.model.fields.selection,name:website_sale.selection__website__ecommerce_access__logged_in
+msgid "Logged in users"
+msgstr "로그인한 사용자"
+
+#. module: website_sale
+#: model_terms:ir.ui.view,arch_db:website_sale.snippet_options
+msgid "Logos"
+msgstr "로고"
+
+#. module: website_sale
+#: model:product.public.category,name:website_sale.public_category_boxes_luxury
+msgid "Luxury Boxes"
+msgstr "럭셔리 박스"
+
+#. module: website_sale
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 #: model_terms:ir.ui.view,arch_db:website_sale.snippet_options
 msgid "Magnifier on hover"
 msgstr "마우스를 대면 확대시키기"
@@ -2338,7 +3119,11 @@ msgstr "고객이 로그인하여 장바구니에 판매 가능한 제품을 담
 
 #. module: website_sale
 #: model_terms:ir.ui.view,arch_db:website_sale.snippet_options
+<<<<<<< HEAD
 msgid "Main image"
+=======
+msgid "Main Image"
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 msgstr "메인 이미지"
 
 #. module: website_sale
@@ -2360,9 +3145,28 @@ msgid "Mandatory (no guest checkout)"
 msgstr "필수 (손님으로 결제 불가)"
 
 #. module: website_sale
+<<<<<<< HEAD
+=======
+#. odoo-javascript
+#: code:addons/website_sale/static/src/js/location_selector/location_selector_dialog/location_selector_dialog.js:0
+msgid "Map view"
+msgstr "지도 보기"
+
+#. module: website_sale
+#: model:product.public.category,name:website_sale.public_category_cabinets_medicine
+msgid "Medicine Cabinets"
+msgstr "약품 캐비닛"
+
+#. module: website_sale
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 #: model:ir.model.fields.selection,name:website_sale.selection__website__product_page_image_spacing__medium
 msgid "Medium"
 msgstr "중간"
+
+#. module: website_sale
+#: model_terms:ir.ui.view,arch_db:website_sale.s_mega_menu_menu_image_menu
+msgid "Mega menu default image"
+msgstr "메가 메뉴 기본 이미지"
 
 #. module: website_sale
 #: model:ir.model.fields,field_description:website_sale.field_product_template__message_has_error
@@ -2383,6 +3187,15 @@ msgstr "Mondial Relay"
 #: model:ir.model.fields,field_description:website_sale.field_res_config_settings__module_delivery_mondialrelay
 msgid "Mondial Relay Connector"
 msgstr "Mondial 연계 배송"
+<<<<<<< HEAD
+=======
+
+#. module: website_sale
+#: model_terms:ir.ui.view,arch_db:website_sale.accordion_more_information
+#: model_terms:ir.ui.view,arch_db:website_sale.snippet_options
+msgid "More Information"
+msgstr "추가 정보"
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 #. module: website_sale
 #: model_terms:ir.ui.view,arch_db:website_sale.snippets_options_web_editor
@@ -2405,6 +3218,11 @@ msgid "Move to previous"
 msgstr "이전으로 이동"
 
 #. module: website_sale
+#: model_terms:ir.ui.view,arch_db:website_sale.snippet_options
+msgid "Multi Menus"
+msgstr "다중 메뉴"
+
+#. module: website_sale
 #: model:product.public.category,name:website_sale.public_category_multimedia
 msgid "Multimedia"
 msgstr "멀티미디어"
@@ -2418,14 +3236,17 @@ msgstr "나의 장바구니"
 #: model:ir.model.fields,field_description:website_sale.field_product_image__name
 #: model:ir.model.fields,field_description:website_sale.field_product_public_category__name
 #: model:ir.model.fields,field_description:website_sale.field_website_base_unit__name
+<<<<<<< HEAD
 #: model_terms:ir.ui.view,arch_db:website_sale.product_ribbon_view_tree
+=======
+#: model_terms:ir.ui.view,arch_db:website_sale.snippet_options
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 msgid "Name"
 msgstr "이름"
 
 #. module: website_sale
 #. odoo-python
 #: code:addons/website_sale/models/website.py:0
-#, python-format
 msgid "Name (A-Z)"
 msgstr "제품명 순 (A-Z)"
 
@@ -2437,7 +3258,10 @@ msgstr "단축 이름"
 #. module: website_sale
 #. odoo-python
 #: code:addons/website_sale/models/product_public_category.py:0
+<<<<<<< HEAD
 #, python-format
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 msgid "New"
 msgstr "신규"
 
@@ -2447,14 +3271,13 @@ msgid "New Product"
 msgstr "새 상품"
 
 #. module: website_sale
-#: model:product.ribbon,html:website_sale.new_ribbon
+#: model:product.ribbon,name:website_sale.new_ribbon
 msgid "New!"
 msgstr "신규!"
 
 #. module: website_sale
 #. odoo-python
 #: code:addons/website_sale/models/website.py:0
-#, python-format
 msgid "Newest Arrivals"
 msgstr "신규 등록 순"
 
@@ -2462,18 +3285,34 @@ msgstr "신규 등록 순"
 #: model:website.snippet.filter,name:website_sale.dynamic_filter_newest_products
 msgid "Newest Products"
 msgstr "최신 상품"
+<<<<<<< HEAD
+=======
 
 #. module: website_sale
 #. odoo-javascript
 #: code:addons/website_sale/static/src/xml/website_sale_image_viewer.xml:0
-#, python-format
+#: model_terms:ir.ui.view,arch_db:website_sale.s_dynamic_snippet_products_preview_data
+msgid "Next"
+msgstr "다음"
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
+
+#. module: website_sale
+#. odoo-javascript
+#: code:addons/website_sale/static/src/xml/website_sale_image_viewer.xml:0
 msgid "Next (Right-Arrow)"
 msgstr "다음 (오른쪽 화살표)"
+<<<<<<< HEAD
+=======
+
+#. module: website_sale
+#: model:product.public.category,name:website_sale.public_category_drawers_nightstand
+msgid "Nightstand Drawers"
+msgstr "나이트 스탠드 서랍"
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 #. module: website_sale
 #. odoo-javascript
 #: code:addons/website_sale/static/src/xml/website_sale_reorder_modal.xml:0
-#, python-format
 msgid "No"
 msgstr "아니오"
 
@@ -2483,6 +3322,7 @@ msgid "No abandoned carts found"
 msgstr "취소한 장바구니가 없습니다"
 
 #. module: website_sale
+<<<<<<< HEAD
 #. odoo-python
 #: code:addons/website_sale/controllers/delivery.py:0
 #, python-format
@@ -2490,6 +3330,8 @@ msgid "No pick-up point available for that shipping address"
 msgstr "해당 배송지 주소에는 픽업 지점이 없습니다."
 
 #. module: website_sale
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 #: model_terms:ir.ui.view,arch_db:website_sale.products
 msgid "No product defined"
 msgstr "정의된 상품이 없습니다."
@@ -2505,6 +3347,12 @@ msgid "No product views yet for this visitor"
 msgstr "이 방문자에 대한 제품 보기가 아직 없습니다"
 
 #. module: website_sale
+#. odoo-javascript
+#: code:addons/website_sale/static/src/js/location_selector/location_selector_dialog/location_selector_dialog.js:0
+msgid "No result"
+msgstr "결과 없음"
+
+#. module: website_sale
 #: model_terms:ir.ui.view,arch_db:website_sale.products
 msgid "No results"
 msgstr "결과가 없습니다"
@@ -2518,6 +3366,7 @@ msgstr "다음에 대한 결과가 없습니다 \""
 #: model_terms:ir.ui.view,arch_db:website_sale.products
 msgid "No results found for '"
 msgstr "' 에 대한 결과를 찾을 수 없습니다."
+<<<<<<< HEAD
 
 #. module: website_sale
 #. odoo-python
@@ -2532,6 +3381,20 @@ msgstr "귀하의 주문 및 발송 주소로 선적할 방법이 없습니다. 
 #. odoo-python
 #: code:addons/website_sale/models/sale_order.py:0
 #, python-format
+=======
+
+#. module: website_sale
+#. odoo-python
+#: code:addons/website_sale/controllers/main.py:0
+msgid ""
+"No shipping method is available for your current order and shipping address."
+" Please contact us for more information."
+msgstr "귀하의 주문 및 발송 주소로 선적할 방법이 없습니다. 자세한 내용은 문의하여 주시기 바랍니다."
+
+#. module: website_sale
+#. odoo-python
+#: code:addons/website_sale/models/sale_order.py:0
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 msgid "No shipping method is selected."
 msgstr "배송 방법이 선택되지 않았습니다."
 
@@ -2548,8 +3411,18 @@ msgstr "게시 안됨"
 
 #. module: website_sale
 #. odoo-javascript
+<<<<<<< HEAD
 #: code:addons/website_sale/static/src/js/sale_variant_mixin.js:0
 #, python-format
+=======
+#: code:addons/website_sale/static/src/js/product/product.xml:0
+msgid "Not available for sale"
+msgstr "판매 불가"
+
+#. module: website_sale
+#. odoo-javascript
+#: code:addons/website_sale/static/src/js/sale_variant_mixin.js:0
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 msgid "Not available with %s"
 msgstr "%s와 함께 사용할 수 없습니다"
 
@@ -2589,21 +3462,30 @@ msgid "Number of products in the grid on the shop"
 msgstr "상점의 그리드에 있는 제품 수"
 
 #. module: website_sale
+<<<<<<< HEAD
 #: model:ir.model.fields,field_description:website_sale.field_res_config_settings__module_website_sale_picking
 msgid "On Site Payments & Picking"
 msgstr "현장 결제 및 픽업"
+=======
+#: model_terms:ir.ui.view,arch_db:website_sale.snippet_options
+msgid "Odoo Menu"
+msgstr "Odoo 메뉴"
+
+#. module: website_sale
+#: model:product.public.category,name:website_sale.public_category_desks_office
+msgid "Office Desks"
+msgstr "사무용 책상"
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 #. module: website_sale
 #. odoo-python
 #: code:addons/website_sale/models/website_snippet_filter.py:0
-#, python-format
 msgid "On wheels"
 msgstr "차량"
 
 #. module: website_sale
 #. odoo-javascript
 #: code:addons/website_sale/static/src/js/tours/website_sale_shop.js:0
-#, python-format
 msgid "Once you click on <b>Save</b>, your product is updated."
 msgstr "<b>저장</b>을 클릭하면 상품이 업데이트됩니다."
 
@@ -2630,7 +3512,6 @@ msgstr "서비스 전용"
 #. module: website_sale
 #. odoo-python
 #: code:addons/website_sale/models/product_pricelist.py:0
-#, python-format
 msgid ""
 "Only the company's websites are allowed.\n"
 "Leave the Company field empty or select a website from that company."
@@ -2641,7 +3522,6 @@ msgstr ""
 #. module: website_sale
 #. odoo-python
 #: code:addons/website_sale/models/res_partner.py:0
-#, python-format
 msgid "Open Sale Orders"
 msgstr "진행 중인 판매 주문"
 
@@ -2651,6 +3531,7 @@ msgid "Open Source eCommerce"
 msgstr "오픈 소스 이커머스"
 
 #. module: website_sale
+<<<<<<< HEAD
 #: model_terms:ir.ui.view,arch_db:website_sale.product_image_view_kanban
 msgid ""
 "Optimization required! Reduce the image size or increase your compression "
@@ -2663,13 +3544,20 @@ msgstr "최적화 필요! 이미지 크기를 줄이거나 압축 설정을 높�
 #, python-format
 msgid "Option for: %s"
 msgstr "선택 사항 : %s"
+=======
+#. odoo-javascript
+#: code:addons/website_sale/static/src/js/location_selector/location/location.js:0
+#: code:addons/website_sale/static/src/js/location_selector/map_container/map_container.js:0
+msgid "Opening hours"
+msgstr "영업 시간"
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 #. module: website_sale
-#. odoo-python
-#: code:addons/website_sale/models/sale_order_line.py:0
-#, python-format
-msgid "Option: %s"
-msgstr "선택사항 : %s"
+#: model_terms:ir.ui.view,arch_db:website_sale.product_image_view_kanban
+msgid ""
+"Optimization required! Reduce the image size or increase your compression "
+"settings."
+msgstr "최적화 필요! 이미지 크기를 줄이거나 압축 설정을 높이십시오."
 
 #. module: website_sale
 #: model:ir.model.fields.selection,name:website_sale.selection__res_config_settings__account_on_checkout__optional
@@ -2681,11 +3569,6 @@ msgstr "선택 사항"
 #: model_terms:ir.ui.view,arch_db:website_sale.snippet_options
 msgid "Options"
 msgstr "옵션"
-
-#. module: website_sale
-#: model:ir.model.fields,field_description:website_sale.field_sale_order_line__option_line_ids
-msgid "Options Linked"
-msgstr "연결 옵션"
 
 #. module: website_sale
 #: model_terms:ir.ui.view,arch_db:website_sale.payment_confirmation_status
@@ -2723,7 +3606,11 @@ msgid "Orders To Invoice"
 msgstr "주문 후 청구서 발행"
 
 #. module: website_sale
+<<<<<<< HEAD
 #: model:product.ribbon,html:website_sale.out_of_stock_ribbon
+=======
+#: model:product.ribbon,name:website_sale.out_of_stock_ribbon
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 msgid "Out of stock"
 msgstr "품절"
 
@@ -2745,14 +3632,20 @@ msgstr "상위 또는 자신"
 #. module: website_sale
 #. odoo-python
 #: code:addons/website_sale/controllers/main.py:0
+<<<<<<< HEAD
 #, python-format
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 msgid "Pay now"
 msgstr "지불하기"
 
 #. module: website_sale
 #. odoo-python
 #: code:addons/website_sale/models/website.py:0
+<<<<<<< HEAD
 #, python-format
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 msgid "Payment"
 msgstr "결제"
 
@@ -2789,7 +3682,6 @@ msgstr "결제 거래"
 #. module: website_sale
 #. odoo-python
 #: code:addons/website_sale/models/website_snippet_filter.py:0
-#, python-format
 msgid "Pedal-based opening system"
 msgstr "페달형 개방 시스템"
 
@@ -2801,7 +3693,10 @@ msgstr "전화번호"
 #. module: website_sale
 #. odoo-javascript
 #: code:addons/website_sale/static/src/js/website_sale_form_editor.js:0
+<<<<<<< HEAD
 #, python-format
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 msgid "Phone Number"
 msgstr "전화번호"
 
@@ -2809,6 +3704,11 @@ msgstr "전화번호"
 #: model_terms:ir.ui.view,arch_db:website_sale.snippet_options
 msgid "Pills"
 msgstr "필"
+
+#. module: website_sale
+#: model_terms:ir.ui.view,arch_db:website_sale.product_share_buttons
+msgid "Pinterest"
+msgstr "핀터레스트"
 
 #. module: website_sale
 #: model_terms:ir.ui.view,arch_db:website_sale.view_product_image_form
@@ -2831,6 +3731,7 @@ msgid "Portrait (4/5)"
 msgstr "세로 (4/5)"
 
 #. module: website_sale
+#: model:ir.model.fields,field_description:website_sale.field_product_ribbon__position
 #: model_terms:ir.ui.view,arch_db:website_sale.snippet_options
 msgid "Position"
 msgstr "영역"
@@ -2843,7 +3744,17 @@ msgstr "가격이 0인 상품 판매 방지"
 #. module: website_sale
 #. odoo-javascript
 #: code:addons/website_sale/static/src/xml/website_sale_image_viewer.xml:0
+<<<<<<< HEAD
 #, python-format
+=======
+#: model_terms:ir.ui.view,arch_db:website_sale.s_dynamic_snippet_products_preview_data
+msgid "Previous"
+msgstr "이전"
+
+#. module: website_sale
+#. odoo-javascript
+#: code:addons/website_sale/static/src/xml/website_sale_image_viewer.xml:0
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 msgid "Previous (Left-Arrow)"
 msgstr "이전 (왼쪽 화살표)"
 
@@ -2851,21 +3762,22 @@ msgstr "이전 (왼쪽 화살표)"
 #. odoo-javascript
 #: code:addons/website_sale/static/src/xml/website_sale_reorder_modal.xml:0
 #: model_terms:ir.ui.view,arch_db:website_sale.product_searchbar_input_snippet_options
+<<<<<<< HEAD
 #, python-format
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 msgid "Price"
 msgstr "가격"
 
 #. module: website_sale
 #. odoo-python
 #: code:addons/website_sale/models/website.py:0
-#, python-format
 msgid "Price - High to Low"
 msgstr "높은 가격 순"
 
 #. module: website_sale
 #. odoo-python
 #: code:addons/website_sale/models/website.py:0
-#, python-format
 msgid "Price - Low to High"
 msgstr "낮은 가격 순"
 
@@ -2891,7 +3803,11 @@ msgid "Pricelist"
 msgstr "가격표"
 
 #. module: website_sale
-#: model:ir.model.fields,field_description:website_sale.field_res_config_settings__group_product_pricelist
+#: model:ir.model,name:website_sale.model_product_pricelist_item
+msgid "Pricelist Rule"
+msgstr "가격표 규칙"
+
+#. module: website_sale
 #: model:ir.ui.menu,name:website_sale.menu_catalog_pricelists
 #: model_terms:ir.ui.view,arch_db:website_sale.res_config_settings_view_form
 msgid "Pricelists"
@@ -2906,6 +3822,13 @@ msgstr "이커머스에서 표시되는 가격"
 #: model_terms:ir.ui.view,arch_db:website_sale.confirmation
 msgid "Print"
 msgstr "인쇄"
+
+#. module: website_sale
+#. odoo-javascript
+#: code:addons/website_sale/static/src/js/combo_configurator_dialog/combo_configurator_dialog.xml:0
+#: code:addons/website_sale/static/src/js/product_configurator_dialog/product_configurator_dialog.xml:0
+msgid "Proceed to Checkout"
+msgstr "결제를 진행합니다."
 
 #. module: website_sale
 #: model_terms:ir.actions.act_window,help:website_sale.action_unpaid_orders_ecommerce
@@ -2927,7 +3850,6 @@ msgstr "품목 설명"
 #: model_terms:ir.ui.view,arch_db:website_sale.s_add_to_cart_options
 #: model_terms:ir.ui.view,arch_db:website_sale.sale_report_view_search_website
 #: model_terms:ir.ui.view,arch_db:website_sale.website_sale_visitor_page_view_search
-#, python-format
 msgid "Product"
 msgstr "품목"
 
@@ -2975,9 +3897,16 @@ msgstr "품목 이미지"
 
 #. module: website_sale
 #: model_terms:ir.ui.view,arch_db:website_sale.product
-#: model_terms:ir.ui.view,arch_db:website_sale.product_product_view_form_add
 msgid "Product Name"
 msgstr "품목명"
+<<<<<<< HEAD
+=======
+
+#. module: website_sale
+#: model_terms:ir.ui.view,arch_db:website_sale.s_dynamic_snippet_products_template_options
+msgid "Product Names"
+msgstr "품목명"
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 #. module: website_sale
 #: model_terms:ir.ui.view,arch_db:website_sale.snippet_options
@@ -3023,6 +3952,17 @@ msgstr "상품 일반 범주"
 #: model_terms:ir.ui.view,arch_db:website_sale.res_config_settings_view_form
 msgid "Product Reference Price"
 msgstr "제품 참조 가격"
+
+#. module: website_sale
+#: model_terms:ir.ui.view,arch_db:website_sale.product_ribbon_view_tree
+msgid "Product Ribbon"
+msgstr "품목 리본"
+
+#. module: website_sale
+#: model:ir.actions.act_window,name:website_sale.product_ribbon_action
+#: model:ir.ui.menu,name:website_sale.product_catalog_product_ribbons
+msgid "Product Ribbons"
+msgstr "품목 리본"
 
 #. module: website_sale
 #: model:ir.model,name:website_sale.model_product_tag
@@ -3083,14 +4023,16 @@ msgid "Product Views History"
 msgstr "상품 조회수 기록"
 
 #. module: website_sale
+<<<<<<< HEAD
 #: model_terms:ir.ui.view,arch_db:website_sale.s_dynamic_snippet_products_template_options
 msgid "Product names"
 msgstr "품목명"
 
 #. module: website_sale
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 #. odoo-python
 #: code:addons/website_sale/controllers/main.py:0
-#, python-format
 msgid "Product not found"
 msgstr "품목을 찾을 수 없음"
 
@@ -3132,11 +4074,14 @@ msgstr "최근에 판매된 품목"
 #: model:website.snippet.filter,name:website_sale.dynamic_filter_cross_selling_recently_sold_with
 msgid "Products Recently Sold With Product"
 msgstr "품목과 함께 최근에 판매된 품목"
+<<<<<<< HEAD
 
 #. module: website_sale
 #: model_terms:ir.ui.view,arch_db:website_sale.product_ribbon_view_tree
 msgid "Products Ribbon"
 msgstr "품목 리본"
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 #. module: website_sale
 #: model:ir.model.fields,field_description:website_sale.field_website_visitor__product_count
@@ -3151,10 +4096,18 @@ msgstr "프로모션 코드"
 #. module: website_sale
 #. odoo-python
 #: code:addons/website_sale/models/product_image.py:0
+<<<<<<< HEAD
 #, python-format
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 msgid ""
 "Provided video URL for '%s' is not valid. Please enter a valid video URL."
 msgstr "제공된 동영상 URL '%s'이 유효하지 않습니다. 유효한 동영상 URL을 입력하십시오."
+
+#. module: website_sale
+#: model:ir.model.fields,field_description:website_sale.field_product_document__shown_on_product_page
+msgid "Publish on website"
+msgstr "웹사이트에 게시"
 
 #. module: website_sale
 #: model_terms:ir.ui.view,arch_db:website_sale.product_pages_kanban_view
@@ -3186,7 +4139,10 @@ msgstr "위로 올리기"
 #. module: website_sale
 #. odoo-javascript
 #: code:addons/website_sale/static/src/xml/website_sale_reorder_modal.xml:0
+<<<<<<< HEAD
 #, python-format
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 msgid "Quantity"
 msgstr "수량"
 
@@ -3243,7 +4199,10 @@ msgstr "평가"
 #. module: website_sale
 #. odoo-javascript
 #: code:addons/website_sale/static/src/xml/website_sale_reorder_modal.xml:0
+<<<<<<< HEAD
 #, python-format
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 msgid "Re-Order"
 msgstr "재주문"
 
@@ -3270,6 +4229,14 @@ msgstr "최근 판매된 품목"
 #: model:website.snippet.filter,name:website_sale.dynamic_filter_latest_viewed_products
 msgid "Recently Viewed Products"
 msgstr "최근 본 품목"
+<<<<<<< HEAD
+=======
+
+#. module: website_sale
+#: model:product.public.category,name:website_sale.public_category_furnitures_recliners
+msgid "Recliners"
+msgstr "리클라이너"
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 #. module: website_sale
 #: model_terms:ir.ui.view,arch_db:website_sale.view_sales_order_filter_ecommerce_abondand
@@ -3284,9 +4251,16 @@ msgstr "복구 할 이메일 보내기"
 #. module: website_sale
 #. odoo-python
 #: code:addons/website_sale/models/website_snippet_filter.py:0
-#, python-format
 msgid "Reinforced for heavy loads"
 msgstr "물량이 과다할 경우 보충"
+<<<<<<< HEAD
+=======
+
+#. module: website_sale
+#: model:product.public.category,name:website_sale.public_category_services_relocation_and_moving
+msgid "Relocation and Moving"
+msgstr "이전 및 이사"
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 #. module: website_sale
 #: model_terms:ir.ui.view,arch_db:website_sale.cart_lines
@@ -3310,9 +4284,13 @@ msgstr "장바구니에서 제거하기"
 #: code:addons/website_sale/static/src/xml/website_sale_reorder_modal.xml:0
 #: model_terms:ir.ui.view,arch_db:website_sale.cart_lines
 #: model_terms:ir.ui.view,arch_db:website_sale.product_quantity
-#, python-format
 msgid "Remove one"
 msgstr "하나만 제거하기"
+
+#. module: website_sale
+#: model:product.public.category,name:website_sale.public_category_services_repair_and_maintenance
+msgid "Repair and Maintenance"
+msgstr "수리 및 유지보수"
 
 #. module: website_sale
 #: model_terms:ir.ui.view,arch_db:website_sale.snippet_options
@@ -3320,20 +4298,30 @@ msgid "Replace"
 msgstr "대체"
 
 #. module: website_sale
+#: model_terms:ir.ui.view,arch_db:website_sale.snippet_options
+msgid "Reset Categories"
+msgstr "카테고리 재설정"
+
+#. module: website_sale
 #: model:ir.model.fields,help:website_sale.field_delivery_carrier__website_id
 #: model:ir.model.fields,help:website_sale.field_product_product__website_id
 #: model:ir.model.fields,help:website_sale.field_product_public_category__website_id
 #: model:ir.model.fields,help:website_sale.field_product_tag__website_id
 #: model:ir.model.fields,help:website_sale.field_product_template__website_id
+<<<<<<< HEAD
 msgid "Restrict publishing to this website."
 msgstr "해당 웹사이트로의 게시를 제한합니다."
+=======
+msgid "Restrict to a specific website."
+msgstr "특정 웹사이트로만 제한."
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 #. module: website_sale
 #. odoo-python
 #: code:addons/website_sale/models/sale_order.py:0
-#, python-format
 msgid "Resume Order"
 msgstr "주문 재개"
+<<<<<<< HEAD
 
 #. module: website_sale
 #. odoo-python
@@ -3341,19 +4329,26 @@ msgstr "주문 재개"
 #, python-format
 msgid "Return to shipping"
 msgstr "배송으로 돌아가기"
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 #. module: website_sale
 #. odoo-python
 #: code:addons/website_sale/models/website.py:0
+<<<<<<< HEAD
 #, python-format
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 msgid "Review Order"
 msgstr "주문 내역 확인"
 
 #. module: website_sale
 #: model:ir.model.fields,field_description:website_sale.field_product_product__website_ribbon_id
 #: model:ir.model.fields,field_description:website_sale.field_product_template__website_ribbon_id
+#: model_terms:ir.ui.view,arch_db:website_sale.snippet_options
 msgid "Ribbon"
 msgstr "리본"
+<<<<<<< HEAD
 
 #. module: website_sale
 #: model:ir.model.fields,field_description:website_sale.field_product_ribbon__bg_color
@@ -3374,11 +4369,26 @@ msgstr "리본 HTML"
 #: model:ir.model.fields,field_description:website_sale.field_product_ribbon__text_color
 msgid "Ribbon text color"
 msgstr "리본 텍스트 색상"
+=======
 
 #. module: website_sale
+#. odoo-javascript
+#: code:addons/website_sale/static/src/js/website_sale.editor.js:0
+#: model:ir.model.fields,field_description:website_sale.field_product_ribbon__name
+msgid "Ribbon Name"
+msgstr "리본 이름"
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
+
+#. module: website_sale
+#: model:ir.model.fields.selection,name:website_sale.selection__product_ribbon__position__right
 #: model_terms:ir.ui.view,arch_db:website_sale.snippet_options
 msgid "Right"
 msgstr "오른쪽"
+
+#. module: website_sale
+#: model:product.public.category,name:website_sale.public_category_boxes_rustic
+msgid "Rustic Boxes"
+msgstr "소박한 상자"
 
 #. module: website_sale
 #: model:ir.model.fields,field_description:website_sale.field_product_public_category__is_seo_optimized
@@ -3392,7 +4402,7 @@ msgid "SMS Delivery error"
 msgstr "SMS 전송 에러"
 
 #. module: website_sale
-#: model:product.ribbon,html:website_sale.sale_ribbon
+#: model:product.ribbon,name:website_sale.sale_ribbon
 msgid "Sale"
 msgstr "매출"
 
@@ -3444,6 +4454,11 @@ msgid "Salesperson"
 msgstr "영업사원"
 
 #. module: website_sale
+#: model_terms:ir.ui.view,arch_db:website_sale.billing_address_row
+msgid "Same as delivery address"
+msgstr "배송 주소와 동일"
+
+#. module: website_sale
 #: model_terms:ir.ui.view,arch_db:website_sale.dynamic_filter_template_product_product_add_to_cart
 #: model_terms:ir.ui.view,arch_db:website_sale.dynamic_filter_template_product_product_banner
 #: model_terms:ir.ui.view,arch_db:website_sale.dynamic_filter_template_product_product_borderless_1
@@ -3471,8 +4486,13 @@ msgstr "취소한 장바구니 주문서 검색"
 
 #. module: website_sale
 #: model_terms:ir.ui.view,arch_db:website_sale.snippet_options
+<<<<<<< HEAD
 msgid "Search bar"
 msgstr "검색 창"
+=======
+msgid "Search Bar"
+msgstr "검색창"
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 #. module: website_sale
 #: model_terms:ir.ui.view,arch_db:website_sale.snippet_options
@@ -3482,7 +4502,10 @@ msgstr "선택"
 #. module: website_sale
 #. odoo-javascript
 #: code:addons/website_sale/static/src/js/tours/website_sale_shop.js:0
+<<<<<<< HEAD
 #, python-format
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 msgid ""
 "Select <b>New Product</b> to create it and manage its properties to boost "
 "your sales."
@@ -3494,11 +4517,22 @@ msgid "Select Quantity"
 msgstr "수량 선택"
 
 #. module: website_sale
+<<<<<<< HEAD
 #. odoo-javascript
 #: code:addons/website_sale/static/src/js/website_sale_delivery.js:0
 #, python-format
 msgid "Select a pick-up point"
 msgstr "픽업 장소 선택"
+=======
+#: model_terms:ir.ui.view,arch_db:website_sale.delivery_method
+msgid "Select a location"
+msgstr "위치 선택"
+
+#. module: website_sale
+#: model_terms:ir.ui.view,arch_db:website_sale.website_sale_pricelist_form_view
+msgid "Select a website"
+msgstr "웹사이트 선택"
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 #. module: website_sale
 #: model:ir.model.fields,field_description:website_sale.field_product_pricelist__selectable
@@ -3506,6 +4540,7 @@ msgid "Selectable"
 msgstr "선택 가능"
 
 #. module: website_sale
+<<<<<<< HEAD
 #: model:ir.model.fields,field_description:website_sale.field_res_config_settings__cart_abandoned_delay
 msgid "Send After"
 msgstr "다음 이후 보내기"
@@ -3516,6 +4551,8 @@ msgid "Send a Cart Recovery Email"
 msgstr "장바구니 복구 이메일 보내기"
 
 #. module: website_sale
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 #: model_terms:ir.ui.view,arch_db:website_sale.sale_order_view_form_cart_recovery
 msgid "Send a Recovery Email"
 msgstr "복구 이메일 보내기"
@@ -3549,16 +4586,18 @@ msgid "Sequence"
 msgstr "순서"
 
 #. module: website_sale
-#: model:product.public.category,name:website_sale.services
+#: model:product.public.category,name:website_sale.public_category_services
 msgid "Services"
 msgstr "서비스"
 
 #. module: website_sale
+#: model_terms:ir.ui.view,arch_db:website_sale.product_share_buttons
 #: model_terms:ir.ui.view,arch_db:website_sale.snippet_options
 msgid "Share"
 msgstr "공유"
 
 #. module: website_sale
+<<<<<<< HEAD
 #: model_terms:ir.ui.view,arch_db:website_sale.address
 msgid "Ship to the same address"
 msgstr "같은 주소로 배송"
@@ -3573,6 +4612,8 @@ msgid "Shipping"
 msgstr "배송"
 
 #. module: website_sale
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 #: model:ir.model.fields,field_description:website_sale.field_res_config_settings__group_delivery_invoice_address
 msgid "Shipping Address"
 msgstr "배송 주소"
@@ -3584,17 +4625,18 @@ msgstr "배송비"
 
 #. module: website_sale
 #: model:ir.model,name:website_sale.model_delivery_carrier
-#: model:ir.ui.menu,name:website_sale.menu_ecommerce_delivery
-#: model_terms:ir.ui.view,arch_db:website_sale.res_config_settings_view_form
 msgid "Shipping Methods"
 msgstr "배송 방법"
 
 #. module: website_sale
+<<<<<<< HEAD
 #: model_terms:ir.ui.view,arch_db:website_sale.address
 msgid "Shipping address"
 msgstr "배송 주소"
 
 #. module: website_sale
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 #: model_terms:ir.ui.view,arch_db:website_sale.res_config_settings_view_form
 msgid "Shiprocket"
 msgstr "Shiprocket"
@@ -3606,7 +4648,6 @@ msgstr "Shiprocket 배송 방법"
 
 #. module: website_sale
 #: model:website.menu,name:website_sale.menu_shop
-#: model_terms:ir.ui.view,arch_db:website_sale.products
 msgid "Shop"
 msgstr "쇼핑"
 
@@ -3639,6 +4680,14 @@ msgstr "쇼핑 - 결제 수단 선택"
 #: model:ir.model.fields,field_description:website_sale.field_website__shop_default_sort
 msgid "Shop Default Sort"
 msgstr "쇼핑 기본 정렬"
+<<<<<<< HEAD
+=======
+
+#. module: website_sale
+#: model_terms:ir.ui.view,arch_db:website_sale.res_config_settings_view_form
+msgid "Shop, products, cart and wishlist visibility"
+msgstr "상점, 제품, 장바구니 및 위시리스트 가시성"
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 #. module: website_sale
 #: model_terms:ir.ui.view,arch_db:website_sale.products_add_to_cart
@@ -3647,6 +4696,7 @@ msgstr "쇼핑한 장바구니"
 
 #. module: website_sale
 #: model_terms:ir.ui.view,arch_db:website_sale.snippet_options
+<<<<<<< HEAD
 msgid "Show Empty"
 msgstr "비어 있음 표시"
 
@@ -3654,6 +4704,15 @@ msgstr "비어 있음 표시"
 #: model_terms:ir.ui.view,arch_db:website_sale.snippet_options
 msgid "Show b2b Fields"
 msgstr "B2B 필드 표시"
+=======
+msgid "Show B2B Fields"
+msgstr "B2B 필드 표시"
+
+#. module: website_sale
+#: model_terms:ir.ui.view,arch_db:website_sale.snippet_options
+msgid "Show Empty"
+msgstr "비어 있음 표시"
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 #. module: website_sale
 #: model_terms:ir.ui.view,arch_db:website_sale.product_document_search
@@ -3661,9 +4720,15 @@ msgid "Show on Ecommerce"
 msgstr "이커머스에 표시"
 
 #. module: website_sale
+<<<<<<< HEAD
 #: model:ir.model.fields,field_description:website_sale.field_product_document__shown_on_product_page
 msgid "Show on product page"
 msgstr "제품 페이지에 표시"
+=======
+#: model_terms:ir.ui.view,arch_db:website_sale.s_dynamic_snippet_products_template_options
+msgid "Show variants"
+msgstr "품목 세부사항 보기"
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 #. module: website_sale
 #: model_terms:ir.ui.view,arch_db:website_sale.snippet_options
@@ -3673,7 +4738,10 @@ msgstr "장바구니 표시/숨기기"
 #. module: website_sale
 #. odoo-python
 #: code:addons/website_sale/models/website.py:0
+<<<<<<< HEAD
 #, python-format
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 msgid "Sign In"
 msgstr "로그인"
 
@@ -3695,7 +4763,6 @@ msgstr "결제 시 로그인/회원가입"
 #. module: website_sale
 #. odoo-python
 #: code:addons/website_sale/models/website_snippet_filter.py:0
-#, python-format
 msgid "Sit comfortably"
 msgstr "편하게 앉아 있으세요"
 
@@ -3717,33 +4784,49 @@ msgid "Size Y"
 msgstr "사이즈 Y"
 
 #. module: website_sale
+<<<<<<< HEAD
 #: model_terms:ir.ui.view,arch_db:website_sale.snippet_options
 msgid "Slanted"
 msgstr "비스듬하게 놓임"
 
 #. module: website_sale
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 #: model:ir.model.fields.selection,name:website_sale.selection__website__product_page_image_spacing__small
 msgid "Small"
 msgstr "작게"
 
 #. module: website_sale
+<<<<<<< HEAD
 #: model:product.ribbon,html:website_sale.sold_out_ribbon
+=======
+#: model:product.public.category,name:website_sale.public_category_furnitures_sofas
+msgid "Sofas"
+msgstr "소파"
+
+#. module: website_sale
+#: model:product.ribbon,name:website_sale.sold_out_ribbon
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 msgid "Sold out"
 msgstr "품절"
 
 #. module: website_sale
 #. odoo-python
 #: code:addons/website_sale/controllers/main.py:0
-#, python-format
 msgid "Some required fields are empty."
 msgstr "필수 입력란이 비어 있습니다."
 
 #. module: website_sale
 #. odoo-python
 #: code:addons/website_sale/controllers/main.py:0
+<<<<<<< HEAD
 #, python-format
 msgid "Sorry, we are unable to ship your order"
 msgstr "죄송합니다. 귀하의 주문을 선적할 수 없습니다."
+=======
+msgid "Sorry, we are unable to ship your order."
+msgstr "죄송합니다. 주문을 배송할 수 없습니다."
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 #. module: website_sale
 #: model_terms:ir.ui.view,arch_db:website_sale.snippet_options
@@ -3756,6 +4839,24 @@ msgstr "정렬 기준"
 #: model_terms:ir.ui.view,arch_db:website_sale.product_template_only_website_form_view
 msgid "Specify unit"
 msgstr "단위 지정"
+<<<<<<< HEAD
+=======
+
+#. module: website_sale
+#: model_terms:ir.ui.view,arch_db:website_sale.s_mega_menu_menus_logos
+msgid "Spring collection has arrived!"
+msgstr "봄 컬렉션이 출시되었습니다!"
+
+#. module: website_sale
+#: model:product.public.category,name:website_sale.public_category_boxes_stackable
+msgid "Stackable Boxes"
+msgstr "쌓을 수 있는 상자"
+
+#. module: website_sale
+#: model:product.public.category,name:website_sale.public_category_desks_standing
+msgid "Standing Desks"
+msgstr "스탠딩 책상"
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 #. module: website_sale
 #: model_terms:ir.ui.view,arch_db:website_sale.address
@@ -3773,6 +4874,7 @@ msgid "Stay on Product Page"
 msgstr "품목 페이지 유지"
 
 #. module: website_sale
+<<<<<<< HEAD
 #: model_terms:ir.ui.view,arch_db:website_sale.address
 msgid "Street and Number"
 msgstr "도로명, 번지 수"
@@ -3783,6 +4885,16 @@ msgid ""
 "Stripe Connect is not available in your country, please use another payment "
 "provider."
 msgstr "Stripe가 지원되지 않는 국가입니다. 다른 결제 서비스를 선택하세요."
+=======
+#: model:product.public.category,name:website_sale.public_category_cabinets_storage
+msgid "Storage Cabinets"
+msgstr "수납 캐비닛"
+
+#. module: website_sale
+#: model_terms:ir.ui.view,arch_db:website_sale.address
+msgid "Street and Number"
+msgstr "도로명, 번지 수"
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 #. module: website_sale
 #: model_terms:ir.ui.view,arch_db:website_sale.snippet_options
@@ -3816,11 +4928,14 @@ msgstr "추천 액세서리"
 #: model_terms:ir.ui.view,arch_db:website_sale.product_template_form_view
 msgid "Suggested accessories in the eCommerce cart"
 msgstr "장바구니 검토 시 액세서리가 추천됩니다"
+<<<<<<< HEAD
 
 #. module: website_sale
 #: model_terms:ir.ui.view,arch_db:website_sale.snippet_options
 msgid "Tag"
 msgstr "태그"
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 #. module: website_sale
 #: model_terms:ir.ui.view,arch_db:website_sale.s_dynamic_snippet_products_template_options
@@ -3829,11 +4944,13 @@ msgstr "태그"
 
 #. module: website_sale
 #: model:ir.model.fields.selection,name:website_sale.selection__website__show_line_subtotals_tax_selection__tax_excluded
+#: model_terms:ir.ui.view,arch_db:website_sale.tax_indication
 msgid "Tax Excluded"
 msgstr "세금 제외"
 
 #. module: website_sale
 #: model:ir.model.fields.selection,name:website_sale.selection__website__show_line_subtotals_tax_selection__tax_included
+#: model_terms:ir.ui.view,arch_db:website_sale.tax_indication
 msgid "Tax Included"
 msgstr "세금 포함"
 
@@ -3858,6 +4975,11 @@ msgid "Text"
 msgstr "문자"
 
 #. module: website_sale
+#: model:ir.model.fields,field_description:website_sale.field_product_ribbon__text_color
+msgid "Text Color"
+msgstr "텍스트 색상"
+
+#. module: website_sale
 #: model:ir.model.fields,field_description:website_sale.field_website__prevent_zero_price_sale_text
 msgid "Text to show instead of price"
 msgstr "가격 대신 표시할 텍스트"
@@ -3874,12 +4996,12 @@ msgstr "#1"
 
 #. module: website_sale
 #. odoo-python
-#: code:addons/website_sale/controllers/main.py:0
-#, python-format
+#: code:addons/website_sale/controllers/payment.py:0
 msgid "The access token is invalid."
 msgstr "유효하지 않은 액세스 토큰입니다."
 
 #. module: website_sale
+<<<<<<< HEAD
 #: model:ir.model.fields,help:website_sale.field_product_product__compare_list_price
 #: model:ir.model.fields,help:website_sale.field_product_template__compare_list_price
 msgid ""
@@ -3887,20 +5009,28 @@ msgid ""
 msgstr "금액은 이커머스 품목 페이지에서 취소선 표시됩니다."
 
 #. module: website_sale
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 #. odoo-python
-#: code:addons/website_sale/controllers/main.py:0
-#, python-format
+#: code:addons/website_sale/controllers/payment.py:0
 msgid "The cart has been updated. Please refresh the page."
 msgstr "장바구니가 업데이트되었습니다. 페이지를 새로고침 하세요."
 
 #. module: website_sale
 #. odoo-python
 #: code:addons/website_sale/models/sale_order.py:0
+<<<<<<< HEAD
 #, python-format
 msgid ""
 "The company of the website you are trying to sale from (%s) is different "
 "than the one you want to use (%s)"
 msgstr "판매하려는 웹사이트 회사 (%s)와 사용하려는 사이트 (%s)가 다릅니다."
+=======
+msgid ""
+"The company of the website you are trying to sell from (%(website_company)s)"
+" is different than the one you want to use (%(company)s)"
+msgstr "판매하려는 웹사이트 회사 (%(website_company)s)와 사용하려는 회사 (%(company)s)가 다릅니다."
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 #. module: website_sale
 #: model:ir.model.fields,help:website_sale.field_delivery_carrier__website_url
@@ -3912,7 +5042,10 @@ msgstr "웹사이트를 통해 문서에 접근 하는 전체 URL입니다."
 #. module: website_sale
 #. odoo-python
 #: code:addons/website_sale/models/sale_order.py:0
+<<<<<<< HEAD
 #, python-format
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 msgid ""
 "The given combination does not exist therefore it cannot be added to cart."
 msgstr "주어진 조합이 존재하지 않으므로 장바구니에 추가할 수 없습니다."
@@ -3920,14 +5053,16 @@ msgstr "주어진 조합이 존재하지 않으므로 장바구니에 추가할 
 #. module: website_sale
 #. odoo-python
 #: code:addons/website_sale/models/sale_order.py:0
-#, python-format
 msgid "The given product does not exist therefore it cannot be added to cart."
 msgstr "주어진 상품이 존재하지 않으므로 장바구니에 추가할 수 없습니다."
 
 #. module: website_sale
 #. odoo-python
 #: code:addons/website_sale/models/sale_order.py:0
+<<<<<<< HEAD
 #, python-format
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 msgid ""
 "The given product does not have a price therefore it cannot be added to "
 "cart."
@@ -3942,9 +5077,14 @@ msgstr "선택한 모드는 새로 생성한 품목의 청구서를 발행할 �
 
 #. module: website_sale
 #. odoo-python
+<<<<<<< HEAD
 #: code:addons/website_sale/controllers/main.py:0
 #, python-format
 msgid "The order has been canceled."
+=======
+#: code:addons/website_sale/controllers/payment.py:0
+msgid "The order has been cancelled."
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 msgstr "주문이 취소되었습니다."
 
 #. module: website_sale
@@ -3957,6 +5097,15 @@ msgid ""
 msgstr ""
 "이커머스 카테고리에서 해당 품목을 사용합니다. 웹페이지에서 쇼핑 > 편집으로 이동하여 '카테고리'를 활성화하면 모든 이커머스 카테고리를 "
 "확인할 수 있습니다."
+<<<<<<< HEAD
+=======
+
+#. module: website_sale
+#: model_terms:ir.ui.view,arch_db:website_sale.s_mega_menu_images_subtitles
+#: model_terms:ir.ui.view,arch_db:website_sale.s_mega_menu_little_icons
+msgid "The team"
+msgstr "팀"
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 #. module: website_sale
 #: model_terms:ir.actions.act_window,help:website_sale.action_view_abandoned_tree
@@ -3966,7 +5115,10 @@ msgstr "장바구니가 취소된 것으로 표시하는 시간은 설정에서 
 #. module: website_sale
 #. odoo-python
 #: code:addons/website_sale/models/product_product.py:0
+<<<<<<< HEAD
 #, python-format
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 msgid ""
 "The value of Base Unit Count must be greater than 0. Use 0 to hide the price"
 " per unit on this product."
@@ -3984,11 +5136,28 @@ msgid "There is no unpaid order from the website yet"
 msgstr "웹사이트에서 아직 지불하지 않은 주문이 없습니다."
 
 #. module: website_sale
+<<<<<<< HEAD
+=======
+#. odoo-javascript
+#: code:addons/website_sale/static/src/js/location_selector/map_container/map_container.js:0
+msgid "There was an error loading the map"
+msgstr "지도를 불러오는 동안 오류가 발생했습니다."
+
+#. module: website_sale
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 #: model_terms:ir.ui.view,arch_db:website_sale.product
 msgid "This combination does not exist."
 msgstr "이 조합은 존재하지 않습니다."
 
 #. module: website_sale
+<<<<<<< HEAD
+=======
+#: model_terms:ir.ui.view,arch_db:website_sale.accordion_more_information
+msgid "This content will be shared across all product pages."
+msgstr "이 콘텐츠는 모든 제품 페이지에서 공유됩니다."
+
+#. module: website_sale
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 #: model_terms:ir.ui.view,arch_db:website_sale.cart
 msgid "This is your current cart."
 msgstr "현재 장바구니에 담으신 내용입니다."
@@ -3996,7 +5165,10 @@ msgstr "현재 장바구니에 담으신 내용입니다."
 #. module: website_sale
 #. odoo-python
 #: code:addons/website_sale/models/res_partner.py:0
+<<<<<<< HEAD
 #, python-format
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 msgid ""
 "This partner has an open cart. Please note that the pricelist will not be "
 "updated on that cart. Also, the cart might not be visible for the customer "
@@ -4008,7 +5180,6 @@ msgstr ""
 #. module: website_sale
 #. odoo-javascript
 #: code:addons/website_sale/static/src/snippets/s_add_to_cart/000.js:0
-#, python-format
 msgid "This product does not exist therefore it cannot be added to cart."
 msgstr "해당 품목이 존재하지 않으므로 장바구니에 추가할 수 없습니다."
 
@@ -4025,7 +5196,6 @@ msgstr "이 상품은 더 이상 제공되지 않습니다."
 #. module: website_sale
 #. odoo-javascript
 #: code:addons/website_sale/static/src/js/website_sale_reorder.js:0
-#, python-format
 msgid "This product is not available for purchase."
 msgstr "구매할 수 없는 품목입니다."
 
@@ -4038,6 +5208,11 @@ msgstr "이 상품은 게시되지 않았습니다."
 #: model_terms:ir.ui.view,arch_db:website_sale.coupon_form
 msgid "This promo code is not available."
 msgstr "이 프로모션 코드는 사용할 수 없습니다."
+
+#. module: website_sale
+#: model_terms:ir.ui.view,arch_db:website_sale.s_dynamic_snippet_products_preview_data
+msgid "Three-Seat Sofa"
+msgstr "3인용 소파"
 
 #. module: website_sale
 #: model_terms:ir.ui.view,arch_db:website_sale.snippet_options
@@ -4067,7 +5242,6 @@ msgstr "바 순위"
 #. module: website_sale
 #. odoo-javascript
 #: code:addons/website_sale/static/src/xml/website_sale_reorder_modal.xml:0
-#, python-format
 msgid "Total"
 msgstr "총계"
 
@@ -4082,6 +5256,26 @@ msgid "Total number of views on products"
 msgstr "제품 총조회수"
 
 #. module: website_sale
+<<<<<<< HEAD
+=======
+#. odoo-javascript
+#: code:addons/website_sale/static/src/js/combo_configurator_dialog/combo_configurator_dialog.js:0
+#: code:addons/website_sale/static/src/js/product_list/product_list.js:0
+msgid "Total: %s"
+msgstr "합계: %s"
+
+#. module: website_sale
+#: model:product.public.category,name:website_sale.public_category_lamps_touch
+msgid "Touch Lamps"
+msgstr "터치 램프"
+
+#. module: website_sale
+#: model:product.public.category,name:website_sale.public_category_bins_toy
+msgid "Toy Bins"
+msgstr "장난감 쓰레기통"
+
+#. module: website_sale
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 #: model:ir.model.fields,help:website_sale.field_website_snippet_filter__product_cross_selling
 msgid ""
 "True only for product filters that require a product_id because they relate "
@@ -4112,6 +5306,14 @@ msgstr "USPS"
 #: model_terms:ir.ui.view,arch_db:website_sale.res_config_settings_view_form
 msgid "USPS Shipping Methods"
 msgstr "USPS 배송 방법"
+<<<<<<< HEAD
+=======
+
+#. module: website_sale
+#: model:product.public.category,name:website_sale.public_category_drawers_underbed
+msgid "Under-bed Drawers"
+msgstr "침대 밑 서랍"
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 #. module: website_sale
 #: model:ir.model,name:website_sale.model_website_base_unit
@@ -4131,6 +5333,7 @@ msgid "Unpaid Orders"
 msgstr "미결제 주문"
 
 #. module: website_sale
+#: model_terms:ir.ui.view,arch_db:website_sale.product_product_view_form_normalized
 #: model_terms:ir.ui.view,arch_db:website_sale.products_item
 msgid "Unpublished"
 msgstr "게시 안 함"
@@ -4138,7 +5341,6 @@ msgstr "게시 안 함"
 #. module: website_sale
 #. odoo-javascript
 #: code:addons/website_sale/static/src/js/tours/website_sale_shop.js:0
-#, python-format
 msgid "Upload a file from your local library."
 msgstr "로컬 라이브러리에서 파일을 업로드하십시오."
 
@@ -4148,6 +5350,7 @@ msgid "Use Google Places API to validate addresses entered by your visitors"
 msgstr "Google Places API를 사용하여 방문자가 입력한 주소를 검증합니다."
 
 #. module: website_sale
+<<<<<<< HEAD
 #: model_terms:ir.ui.view,arch_db:website_sale.address
 msgid "VAT"
 msgstr "부가가치세"
@@ -4161,6 +5364,12 @@ msgstr "VAT 제외"
 #: model_terms:ir.ui.view,arch_db:website_sale.tax_indication
 msgid "VAT Included"
 msgstr "VAT 포함"
+=======
+#. odoo-python
+#: code:addons/website_sale/controllers/main.py:0
+msgid "VAT"
+msgstr "부가가치세"
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 #. module: website_sale
 #: model_terms:ir.ui.view,arch_db:website_sale.s_add_to_cart_options
@@ -4168,7 +5377,11 @@ msgid "Variant"
 msgstr "세부선택"
 
 #. module: website_sale
+<<<<<<< HEAD
 #: model:ir.model.fields,field_description:website_sale.field_product_product__ribbon_id
+=======
+#: model:ir.model.fields,field_description:website_sale.field_product_product__variant_ribbon_id
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 msgid "Variant Ribbon"
 msgstr "리본 세부선택"
 
@@ -4197,7 +5410,10 @@ msgstr "품목 보기"
 #. module: website_sale
 #. odoo-javascript
 #: code:addons/website_sale/static/src/js/notification/add_to_cart_notification/add_to_cart_notification.xml:0
+<<<<<<< HEAD
 #, python-format
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 msgid "View cart"
 msgstr "장바구니 보기"
 
@@ -4209,9 +5425,18 @@ msgstr "품목 보기"
 #. module: website_sale
 #. odoo-javascript
 #: code:addons/website_sale/static/src/xml/website_sale_image_viewer.xml:0
-#, python-format
 msgid "Viewer"
 msgstr "뷰어"
+
+#. module: website_sale
+#: model:product.public.category,name:website_sale.public_category_boxes_vintage
+msgid "Vintage Boxes"
+msgstr "빈티지 박스"
+
+#. module: website_sale
+#: model:product.public.category,name:website_sale.public_category_multimedia_virtual_design
+msgid "Virtual Design Tools"
+msgstr "가상 설계 도구"
 
 #. module: website_sale
 #: model:ir.model.fields,field_description:website_sale.field_product_attribute__visibility
@@ -4256,13 +5481,24 @@ msgid "Visitor Product Views History"
 msgstr "방문자 상품 조회수 기록"
 
 #. module: website_sale
+<<<<<<< HEAD
+=======
+#: model:product.public.category,name:website_sale.public_category_furnitures_wardrobes
+msgid "Wardrobes"
+msgstr "옷장"
+
+#. module: website_sale
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 #. odoo-javascript
 #: code:addons/website_sale/static/src/js/website_sale_utils.js:0
 #: model:ir.model.fields,field_description:website_sale.field_sale_order__shop_warning
 #: model:ir.model.fields,field_description:website_sale.field_sale_order_line__shop_warning
 #: model_terms:ir.ui.view,arch_db:website_sale.cart_lines
 #: model_terms:ir.ui.view,arch_db:website_sale.checkout_layout
+<<<<<<< HEAD
 #, python-format
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 msgid "Warning"
 msgstr "경고"
 
@@ -4272,6 +5508,14 @@ msgid "Warranty"
 msgstr "품질 보증서"
 
 #. module: website_sale
+<<<<<<< HEAD
+=======
+#: model_terms:ir.ui.view,arch_db:website_sale.s_dynamic_snippet_products_preview_data
+msgid "Warranty (2 year)"
+msgstr "보증 (2년)"
+
+#. module: website_sale
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 #: model:product.template,description_sale:website_sale.product_product_1_product_template
 msgid ""
 "Warranty, issued to the purchaser of an article by its manufacturer, "
@@ -4283,7 +5527,6 @@ msgstr "보증서. 제조사에 의해 구매자에게 문서로 발행됩니다
 #: model:ir.model,name:website_sale.model_website
 #: model:ir.model.fields,field_description:website_sale.field_account_bank_statement_line__website_id
 #: model:ir.model.fields,field_description:website_sale.field_account_move__website_id
-#: model:ir.model.fields,field_description:website_sale.field_account_payment__website_id
 #: model:ir.model.fields,field_description:website_sale.field_delivery_carrier__website_id
 #: model:ir.model.fields,field_description:website_sale.field_product_pricelist__website_id
 #: model:ir.model.fields,field_description:website_sale.field_product_product__website_id
@@ -4294,9 +5537,18 @@ msgstr "보증서. 제조사에 의해 구매자에게 문서로 발행됩니다
 #: model:ir.model.fields,field_description:website_sale.field_sale_report__website_id
 #: model:ir.model.fields,field_description:website_sale.field_website_sale_extra_field__website_id
 #: model_terms:ir.ui.view,arch_db:website_sale.sale_report_view_search_website
-#: model_terms:ir.ui.view,arch_db:website_sale.website_sale_pricelist_form_view
 msgid "Website"
 msgstr "웹사이트"
+
+#. module: website_sale
+#: model_terms:ir.ui.view,arch_db:website_sale.product_product_view_form_normalized
+msgid "Website Category"
+msgstr "웹사이트 카테고리"
+
+#. module: website_sale
+#: model:ir.model,name:website_sale.model_website_menu
+msgid "Website Menu"
+msgstr "웹사이트 메뉴"
 
 #. module: website_sale
 #: model:ir.model.fields,field_description:website_sale.field_product_template__website_message_ids
@@ -4375,7 +5627,6 @@ msgstr "웹사이트 오픈그래프 이미지"
 #. module: website_sale
 #: model:ir.model.fields,help:website_sale.field_account_bank_statement_line__website_id
 #: model:ir.model.fields,help:website_sale.field_account_move__website_id
-#: model:ir.model.fields,help:website_sale.field_account_payment__website_id
 msgid "Website through which this invoice was created for eCommerce orders."
 msgstr "이커머스 주문에 대해 청구서가 생성된 웹사이트입니다."
 
@@ -4395,6 +5646,14 @@ msgid "What should be done on \"Add to Cart\"?"
 msgstr "\"장바구니에 추가하기\" 에서 수행되는 작업은 무엇인가요?"
 
 #. module: website_sale
+<<<<<<< HEAD
+=======
+#: model_terms:ir.ui.view,arch_db:website_sale.product_share_buttons
+msgid "WhatsApp"
+msgstr "왓츠앱"
+
+#. module: website_sale
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 #: model:ir.model.fields,help:website_sale.field_product_tag__visible_on_ecommerce
 msgid "Whether the tag is displayed on the eCommerce."
 msgstr "태그가 이커머스에 표시되는지 여부."
@@ -4402,9 +5661,18 @@ msgstr "태그가 이커머스에 표시되는지 여부."
 #. module: website_sale
 #. odoo-python
 #: code:addons/website_sale/models/website_snippet_filter.py:0
-#, python-format
 msgid "Whiteboard"
 msgstr "화이트보드"
+
+#. module: website_sale
+#: model_terms:ir.ui.view,arch_db:website_sale.snippet_options
+msgid "Wide (16/9)"
+msgstr "와이드 (16/9)"
+
+#. module: website_sale
+#: model_terms:ir.ui.view,arch_db:website_sale.snippet_options
+msgid "Wider (21/9)"
+msgstr "와이드 (21/9)"
 
 #. module: website_sale
 #: model:ir.model.fields,field_description:website_sale.field_res_config_settings__module_website_sale_wishlist
@@ -4412,6 +5680,7 @@ msgid "Wishlists"
 msgstr "위시리스트"
 
 #. module: website_sale
+<<<<<<< HEAD
 #: model_terms:ir.ui.view,arch_db:website_sale.res_config_settings_view_form
 msgid ""
 "With the first mode you can set several prices in the product config form "
@@ -4422,32 +5691,37 @@ msgstr ""
 " 규칙을 설정합니다."
 
 #. module: website_sale
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 #. odoo-python
 #: code:addons/website_sale/models/website_snippet_filter.py:0
-#, python-format
 msgid "With three feet"
 msgstr "3 피트"
 
 #. module: website_sale
 #. odoo-javascript
 #: code:addons/website_sale/static/src/xml/website_sale_reorder_modal.xml:0
-#, python-format
 msgid "Yes"
 msgstr "예"
 
 #. module: website_sale
 #: model_terms:ir.ui.view,arch_db:website_sale.address
 msgid ""
-"You are editing your <b>billing and shipping</b> addresses at the same time!<br/>\n"
-"                                            If you want to modify your shipping address, create a"
+"You are editing your <b>delivery and billing</b> addresses\n"
+"                                        at the same time!<br/>\n"
+"                                        If you want to modify your billing address, create a"
 msgstr ""
-"본 단계에서는 <b>청구서 발송지 및 배송지 주소</b>가 동시에 수정됩니다!<br/>\n"
-"                                         배송지 주소만 수정하려면 다음을 클릭하세요."
+"본 단계에서는 <b>청구서 및 배송지 주소</b>가\n"
+"                                        동시에 수정됩니다!<br/>\n"
+"                                        배송지 주소만 수정하려면 당므을 클릭하세요."
 
 #. module: website_sale
 #. odoo-python
 #: code:addons/website_sale/controllers/main.py:0
+<<<<<<< HEAD
 #, python-format
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 msgid "You can't use a video as the product's main image."
 msgstr "제품의 기본 이미지로는 동영상을 사용할 수 없습니다."
 
@@ -4486,18 +5760,25 @@ msgstr "동적 구조화된 스니펫이 여기에 표시됩니다... 사용할 
 #. module: website_sale
 #. odoo-javascript
 #: code:addons/website_sale/static/src/js/website_sale_form_editor.js:0
+<<<<<<< HEAD
 #, python-format
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 msgid "Your Email"
 msgstr "이메일"
 
 #. module: website_sale
 #. odoo-javascript
 #: code:addons/website_sale/static/src/js/website_sale_form_editor.js:0
+<<<<<<< HEAD
 #, python-format
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 msgid "Your Name"
 msgstr "성명"
 
 #. module: website_sale
+<<<<<<< HEAD
 #. odoo-python
 #: code:addons/website_sale/models/website.py:0
 #, python-format
@@ -4507,6 +5788,12 @@ msgid ""
 msgstr ""
 "귀하의 계정은 %s회사에서 결제할 수 있는 권한이 없습니다. 로그아웃한 후 이 웹사이트에 대한 새 계정을 만들거나 웹사이트 관리자에게 "
 "문의하세요."
+=======
+#: model_terms:ir.ui.view,arch_db:website_sale.address
+#: model_terms:ir.ui.view,arch_db:website_sale.billing_address_row
+msgid "Your address"
+msgstr "주소"
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 #. module: website_sale
 #: model_terms:ir.ui.view,arch_db:website_sale.cart_lines
@@ -4516,8 +5803,18 @@ msgstr "장바구니가 비어 있습니다!"
 
 #. module: website_sale
 #. odoo-python
+<<<<<<< HEAD
 #: code:addons/website_sale/models/sale_order.py:0
 #, python-format
+=======
+#: code:addons/website_sale/controllers/delivery.py:0
+msgid "Your cart is empty."
+msgstr "장바구니가 비어 있습니다."
+
+#. module: website_sale
+#. odoo-python
+#: code:addons/website_sale/models/sale_order.py:0
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 msgid "Your cart is not ready to be paid, please verify previous steps."
 msgstr "장바구니를 결제할 준비가 되지 않았습니다. 이전 단계를 확인해 주세요."
 
@@ -4525,6 +5822,12 @@ msgstr "장바구니를 결제할 준비가 되지 않았습니다. 이전 단�
 #: model_terms:ir.ui.view,arch_db:website_sale.payment_confirmation_status
 msgid "Your payment has been authorized."
 msgstr "귀하의 결제가 승인되었습니다."
+
+#. module: website_sale
+#. odoo-javascript
+#: code:addons/website_sale/static/src/js/location_selector/location_selector_dialog/location_selector_dialog.js:0
+msgid "Your postal code"
+msgstr "우편 번호"
 
 #. module: website_sale
 #: model_terms:ir.ui.view,arch_db:website_sale.cart
@@ -4550,11 +5853,14 @@ msgstr "bpost"
 #: model_terms:ir.ui.view,arch_db:website_sale.res_config_settings_view_form
 msgid "bpost Shipping Methods"
 msgstr "Bpost 배송 정책"
+<<<<<<< HEAD
 
 #. module: website_sale
 #: model_terms:ir.ui.view,arch_db:website_sale.product_product_view_form_add
 msgid "e.g. Cheese Burger"
 msgstr "예: 치즈 버거"
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 #. module: website_sale
 #: model_terms:ir.ui.view,arch_db:website_sale.s_dynamic_snippet_products_template_options
@@ -4566,13 +5872,13 @@ msgstr "예: 스탠드, 휴지통"
 #: code:addons/website_sale/models/website.py:0
 #: model:ir.ui.menu,name:website_sale.menu_ecommerce
 #: model:ir.ui.menu,name:website_sale.menu_ecommerce_settings
-#, python-format
 msgid "eCommerce"
 msgstr "이커머스"
 
 #. module: website_sale
 #: model:ir.actions.act_window,name:website_sale.product_public_category_action
 #: model:ir.ui.menu,name:website_sale.menu_catalog_categories
+#: model_terms:ir.ui.view,arch_db:website_sale.snippet_options
 msgid "eCommerce Categories"
 msgstr "이커머스 카테고리"
 
@@ -4583,10 +5889,26 @@ msgid "eCommerce Description"
 msgstr "이커머스 설명"
 
 #. module: website_sale
+<<<<<<< HEAD
 #: model_terms:ir.ui.view,arch_db:website_sale.attribute_tree_view
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 #: model_terms:ir.ui.view,arch_db:website_sale.product_attribute_view_form
+msgid "eCommerce Filter"
+msgstr "이커머스 필터"
+
+#. module: website_sale
+#: model_terms:ir.ui.view,arch_db:website_sale.attribute_tree_view
 msgid "eCommerce Filter Visibility"
 msgstr "이커머스 필터 가시성"
+<<<<<<< HEAD
+=======
+
+#. module: website_sale
+#: model_terms:ir.ui.view,arch_db:website_sale.product_template_form_view
+msgid "eCommerce Media"
+msgstr "이커머스 미디어"
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 #. module: website_sale
 #: model:ir.model.fields,field_description:website_sale.field_digest_digest__kpi_website_sale_total
@@ -4594,9 +5916,9 @@ msgid "eCommerce Sales"
 msgstr "이커머스 판매"
 
 #. module: website_sale
-#: model_terms:ir.ui.view,arch_db:website_sale.product_template_form_view
-msgid "eCommerce Shop"
-msgstr "이커머스 온라인 상점"
+#: model_terms:ir.ui.view,arch_db:website_sale.header_cart_link
+msgid "eCommerce cart"
+msgstr "이커머스 장바구니"
 
 #. module: website_sale
 #: model_terms:ir.ui.view,arch_db:website_sale.header_cart_link
@@ -4631,11 +5953,12 @@ msgid "new address"
 msgstr "새 주소 입력"
 
 #. module: website_sale
-#: model_terms:ir.ui.view,arch_db:website_sale.address
-msgid "or"
-msgstr "또는"
+#: model_terms:ir.ui.view,arch_db:website_sale.cart_lines
+msgid "remove"
+msgstr "제거"
 
 #. module: website_sale
+<<<<<<< HEAD
 #: model_terms:ir.ui.view,arch_db:website_sale.cart_lines
 msgid "remove"
 msgstr "제거"
@@ -4648,6 +5971,8 @@ msgid "select to see available Pick-Up Locations"
 msgstr "이용 가능한 픽업 장소를 보려면 선택하세요."
 
 #. module: website_sale
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 #: model_terms:ir.ui.view,arch_db:website_sale.accept_terms_and_conditions
 msgid "terms &amp; conditions"
 msgstr "이용 &amp; 약관"

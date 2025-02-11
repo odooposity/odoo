@@ -14,8 +14,15 @@
                 </li>
                 <li class="o_search_panel_filter_value list-group-item p-0 mb-1 border-0 o_cursor_pointer"
                     t-foreach="warehouses" t-as="warehouse" t-key="warehouse.id">
+<<<<<<< HEAD
                     <span t-out="warehouse.name" t-on-click="ev => this.applyWarehouseContext(warehouse.id, ev)"
                           t-att-class="{'fw-bolder': selectedWarehouse === warehouse.id, 'o_search_panel_label_title':true}"/>
+=======
+                    <div t-out="warehouse.name"
+                        t-on-click="ev => this.applyWarehouseContext(warehouse.id, ev)"
+                        t-att-class="{'fw-bolder': selectedWarehouse === warehouse.id, 'o_search_panel_label_title':true,
+                        'bg-info-subtle': selectedWarehouse === warehouse.id}"/>
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
                 </li>
             </ul>
         </section>
@@ -23,8 +30,8 @@
 </t>
 
 <t t-name="stock.StockReportSearchPanel" t-inherit="web.SearchPanel" t-inherit-mode="primary">
-    <xpath expr="//t[@t-call='web.SearchPanel.Regular']" position="replace">
-        <t t-call="stock.StockReportSearchPanel.Regular"/>
+    <xpath expr="//t[@t-call='web.SearchPanel.Regular']" position="attributes">
+        <attribute name="t-call">stock.StockReportSearchPanel.Regular</attribute>
     </xpath>
 </t>
 

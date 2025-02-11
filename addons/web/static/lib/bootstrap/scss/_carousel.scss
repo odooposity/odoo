@@ -52,6 +52,10 @@
   transform: translateX(-100%);
 }
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 //
 // Alternate transitions
 //
@@ -131,19 +135,11 @@
   background-size: 100% 100%;
 }
 
-/* rtl:options: {
-  "autoRename": true,
-  "stringMap":[ {
-    "name"    : "prev-next",
-    "search"  : "prev",
-    "replace" : "next"
-  } ]
-} */
 .carousel-control-prev-icon {
-  background-image: escape-svg($carousel-control-prev-icon-bg);
+  background-image: escape-svg($carousel-control-prev-icon-bg) #{"/*rtl:" + escape-svg($carousel-control-next-icon-bg) + "*/"};
 }
 .carousel-control-next-icon {
-  background-image: escape-svg($carousel-control-next-icon-bg);
+  background-image: escape-svg($carousel-control-next-icon-bg) #{"/*rtl:" + escape-svg($carousel-control-prev-icon-bg) + "*/"};
 }
 
 // Optional indicator pips/controls
@@ -164,7 +160,6 @@
   margin-right: $carousel-control-width;
   margin-bottom: 1rem;
   margin-left: $carousel-control-width;
-  list-style: none;
 
   [data-bs-target] {
     box-sizing: content-box;
@@ -209,7 +204,7 @@
 
 // Dark mode carousel
 
-.carousel-dark {
+@mixin carousel-dark() {
   .carousel-control-prev-icon,
   .carousel-control-next-icon {
     filter: $carousel-dark-control-icon-filter;
@@ -221,5 +216,24 @@
 
   .carousel-caption {
     color: $carousel-dark-caption-color;
+  }
+}
+
+.carousel-dark {
+  @include carousel-dark();
+}
+
+@if $enable-dark-mode {
+  @include color-mode(dark) {
+    @if $color-mode-type == "media-query" {
+      .carousel {
+        @include carousel-dark();
+      }
+    } @else {
+      .carousel,
+      &.carousel {
+        @include carousel-dark();
+      }
+    }
   }
 }

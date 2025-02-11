@@ -1,5 +1,8 @@
+<<<<<<< HEAD
 /** @odoo-module **/
 
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 import { _t } from "@web/core/l10n/translation";
 import { Component } from "@odoo/owl";
 
@@ -18,9 +21,15 @@ export class ReceiptHeader extends Component {
     };
 
     get vatText() {
+<<<<<<< HEAD
         if (this.props.data.company.country?.vat_label) {
             return _t("%(vatLabel)s: %(vatId)s", {
                 vatLabel: this.props.data.company.country.vat_label,
+=======
+        if (this.props.data.company.country_id?.vat_label) {
+            return _t("%(vatLabel)s: %(vatId)s", {
+                vatLabel: this.props.data.company.country_id.vat_label,
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
                 vatId: this.props.data.company.vat,
             });
         }

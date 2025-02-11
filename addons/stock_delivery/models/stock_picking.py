@@ -1,18 +1,21 @@
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
 
+<<<<<<< HEAD
 from collections import defaultdict
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 from datetime import date
 from markupsafe import Markup
 import json
 
 from odoo import _, api, fields, models, SUPERUSER_ID
 from odoo.exceptions import UserError
-from odoo.tools.sql import column_exists, create_column
 
 
 class StockPicking(models.Model):
     _inherit = 'stock.picking'
 
+<<<<<<< HEAD
     def _auto_init(self):
         if not column_exists(self.env.cr, "stock_picking", "weight"):
             # In order to speed up module installation when dealing with hefty data
@@ -78,6 +81,8 @@ class StockPicking(models.Model):
                 sum(pack.shipping_weight or pack.weight for pack in picking.package_ids.sudo())
             )
 
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
     def _get_default_weight_uom(self):
         return self.env['product.template']._get_weight_uom_name_from_ir_config_parameter()
 
@@ -92,10 +97,6 @@ class StockPicking(models.Model):
     carrier_tracking_ref = fields.Char(string='Tracking Reference', copy=False)
     carrier_tracking_url = fields.Char(string='Tracking URL', compute='_compute_carrier_tracking_url')
     weight_uom_name = fields.Char(string='Weight unit of measure label', compute='_compute_weight_uom_name', readonly=True, default=_get_default_weight_uom)
-    package_ids = fields.Many2many('stock.quant.package', compute='_compute_packages', string='Packages')
-    weight_bulk = fields.Float('Bulk Weight', compute='_compute_bulk_weight', help="Total weight of products which are not in a package.")
-    shipping_weight = fields.Float("Weight for Shipping", compute='_compute_shipping_weight',
-        help="Total weight of packages and products not in a package. Packages with no shipping weight specified will default to their products' total weight. This is the weight used to compute the cost of the shipping.")
     is_return_picking = fields.Boolean(compute='_compute_return_picking')
     return_label_ids = fields.One2many('ir.attachment', compute='_compute_return_label')
     destination_country_code = fields.Char(related='partner_id.country_id.code', string="Destination Country")

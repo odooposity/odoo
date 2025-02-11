@@ -30,7 +30,10 @@ class TestShopLoyaltyPayment(PaymentHttpCommon, TestSaleCouponCommon):
         program = self.program_gift_card
 
         program.date_to = date.today()  # set program to expire after today
+<<<<<<< HEAD
         self.product_a.type = 'service'  # prevent need for delivery method
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
         self.env['loyalty.generate.wizard'].with_context(active_id=program.id).create({
             'coupon_qty': 1,
@@ -42,7 +45,11 @@ class TestShopLoyaltyPayment(PaymentHttpCommon, TestSaleCouponCommon):
             'website_id': self.website.id,
             'message_partner_ids': self.portal_partner.ids,
             'order_line': [Command.create({
+<<<<<<< HEAD
                 'product_id': self.product_a.id,
+=======
+                'product_id': self.service_product.id,
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
                 'tax_id': None,
             })],
         })
@@ -52,7 +59,11 @@ class TestShopLoyaltyPayment(PaymentHttpCommon, TestSaleCouponCommon):
             self.authenticate(self.portal_user.login, self.portal_user.login)
             with self.assertRaises(
                 JsonRpcException,
+<<<<<<< HEAD
                 msg="Payment shouldn't succeed with expired reward",
+=======
+                msg="Payment shouldn't succeed with expired reward still applied",
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
             ):
                 self.make_jsonrpc_request(
                     self._build_url(f'/shop/payment/transaction/{order.id}'),
@@ -69,6 +80,10 @@ class TestShopLoyaltyPayment(PaymentHttpCommon, TestSaleCouponCommon):
                     },
                 )
 
+<<<<<<< HEAD
+=======
+            # Update rewards & retry transaction
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
             order._update_programs_and_rewards()
             tx_response = self.make_jsonrpc_request(
                 self._build_url(f'/shop/payment/transaction/{order.id}'),
@@ -86,6 +101,10 @@ class TestShopLoyaltyPayment(PaymentHttpCommon, TestSaleCouponCommon):
             )
             self.assertEqual(
                 tx_response['amount'],
+<<<<<<< HEAD
                 self.product_a.list_price,
+=======
+                self.service_product.list_price,
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
                 "Payment should succeed after removing expired reward",
             )

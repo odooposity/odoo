@@ -26,9 +26,7 @@ class TestLivechatChatbotUI(TestImLivechatCommon, TestWebsiteLivechatCommon, Cha
 
         self.env.ref('website.default_website').channel_id = self.livechat_channel.id
 
-    def test_complete_chatbot_flow_ui(self):
-        self.start_tour('/', 'website_livechat_chatbot_flow_tour', step_delay=100)
-
+    def _check_complete_chatbot_flow_result(self):
         operator = self.chatbot_script.operator_partner_id
         livechat_discuss_channel = self.env['discuss.channel'].search([
             ('livechat_channel_id', '=', self.livechat_channel.id),
@@ -47,7 +45,7 @@ class TestLivechatChatbotUI(TestImLivechatCommon, TestWebsiteLivechatCommon, Cha
             # next message would normally have 'self.step_dispatch_buy_software' as answer
             # but it's wiped when restarting the script
             ("How can I help you?", operator, False),
-            ("I want to buy the software", False, False),
+            ("I\'d like to buy the software", False, False),
             ("Can you give us your email please?", operator, False),
             ("No, you won't get my email!", False, False),
             ("'No, you won't get my email!' does not look like a valid email. Can you please try again?", operator, False),
@@ -63,7 +61,7 @@ class TestLivechatChatbotUI(TestImLivechatCommon, TestWebsiteLivechatCommon, Cha
             ("Restarting conversation...", operator, False),
             ("Hello! I'm a bot!", operator, False),
             ("I help lost visitors find their way.", operator, False),
-            ("How can I help you?", operator, self.step_dispatch_pricing),
+            ("How can I help you?", operator, False),
             ("Pricing Question", False, False),
             ("For any pricing question, feel free ton contact us at pricing@mycompany.com", operator, False),
             ("We will reach back to you as soon as we can!", operator, False),
@@ -72,6 +70,13 @@ class TestLivechatChatbotUI(TestImLivechatCommon, TestWebsiteLivechatCommon, Cha
             ("Great, do you want to leave any feedback for us to improve?", operator, False),
             ("no, nothing so say", False, False),
             ("Ok bye!", operator, False),
+            ("Restarting conversation...", operator, False),
+            ("Hello! I'm a bot!", operator, False),
+            ("I help lost visitors find their way.", operator, False),
+            ("How can I help you?", operator, self.step_dispatch_operator),
+            ("I want to speak with an operator", False, False),
+            ("I will transfer you to a human", operator, False),
+            ("joined the channel", self.operator.partner_id, False), # human_operator has joined the channel
         ]
 
         self.assertEqual(len(conversation_messages), len(expected_messages))
@@ -96,8 +101,30 @@ class TestLivechatChatbotUI(TestImLivechatCommon, TestWebsiteLivechatCommon, Cha
                     ], limit=1).user_script_answer_id
                 )
 
+    def test_complete_chatbot_flow_ui(self):
+        tests.new_test_user(self.env, login="portal_user", groups="base.group_portal")
+        operator = self.chatbot_script.operator_partner_id
+        self.start_tour('/', 'website_livechat_chatbot_flow_tour')
+        self._check_complete_chatbot_flow_result()
+        self.env['discuss.channel'].search([
+            ('livechat_channel_id', '=', self.livechat_channel.id),
+            ('livechat_operator_id', '=', operator.id),
+        ]).unlink()
+        self.start_tour('/', 'website_livechat_chatbot_flow_tour', login="portal_user")
+        self._check_complete_chatbot_flow_result()
+
     def test_chatbot_available_after_reload(self):
+<<<<<<< HEAD
         self.start_tour("/", "website_livechat_chatbot_after_reload_tour", step_delay=100)
+=======
+        self.start_tour("/", "website_livechat_chatbot_after_reload_tour")
+
+    def test_chatbot_test_page_tour(self):
+        bob_operator = tests.new_test_user(self.env, login="bob_user", groups="im_livechat.im_livechat_group_user,base.group_user")
+        self.livechat_channel.user_ids += bob_operator
+        test_page_url = f"/chatbot/{'-'.join(self.chatbot_script.title.split(' '))}-{self.chatbot_script.id}/test"
+        self.start_tour(test_page_url, "website_livechat_chatbot_test_page_tour", login="bob_user")
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
     def test_chatbot_redirect(self):
         chatbot_redirect_script = self.env["chatbot.script"].create(
@@ -141,11 +168,58 @@ class TestLivechatChatbotUI(TestImLivechatCommon, TestWebsiteLivechatCommon, Cha
         self.env.ref("website.default_website").channel_id = livechat_channel.id
         self.start_tour("/contactus", "website_livechat.chatbot_redirect")
 
+<<<<<<< HEAD
+=======
+    def test_chatbot_trigger_selection(self):
+        chatbot_trigger_selection = self.env["chatbot.script"].create(
+            {"title": "Trigger question selection bot"}
+        )
+        question_1, question_2 = tuple(
+            self.env["chatbot.script.step"].create([
+                {
+                    "chatbot_script_id": chatbot_trigger_selection.id,
+                    "message": "Hello, here is a first question?",
+                    "step_type": "question_selection",
+                },
+                {
+                    "chatbot_script_id": chatbot_trigger_selection.id,
+                    "message": "Hello, here is a second question?",
+                    "step_type": "question_selection",
+                },
+            ])
+        )
+        self.env["chatbot.script.answer"].create([
+            {
+                "name": "Yes to first question",
+                "script_step_id": question_1.id,
+            },
+            {
+                "name": "No to second question",
+                "script_step_id": question_2.id,
+            },
+        ])
+        livechat_channel = self.env["im_livechat.channel"].create({
+            'name': 'Redirection Channel',
+            'rule_ids': [Command.create({
+                'regex_url': '/contactus',
+                'chatbot_script_id': chatbot_trigger_selection.id,
+            })]
+        })
+        default_website = self.env.ref("website.default_website")
+        default_website.channel_id = livechat_channel.id
+        self.env.ref("website.default_website").channel_id = livechat_channel.id
+        self.start_tour("/contactus", "website_livechat.chatbot_trigger_selection")
+
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
     def test_chatbot_fw_operator_matching_lang(self):
         fr_op = self._create_operator(lang_code="fr_FR")
         en_op = self._create_operator(lang_code="en_US")
         self.env.ref("website.default_website").language_ids = self.env["res.lang"].search(
+<<<<<<< HEAD
             [["code", "in", ["fr_FR", "en_US"]]]
+=======
+            [("code", "in", ("fr_FR", "en_US"))]
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
         )
         self.livechat_channel.user_ids = fr_op + en_op
         self.env["discuss.channel"].search([("livechat_channel_id", "=", self.livechat_channel.id)]).unlink()
@@ -158,3 +232,62 @@ class TestLivechatChatbotUI(TestImLivechatCommon, TestWebsiteLivechatCommon, Cha
         channel = self.livechat_channel.channel_ids[0]
         self.assertIn(channel.channel_member_ids.partner_id.user_ids, en_op)
         self.assertNotIn(channel.channel_member_ids.partner_id.user_ids, fr_op)
+<<<<<<< HEAD
+=======
+
+    def test_question_selection_overlapping_answers(self):
+        chatbot_script = self.env["chatbot.script"].create({"title": "Question selection bot"})
+        question_1 = self.env["chatbot.script.step"].create(
+            [
+                {
+                    "chatbot_script_id": chatbot_script.id,
+                    "message": "Choose an option",
+                    "step_type": "question_selection",
+                },
+            ]
+        )
+        not_x_answer = self.env["chatbot.script.answer"].create({
+            "name": "not X",
+            "script_step_id": question_1.id,
+        })
+        x_answer = self.env["chatbot.script.answer"].create({
+            "name": "X",
+            "script_step_id": question_1.id,
+        })
+        maybe_x_answer = self.env["chatbot.script.answer"].create({
+            "name": "Maybe X",
+            "script_step_id": question_1.id,
+        })
+        self.env["chatbot.script.step"].create(
+            [
+                {
+                    "chatbot_script_id": chatbot_script.id,
+                    "step_type": "text",
+                    "triggering_answer_ids": [not_x_answer.id],
+                    "message": "You selected not X",
+                },
+                {
+                    "chatbot_script_id": chatbot_script.id,
+                    "step_type": "text",
+                    "triggering_answer_ids": [x_answer.id],
+                    "message": "You selected X",
+                },
+                {
+                    "chatbot_script_id": chatbot_script.id,
+                    "step_type": "text",
+                    "triggering_answer_ids": [maybe_x_answer.id],
+                    "message": "You selected maybe X",
+                },
+            ]
+        )
+        self.livechat_channel.rule_ids = self.env["im_livechat.channel.rule"].create(
+            [
+                {
+                    "channel_id": self.livechat_channel.id,
+                    "chatbot_script_id": chatbot_script.id,
+                    "regex_url": "/",
+                },
+            ]
+        )
+        self.start_tour("/", "website_livechat.question_selection_overlapping_answers")
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8

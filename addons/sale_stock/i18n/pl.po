@@ -3,16 +3,26 @@
 # 	* sale_stock
 # 
 # Translators:
+<<<<<<< HEAD
 # Damian Ratus, 2024
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 # Wil Odoo, 2024
 # Marta Wacławek, 2025
 # 
 msgid ""
 msgstr ""
+<<<<<<< HEAD
 "Project-Id-Version: Odoo Server 17.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2024-08-13 10:28+0000\n"
 "PO-Revision-Date: 2023-10-26 23:09+0000\n"
+=======
+"Project-Id-Version: Odoo Server 18.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2024-12-16 13:40+0000\n"
+"PO-Revision-Date: 2024-09-25 09:41+0000\n"
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 "Last-Translator: Marta Wacławek, 2025\n"
 "Language-Team: Polish (https://app.transifex.com/odoo/teams/41243/pl/)\n"
 "MIME-Version: 1.0\n"
@@ -63,6 +73,7 @@ msgstr "<span class=\"o_stat_text\">Sprzedaż</span>"
 #. module: sale_stock
 #: model_terms:ir.ui.view,arch_db:sale_stock.sale_order_portal_content_inherit_sale_stock
 msgid ""
+<<<<<<< HEAD
 "<span class=\"small badge text-bg-success orders_label_text_align\">\n"
 "                                        <i class=\"fa fa-fw fa-truck\"/> Shipped\n"
 "                                    </span>"
@@ -86,12 +97,48 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:sale_stock.report_delivery_document_inherit_sale_stock
 msgid "<strong>Customer Reference:</strong>"
 msgstr "<strong>Odnośnik klienta:</strong>"
+=======
+"<span class=\"small badge rounded-pill text-bg-success orders_label_text_align\">\n"
+"                                        <i class=\"fa fa-fw fa-truck\"/> Shipped\n"
+"                                    </span>"
+msgstr ""
+"<span class=\"small badge rounded-pill text-bg-success orders_label_text_align\">\n"
+"                                        <i class=\"fa fa-fw fa-truck\"/> Wysłane\n"
+"                                    </span>"
+
+#. module: sale_stock
+#: model_terms:ir.ui.view,arch_db:sale_stock.sale_order_cancel_view_form_inherit
+msgid ""
+"<span invisible=\"not display_delivery_alert\">\n"
+"                    Some deliveries are already done. Returns can be created from the Delivery Orders.\n"
+"                </span>"
+msgstr ""
+"<span invisible=\"not display_delivery_alert\">\n"
+"                  Niektóre dostawy są już zrealizowane. Zwroty można tworzyć z poziomu zleceń dostawy.\n"
+"                </span>"
+
+#. module: sale_stock
+#: model_terms:ir.ui.view,arch_db:sale_stock.report_delivery_document_inherit_sale_stock
+msgid "<strong>Customer Reference</strong>"
+msgstr "<strong>Odniesienie klienta</strong>"
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 #. module: sale_stock
 #: model_terms:ir.ui.view,arch_db:sale_stock.report_delivery_document_inherit_sale_stock
 #: model_terms:ir.ui.view,arch_db:sale_stock.report_saleorder_document_inherit_sale_stock
+<<<<<<< HEAD
 msgid "<strong>Incoterm:</strong>"
 msgstr "<strong>Incoterm:</strong>"
+=======
+msgid "<strong>Incoterm</strong>"
+msgstr "<strong>Incoterm</strong>"
+
+#. module: sale_stock
+#: model:ir.model.fields,help:sale_stock.field_sale_order_line__is_storable
+msgid "A storable product is a product for which you manage stock."
+msgstr ""
+"Produkt do przechowywania jest produktem dla którego zarządzasz zapasami."
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 #. module: sale_stock
 #: model:ir.model.fields,help:sale_stock.field_sale_order_line__qty_delivered_method
@@ -111,7 +158,6 @@ msgstr ""
 #. module: sale_stock
 #. odoo-javascript
 #: code:addons/sale_stock/static/src/widgets/qty_at_date_widget.xml:0
-#, python-format
 msgid "All planned operations included"
 msgstr "Wszystkie zaplanowane operacje obejmowały"
 
@@ -128,23 +174,31 @@ msgstr "Jak najszybciej to możliwe"
 #. module: sale_stock
 #. odoo-javascript
 #: code:addons/sale_stock/static/src/widgets/qty_at_date_widget.xml:0
-#, python-format
 msgid "Availability"
 msgstr "Dostępność"
 
 #. module: sale_stock
 #. odoo-javascript
 #: code:addons/sale_stock/static/src/widgets/qty_at_date_widget.xml:0
-#, python-format
 msgid "Available"
 msgstr "Dostępny"
 
 #. module: sale_stock
 #. odoo-javascript
 #: code:addons/sale_stock/static/src/widgets/qty_at_date_widget.xml:0
-#, python-format
 msgid "Available in stock"
 msgstr "Dostępne w magazynie"
+
+#. module: sale_stock
+#: model:ir.model.fields,help:sale_stock.field_sale_order__delivery_status
+msgid ""
+"Blue: Not Delivered/Started\n"
+"            Orange: Partially Delivered\n"
+"            Green: Fully Delivered"
+msgstr ""
+"Niebieski: Niedostarczone/Rozpoczęte\n"
+"            Pomarańczowy: Częściowo dostarczone\n"
+"            Zielony: Całkowicie dostarczone"
 
 #. module: sale_stock
 #: model:ir.model.fields,help:sale_stock.field_stock_rules_report__so_route_ids
@@ -222,7 +276,10 @@ msgstr "Wyświetlaj widget ilości"
 #. module: sale_stock
 #. odoo-python
 #: code:addons/sale_stock/models/sale_order.py:0
+<<<<<<< HEAD
 #, python-format
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 msgid ""
 "Do not forget to change the partner on the following delivery orders: %s"
 msgstr ""
@@ -257,7 +314,6 @@ msgstr "Przewidywana data"
 #. module: sale_stock
 #. odoo-javascript
 #: code:addons/sale_stock/static/src/widgets/qty_at_date_widget.xml:0
-#, python-format
 msgid "Expected Delivery"
 msgstr "Oczekiwana dostawa"
 
@@ -274,7 +330,6 @@ msgstr "Prognoza przewidywanej daty"
 #. module: sale_stock
 #. odoo-javascript
 #: code:addons/sale_stock/static/src/widgets/qty_at_date_widget.xml:0
-#, python-format
 msgid "Forecasted Stock"
 msgstr "Prognozowane zapasy"
 
@@ -318,6 +373,7 @@ msgstr "Incoterm"
 #: model:ir.model.fields,field_description:sale_stock.field_sale_order__incoterm_location
 msgid "Incoterm Location"
 msgstr "Incoterm Lokalizacja"
+<<<<<<< HEAD
 
 #. module: sale_stock
 #: model_terms:ir.ui.view,arch_db:sale_stock.report_delivery_document_inherit_sale_stock
@@ -325,6 +381,15 @@ msgid "Incoterm details"
 msgstr "Szczegóły Incoterm"
 
 #. module: sale_stock
+=======
+
+#. module: sale_stock
+#: model_terms:ir.ui.view,arch_db:sale_stock.report_delivery_document_inherit_sale_stock
+msgid "Incoterm details"
+msgstr "Szczegóły Incoterm"
+
+#. module: sale_stock
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 #: model_terms:ir.ui.view,arch_db:sale_stock.sale_order_portal_content_inherit_sale_stock
 msgid "Incoterm:"
 msgstr "Incoterm:"
@@ -422,9 +487,13 @@ msgid "Move forward expected delivery dates by"
 msgstr "Przenieś oczekiwane terminy dostawy o"
 
 #. module: sale_stock
+#: model_terms:ir.ui.view,arch_db:sale_stock.sale_stock_help_message_template
+msgid "No delivery yet! Automate them with sales orders."
+msgstr "Nie ma żadnych zamówień! Zautomatyzuj je z zamówieniami sprzedaży."
+
+#. module: sale_stock
 #. odoo-javascript
 #: code:addons/sale_stock/static/src/widgets/qty_at_date_widget.xml:0
-#, python-format
 msgid "No future availability"
 msgstr "Brak dostępności w przyszłości"
 
@@ -436,7 +505,6 @@ msgstr "Nie dostarczono"
 #. module: sale_stock
 #. odoo-javascript
 #: code:addons/sale_stock/static/src/widgets/qty_at_date_widget.xml:0
-#, python-format
 msgid "Not enough future availability"
 msgstr "Niewystarczająca dostępność w przyszłości"
 
@@ -450,7 +518,6 @@ msgstr "Liczba dni pomiędzy potwierdzeniem zamówienia a wydaniem produktów"
 #. module: sale_stock
 #. odoo-javascript
 #: code:addons/sale_stock/static/src/widgets/qty_at_date_widget.xml:0
-#, python-format
 msgid "On"
 msgstr "Włączone"
 
@@ -493,7 +560,6 @@ msgstr "Ilość do dostarczenia"
 #. module: sale_stock
 #. odoo-javascript
 #: code:addons/sale_stock/static/src/sale_stock_forecasted/forecasted_details.xml:0
-#, python-format
 msgid "Quotations"
 msgstr "Oferty"
 
@@ -503,27 +569,44 @@ msgid "RETURN"
 msgstr "ZWROT"
 
 #. module: sale_stock
+<<<<<<< HEAD
+=======
+#: model_terms:ir.ui.view,arch_db:sale_stock.sale_stock_help_message_template
+msgid ""
+"Reduce back orders with reservations, locations management, smart\n"
+"                replenishment propositions, shipping connectors, barcode scanner, etc."
+msgstr ""
+"Zredukuj ilość oczekujących zamówień dzięki rezerwacjom, zarządzaniem lokalizacjami, inteligentnymi\n"
+"                propozycjami uzupełniania zapasów, kurierami, skanerem kodów kreskowych itp."
+
+#. module: sale_stock
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 #. odoo-javascript
 #: code:addons/sale_stock/static/src/widgets/qty_at_date_widget.xml:0
-#, python-format
 msgid "Remaining demand available at"
 msgstr "Pozostały popyt dostępny pod adresem"
 
 #. module: sale_stock
 #. odoo-python
 #: code:addons/sale_stock/models/sale_order_line.py:0
-#, python-format
 msgid "Replenish on Order (MTO)"
 msgstr "Uzupełnianie na zamówienie (MTO)"
 
 #. module: sale_stock
 #. odoo-javascript
 #: code:addons/sale_stock/static/src/widgets/qty_at_date_widget.xml:0
-#, python-format
 msgid "Reserved"
 msgstr "Zarezerwowane"
 
 #. module: sale_stock
+<<<<<<< HEAD
+=======
+#: model:ir.model,name:sale_stock.model_stock_return_picking
+msgid "Return Picking"
+msgstr "Pobranie zwrotne"
+
+#. module: sale_stock
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 #: model_terms:ir.ui.view,arch_db:sale_stock.sale_order_portal_content_inherit_sale_stock
 msgid "Returns"
 msgstr "Zwroty"
@@ -581,6 +664,7 @@ msgstr "Pozycje zamówienia sprzedaży"
 
 #. module: sale_stock
 #: model:ir.model.fields,field_description:sale_stock.field_stock_lot__sale_order_ids
+#: model_terms:ir.ui.view,arch_db:sale_stock.sale_stock_help_message_template
 msgid "Sales Orders"
 msgstr "Zamówienia sprzedaży"
 
@@ -668,22 +752,30 @@ msgstr "Raport reguły zasobów"
 #. module: sale_stock
 #. odoo-javascript
 #: code:addons/sale_stock/static/src/xml/delay_alert.xml:0
-#, python-format
 msgid "The delivery"
 msgstr "Dostawa"
 
 #. module: sale_stock
 #. odoo-python
 #: code:addons/sale_stock/models/sale_order.py:0
-#, python-format
 msgid ""
 "The delivery address has been changed on the Sales Order<br/>\n"
-"                        From <strong>\"%s\"</strong> To <strong>\"%s\"</strong>,\n"
+"                        From <strong>\"%(old_address)s\"</strong> to <strong>\"%(new_address)s\"</strong>,\n"
 "                        You should probably update the partner on this document."
 msgstr ""
-"Adres dostawy został zmieniony na Zamówieniu Sprzedaży <br/>\n"
-"z <strong>\"%s\"</strong> na <strong>\"%s\"</strong>,\n"
-"Prawdopodobnie powinieneś zaktualizować partnera na tym dokumencie."
+"Adres dostawy został zmieniony na Zamówieniu Sprzedaży<br/>\n"
+"                        Z <strong>\"%(old_address)s\"</strong> na <strong>\"%(new_address)s\"</strong>,\n"
+"                        Prawdopodobnie powinieneś zaktualizować partnera w tym dokumencie."
+
+#. module: sale_stock
+#. odoo-javascript
+#: code:addons/sale_stock/static/src/product_catalog/sale_order_line/sale_order_line.js:0
+msgid ""
+"The ordered quantity cannot be decreased below the amount already delivered."
+" Instead, create a return in your inventory."
+msgstr ""
+"Zamówiona ilość nie może zostać zmniejszona poniżej ilości już dostarczonej."
+" Zamiast tego, utwórz zwrot w swoim magazynie."
 
 #. module: sale_stock
 #. odoo-javascript
@@ -699,7 +791,10 @@ msgstr ""
 #. module: sale_stock
 #. odoo-python
 #: code:addons/sale_stock/models/sale_order_line.py:0
+<<<<<<< HEAD
 #, python-format
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 msgid ""
 "The ordered quantity of a sale order line cannot be decreased below the "
 "amount already delivered. Instead, create a return in your inventory."
@@ -711,9 +806,13 @@ msgstr ""
 #. module: sale_stock
 #. odoo-javascript
 #: code:addons/sale_stock/static/src/widgets/qty_at_date_widget.xml:0
-#, python-format
 msgid "This product is replenished on demand."
 msgstr "Produkt ten jest uzupełniany na żądanie."
+
+#. module: sale_stock
+#: model:ir.model.fields,field_description:sale_stock.field_sale_order_line__is_storable
+msgid "Track Inventory"
+msgstr "Śledź magazyn"
 
 #. module: sale_stock
 #: model:ir.model,name:sale_stock.model_stock_picking
@@ -733,7 +832,6 @@ msgstr "Użytkownik"
 #. module: sale_stock
 #. odoo-javascript
 #: code:addons/sale_stock/static/src/widgets/qty_at_date_widget.xml:0
-#, python-format
 msgid "View Forecast"
 msgstr "Wyświetl prognozę"
 
@@ -752,7 +850,6 @@ msgstr "Magazyn"
 #. module: sale_stock
 #. odoo-python
 #: code:addons/sale_stock/models/sale_order.py:0
-#, python-format
 msgid "Warning!"
 msgstr "Uwaga!"
 
@@ -765,6 +862,20 @@ msgstr "Kiedy wszystkie produkty są dostępne"
 #: model_terms:ir.ui.view,arch_db:sale_stock.res_config_settings_view_form_stock
 msgid "When to start shipping"
 msgstr "Kiedy rozpocząć wysyłkę"
+
+#. module: sale_stock
+#. odoo-python
+#: code:addons/sale_stock/models/sale_order.py:0
+msgid ""
+"You must have a warehouse for line using a delivery in different company."
+msgstr ""
+"Musisz mieć magazyn dla pozycji korzystającej z dostawy w innej firmie."
+
+#. module: sale_stock
+#. odoo-python
+#: code:addons/sale_stock/models/sale_order.py:0
+msgid "You must set a warehouse on your sale order to proceed."
+msgstr "Musisz ustawić magazyn na zamówieniu sprzedaży, aby kontynuować."
 
 #. module: sale_stock
 #: model_terms:ir.ui.view,arch_db:sale_stock.exception_on_so
@@ -795,6 +906,5 @@ msgstr "przetworzony zamiast"
 #. module: sale_stock
 #. odoo-javascript
 #: code:addons/sale_stock/static/src/xml/delay_alert.xml:0
-#, python-format
 msgid "will be late."
 msgstr "spóźni się."

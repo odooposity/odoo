@@ -1,16 +1,18 @@
-/** @odoo-module **/
-
 import { isMobileOS } from "@web/core/browser/feature_detection";
 import { _t } from "@web/core/l10n/translation";
 import { registry } from "@web/core/registry";
 import { useService } from "@web/core/utils/hooks";
-import { url } from "@web/core/utils/urls";
+import { imageUrl } from "@web/core/utils/urls";
 import { isBinarySize } from "@web/core/utils/binary";
 import { FileUploader } from "../file_handler";
 import { standardFieldProps } from "../standard_field_props";
 
+<<<<<<< HEAD
 import { Component, useState, onWillRender } from "@odoo/owl";
 const { DateTime } = luxon;
+=======
+import { Component, useState } from "@odoo/owl";
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 export const fileTypeMagicWordMap = {
     "/": "jpg",
@@ -21,21 +23,6 @@ export const fileTypeMagicWordMap = {
 };
 const placeholder = "/web/static/img/placeholder.png";
 
-/**
- * Formats a value to be injected in the image's url in order for that url
- * to be correctly cached and discarded by the browser (the browser caches
- * fetch requests with the url as key).
- *
- * For records, a not-so-bad approximation is to compute that key on the basis
- * of the record's write_date field.
- */
-export function imageCacheKey(value) {
-    if (value instanceof DateTime) {
-        return value.ts;
-    }
-    return "";
-}
-
 export class ImageField extends Component {
     static template = "web.ImageField";
     static components = {
@@ -43,16 +30,21 @@ export class ImageField extends Component {
     };
     static props = {
         ...standardFieldProps,
+        alt: { type: String, optional: true },
         enableZoom: { type: Boolean, optional: true },
+        imgClass: { type: String, optional: true },
         zoomDelay: { type: Number, optional: true },
         previewImage: { type: String, optional: true },
         acceptedFileExtensions: { type: String, optional: true },
         width: { type: Number, optional: true },
         height: { type: Number, optional: true },
         reload: { type: Boolean, optional: true },
+        convertToWebp: { type: Boolean, optional: true },
     };
     static defaultProps = {
         acceptedFileExtensions: "image/*",
+        alt: _t("Binary file"),
+        imgClass: "",
         reload: true,
     };
 
@@ -65,6 +57,7 @@ export class ImageField extends Component {
         });
         this.lastURL = undefined;
 
+<<<<<<< HEAD
         if (this.props.record.fields[this.props.name].related) {
             this.lastUpdate = DateTime.now();
             let key = this.props.value;
@@ -78,6 +71,28 @@ export class ImageField extends Component {
                 key = nextKey;
             });
         }
+=======
+        if (this.fieldType === "many2one" && !this.props.previewImage) {
+            throw new Error(
+                "ImageField: previewImage must be provided when set on a many2one field"
+            );
+        }
+    }
+
+    get imgAlt() {
+        if (this.fieldType === "many2one" && this.props.record.data[this.props.name]) {
+            return this.props.record.data[this.props.name][1];
+        }
+        return this.props.alt;
+    }
+
+    get imgClass() {
+        return ["img", "img-fluid"].concat(this.props.imgClass.split(" ")).join(" ");
+    }
+
+    get fieldType() {
+        return this.props.record.fields[this.props.name].type;
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
     }
 
     get rawCacheKey() {
@@ -104,40 +119,48 @@ export class ImageField extends Component {
         return style;
     }
     get hasTooltip() {
+<<<<<<< HEAD
         return (
             this.props.enableZoom && this.props.record.data[this.props.name]
         );
+=======
+        return this.props.enableZoom && this.props.record.data[this.props.name];
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
     }
     get tooltipAttributes() {
+        const fieldName = this.fieldType === "many2one" ? this.props.previewImage : this.props.name;
         return {
             template: "web.ImageZoomTooltip",
-            info: JSON.stringify({ url: this.getUrl(this.props.name) }),
+            info: JSON.stringify({ url: this.getUrl(fieldName) }),
         };
     }
 
-    getUrl(previewFieldName) {
+    getUrl(imageFieldName) {
         if (!this.props.reload && this.lastURL) {
             return this.lastURL;
         }
-        if (this.state.isValid && this.props.record.data[this.props.name]) {
-            if (isBinarySize(this.props.record.data[this.props.name])) {
-                this.lastURL = url("/web/image", {
-                    model: this.props.record.resModel,
-                    id: this.props.record.resId,
-                    field: previewFieldName,
-                    unique: imageCacheKey(this.rawCacheKey),
-                });
-            } else {
-                // Use magic-word technique for detecting image type
-                const magic =
-                    fileTypeMagicWordMap[this.props.record.data[this.props.name][0]] || "png";
-                this.lastURL = `data:image/${magic};base64,${
-                    this.props.record.data[this.props.name]
-                }`;
-            }
-            return this.lastURL;
+        if (!this.props.record.data[this.props.name] || !this.state.isValid) {
+            return placeholder;
         }
-        return placeholder;
+        if (this.fieldType === "many2one") {
+            this.lastURL = imageUrl(
+                this.props.record.fields[this.props.name].relation,
+                this.props.record.data[this.props.name][0],
+                imageFieldName
+            );
+        } else if (isBinarySize(this.props.record.data[this.props.name])) {
+            this.lastURL = imageUrl(
+                this.props.record.resModel,
+                this.props.record.resId,
+                imageFieldName,
+                { unique: this.rawCacheKey }
+            );
+        } else {
+            // Use magic-word technique for detecting image type
+            const magic = fileTypeMagicWordMap[this.props.record.data[this.props.name][0]] || "png";
+            this.lastURL = `data:image/${magic};base64,${this.props.record.data[this.props.name]}`;
+        }
+        return this.lastURL;
     }
     onFileRemove() {
         this.state.isValid = true;
@@ -145,6 +168,24 @@ export class ImageField extends Component {
     }
     async onFileUploaded(info) {
         this.state.isValid = true;
+        if (
+            this.props.convertToWebp &&
+            !["image/gif", "image/svg+xml", "image/webp"].includes(info.type)
+        ) {
+            const image = document.createElement("img");
+            image.src = `data:${info.type};base64,${info.data}`;
+            await new Promise((resolve) => image.addEventListener("load", resolve));
+
+            const canvas = document.createElement("canvas");
+            canvas.width = image.width;
+            canvas.height = image.height;
+            const ctx = canvas.getContext("2d");
+            ctx.drawImage(image, 0, 0);
+
+            info.data = canvas.toDataURL("image/webp", 0.75).split(",")[1];
+            info.type = "image/webp";
+            info.name = info.name.replace(/\.[^/.]+$/, ".webp");
+        }
         if (info.type === "image/webp") {
             // Generate alternate sizes and format for reports.
             const image = document.createElement("img");
@@ -212,6 +253,13 @@ export class ImageField extends Component {
 export const imageField = {
     component: ImageField,
     displayName: _t("Image"),
+    supportedAttributes: [
+        {
+            label: _t("Alternative text"),
+            name: "alt",
+            type: "string",
+        },
+    ],
     supportedOptions: [
         {
             label: _t("Reload"),
@@ -222,6 +270,11 @@ export const imageField = {
         {
             label: _t("Enable zoom"),
             name: "zoom",
+            type: "boolean",
+        },
+        {
+            label: _t("Convert to webp"),
+            name: "convert_to_webp",
             type: "boolean",
         },
         {
@@ -252,11 +305,14 @@ export const imageField = {
             availableTypes: ["binary"],
         },
     ],
-    supportedTypes: ["binary"],
+    supportedTypes: ["binary", "many2one"],
     fieldDependencies: [{ name: "write_date", type: "datetime" }],
     isEmpty: () => false,
     extractProps: ({ attrs, options }) => ({
+        alt: attrs.alt,
         enableZoom: options.zoom,
+        convertToWebp: options.convert_to_webp,
+        imgClass: options.img_class,
         zoomDelay: options.zoom_delay,
         previewImage: options.preview_image,
         acceptedFileExtensions: options.accepted_file_extensions,

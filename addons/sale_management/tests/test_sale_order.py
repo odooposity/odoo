@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
 
 from itertools import chain
@@ -19,6 +18,7 @@ class TestSaleOrder(SaleManagementCommon):
         # some variables to ease asserts in tests
         cls.pub_product_price = 100.0
         cls.pl_product_price = 80.0
+        cls._enable_discounts()
         cls.tpl_discount = 10.0
         cls.pl_discount = (cls.pub_product_price - cls.pl_product_price) * 100 / cls.pub_product_price
         cls.merged_discount = 100.0 - (100.0 - cls.pl_discount) * (100.0 - cls.tpl_discount) / 100.0
@@ -34,6 +34,7 @@ class TestSaleOrder(SaleManagementCommon):
             {
                 'name': 'Product 1',
                 'lst_price': cls.pub_product_price,
+                'description_sale': "This is a product description"
             }, {
                 'name': 'Optional product',
                 'lst_price': cls.pub_option_price,
@@ -72,6 +73,22 @@ class TestSaleOrder(SaleManagementCommon):
                 'fixed_price': cls.pl_option_price,
             }),
         ]
+        percentage_pricelist_rule_values = [
+            Command.create({
+                'name': 'Product 1 premium price',
+                'applied_on': '1_product',
+                'product_tmpl_id': cls.product_1.product_tmpl_id.id,
+                'compute_price': 'percentage',
+                'percent_price': cls.pl_discount,
+            }),
+            Command.create({
+                'name': 'Optional product premium price',
+                'applied_on': '1_product',
+                'product_tmpl_id': cls.optional_product.product_tmpl_id.id,
+                'compute_price': 'percentage',
+                'percent_price': cls.pl_option_discount,
+            }),
+        ]
 
         (
             cls.discount_included_price_list,
@@ -79,12 +96,10 @@ class TestSaleOrder(SaleManagementCommon):
         ) = cls.env['product.pricelist'].create([
             {
                 'name': 'Discount included Pricelist',
-                'discount_policy': 'with_discount',
                 'item_ids': pricelist_rule_values,
             }, {
                 'name': 'Discount excluded Pricelist',
-                'discount_policy': 'without_discount',
-                'item_ids': pricelist_rule_values,
+                'item_ids': percentage_pricelist_rule_values,
             }
         ])
 
@@ -354,6 +369,11 @@ class TestSaleOrder(SaleManagementCommon):
                 'display_type': 'line_note',
             }),
         ]
+<<<<<<< HEAD
+=======
+        # Remove product description to ease comparing before/after translations
+        self.product_1.description_sale = None
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
         # Commence activation of Dutch vernacular
         self.env['res.lang']._activate_lang('nl_NL')
@@ -363,8 +383,17 @@ class TestSaleOrder(SaleManagementCommon):
         trans_dict = dict(zip(names_EN, names_NL))
         for record in chain(
             self.quotation_template_no_discount.sale_order_template_line_ids,
+<<<<<<< HEAD
             self.quotation_template_no_discount.sale_order_template_option_ids,
         ):
+=======
+            self.quotation_template_no_discount.sale_order_template_line_ids.product_id,
+            self.quotation_template_no_discount.sale_order_template_option_ids,
+            self.quotation_template_no_discount.sale_order_template_option_ids.product_id,
+        ):
+            if not record.name:
+                continue
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
             record.with_context(lang='nl_NL').name = trans_dict[record.name]
 
         # Create sale order form (and a way to retrieve line names)
@@ -432,6 +461,53 @@ class TestSaleOrder(SaleManagementCommon):
             "Lines shouldn't change once saved",
         )
 
+<<<<<<< HEAD
+=======
+    def test_product_description_no_template_description(self):
+        """
+        Test case for when the product has a description, but the quotation template line does not.
+        The final sale order line should use the product's description.
+        """
+        quotation_template_no_description = self.empty_order_template
+        quotation_template_no_description.sale_order_template_line_ids = [
+            Command.create({
+                'product_id': self.product_1.id,
+                'name': False,
+            }),
+        ]
+        sale_order = self.empty_order
+        sale_order.sale_order_template_id = quotation_template_no_description
+        sale_order._onchange_sale_order_template_id()
+        self.assertEqual(
+            sale_order.order_line[0].name,
+            f"{self.product_1.name}\n{self.product_1.description_sale}",
+            "Sale order line should use product's description when no quotation template \
+            description is set."
+        )
+
+    def test_product_description_with_template_description(self):
+        """
+        Test case for when both the product and the quotation template line have descriptions.
+        The final sale order line should use the template's description.
+        """
+        quotation_template_with_description = self.empty_order_template
+        quotation_template_with_description.sale_order_template_line_ids = [
+            Command.create({
+                'product_id': self.product_1.id,
+                'name': "This is a template description",
+            }),
+        ]
+        sale_order = self.empty_order
+        sale_order.sale_order_template_id = quotation_template_with_description
+        sale_order._onchange_sale_order_template_id()
+        self.assertEqual(
+            sale_order.order_line[0].name,
+            quotation_template_with_description.sale_order_template_line_ids[0].name,
+            "The sale order line should use the quotation template's description when both \
+            product and the quotation template descriptions are set."
+        )
+
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
     def test_warning_quotation(self):
         """
         ensure "warning for the change of your quotation's company" isn't triggered

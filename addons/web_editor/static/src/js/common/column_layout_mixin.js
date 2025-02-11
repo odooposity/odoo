@@ -27,6 +27,7 @@ export const ColumnLayoutMixin = {
         return Math.floor((12 - offsetSize) / colSize);
     },
     /**
+<<<<<<< HEAD
      * TODO: remove in master
      * Retrieves the mobile order as a match array if there is one.
      *
@@ -39,6 +40,8 @@ export const ColumnLayoutMixin = {
         return order ? [`order-${order}`, order.toString()] : null;
     },
     /**
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
      * Gets the first item, whether it has a mobile order or not.
      *
      * @private

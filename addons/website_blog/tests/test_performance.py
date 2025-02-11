@@ -8,9 +8,31 @@ import random
 class TestBlogPerformance(UtilPerf):
     def setUp(self):
         super().setUp()
-        # if website_livechat is installed, disable it
-        if 'channel_id' in self.env['website']:
-            self.env['website'].search([]).channel_id = False
+        self.env['blog.blog'].search([]).active = False
+        blogs = self.env['blog.blog'].create([{
+            "name": 'aaa Blog Test',
+            "subtitle": 'Blog Test Subtitle',
+            "cover_properties": """{"background-image": "url('/website_blog/static/src/img/blog_1.jpeg')", "resize_class": "o_record_has_cover o_half_screen_height", "opacity": "0.4"}""",
+        }, {
+            "name": 'bbb Blog Test',
+            "subtitle": 'Blog Test Subtitle',
+            "cover_properties": """{"background-image": "url('/website_blog/static/src/img/blog_1.jpeg')", "resize_class": "o_record_has_cover o_half_screen_height", "opacity": "0.4"}""",
+        }])
+
+        blog_tags = self.env['blog.tag'].create([{
+            'name': 'Tag 1',
+        }, {
+            'name': 'Tag 2',
+        }])
+        self.env['blog.post'].create([{
+            "name": "Post Test",
+            "subtitle": "Subtitle Test",
+            "blog_id": blog.id,
+            "author_id": self.env.user.id,
+            "tag_ids": [(4, tag.id) for tag in blog_tags],
+            "is_published": True,
+            "cover_properties": """{"background-image": "url('/website_blog/static/src/img/cover_1.jpg')", "resize_class": "o_record_has_cover o_half_screen_height", "opacity": "0"}""",
+        } for blog in blogs])
 
         # remove menu containing a slug url (only website_helpdesk normally), to
         # avoid the menu cache being disabled, which would increase sql queries
@@ -57,7 +79,7 @@ class TestBlogPerformance(UtilPerf):
         for blog_post in blog_posts:
             blog_post.tag_ids += blog_tags
             blog_tags = blog_tags[:-1]
-        self.assertEqual(self._get_url_hot_query('/blog'), 11)
+        self.assertEqual(self._get_url_hot_query('/blog'), 10)
         self.assertLessEqual(self._get_url_hot_query('/blog', cache=False), 33)
         self.assertLessEqual(self._get_url_hot_query(blog_post[0].website_url), 16)
         self.assertLessEqual(self._get_url_hot_query(blog_post[0].website_url, cache=False), 20)

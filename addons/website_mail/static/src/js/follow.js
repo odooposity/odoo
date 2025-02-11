@@ -1,16 +1,24 @@
 /** @odoo-module **/
 
 import publicWidget from "@web/legacy/js/public/public_widget";
+<<<<<<< HEAD
+=======
+import { rpc } from "@web/core/network/rpc";
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 import { ReCaptcha } from "@google_recaptcha/js/recaptcha";
 import { _t } from "@web/core/l10n/translation";
 
 publicWidget.registry.follow = publicWidget.Widget.extend({
-    selector: '#wrapwrap:has(.js_follow)',
+    selector: '#wrapwrap',
+    selectorHas: '.js_follow',
     disabledInEditableMode: false,
 
     init() {
         this._super(...arguments);
+<<<<<<< HEAD
         this.rpc = this.bindService("rpc");
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
         this._recaptcha = new ReCaptcha();
         this.notification = this.bindService("notification");
     },
@@ -47,7 +55,7 @@ publicWidget.registry.follow = publicWidget.Widget.extend({
             records[model].push(parseInt(el.dataset.id));
         }
 
-        this.rpc('/website_mail/is_follower', {
+        rpc('/website_mail/is_follower', {
             records: records,
         }).then(always, always);
 
@@ -132,7 +140,11 @@ publicWidget.registry.follow = publicWidget.Widget.extend({
                 });
                 return false;
             }
+<<<<<<< HEAD
             this.rpc("/website_mail/follow", {
+=======
+            rpc("/website_mail/follow", {
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
                 "id": +$jsFollow.data("id"),
                 "object": $jsFollow.data("object"),
                 "message_is_follower": $jsFollow.attr("data-follow") || "off",

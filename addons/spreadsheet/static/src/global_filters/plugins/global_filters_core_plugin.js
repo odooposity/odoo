@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 /** @odoo-module */
 
 /**
@@ -36,16 +37,32 @@
  *
  * @typedef {TextGlobalFilter | DateGlobalFilter | RelationalGlobalFilter} GlobalFilter
  */
+=======
+/** @ts-check */
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 export const globalFiltersFieldMatchers = {};
 
-import * as spreadsheet from "@odoo/o-spreadsheet";
 import { CommandResult } from "@spreadsheet/o_spreadsheet/cancelled_reason";
 import { checkFilterValueIsValid } from "@spreadsheet/global_filters/helpers";
 import { _t } from "@web/core/l10n/translation";
 import { escapeRegExp } from "@web/core/utils/strings";
+import { OdooCorePlugin } from "@spreadsheet/plugins";
 
-export class GlobalFiltersCorePlugin extends spreadsheet.CorePlugin {
+/**
+ * @typedef {import("@spreadsheet").GlobalFilter} GlobalFilter
+ * @typedef {import("@spreadsheet").CmdGlobalFilter} CmdGlobalFilter
+ * @typedef {import("@spreadsheet").FieldMatching} FieldMatching
+ */
+
+export class GlobalFiltersCorePlugin extends OdooCorePlugin {
+    static getters = /** @type {const} */ ([
+        "getGlobalFilter",
+        "getGlobalFilters",
+        "getGlobalFilterDefaultValue",
+        "getGlobalFilterLabel",
+        "getFieldMatchingForModel",
+    ]);
     constructor(config) {
         super(config);
         /** @type {Array.<GlobalFilter>} */
@@ -207,6 +224,8 @@ export class GlobalFiltersCorePlugin extends spreadsheet.CorePlugin {
     /**
      * Returns the field matching for a given model by copying the matchings of another DataSource that
      * share the same model, including only the chain and type.
+     *
+     * @returns {Record<string, FieldMatching> | {}}
      */
     getFieldMatchingForModel(newModel) {
         const globalFilters = this.getGlobalFilters();
@@ -242,6 +261,7 @@ export class GlobalFiltersCorePlugin extends spreadsheet.CorePlugin {
     /**
      * Edit a global filter
      *
+<<<<<<< HEAD
      * @param {GlobalFilter} newFilter
      */
     _editGlobalFilter(newFilter) {
@@ -251,6 +271,18 @@ export class GlobalFiltersCorePlugin extends spreadsheet.CorePlugin {
                 newFilter.rangeOfAllowedValues
             );
         }
+=======
+     * @param {CmdGlobalFilter} cmdFilter
+     */
+    _editGlobalFilter(cmdFilter) {
+        const rangeOfAllowedValues =
+            cmdFilter.type === "text" && cmdFilter.rangeOfAllowedValues
+                ? this.getters.getRangeFromRangeData(cmdFilter.rangeOfAllowedValues)
+                : undefined;
+        /** @type {GlobalFilter} */
+        const newFilter =
+            cmdFilter.type === "text" ? { ...cmdFilter, rangeOfAllowedValues } : { ...cmdFilter };
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
         const id = newFilter.id;
         const currentLabel = this.getGlobalFilter(id).label;
         const index = this.globalFilters.findIndex((filter) => filter.id === id);
@@ -295,6 +327,7 @@ export class GlobalFiltersCorePlugin extends spreadsheet.CorePlugin {
      */
     export(data) {
         data.globalFilters = this.globalFilters.map((filter) => {
+<<<<<<< HEAD
             filter = { ...filter };
             if (filter.type === "text" && filter.rangeOfAllowedValues) {
                 filter.rangeOfAllowedValues = this.getters.getRangeString(
@@ -302,6 +335,17 @@ export class GlobalFiltersCorePlugin extends spreadsheet.CorePlugin {
                 );
             }
             return filter;
+=======
+            /** @type {Object} */
+            const filterData = { ...filter };
+            if (filter.type === "text" && filter.rangeOfAllowedValues) {
+                filterData.rangeOfAllowedValues = this.getters.getRangeString(
+                    filter.rangeOfAllowedValues,
+                    "" // force the range string to be fully qualified (with the sheet name)
+                );
+            }
+            return filterData;
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
         });
     }
 
@@ -367,11 +411,3 @@ export class GlobalFiltersCorePlugin extends spreadsheet.CorePlugin {
         this.history.update("globalFilters", filters);
     }
 }
-
-GlobalFiltersCorePlugin.getters = [
-    "getGlobalFilter",
-    "getGlobalFilters",
-    "getGlobalFilterDefaultValue",
-    "getGlobalFilterLabel",
-    "getFieldMatchingForModel",
-];

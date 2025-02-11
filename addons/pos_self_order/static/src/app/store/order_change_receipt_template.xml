@@ -14,16 +14,25 @@
                 </div>
             </t>
             <br />
+<<<<<<< HEAD
             <br />
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
             <div class="pos-receipt-title">
                 NEW
                 <t t-esc='changes.time.hours'/>:<t t-esc='changes.time.minutes'/>
             </div>
             <br />
+<<<<<<< HEAD
             <br />
             <t t-foreach="changes.new" t-as="change" t-key="change_index">
                 <div class="multiprint-flex">
                     <span class="product-quantity" t-esc="change.qty"/>
+=======
+            <t t-foreach="changes.new" t-as="change" t-key="change_index">
+                <div class="product-details d-flex">
+                    <span class="product-quantity me-5 mb-1" t-esc="change.qty"/>
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
                     <span class="product-name" t-esc="change.full_product_name"/>
                 </div>
                 <t t-if="change.customer_note">

@@ -10,14 +10,23 @@ from odoo.exceptions import UserError
 class TestAngloSaxonValuation(ValuationReconciliationTestCommon):
 
     @classmethod
+<<<<<<< HEAD
     def setUpClass(cls, chart_template_ref=None):
         super().setUpClass(chart_template_ref=chart_template_ref)
+=======
+    def setUpClass(cls):
+        super().setUpClass()
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
         cls.env.user.company_id.anglo_saxon_accounting = True
 
         cls.fifo_product = cls.env['product.product'].create({
             'name': 'product',
+<<<<<<< HEAD
             'type': 'product',
+=======
+            'is_storable': True,
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
             'categ_id': cls.stock_account_product_categ.id,
         })
 

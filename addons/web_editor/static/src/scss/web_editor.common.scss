@@ -91,9 +91,12 @@
     @include print-variable('h6-font-size', $h6-font-size);
     @include print-variable('font-size-base', $font-size-base);
     @include print-variable('small-font-size', $small-font-size);
+<<<<<<< HEAD
     @include print-variable('small-twelve-font-size', $small-twelve-font-size);
     @include print-variable('small-ten-font-size', $small-ten-font-size);
     @include print-variable('small-eight-font-size', $small-eight-font-size);
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
     @include print-variable('lead-font-size', $lead-font-size);
 }
 
@@ -101,6 +104,14 @@ html, body {
     position: relative;
     width: 100%;
     height: 100%;
+}
+
+pre {    
+    padding: map-get($spacers, 2) map-get($spacers, 3);
+    border: $border-width solid $border-color;
+    border-radius: $border-radius;
+    background-color: $gray-100;
+    color: $gray-900;
 }
 
 *[contenteditable=true] {
@@ -115,23 +126,6 @@ html, body {
 }
 .editor_enable .css_editable_mode_hidden {
     display: none !important;
-}
-.note-toolbar {
-    margin-left: 0 !important;
-}
-.note-popover .popover > .arrow {
-    display: none;
-}
-
-.note-popover .popover, .note-editor {
-    .dropdown-menu .dropdown-item {
-        > i {
-            visibility: hidden;
-        }
-        &.checked > i {
-            visibility: visible;
-        }
-    }
 }
 
 /* ----- GENERIC LAYOUTING HELPERS ---- */
@@ -305,6 +299,7 @@ img.ms-auto, img.mx-auto {
 // consistent with the other classes which act that way (as display-x).
 .o_small-fs {
     @include font-size($small-font-size);
+<<<<<<< HEAD
 }
 .o_small_twelve-fs {
     @include font-size($o-small-twelve-font-size);
@@ -314,6 +309,8 @@ img.ms-auto, img.mx-auto {
 }
 .o_small_eight-fs {
     @include font-size($o-small-eight-font-size);
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 }
 
 div.media_iframe_video {
@@ -503,9 +500,6 @@ a.o_underline {
 
 @include media-breakpoint-down(md) {
     odoo-wysiwyg-container {
-        .panel-heading.note-toolbar {
-            overflow-x: auto;
-        }
         .btn-group {
             position: static;
         }
@@ -1015,4 +1009,15 @@ section, .oe_img_bg, [data-oe-shape-data] {
     ul.o_checklist>li:not(.oe-nested)::before {
         top: 0px!important;
     }
+<<<<<<< HEAD
+=======
+}
+
+code.o_inline_code {
+    padding: .2em .4em;
+    border-radius: $border-radius;
+    background-color: var(--WebEditor__inlineCode-bg, #{$gray-200});
+    font-size: 85%;
+    color: $gray-900;
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 }

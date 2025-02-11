@@ -31,6 +31,11 @@ class TestSaleOrderCreditLimit(TestSaleCommon):
             'currency_id': buck_currency.id,
         })
 
+<<<<<<< HEAD
+=======
+        cls.company_data_2 = cls.setup_other_company()
+
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
         cls.sales_user = cls.company_data['default_user_salesman']
         cls.sales_user.write({
             'login': "notaccountman",
@@ -45,11 +50,18 @@ class TestSaleOrderCreditLimit(TestSaleCommon):
         # multi-company setup
         company2 = self.company_data_2['company']
 
+<<<<<<< HEAD
         # Activate the Credit Limit feature and set a value for partner_a.
         self.env.company.account_use_credit_limit = True
         self.partner_a.credit_limit = 1000.0
 
         # Create and confirm a SO for another company
+=======
+        # Activate the Credit Limit feature
+        company2.account_use_credit_limit = True
+
+        # Create and confirm a SO for that company
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
         sale_order = company2.env['sale.order'].create({
             'company_id': company2.id,
             'partner_id': self.partner_a.id,
@@ -59,10 +71,17 @@ class TestSaleOrderCreditLimit(TestSaleCommon):
             'order_line': [Command.create({
                 'product_id': self.company_data_2['product_order_no'].id,
                 'price_unit': 1000.0,
+<<<<<<< HEAD
             })]
         })
 
         self.assertEqual(self.partner_a.credit_to_invoice, 0.0)
+=======
+            })],
+        })
+
+        self.assertEqual(self.partner_a.with_company(company2).credit_to_invoice, 0.0)
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
         sale_order.action_confirm()
 
         self.partner_a.invalidate_recordset(['credit', 'credit_to_invoice'])
@@ -111,7 +130,6 @@ class TestSaleOrderCreditLimit(TestSaleCommon):
         }).create({
             'advance_payment_method': 'percentage',
             'amount': 50,
-            'deposit_account_id': self.company_data['default_account_revenue'].id,
         }).create_invoices()
 
         invoice = sale_order.invoice_ids
@@ -359,7 +377,11 @@ class TestSaleOrderCreditLimit(TestSaleCommon):
                 "No credit warning should be displayed (yet)",
             )
             with order_form.order_line.edit(0) as sol:
+<<<<<<< HEAD
                 sol.tax_id.add(self.product_a.taxes_id)
+=======
+                sol.tax_id.add(self.tax_sale_a)
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
             self.assertTrue(
                 order_form.partner_credit_warning,
                 "Credit warning should be displayed",

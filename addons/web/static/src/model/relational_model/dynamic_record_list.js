@@ -1,5 +1,3 @@
-/* @odoo-module */
-
 import { DynamicList } from "./dynamic_list";
 
 export class DynamicRecordList extends DynamicList {
@@ -21,6 +19,7 @@ export class DynamicRecordList extends DynamicList {
             this.records.forEach((r) => (r.selected = true));
         }
         this._updateCount(data);
+        this._selectDomain(this.isDomainSelected);
     }
 
     // -------------------------------------------------------------------------
@@ -159,7 +158,17 @@ export class DynamicRecordList extends DynamicList {
             // we weren't on the first page, and we removed all records of the current page
             const offset = Math.max(this.offset - this.limit, 0);
             this.model._updateConfig(this.config, { offset }, { reload: false });
+<<<<<<< HEAD
+=======
         }
+    }
+
+    _selectDomain(value) {
+        if (value) {
+            this.records.forEach((r) => (r.selected = true));
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
+        }
+        super._selectDomain(value);
     }
 
     _updateCount(data) {

@@ -3,7 +3,6 @@
 import { loadBundle } from "@web/core/assets";
 import { _t } from "@web/core/l10n/translation";
 import publicWidget from "@web/legacy/js/public/public_widget";
-import { browser } from "@web/core/browser/browser";
 const { DateTime } = luxon;
 
 var BarChart = publicWidget.Widget.extend({
@@ -45,7 +44,7 @@ var BarChart = publicWidget.Widget.extend({
             data.push(pt[1]);
         });
 
-        this.$('.title').html(nbClicks + _t(' clicks'));
+        this.$('.title').text(_t('%(clicks)s clicks', {clicks: nbClicks}));
 
         var config = {
             type: 'line',
@@ -60,6 +59,19 @@ var BarChart = publicWidget.Widget.extend({
 
                 }],
             },
+            options: {
+                scales: {
+                    y: {
+                        ticks: {
+                            callback: function(value) {
+                                if (Number.isInteger(value)) {
+                                    return value;
+                                }
+                            },
+                        }
+                    }
+                }
+            }
         };
         var canvas = this.$('canvas')[0];
         var context = canvas.getContext('2d');
@@ -95,7 +107,7 @@ var PieChart = publicWidget.Widget.extend({
         }
 
         // Set title
-        this.$('.title').html(this.data.length + _t(' countries'));
+        this.$('.title').text(_t('%(count)s countries', {count: this.data.length}));
 
         var config = {
             type: 'pie',
@@ -122,9 +134,6 @@ var PieChart = publicWidget.Widget.extend({
 
 publicWidget.registry.websiteLinksCharts = publicWidget.Widget.extend({
     selector: '.o_website_links_chart',
-    events: {
-        'click .copy-to-clipboard': '_onCopyToClipboardClick',
-    },
 
     init() {
         this._super(...arguments);
@@ -278,6 +287,7 @@ publicWidget.registry.websiteLinksCharts = publicWidget.Widget.extend({
             ["country_id"]
         );
     },
+<<<<<<< HEAD
 
     //--------------------------------------------------------------------------
     // Handlers
@@ -315,6 +325,8 @@ publicWidget.registry.websiteLinksCharts = publicWidget.Widget.extend({
                 this.animating_copy = false;
             });
     },
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 });
 
 export default {

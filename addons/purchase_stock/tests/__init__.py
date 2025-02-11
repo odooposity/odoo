@@ -6,6 +6,7 @@ from . import test_average_price
 from . import test_create_picking
 from . import test_fifo_price
 from . import test_fifo_returns
+from . import test_lot_valuation
 from . import test_onchange_product
 from . import test_purchase_delete_order
 from . import test_purchase_lead_time
@@ -21,3 +22,7 @@ from . import test_routes
 from . import test_purchase_stock_accrued_entries
 from . import test_uninstall
 from . import test_purchase_method
+<<<<<<< HEAD
+=======
+from . import test_old_rules
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8

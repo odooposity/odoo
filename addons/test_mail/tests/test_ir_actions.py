@@ -78,7 +78,7 @@ class TestServerActionsEmail(MailCommon, TestServerActionsBase):
         with self.assertSinglePostNotifications(
                 [{'partner': self.test_partner, 'type': 'email', 'status': 'ready'}],
                 message_info={'content': 'Hello %s' % self.test_partner.name,
-                              'fields_values': {
+                              'mail_mail_values': {
                                 'author_id': self.env.user.partner_id,
                               },
                               'message_type': 'notification',
@@ -176,4 +176,8 @@ class TestServerActionsEmail(MailCommon, TestServerActionsBase):
                 'subject': 'About Test NoMailThread',
             }
         )
+<<<<<<< HEAD
         self.assertIn('Powered by', mail.body_html, 'Body should contain the notification layout')
+=======
+        self.assertNotIn('Powered by', mail.body_html, 'Body should contain the notification layout')
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8

@@ -1,5 +1,3 @@
-/** @odoo-module **/
-
 import { getDomainDisplayedOperators } from "@web/core/domain_selector/domain_selector_operator_editor";
 
 const EXPRESSION_VALID_OPERATORS = [
@@ -8,6 +6,10 @@ const EXPRESSION_VALID_OPERATORS = [
     ">",
     ">=",
     "between",
+<<<<<<< HEAD
+=======
+    "within",
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
     "in",
     "not in",
     "=",

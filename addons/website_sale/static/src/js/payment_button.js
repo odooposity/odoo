@@ -15,6 +15,7 @@ paymentButton.include({
      * @return {boolean}
      */
     _canSubmit() {
+<<<<<<< HEAD
         return this._super(...arguments) && this._isCarrierReady() && this._isTCCheckboxReady();
     },
 
@@ -47,6 +48,9 @@ paymentButton.include({
             return address !== '';  // A pickup point is required but not selected.
         }
         return true;
+=======
+        return this._super(...arguments) && this._isTCCheckboxReady();
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
     },
 
     /**

@@ -1,18 +1,30 @@
 /** @odoo-module */
 import { _t } from "@web/core/l10n/translation";
 import { PaymentInterface } from "@point_of_sale/app/payment/payment_interface";
+<<<<<<< HEAD
 import { ErrorPopup } from "@point_of_sale/app/errors/popups/error_popup";
+=======
+import { AlertDialog } from "@web/core/confirmation_dialog/confirmation_dialog";
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 export class PaymentMercadoPago extends PaymentInterface {
     async create_payment_intent() {
         const order = this.pos.get_order();
+<<<<<<< HEAD
         const line = order.selected_paymentline;
+=======
+        const line = order.get_selected_paymentline();
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
         // Build informations for creating a payment intend on Mercado Pago.
         // Data in "external_reference" are send back with the webhook notification
         const infos = {
             amount: parseInt(line.amount * 100, 10),
             additional_info: {
+<<<<<<< HEAD
                 external_reference: `${this.pos.pos_session.id}_${line.payment_method.id}_${order.uid}`,
+=======
+                external_reference: `${this.pos.config.current_session_id.id}_${line.payment_method_id.id}_${order.uuid}`,
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
                 print_on_terminal: true,
             },
         };
@@ -20,36 +32,64 @@ export class PaymentMercadoPago extends PaymentInterface {
         return await this.env.services.orm.silent.call(
             "pos.payment.method",
             "mp_payment_intent_create",
+<<<<<<< HEAD
             [[line.payment_method.id], infos]
         );
     }
     async get_last_status_payment_intent() {
         const line = this.pos.get_order().selected_paymentline;
+=======
+            [[line.payment_method_id.id], infos]
+        );
+    }
+    async get_last_status_payment_intent() {
+        const line = this.pos.get_order().get_selected_paymentline();
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
         // mp_payment_intent_get will call the Mercado Pago api
         return await this.env.services.orm.silent.call(
             "pos.payment.method",
             "mp_payment_intent_get",
+<<<<<<< HEAD
             [[line.payment_method.id], this.payment_intent.id]
+=======
+            [[line.payment_method_id.id], this.payment_intent.id]
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
         );
     }
 
     async cancel_payment_intent() {
+<<<<<<< HEAD
         const line = this.pos.get_order().selected_paymentline;
+=======
+        const line = this.pos.get_order().get_selected_paymentline();
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
         // mp_payment_intent_cancel will call the Mercado Pago api
         return await this.env.services.orm.silent.call(
             "pos.payment.method",
             "mp_payment_intent_cancel",
+<<<<<<< HEAD
             [[line.payment_method.id], this.payment_intent.id]
+=======
+            [[line.payment_method_id.id], this.payment_intent.id]
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
         );
     }
 
     async get_payment(payment_id) {
+<<<<<<< HEAD
         const line = this.pos.get_order().selected_paymentline;
+=======
+        const line = this.pos.get_order().get_selected_paymentline();
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
         // mp_get_payment_status will call the Mercado Pago api
         return await this.env.services.orm.silent.call(
             "pos.payment.method",
             "mp_get_payment_status",
+<<<<<<< HEAD
             [[line.payment_method.id], payment_id]
+=======
+            [[line.payment_method_id.id], payment_id]
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
         );
     }
 
@@ -61,7 +101,11 @@ export class PaymentMercadoPago extends PaymentInterface {
 
     async send_payment_request(cid) {
         await super.send_payment_request(...arguments);
+<<<<<<< HEAD
         const line = this.pos.get_order().selected_paymentline;
+=======
+        const line = this.pos.get_order().get_selected_paymentline();
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
         try {
             // During payment creation, user can't cancel the payment intent
             line.set_payment_status("waitingCapture");
@@ -103,7 +147,11 @@ export class PaymentMercadoPago extends PaymentInterface {
     }
 
     async handleMercadoPagoWebhook() {
+<<<<<<< HEAD
         const line = this.pos.get_order().selected_paymentline;
+=======
+        const line = this.pos.get_order().get_selected_paymentline();
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
         const MAX_RETRY = 5; // Maximum number of retries for the "ON_TERMINAL" BUG
         const RETRY_DELAY = 1000; // Delay between retries in milliseconds for the "ON_TERMINAL" BUG
 
@@ -127,7 +175,11 @@ export class PaymentMercadoPago extends PaymentInterface {
                 }
                 return showMessageAndResolve(_t("Payment has been rejected"), "info", false);
             }
+<<<<<<< HEAD
         }
+=======
+        };
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
         // No payment intent id means either that the user reload the page or
         // it is an old webhook -> trash
@@ -137,7 +189,13 @@ export class PaymentMercadoPago extends PaymentInterface {
             // Bad payment intent id, then it's an old webhook not related with the
             // current payment intent -> trash
             if (this.payment_intent.id == last_status_payment_intent.id) {
+<<<<<<< HEAD
                 if (["FINISHED", "PROCESSED", "CANCELED"].includes(last_status_payment_intent.state)) {
+=======
+                if (
+                    ["FINISHED", "PROCESSED", "CANCELED"].includes(last_status_payment_intent.state)
+                ) {
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
                     return await handleFinishedPayment(last_status_payment_intent);
                 }
                 // BUG Sometimes the Mercado Pago webhook return ON_TERMINAL
@@ -181,7 +239,11 @@ export class PaymentMercadoPago extends PaymentInterface {
 
     // private methods
     _showMsg(msg, title) {
+<<<<<<< HEAD
         this.env.services.popup.add(ErrorPopup, {
+=======
+        this.env.services.dialog.add(AlertDialog, {
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
             title: "Mercado Pago " + title,
             body: msg,
         });

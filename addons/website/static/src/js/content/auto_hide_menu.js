@@ -280,8 +280,12 @@ async function autoHideMenu(el, options) {
 document.addEventListener('DOMContentLoaded', async () => {
     const header = document.querySelector('header#top');
     if (header) {
+<<<<<<< HEAD
         // TODO in master: remove `#top_menu` from the selector.
         const topMenu = header.querySelector("#top_menu, .top_menu");
+=======
+        const topMenu = header.querySelector(".top_menu");
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
         const unfoldable = ".divider, .divider ~ li, .o_no_autohide_item, .js_language_selector";
         if (!topMenu.querySelector(`:scope > :not(${unfoldable})`)
                 || header.classList.contains("o_no_autohide_menu")) {

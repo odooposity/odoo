@@ -1,4 +1,3 @@
-/** @odoo-module **/
 import { browser } from "@web/core/browser/browser";
 import { localization } from "@web/core/l10n/localization";
 import { clamp } from "@web/core/utils/numbers";
@@ -25,6 +24,41 @@ const isScrollSwipable = (scrollables) => {
  * @extends Component
  */
 export class ActionSwiper extends Component {
+    static template = "web.ActionSwiper";
+    static props = {
+        onLeftSwipe: {
+            type: Object,
+            args: {
+                action: Function,
+                icon: String,
+                bgColor: String,
+            },
+            optional: true,
+        },
+        onRightSwipe: {
+            type: Object,
+            args: {
+                action: Function,
+                icon: String,
+                bgColor: String,
+            },
+            optional: true,
+        },
+        slots: Object,
+        animationOnMove: { type: Boolean, optional: true },
+        animationType: { type: String, optional: true },
+        swipeDistanceRatio: { type: Number, optional: true },
+        swipeInvalid: { type: Function, optional: true },
+    };
+
+    static defaultProps = {
+        onLeftSwipe: undefined,
+        onRightSwipe: undefined,
+        animationOnMove: true,
+        animationType: "bounce",
+        swipeDistanceRatio: 2,
+    };
+
     setup() {
         this.actionTimeoutId = null;
         this.resetTimeoutId = null;
@@ -189,6 +223,7 @@ export class ActionSwiper extends Component {
         }
     }
 }
+<<<<<<< HEAD
 
 ActionSwiper.props = {
     onLeftSwipe: {
@@ -225,3 +260,5 @@ ActionSwiper.defaultProps = {
 };
 
 ActionSwiper.template = "web.ActionSwiper";
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8

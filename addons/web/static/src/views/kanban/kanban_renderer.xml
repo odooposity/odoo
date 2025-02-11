@@ -46,6 +46,7 @@
                                     group="group"
                                     list="props.list"
                                     deleteRecord="props.deleteRecord"
+                                    archiveRecord.bind="archiveRecord"
                                     openRecord="props.openRecord"
                                     readonly="props.readonly"
                                     record="record"
@@ -74,6 +75,7 @@
                         forceGlobalClick="props.forceGlobalClick"
                         list="props.list"
                         deleteRecord="props.deleteRecord"
+                        archiveRecord="(record, active) => this.archiveRecord(record, active)"
                         openRecord="props.openRecord"
                         readonly="props.readonly"
                         record="groupOrRecord.record"
@@ -85,7 +87,7 @@
                 <t t-if="canCreateGroup()">
                     <KanbanColumnQuickCreate
                         folded="state.columnQuickCreateIsFolded"
-                        onFoldChange="folded => state.columnQuickCreateIsFolded = props.list.groups.length > 0 and folded"
+                        onFoldChange="folded => state.columnQuickCreateIsFolded = folded"
                         onValidate="props.list.createGroup.bind(props.list)"
                         exampleData="exampleData"
                         groupByField="props.list.groupByField"
@@ -122,6 +124,7 @@
         </div>
     </t>
 
+<<<<<<< HEAD
     <t t-name="web.KanbanColorPicker">
         <ul t-if="this.dataState.widget.editable" class="oe_kanban_colorpicker mb-0 ms-2">
             <!--
@@ -137,6 +140,8 @@
         </ul>
     </t>
 
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
     <t t-name="web.KanbanDropdownMenuWrapper">
         <div t-on-click="onClick" style="display:contents">
             <t t-slot="default"/>

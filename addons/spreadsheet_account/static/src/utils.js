@@ -1,8 +1,17 @@
 /** @odoo-module **/
-import { getOdooFunctions } from "@spreadsheet/helpers/odoo_functions_helpers";
+// @ts-check
 
+<<<<<<< HEAD
 /**
  * @typedef {import("@spreadsheet/helpers/odoo_functions_helpers").Token} Token
+=======
+import { helpers } from "@odoo/o-spreadsheet";
+
+const { getFunctionsFromTokens } = helpers;
+
+/**
+ * @typedef {import("@odoo/o-spreadsheet").Token} Token
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
  * @typedef  {import("@spreadsheet/helpers/odoo_functions_helpers").OdooFunctionDescription} OdooFunctionDescription
  */
 
@@ -11,7 +20,11 @@ import { getOdooFunctions } from "@spreadsheet/helpers/odoo_functions_helpers";
  * @returns {number}
  */
 export function getNumberOfAccountFormulas(tokens) {
+<<<<<<< HEAD
     return getOdooFunctions(tokens, ["ODOO.BALANCE", "ODOO.CREDIT", "ODOO.DEBIT"]).length;
+=======
+    return getFunctionsFromTokens(tokens, ["ODOO.BALANCE", "ODOO.CREDIT", "ODOO.DEBIT", "ODOO.RESIDUAL", "ODOO.PARTNER.BALANCE"]).length;
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 }
 
 /**
@@ -21,5 +34,9 @@ export function getNumberOfAccountFormulas(tokens) {
  * @returns {OdooFunctionDescription | undefined}
  */
 export function getFirstAccountFunction(tokens) {
+<<<<<<< HEAD
     return getOdooFunctions(tokens, ["ODOO.BALANCE", "ODOO.CREDIT", "ODOO.DEBIT"])[0];
+=======
+    return getFunctionsFromTokens(tokens, ["ODOO.BALANCE", "ODOO.CREDIT", "ODOO.DEBIT", "ODOO.RESIDUAL", "ODOO.PARTNER.BALANCE"])[0];
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 }

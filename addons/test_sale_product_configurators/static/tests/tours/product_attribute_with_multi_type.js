@@ -2,6 +2,7 @@
 
 import { registry } from "@web/core/registry";
 import { stepUtils } from "@web_tour/tour_service/tour_utils";
+<<<<<<< HEAD
 
 registry.category("web_tour.tours").add("product_attribute_multi_type", {
     url: "/web",
@@ -38,3 +39,20 @@ registry.category("web_tour.tours").add("product_attribute_multi_type", {
         trigger: 'button:contains(Confirm)',
     }, ...stepUtils.saveForm()
 ]});
+=======
+import configuratorTourUtils from "@sale/js/tours/product_configurator_tour_utils";
+import tourUtils from "@sale/js/tours/tour_utils";
+
+registry.category("web_tour.tours").add("product_attribute_multi_type", {
+    url: "/odoo",
+    steps: () => [
+        ...stepUtils.goToAppSteps("sale.sale_menu_root", "Go to the Sales App"),
+        ...tourUtils.createNewSalesOrder(),
+        ...tourUtils.selectCustomer("Azure"),
+        ...tourUtils.addProduct("Big Burger"),
+        configuratorTourUtils.selectAttribute("Big Burger", "Toppings", "Cheese", "multi"),
+        ...configuratorTourUtils.saveConfigurator(),
+        ...stepUtils.saveForm(),
+    ],
+});
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8

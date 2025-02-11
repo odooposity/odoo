@@ -3,20 +3,31 @@
 # 	* pos_sale
 # 
 # Translators:
+<<<<<<< HEAD
 # Сергей Шебанин <sergey@shebanin.ru>, 2023
 # Максим Дронь <dronmax@gmail.com>, 2023
 # Martin Trigaux, 2023
 # Константин Коровин <korovin74@gmail.com>, 2023
 # Wil Odoo, 2024
 # Nadia Martynova, 2024
+=======
+# Wil Odoo, 2024
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 # Ilya Rozhkov, 2024
 # 
 msgid ""
 msgstr ""
+<<<<<<< HEAD
 "Project-Id-Version: Odoo Server 17.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-10-26 21:55+0000\n"
 "PO-Revision-Date: 2023-10-26 23:09+0000\n"
+=======
+"Project-Id-Version: Odoo Server 18.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2024-09-25 08:39+0000\n"
+"PO-Revision-Date: 2024-09-25 09:41+0000\n"
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 "Last-Translator: Ilya Rozhkov, 2024\n"
 "Language-Team: Russian (https://app.transifex.com/odoo/teams/41243/ru/)\n"
 "MIME-Version: 1.0\n"
@@ -27,6 +38,7 @@ msgstr ""
 
 #. module: pos_sale
 #. odoo-javascript
+<<<<<<< HEAD
 #: code:addons/pos_sale/static/src/app/order_management_screen/sale_order_row/sale_order_row.xml:0
 #, python-format
 msgid "(left:"
@@ -36,6 +48,9 @@ msgstr "(слева:"
 #. odoo-javascript
 #: code:addons/pos_sale/static/src/overrides/components/product_screen/product_screen.xml:0
 #, python-format
+=======
+#: code:addons/pos_sale/static/src/overrides/components/orderline/orderline.xml:0
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 msgid "(tax incl.)"
 msgstr "(с учетом НДС)"
 
@@ -46,12 +61,17 @@ msgstr "<span style=\"margin: 0px 5px;\">:</span>"
 
 #. module: pos_sale
 #. odoo-javascript
+<<<<<<< HEAD
 #: code:addons/pos_sale/static/src/app/order_management_screen/sale_order_management_screen/sale_order_management_screen.js:0
 #, python-format
+=======
+#: code:addons/pos_sale/static/src/overrides/models/pos_store.js:0
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 msgid "A new order has been created."
 msgstr "Был создан новый заказ."
 
 #. module: pos_sale
+<<<<<<< HEAD
 #. odoo-javascript
 #: code:addons/pos_sale/static/src/app/order_management_screen/sale_order_management_screen/sale_order_management_screen.js:0
 #, python-format
@@ -78,6 +98,28 @@ msgstr "Назад"
 #, python-format
 msgid "Cancelled"
 msgstr "Отменен"
+=======
+#: model:ir.model.fields,field_description:pos_sale.field_sale_order__amount_unpaid
+msgid "Amount To Pay In POS"
+msgstr ""
+
+#. module: pos_sale
+#: model:ir.model.fields,help:pos_sale.field_sale_order__amount_unpaid
+msgid "Amount left to pay in POS to avoid double payment or double invoicing."
+msgstr ""
+
+#. module: pos_sale
+#. odoo-javascript
+#: code:addons/pos_sale/static/src/overrides/models/pos_store.js:0
+msgid "Apply a down payment (fixed amount)"
+msgstr "Внести первоначальный взнос (фиксированная сумма)"
+
+#. module: pos_sale
+#. odoo-javascript
+#: code:addons/pos_sale/static/src/overrides/models/pos_store.js:0
+msgid "Apply a down payment (percentage)"
+msgstr "Внести первоначальный взнос (в процентах)"
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 #. module: pos_sale
 #: model:ir.model,name:pos_sale.model_res_config_settings
@@ -88,6 +130,7 @@ msgstr "Параметры конфигурации"
 #: model:ir.model.fields,field_description:pos_sale.field_pos_order__currency_rate
 msgid "Currency Rate"
 msgstr "Курс валют"
+<<<<<<< HEAD
 
 #. module: pos_sale
 #. odoo-javascript
@@ -111,24 +154,42 @@ msgstr "Ошибка загрузки клиента"
 #, python-format
 msgid "Date"
 msgstr "Дата"
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 #. module: pos_sale
 #: model_terms:ir.ui.view,arch_db:pos_sale.message_body
 msgid "Delivered from"
 msgstr "Доставлено из"
+<<<<<<< HEAD
 
 #. module: pos_sale
 #. odoo-javascript
 #: code:addons/pos_sale/static/src/app/order_management_screen/sale_order_management_screen/sale_order_management_screen.js:0
 #, python-format
+=======
+
+#. module: pos_sale
+#: model:ir.model.fields,field_description:pos_sale.field_pos_order_line__qty_delivered
+msgid "Delivery Quantity"
+msgstr "Доставка Количество"
+
+#. module: pos_sale
+#. odoo-javascript
+#: code:addons/pos_sale/static/src/overrides/models/pos_store.js:0
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 msgid "Do you want to load the SN/Lots linked to the Sales Order?"
 msgstr "Хотите ли вы загрузить SN/Lots, связанные с заказом на продажу?"
 
 #. module: pos_sale
 #. odoo-javascript
+<<<<<<< HEAD
 #: code:addons/pos_sale/static/src/app/order_management_screen/sale_order_management_screen/sale_order_management_screen.js:0
 #: code:addons/pos_sale/static/src/app/order_management_screen/sale_order_management_screen/sale_order_management_screen.js:0
 #, python-format
+=======
+#: code:addons/pos_sale/static/src/overrides/models/pos_store.js:0
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 msgid "Down Payment"
 msgstr "Первоначальный взнос"
 
@@ -150,6 +211,7 @@ msgid "Down Payment Product"
 msgstr "Продукт для первоначального взноса"
 
 #. module: pos_sale
+<<<<<<< HEAD
 #. odoo-javascript
 #: code:addons/pos_sale/static/src/app/order_management_screen/sale_order_management_screen/sale_order_management_screen.js:0
 #, python-format
@@ -167,26 +229,54 @@ msgstr "Например, заказчик: Стюард, дата: 2020-05-09"
 #. odoo-javascript
 #: code:addons/pos_sale/static/src/app/order_management_screen/sale_order_management_screen/sale_order_management_screen.js:0
 #, python-format
+=======
+#. odoo-python
+#: code:addons/pos_sale/models/pos_order.py:0
+msgid ""
+"Down payment (ref: %(order_reference)s on \n"
+" %(date)s)"
+msgstr ""
+
+#. module: pos_sale
+#. odoo-javascript
+#: code:addons/pos_sale/static/src/overrides/models/pos_store.js:0
+msgid "Due balance: %s"
+msgstr "Должный баланс: %s"
+
+#. module: pos_sale
+#. odoo-javascript
+#: code:addons/pos_sale/static/src/overrides/models/pos_store.js:0
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 msgid "Error amount too high"
 msgstr "Ошибка: сумма слишком велика"
 
 #. module: pos_sale
+<<<<<<< HEAD
 #. odoo-javascript
 #: code:addons/pos_sale/static/src/overrides/components/receipt_screen/order_receipt/order_receipt.xml:0
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 #: model_terms:ir.ui.view,arch_db:pos_sale.report_invoice_document
-#, python-format
 msgid "From"
 msgstr "От"
 
 #. module: pos_sale
 #: model:ir.model.fields.selection,name:pos_sale.selection__sale_report__state__invoiced
 msgid "Invoiced"
+<<<<<<< HEAD
 msgstr "Счёт-фактура выставлена"
 
 #. module: pos_sale
 #. odoo-javascript
 #: code:addons/pos_sale/static/src/app/order_management_screen/sale_order_management_screen/sale_order_management_screen.js:0
 #, python-format
+=======
+msgstr "Выставлен счет"
+
+#. module: pos_sale
+#. odoo-javascript
+#: code:addons/pos_sale/static/src/overrides/models/pos_store.js:0
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 msgid ""
 "It seems that you didn't configure a down payment product in your point of "
 "sale. You can go to your point of sale configuration to choose one."
@@ -198,7 +288,6 @@ msgstr ""
 #. module: pos_sale
 #. odoo-python
 #: code:addons/pos_sale/models/sale_order.py:0
-#, python-format
 msgid "Linked POS Orders"
 msgstr "Связанные POS-заказы"
 
@@ -210,12 +299,12 @@ msgstr "Связанный заказ на продажу"
 #. module: pos_sale
 #. odoo-python
 #: code:addons/pos_sale/models/pos_order.py:0
-#, python-format
 msgid "Linked Sale Orders"
 msgstr "Связанные заказы на продажу"
 
 #. module: pos_sale
 #. odoo-javascript
+<<<<<<< HEAD
 #: code:addons/pos_sale/static/src/app/order_management_screen/sale_order_row/sale_order_row.js:0
 #, python-format
 msgid "Locked"
@@ -241,6 +330,9 @@ msgstr "Нет"
 #. odoo-javascript
 #: code:addons/pos_sale/static/src/app/order_management_screen/sale_order_management_screen/sale_order_management_screen.js:0
 #, python-format
+=======
+#: code:addons/pos_sale/static/src/overrides/models/pos_store.js:0
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 msgid "No down payment product"
 msgstr "Продукт без первоначального взноса"
 
@@ -256,9 +348,18 @@ msgstr "Открытые сессии"
 
 #. module: pos_sale
 #. odoo-javascript
+<<<<<<< HEAD
 #: code:addons/pos_sale/static/src/app/order_management_screen/sale_order_list/sale_order_list.xml:0
 #: code:addons/pos_sale/static/src/app/order_management_screen/sale_order_row/sale_order_row.xml:0
 #, python-format
+=======
+#: code:addons/pos_sale/static/src/overrides/components/product_info_popup/product_info_popup.xml:0
+msgid "Optional Products:"
+msgstr "Дополнительные продукты:"
+
+#. module: pos_sale
+#: model:ir.model.fields,field_description:pos_sale.field_sale_report__order_reference
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 msgid "Order"
 msgstr "Заказ"
 
@@ -309,6 +410,7 @@ msgid "Pos Order Count"
 msgstr "Pos Количество Заказов"
 
 #. module: pos_sale
+<<<<<<< HEAD
 #. odoo-javascript
 #: code:addons/pos_sale/static/src/app/order_management_screen/sale_order_management_control_panel/sale_order_management_control_panel.xml:0
 #: code:addons/pos_sale/static/src/app/order_management_screen/sale_order_management_control_panel/sale_order_management_control_panel.xml:0
@@ -353,14 +455,38 @@ msgstr "Связанный заказ"
 #. odoo-javascript
 #: code:addons/pos_sale/static/src/app/order_management_screen/sale_order_management_screen/sale_order_management_screen.js:0
 #, python-format
+=======
+#: model:ir.model.fields.selection,name:pos_sale.selection__sale_report__state__done
+msgid "Posted"
+msgstr "Опубликовано"
+
+#. module: pos_sale
+#: model:ir.model,name:pos_sale.model_product_product
+msgid "Product Variant"
+msgstr "Вариант продукта"
+
+#. module: pos_sale
+#. odoo-javascript
+#: code:addons/pos_sale/static/src/overrides/components/control_buttons/control_buttons.xml:0
+msgid "Quotation/Order"
+msgstr "Предложение/Заказ"
+
+#. module: pos_sale
+#. odoo-javascript
+#: code:addons/pos_sale/static/src/overrides/models/pos_store.js:0
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 msgid "SN/Lots Loading"
 msgstr "SN/Lots Loading"
 
 #. module: pos_sale
 #. odoo-javascript
+<<<<<<< HEAD
 #: code:addons/pos_sale/static/src/overrides/components/product_screen/product_screen.xml:0
 #: code:addons/pos_sale/static/src/overrides/components/product_screen/product_screen.xml:0
 #, python-format
+=======
+#: code:addons/pos_sale/static/src/overrides/components/orderline/orderline.xml:0
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 msgid "SO"
 msgstr "SO"
 
@@ -380,10 +506,12 @@ msgid "Sales Analysis Report"
 msgstr "Отчет об анализе продаж"
 
 #. module: pos_sale
+<<<<<<< HEAD
 #. odoo-javascript
 #: code:addons/pos_sale/static/src/app/order_management_screen/sale_order_row/sale_order_row.js:0
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 #: model:ir.model,name:pos_sale.model_sale_order
-#, python-format
 msgid "Sales Order"
 msgstr "Заказ на продажу"
 
@@ -410,6 +538,7 @@ msgstr "Отдел продаж (PoS)"
 #: model_terms:ir.ui.view,arch_db:pos_sale.res_config_settings_view_form
 msgid "Sales are reported to the following sales team"
 msgstr "О продажах сообщается следующей команде продаж"
+<<<<<<< HEAD
 
 #. module: pos_sale
 #. odoo-javascript
@@ -424,6 +553,8 @@ msgstr "Продавец"
 #, python-format
 msgid "Salesperson"
 msgstr "Продавец"
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 #. module: pos_sale
 #: model_terms:ir.ui.view,arch_db:pos_sale.crm_team_view_kanban_dashboard
@@ -442,14 +573,19 @@ msgstr "Сессии Выполняются"
 
 #. module: pos_sale
 #. odoo-javascript
+<<<<<<< HEAD
 #: code:addons/pos_sale/static/src/app/set_sale_order_button/set_sale_order_button.xml:0
 #: code:addons/pos_sale/static/src/app/set_sale_order_button/set_sale_order_button.xml:0
 #, python-format
+=======
+#: code:addons/pos_sale/static/src/overrides/components/control_buttons/control_buttons.xml:0
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 msgid "Set Sale Order"
 msgstr "Установить порядок продажи"
 
 #. module: pos_sale
 #. odoo-javascript
+<<<<<<< HEAD
 #: code:addons/pos_sale/static/src/app/order_management_screen/sale_order_management_screen/sale_order_management_screen.js:0
 #, python-format
 msgid "Settle the order"
@@ -465,11 +601,17 @@ msgid ""
 msgstr ""
 "Некоторые товары в вашем заказе на продажу не доступны в POS, хотите ли вы "
 "их импортировать?"
+=======
+#: code:addons/pos_sale/static/src/overrides/models/pos_store.js:0
+msgid "Settle the order"
+msgstr "Урегулировать заказ"
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 #. module: pos_sale
 #: model:ir.model.fields,field_description:pos_sale.field_pos_order_line__sale_order_line_id
 msgid "Source Sale Order Line"
 msgstr "Линия заказов на продажу"
+<<<<<<< HEAD
 
 #. module: pos_sale
 #. odoo-javascript
@@ -478,6 +620,8 @@ msgstr "Линия заказов на продажу"
 #, python-format
 msgid "State"
 msgstr "Область"
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 #. module: pos_sale
 #: model:ir.model.fields,field_description:pos_sale.field_sale_report__state
@@ -485,16 +629,20 @@ msgid "Status"
 msgstr "Статус"
 
 #. module: pos_sale
+<<<<<<< HEAD
 #: model:ir.model.fields,help:pos_sale.field_sale_order__amount_unpaid
 msgid "The amount due from the sale order."
 msgstr "Сумма к оплате по ордеру на продажу."
 
 #. module: pos_sale
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 #: model:ir.model.fields,help:pos_sale.field_pos_order__currency_rate
 msgid ""
 "The rate of the currency to the currency of rate applicable at the date of "
 "the order"
 msgstr "Курс валюты к валюте по курсу, действующему на дату заказа"
+<<<<<<< HEAD
 
 #. module: pos_sale
 #. odoo-javascript
@@ -502,6 +650,8 @@ msgstr "Курс валюты к валюте по курсу, действую�
 #, python-format
 msgid "There was a problem in loading the %s customer."
 msgstr "Возникла проблема при загрузке %s клиента."
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 #. module: pos_sale
 #: model:ir.model.fields,help:pos_sale.field_pos_config__crm_team_id
@@ -523,12 +673,18 @@ msgstr ""
 "Этот товар будет использован в качестве первого взноса по заказу на продажу."
 
 #. module: pos_sale
+<<<<<<< HEAD
 #. odoo-javascript
 #: code:addons/pos_sale/static/src/app/order_management_screen/sale_order_list/sale_order_list.xml:0
 #: code:addons/pos_sale/static/src/app/order_management_screen/sale_order_row/sale_order_row.xml:0
 #, python-format
 msgid "Total"
 msgstr "Всего"
+=======
+#: model:ir.model,name:pos_sale.model_stock_picking
+msgid "Transfer"
+msgstr "Перевод"
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 #. module: pos_sale
 #: model:ir.model,name:pos_sale.model_stock_picking
@@ -538,7 +694,7 @@ msgstr "Перевод"
 #. module: pos_sale
 #: model_terms:ir.ui.view,arch_db:pos_sale.view_pos_order_form_inherit_pos_sale
 msgid ""
-"Transfered<br/>\n"
+"Transferred<br/>\n"
 "                                from Sale"
 msgstr ""
 "Перенесено<br/>\n"
@@ -547,13 +703,14 @@ msgstr ""
 #. module: pos_sale
 #: model_terms:ir.ui.view,arch_db:pos_sale.view_order_form_inherit_pos_sale
 msgid ""
-"Transfered<br/>\n"
+"Transferred<br/>\n"
 "                                to POS"
 msgstr ""
 "Переведено<br/>\n"
 "                                на POS"
 
 #. module: pos_sale
+<<<<<<< HEAD
 #: model:ir.model.fields,field_description:pos_sale.field_sale_order__amount_unpaid
 msgid "Unpaid Amount"
 msgstr "Неоплаченная сумма"
@@ -562,11 +719,16 @@ msgstr "Неоплаченная сумма"
 #. odoo-javascript
 #: code:addons/pos_sale/static/src/app/order_management_screen/sale_order_management_screen/sale_order_management_screen.js:0
 #, python-format
+=======
+#. odoo-javascript
+#: code:addons/pos_sale/static/src/overrides/models/pos_store.js:0
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 msgid "What do you want to do?"
 msgstr "Каковы ваши действия?"
 
 #. module: pos_sale
 #. odoo-javascript
+<<<<<<< HEAD
 #: code:addons/pos_sale/static/src/app/order_management_screen/sale_order_management_screen/sale_order_management_screen.js:0
 #: code:addons/pos_sale/static/src/app/order_management_screen/sale_order_management_screen/sale_order_management_screen.js:0
 #, python-format
@@ -583,3 +745,18 @@ msgid ""
 msgstr ""
 "Вы попытались внести авансовый платеж в размере %s, но осталось оплатить "
 "только %s, %s будет применено к строке заказа на поставку."
+=======
+#: code:addons/pos_sale/static/src/overrides/models/pos_store.js:0
+msgid ""
+"You have tried to charge a down payment of %s but only %s remains to be "
+"paid, %s will be applied to the purchase order line."
+msgstr ""
+"Вы попытались внести авансовый платеж в размере %s, но осталось оплатить "
+"только %s, %s будет применено к строке заказа на поставку."
+
+#. module: pos_sale
+#. odoo-javascript
+#: code:addons/pos_sale/static/src/overrides/components/product_info_popup/product_info_popup.xml:0
+msgid "from"
+msgstr "от"
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8

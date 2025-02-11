@@ -9,6 +9,7 @@ from odoo.addons.sale_pdf_quote_builder import utils
 
 class SaleOrderTemplate(models.Model):
     _inherit = 'sale.order.template'
+<<<<<<< HEAD
 
     sale_header = fields.Binary(
         string="Header pages", default=lambda self: self.env.company.sale_header)
@@ -28,3 +29,13 @@ class SaleOrderTemplate(models.Model):
         for template in self:
             if template.sale_footer:
                 utils._ensure_document_not_encrypted(base64.b64decode(template.sale_footer))
+=======
+    _check_company_auto = True
+
+    quotation_document_ids = fields.Many2many(
+        string="Headers and footers",
+        comodel_name='quotation.document',
+        relation='header_footer_quotation_template_rel',
+        check_company=True,
+    )
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8

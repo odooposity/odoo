@@ -26,7 +26,7 @@ options.registry.mailing_list_subscribe = options.Class.extend({
                         reload: false,
                         onSuccess: () => {
                             window.location.href =
-                                "/web#action=mass_mailing.action_view_mass_mailing_lists";
+                                "/odoo/action-mass_mailing.action_view_mass_mailing_lists";
                         },
                     });
                 },
@@ -43,8 +43,12 @@ options.registry.mailing_list_subscribe = options.Class.extend({
      */
     cleanForSave() {
         const previewClasses = ['o_disable_preview', 'o_enable_preview'];
+<<<<<<< HEAD
         const toCleanElsSelector =
             ".js_subscribe_btn, .js_subscribed_btn, #newsletter_form, .s_website_form_end_message";
+=======
+        const toCleanElsSelector = ".js_subscribe_wrap, .js_subscribed_wrap";
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
         const toCleanEls = this.$target[0].querySelectorAll(toCleanElsSelector);
         toCleanEls.forEach(element => {
             element.classList.remove(...previewClasses);
@@ -58,10 +62,17 @@ options.registry.mailing_list_subscribe = options.Class.extend({
     /**
      * @see this.selectClass for parameters
      */
+<<<<<<< HEAD
     toggleThanksButton(previewMode, widgetValue, params) {
         const toSubscribeEl = this.$target[0].querySelector(".js_subscribe_btn, #newsletter_form");
         const thanksMessageEl =
             this.$target[0].querySelector(".js_subscribed_btn, .s_website_form_end_message");
+=======
+    toggleThanksMessage(previewMode, widgetValue, params) {
+        const toSubscribeEl = this.$target[0].querySelector(".js_subscribe_wrap");
+        const thanksMessageEl =
+            this.$target[0].querySelector(".js_subscribed_wrap");
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
         thanksMessageEl.classList.toggle("o_disable_preview", !widgetValue);
         thanksMessageEl.classList.toggle("o_enable_preview", widgetValue);
@@ -77,11 +88,15 @@ options.registry.mailing_list_subscribe = options.Class.extend({
      * @override
      */
     _computeWidgetState(methodName, params) {
-        if (methodName !== 'toggleThanksButton') {
+        if (methodName !== 'toggleThanksMessage') {
             return this._super(...arguments);
         }
+<<<<<<< HEAD
         const toSubscribeElSelector =
             ".js_subscribe_btn.o_disable_preview, #newsletter_form.o_disable_preview";
+=======
+        const toSubscribeElSelector = ".js_subscribe_wrap.o_disable_preview";
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
         return this.$target[0].querySelector(toSubscribeElSelector) ? "true" : "";
     },
     /**
@@ -104,8 +119,8 @@ options.registry.mailing_list_subscribe = options.Class.extend({
             }
         }
         const checkboxEl = document.createElement('we-checkbox');
-        checkboxEl.setAttribute('string', _t("Display Thanks Button"));
-        checkboxEl.dataset.toggleThanksButton = 'true';
+        checkboxEl.setAttribute('string', _t("Display Thanks Message"));
+        checkboxEl.dataset.toggleThanksMessage = 'true';
         checkboxEl.dataset.noPreview = 'true';
         checkboxEl.dataset.dependencies = "!form_opt";
         uiFragment.appendChild(checkboxEl);

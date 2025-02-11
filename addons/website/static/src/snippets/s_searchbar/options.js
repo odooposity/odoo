@@ -12,6 +12,7 @@ options.registry.SearchBar = options.Class.extend({
         this.searchButtonEl = this.$target[0].querySelector(".oe_search_button");
         return this._super(...arguments);
     },
+<<<<<<< HEAD
     /**
      * @override
      */
@@ -24,6 +25,8 @@ options.registry.SearchBar = options.Class.extend({
             this._setSearchbarStyleLight(false);
         }
     },
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
     //--------------------------------------------------------------------------
     // Options
@@ -69,7 +72,15 @@ options.registry.SearchBar = options.Class.extend({
      * @see this.selectClass for parameters
      */
     setSearchbarStyle(previewMode, widgetValue, params) {
+<<<<<<< HEAD
         this._setSearchbarStyleLight(widgetValue === "light");
+=======
+        const isLight = (widgetValue === "light");
+        this.searchInputEl.classList.toggle("border-0", isLight);
+        this.searchInputEl.classList.toggle("bg-light", isLight);
+        this.searchButtonEl.classList.toggle("btn-light", isLight);
+        this.searchButtonEl.classList.toggle("btn-primary", !isLight);
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
     },
 
     //--------------------------------------------------------------------------
@@ -87,6 +98,7 @@ options.registry.SearchBar = options.Class.extend({
         }
         return this._super(...arguments);
     },
+<<<<<<< HEAD
     /**
      * @todo Adapt in the XML directly in master.
      * @override
@@ -122,6 +134,8 @@ options.registry.SearchBar = options.Class.extend({
         this.searchButtonEl.classList.toggle("btn-light", light);
         this.searchButtonEl.classList.toggle("btn-primary", !light);
     },
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 });
 
 export default {

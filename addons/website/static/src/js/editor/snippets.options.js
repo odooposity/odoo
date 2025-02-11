@@ -1,8 +1,16 @@
 /** @odoo-module **/
 
 import { loadCSS } from "@web/core/assets";
+<<<<<<< HEAD
 import { ConfirmationDialog } from "@web/core/confirmation_dialog/confirmation_dialog";
 import { Dialog } from "@web/core/dialog/dialog";
+=======
+import { AutoComplete } from "@web/core/autocomplete/autocomplete";
+import { ConfirmationDialog } from "@web/core/confirmation_dialog/confirmation_dialog";
+import { Dialog } from "@web/core/dialog/dialog";
+import { rpc } from "@web/core/network/rpc";
+import { user } from "@web/core/user";
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 import { useChildRef } from "@web/core/utils/hooks";
 import weUtils from "@web_editor/js/common/utils";
 import options from "@web_editor/js/editor/snippets.options";
@@ -16,6 +24,7 @@ import {
 import "@website/snippets/s_popup/options";
 import { range } from "@web/core/utils/numbers";
 import { _t } from "@web/core/l10n/translation";
+import { pyToJsLocale } from "@web/core/l10n/utils";
 import {Domain} from "@web/core/domain";
 import {
     isCSSColor,
@@ -32,7 +41,11 @@ import {
 } from "@website/js/text_processing";
 import { throttleForAnimation } from "@web/core/utils/timing";
 
+<<<<<<< HEAD
 import { Component, markup, useRef, useState } from "@odoo/owl";
+=======
+import { Component, markup, useEffect, useRef, useState } from "@odoo/owl";
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 const InputUserValueWidget = options.userValueWidgetsRegistry['we-input'];
 const SelectUserValueWidget = options.userValueWidgetsRegistry['we-select'];
@@ -87,11 +100,6 @@ const UrlPickerUserValueWidget = InputUserValueWidget.extend({
     events: Object.assign({}, InputUserValueWidget.prototype.events || {}, {
         'click .o_we_redirect_to': '_onRedirectTo',
     }),
-
-    init() {
-        this._super(...arguments);
-        this.rpc = this.bindService("rpc");
-    },
 
     /**
      * @override
@@ -158,10 +166,35 @@ const UrlPickerUserValueWidget = InputUserValueWidget.extend({
     }
 });
 
+class GoogleFontAutoComplete extends AutoComplete {
+    setup() {
+        super.setup();
+        this.inputRef = useRef("input");
+        this.sourcesListRef = useRef("sourcesList");
+        useEffect((el) => {
+            el.setAttribute("id", "google_font");
+        }, () => [this.inputRef.el]);
+    }
+
+    get dropdownOptions() {
+        return {
+            ...super.dropdownOptions,
+            position: "bottom-fit",
+        };
+    }
+
+    onInput(ev) {
+        super.onInput(ev);
+        if (this.sourcesListRef.el) {
+            this.sourcesListRef.el.scrollTop = 0;
+        }
+    }
+}
+
 const FontFamilyPickerUserValueWidget = SelectUserValueWidget.extend({
     events: Object.assign({}, SelectUserValueWidget.prototype.events || {}, {
-        'click .o_we_add_google_font_btn': '_onAddGoogleFontClick',
-        'click .o_we_delete_google_font_btn': '_onDeleteGoogleFontClick',
+        'click .o_we_add_font_btn': '_onAddFontClick',
+        'click .o_we_delete_font_btn': '_onDeleteFontClick',
     }),
     fontVariables: [], // Filled by editor menu when all options are loaded
 
@@ -170,6 +203,10 @@ const FontFamilyPickerUserValueWidget = SelectUserValueWidget.extend({
      */
     init() {
         this.dialog = this.bindService("dialog");
+<<<<<<< HEAD
+=======
+        this.orm = this.bindService("orm");
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
         return this._super(...arguments);
     },
     /**
@@ -186,6 +223,9 @@ const FontFamilyPickerUserValueWidget = SelectUserValueWidget.extend({
         const googleLocalFontsProperty = weUtils.getCSSVariableValue('google-local-fonts', style);
         this.googleLocalFonts = googleLocalFontsProperty ?
             googleLocalFontsProperty.slice(1, -1).split(/\s*,\s*/g) : [];
+        const uploadedLocalFontsProperty = weUtils.getCSSVariableValue('uploaded-local-fonts', style);
+        this.uploadedLocalFonts = uploadedLocalFontsProperty ?
+            uploadedLocalFontsProperty.slice(1, -1).split(/\s*,\s*/g) : [];
         // If a same font exists both remotely and locally, we remove the remote
         // font to prioritize the local font. The remote one will never be
         // displayed or loaded as long as the local one exists.
@@ -216,7 +256,7 @@ const FontFamilyPickerUserValueWidget = SelectUserValueWidget.extend({
         const fontEls = [];
         const methodName = this.el.dataset.methodName || 'customizeWebsiteVariable';
         const variable = this.el.dataset.variable;
-        const themeFontsNb = nbFonts - (this.googleLocalFonts.length + this.googleFonts.length);
+        const themeFontsNb = nbFonts - (this.googleLocalFonts.length + this.googleFonts.length + this.uploadedLocalFonts.length);
         for (let fontNb = 0; fontNb < nbFonts; fontNb++) {
             const realFontNb = fontNb + 1;
             const fontKey = weUtils.getCSSVariableValue(`font-number-${realFontNb}`, style);
@@ -233,10 +273,13 @@ const FontFamilyPickerUserValueWidget = SelectUserValueWidget.extend({
             fontEl.dataset.variable = variable;
             fontEl.dataset[methodName] = fontKey;
             fontEl.dataset.fontFamily = fontFamily;
+            const iconWrapperEl = document.createElement("div");
+            iconWrapperEl.classList.add("text-end");
+            fontEl.appendChild(iconWrapperEl);
             if ((realFontNb <= themeFontsNb) && !isSystemFonts) {
                 // Add the "cloud" icon next to the theme's default fonts
                 // because they are served by Google.
-                fontEl.appendChild(Object.assign(document.createElement('i'), {
+                iconWrapperEl.appendChild(Object.assign(document.createElement('i'), {
                     role: 'button',
                     className: 'text-info me-2 fa fa-cloud',
                     title: _t("This font is hosted and served to your visitors by Google servers"),
@@ -246,12 +289,26 @@ const FontFamilyPickerUserValueWidget = SelectUserValueWidget.extend({
             this.menuEl.appendChild(fontEl);
         }
 
+        if (this.uploadedLocalFonts.length) {
+            const uploadedLocalFontsEls = fontEls.splice(-this.uploadedLocalFonts.length);
+            uploadedLocalFontsEls.forEach((el, index) => {
+                $(el).find(".text-end").append(renderToFragment('website.delete_font_btn', {
+                    index: index,
+                    local: "uploaded",
+                }));
+            });
+        }
+
         if (this.googleLocalFonts.length) {
             const googleLocalFontsEls = fontEls.splice(-this.googleLocalFonts.length);
             googleLocalFontsEls.forEach((el, index) => {
-                $(el).append(renderToFragment('website.delete_google_font_btn', {
+                $(el).find(".text-end").append(renderToFragment('website.delete_font_btn', {
                     index: index,
+<<<<<<< HEAD
                     local: "true",
+=======
+                    local: "google",
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
                 }));
             });
         }
@@ -259,13 +316,13 @@ const FontFamilyPickerUserValueWidget = SelectUserValueWidget.extend({
         if (this.googleFonts.length) {
             const googleFontsEls = fontEls.splice(-this.googleFonts.length);
             googleFontsEls.forEach((el, index) => {
-                $(el).append(renderToFragment('website.delete_google_font_btn', {
+                $(el).find(".text-end").append(renderToFragment('website.delete_font_btn', {
                     index: index,
                 }));
             });
         }
 
-        $(this.menuEl).append($(renderToElement('website.add_google_font_btn', {
+        $(this.menuEl).append($(renderToElement('website.add_font_btn', {
             variable: variable,
         })));
 
@@ -296,6 +353,7 @@ const FontFamilyPickerUserValueWidget = SelectUserValueWidget.extend({
     /**
      * @private
      */
+<<<<<<< HEAD
     _onAddGoogleFontClick: function (ev) {
         const addGoogleFontDialog = class extends Component {
             static template = "website.dialog.addGoogleFont";
@@ -304,12 +362,30 @@ const FontFamilyPickerUserValueWidget = SelectUserValueWidget.extend({
             title = _t("Add a Google Font");
             state = useState({ valid: true, loading: false, googleServe: true });
             fontInput = useRef("fontInput");
+=======
+    async _onAddFontClick(ev) {
+        const addFontDialog = class extends Component {
+            static template = "website.dialog.addFont";
+            static components = { GoogleFontAutoComplete, Dialog };
+            static props = { close: Function, title: String, onClickSave: Function };
+            state = useState({
+                valid: true, loading: false,
+                googleFontFamily: undefined, googleServe: true,
+                uploadedFontName: undefined, uploadedFonts: [], uploadedFontFaces: undefined,
+                previewText: _t("The quick brown fox jumps over the lazy dog."),
+            });
+            fileInput = useRef("fileInput");
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
             async onClickSave() {
                 if (this.state.loading) {
                     return;
                 }
                 this.state.loading = true;
+<<<<<<< HEAD
                 const shouldClose = await this.props.onClickSave(this.state, this.fontInput.el);
+=======
+                const shouldClose = await this.props.onClickSave(this.state);
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
                 if (shouldClose) {
                     this.props.close();
                     return;
@@ -319,6 +395,7 @@ const FontFamilyPickerUserValueWidget = SelectUserValueWidget.extend({
             onClickCancel() {
                 this.props.close();
             }
+<<<<<<< HEAD
         };
         const variable = $(ev.currentTarget).data('variable');
         this.dialog.add(addGoogleFontDialog, {
@@ -344,10 +421,52 @@ const FontFamilyPickerUserValueWidget = SelectUserValueWidget.extend({
                     // Google fonts server returns a 400 status code if family is not valid.
                     if (result.ok) {
                         isValidFamily = true;
+=======
+            get getGoogleFontList() {
+                return [{options: async (term) => {
+                    if (!this.googleFontList) {
+                        await rpc("/website/google_font_metadata").then((data) => {
+                            this.googleFontList = data.familyMetadataList.map((font) => font.family);
+                        });
+                    }
+                    const lowerCaseTerm = term.toLowerCase();
+                    const filtered = this.googleFontList.filter((value) => value.toLowerCase().includes(lowerCaseTerm));
+                    return filtered.map((fontFamilyName) => {
+                        return {
+                            label: fontFamilyName,
+                            value: fontFamilyName,
+                        };
+                    });
+                }}];
+            }
+            async onGoogleFontSelect(selected) {
+                this.fileInput.el.value = "";
+                this.state.uploadedFonts = [];
+                this.state.uploadedFontName = undefined;
+                this.state.uploadedFontFaces = undefined;
+                try {
+                    const fontFamily = selected.value;
+                    const result = await fetch(`https://fonts.googleapis.com/css?family=${encodeURIComponent(fontFamily)}:300,300i,400,400i,700,700i`, {method: 'HEAD'});
+                    // Google fonts server returns a 400 status code if family is not valid.
+                    if (result.ok) {
+                        const linkId = `previewFont${fontFamily}`;
+                        if (!document.querySelector(`link[id='${linkId}']`)) {
+                            const linkEl = document.createElement("link");
+                            linkEl.id = linkId;
+                            linkEl.setAttribute("href", result.url);
+                            linkEl.setAttribute("rel", "stylesheet");
+                            linkEl.dataset.fontPreview = true;
+                            document.head.appendChild(linkEl);
+                        }
+                        this.state.googleFontFamily = fontFamily;
+                    } else {
+                        this.state.googleFontFamily = undefined;
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
                     }
                 } catch (error) {
                     console.error(error);
                 }
+<<<<<<< HEAD
 
                 if (!isValidFamily) {
                     inputEl.classList.add('is-invalid');
@@ -382,13 +501,196 @@ const FontFamilyPickerUserValueWidget = SelectUserValueWidget.extend({
                 });
                 return true;
             },
+=======
+            }
+            async onUploadChange(e) {
+                this.state.googleFontFamily = undefined;
+                const file = this.fileInput.el.files[0];
+                if (!file) {
+                    this.state.uploadedFonts = [];
+                    this.state.uploadedFontName = undefined;
+                    this.state.uploadedFontFaces = undefined;
+                    return;
+                }
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    const base64 = e.target.result.split(',')[1];
+                    rpc("/website/theme_upload_font", {
+                        name: file.name,
+                        data: base64,
+                    }).then(result => {
+                        this.state.uploadedFonts = result;
+                        this.updateFontStyle(file.name.substr(0, file.name.lastIndexOf(".")));
+                    });
+                };
+                reader.readAsDataURL(file);
+            }
+            /**
+             * Deduces the style of uploaded fonts and creates inline style
+             * elements in the backend iframe's head to make the font-faces
+             * available for preview.
+             *
+             * @param baseFontName
+             */
+            updateFontStyle(baseFontName) {
+                const targetFonts = {};
+                // Add candidate tags to fonts.
+                let shortestNamedFont;
+                for (const font of this.state.uploadedFonts) {
+                    if (!shortestNamedFont || font.name.length < shortestNamedFont.name.length) {
+                        shortestNamedFont = font;
+                    }
+                    font.isItalic = /italic/i.test(font.name);
+                    font.isLight = /light|300/i.test(font.name);
+                    font.isBold = /bold|700/i.test(font.name);
+                    font.isRegular = /regular|400/i.test(font.name);
+                    font.weight = font.isRegular ? 400 : font.isLight ? 300 : font.isBold ? 700 : undefined;
+                    if (font.isItalic && !font.weight) {
+                        if (!/00|thin|medium|black|condense|extrude/i.test(font.name)) {
+                            font.isRegular = true;
+                            font.weight = 400;
+                        }
+                    }
+                    font.style = font.isItalic ? "italic" : "normal";
+                    if (font.weight) {
+                        targetFonts[`${font.weight}${font.style}`] = font;
+                    }
+                }
+                if (!Object.values(targetFonts).filter((font) => font.isRegular).length) {
+                    // Keep font with shortest name.
+                    shortestNamedFont.weight = 400;
+                    shortestNamedFont.style = "normal";
+                    targetFonts["400"] = shortestNamedFont;
+                }
+                const fontFaces = [];
+                for (const font of Object.values(targetFonts)) {
+                    fontFaces.push(`@font-face{
+                        font-family: ${baseFontName};
+                        font-style: ${font.style};
+                        font-weight: ${font.weight};
+                        src:url("${font.url}");
+                    }`);
+                }
+                let styleEl = document.head.querySelector(`style[id='WebsiteThemeFontPreview-${baseFontName}']`);
+                if (!styleEl) {
+                    styleEl = document.createElement("style");
+                    styleEl.id = `WebsiteThemeFontPreview-${baseFontName}`;
+                    styleEl.dataset.fontPreview = true;
+                    document.head.appendChild(styleEl);
+                }
+                const previewFontFaces = fontFaces.join("");
+                styleEl.textContent = previewFontFaces;
+                this.state.uploadedFontName = baseFontName;
+                this.state.uploadedFontFaces = previewFontFaces;
+            }
+        };
+        const variable = $(ev.currentTarget).data('variable');
+        this.dialog.add(addFontDialog, {
+            title: _t("Add a Google font or upload a custom font"),
+            onClickSave: async (state) => {
+                const uploadedFontName = state.uploadedFontName;
+                const uploadedFontFaces = state.uploadedFontFaces;
+                let font = undefined;
+                if (uploadedFontName && uploadedFontFaces) {
+                    const fontExistsLocally = this.uploadedLocalFonts.some(localFont => localFont.split(':')[0] === `'${uploadedFontName}'`);
+                    if (fontExistsLocally) {
+                        this.dialog.add(ConfirmationDialog, {
+                            title: _t("Font exists"),
+                            body: _t("This uploaded font already exists.\nTo replace an existing font, remove it first."),
+                        });
+                        return;
+                    }
+                    const homonymGoogleFontExists =
+                        this.googleFonts.some(font => font === uploadedFontName) ||
+                        this.googleLocalFonts.some(font => font.split(':')[0] === `'${uploadedFontName}'`);
+                    if (homonymGoogleFontExists) {
+                        this.dialog.add(ConfirmationDialog, {
+                            title: _t("Font name already used"),
+                            body: _t("A font with the same name already exists.\nTry renaming the uploaded file."),
+                        });
+                        return;
+                    }
+                    // Create attachment.
+                    const [fontCssId] = await this.orm.call("ir.attachment", "create_unique", [[{
+                        name: uploadedFontName,
+                        description: `CSS font face for ${uploadedFontName}`,
+                        datas: btoa(uploadedFontFaces),
+                        res_model: "ir.attachment",
+                        mimetype: "text/css",
+                        "public": true,
+                    }]]);
+                    this.uploadedLocalFonts.push(`'${uploadedFontName}': ${fontCssId}`);
+                    font = uploadedFontName;
+                } else {
+                    let isValidFamily = false;
+                    font = state.googleFontFamily;
+
+                    try {
+                        const result = await fetch("https://fonts.googleapis.com/css?family=" + encodeURIComponent(font) + ':300,300i,400,400i,700,700i', {method: 'HEAD'});
+                        // Google fonts server returns a 400 status code if family is not valid.
+                        if (result.ok) {
+                            isValidFamily = true;
+                        }
+                    } catch (error) {
+                        console.error(error);
+                    }
+
+                    if (!isValidFamily) {
+                        this.dialog.add(ConfirmationDialog, {
+                            title: _t("Font access"),
+                            body: _t("The selected font cannot be accessed."),
+                        });
+                        return;
+                    }
+
+                    const googleFontServe = state.googleServe;
+                    const fontName = `'${font}'`;
+                    // If the font already exists, it will only be added if
+                    // the user chooses to add it locally when it is already
+                    // imported from the Google Fonts server.
+                    const fontExistsLocally = this.googleLocalFonts.some(localFont => localFont.split(':')[0] === fontName);
+                    const fontExistsOnServer = this.allFonts.includes(fontName);
+                    const preventFontAddition = fontExistsLocally || (fontExistsOnServer && googleFontServe);
+                    if (preventFontAddition) {
+                        this.dialog.add(ConfirmationDialog, {
+                            title: _t("Font exists"),
+                            body: _t("This font already exists, you can only add it as a local font to replace the server version."),
+                        });
+                        return;
+                    }
+                    if (googleFontServe) {
+                        this.googleFonts.push(font);
+                    } else {
+                        this.googleLocalFonts.push(`'${font}': ''`);
+                    }
+                }
+                this.trigger_up('fonts_custo_request', {
+                    values: {[variable]: `'${font}'`},
+                    googleFonts: this.googleFonts,
+                    googleLocalFonts: this.googleLocalFonts,
+                    uploadedLocalFonts: this.uploadedLocalFonts,
+                });
+                let styleEl = document.head.querySelector(`[id='WebsiteThemeFontPreview-${font}']`);
+                if (styleEl) {
+                    delete styleEl.dataset.fontPreview;
+                }
+                return true;
+            },
+        },
+        {
+            onClose: () => {
+                for (const el of document.head.querySelectorAll("[data-font-preview]")) {
+                    el.remove();
+                }
+            },
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
         });
     },
     /**
      * @private
      * @param {Event} ev
      */
-    _onDeleteGoogleFontClick: async function (ev) {
+    _onDeleteFontClick: async function (ev) {
         ev.preventDefault();
         const values = {};
 
@@ -404,35 +706,42 @@ const FontFamilyPickerUserValueWidget = SelectUserValueWidget.extend({
         }
 
         // Remove Google font
-        const googleFontIndex = parseInt(ev.target.dataset.fontIndex);
-        const isLocalFont = ev.target.dataset.localFont;
-        let googleFontName;
-        if (isLocalFont) {
-            const googleFont = this.googleLocalFonts[googleFontIndex].split(':');
+        const fontIndex = parseInt(ev.target.dataset.fontIndex);
+        const localFont = ev.target.dataset.localFont;
+        let fontName;
+        if (localFont === 'uploaded') {
+            const font = this.uploadedLocalFonts[fontIndex].split(':');
             // Remove double quotes
-            googleFontName = googleFont[0].substring(1, googleFont[0].length - 1);
+            fontName = font[0].substring(1, font[0].length - 1);
+            values['delete-font-attachment-id'] = font[1];
+            this.uploadedLocalFonts.splice(fontIndex, 1);
+        } else if (localFont === 'google') {
+            const googleFont = this.googleLocalFonts[fontIndex].split(':');
+            // Remove double quotes
+            fontName = googleFont[0].substring(1, googleFont[0].length - 1);
             values['delete-font-attachment-id'] = googleFont[1];
-            this.googleLocalFonts.splice(googleFontIndex, 1);
+            this.googleLocalFonts.splice(fontIndex, 1);
         } else {
-            googleFontName = this.googleFonts[googleFontIndex];
-            this.googleFonts.splice(googleFontIndex, 1);
+            fontName = this.googleFonts[fontIndex];
+            this.googleFonts.splice(fontIndex, 1);
         }
 
         // Adapt font variable indexes to the removal
         const style = window.getComputedStyle(this.$target[0].ownerDocument.documentElement);
         FontFamilyPickerUserValueWidget.prototype.fontVariables.forEach((variable) => {
             const value = weUtils.getCSSVariableValue(variable, style);
-            if (value.substring(1, value.length - 1) === googleFontName) {
+            if (value.substring(1, value.length - 1) === fontName) {
                 // If an element is using the google font being removed, reset
                 // it to the theme default.
                 values[variable] = 'null';
             }
         });
 
-        this.trigger_up('google_fonts_custo_request', {
+        this.trigger_up('fonts_custo_request', {
             values: values,
             googleFonts: this.googleFonts,
             googleLocalFonts: this.googleLocalFonts,
+            uploadedLocalFonts: this.uploadedLocalFonts,
         });
     },
 });
@@ -660,8 +969,12 @@ options.userValueWidgetsRegistry['we-gpspicker'] = GPSPicker;
 
 options.Class.include({
     custom_events: Object.assign({}, options.Class.prototype.custom_events || {}, {
+<<<<<<< HEAD
         'google_fonts_custo_request': '_onGoogleFontsCustoRequest',
         'request_save': '_onSaveRequest',
+=======
+        'fonts_custo_request': '_onFontsCustoRequest',
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
     }),
     specialCheckAndReloadMethodsNames: ['customizeWebsiteViews', 'customizeWebsiteVariable', 'customizeWebsiteColor'],
 
@@ -679,7 +992,6 @@ options.Class.include({
         // trigger handlers set with `.on`.
         this.$bsTarget = this.ownerDocument.defaultView.$(this.$target[0]);
 
-        this.rpc = this.bindService("rpc");
         this.orm = this.bindService("orm");
     },
 
@@ -893,11 +1205,12 @@ options.Class.include({
      */
     async _customizeWebsiteData(value, params, isViewData) {
         const allDataKeys = this._getDataKeysFromPossibleValues(params.possibleValues);
-        const enableDataKeys = value.split(/\s*,\s*/);
+        const keysToEnable = value.split(/\s*,\s*/);
+        const enableDataKeys = allDataKeys.filter(value => keysToEnable.includes(value));
         const disableDataKeys = allDataKeys.filter(value => !enableDataKeys.includes(value));
         const resetViewArch = !!params.resetViewArch;
 
-        return this.rpc('/website/theme_customize_data', {
+        return rpc('/website/theme_customize_data', {
             'is_view_data': isViewData,
             'enable': enableDataKeys,
             'disable': disableDataKeys,
@@ -912,7 +1225,8 @@ options.Class.include({
         for (const dataKeysStr of possibleValues) {
             allDataKeys.push(...dataKeysStr.split(/\s*,\s*/));
         }
-        return allDataKeys.filter((v, i, arr) => arr.indexOf(v) === i);
+        // return only unique non-empty strings
+        return allDataKeys.filter((v, i, arr) => v && arr.indexOf(v) === i);
     },
     /**
      * @private
@@ -922,7 +1236,7 @@ options.Class.include({
      */
     async _getEnabledCustomizeValues(possibleValues, isViewData) {
         const allDataKeys = this._getDataKeysFromPossibleValues(possibleValues);
-        const enabledValues = await this.rpc('/website/theme_customize_data_get', {
+        const enabledValues = await rpc('/website/theme_customize_data_get', {
             'keys': allDataKeys,
             'is_view_data': isViewData,
         });
@@ -1001,10 +1315,11 @@ options.Class.include({
      * @private
      * @param {OdooEvent} ev
      */
-    _onGoogleFontsCustoRequest: function (ev) {
+    _onFontsCustoRequest(ev) {
         const values = ev.data.values ? Object.assign({}, ev.data.values) : {};
         const googleFonts = ev.data.googleFonts;
         const googleLocalFonts = ev.data.googleLocalFonts;
+        const uploadedLocalFonts = ev.data.uploadedLocalFonts;
         if (googleFonts.length) {
             values['google-fonts'] = "('" + googleFonts.join("', '") + "')";
         } else {
@@ -1014,6 +1329,11 @@ options.Class.include({
             values['google-local-fonts'] = "(" + googleLocalFonts.join(", ") + ")";
         } else {
             values['google-local-fonts'] = 'null';
+        }
+        if (uploadedLocalFonts.length) {
+            values['uploaded-local-fonts'] = "(" + uploadedLocalFonts.join(", ") + ")";
+        } else {
+            values['uploaded-local-fonts'] = 'null';
         }
         this.trigger_up('snippet_edition_request', {exec: async () => {
             return this._makeSCSSCusto('/website/static/src/scss/options/user_values.scss', values);
@@ -1214,6 +1534,17 @@ options.registry.ReplaceMedia.include({
     },
 });
 
+options.registry.ImageTools.include({
+    async _computeWidgetVisibility(widgetName, params) {
+        if (params.optionsPossibleValues.selectStyle
+                && params.cssProperty === 'width'
+                && this.$target[0].classList.contains('o_card_img')) {
+            return false;
+        }
+        return this._super(...arguments);
+    },
+});
+
 options.registry.BackgroundVideo = options.Class.extend({
 
     //--------------------------------------------------------------------------
@@ -1274,7 +1605,79 @@ options.registry.BackgroundVideo = options.Class.extend({
     },
 });
 
-options.registry.OptionsTab = options.Class.extend({
+options.registry.WebsiteLevelColor = options.Class.extend({
+    specialCheckAndReloadMethodsNames: options.Class.prototype.specialCheckAndReloadMethodsNames
+        .concat(['customizeWebsiteLayer2Color']),
+    /**
+     * @constructor
+     */
+    init() {
+        this._super(...arguments);
+        this._rpc = options.serviceCached(rpc);
+    },
+    /**
+     * @see this.selectClass for parameters
+     */
+    async customizeWebsiteLayer2Color(previewMode, widgetValue, params) {
+        if (previewMode) {
+            return;
+        }
+        params.color = params.layerColor;
+        params.variable = params.layerGradient;
+        let color = undefined;
+        let gradient = undefined;
+        if (weUtils.isColorGradient(widgetValue)) {
+            color = '';
+            gradient = widgetValue;
+        } else {
+            color = widgetValue;
+            gradient = '';
+        }
+        await this.customizeWebsiteVariable(previewMode, gradient, params);
+        params.noBundleReload = false;
+        return this.customizeWebsiteColor(previewMode, color, params);
+    },
+
+    //--------------------------------------------------------------------------
+    // Private
+    //--------------------------------------------------------------------------
+
+    /**
+     * @override
+     */
+    async _computeWidgetState(methodName, params) {
+        if (methodName === 'customizeWebsiteLayer2Color') {
+            params.variable = params.layerGradient;
+            const gradient = await this._computeWidgetState('customizeWebsiteVariable', params);
+            if (gradient) {
+                return gradient.substring(1, gradient.length - 1); // Unquote
+            }
+            params.color = params.layerColor;
+            return this._computeWidgetState('customizeWebsiteColor', params);
+        }
+        return this._super(...arguments);
+    },
+    /**
+     * @override
+     */
+    async _computeWidgetVisibility(widgetName, params) {
+        const _super = this._super.bind(this);
+        if (
+            [
+                "footer_language_selector_label_opt",
+                "footer_language_selector_opt",
+            ].includes(widgetName)
+        ) {
+            this._languages = await this._rpc.call("/website/get_languages");
+            if (this._languages.length === 1) {
+                return false;
+            }
+        }
+        return _super(...arguments);
+    },
+});
+
+options.registry.OptionsTab = options.registry.WebsiteLevelColor.extend({
     GRAY_PARAMS: {EXTRA_SATURATION: "gray-extra-saturation", HUE: "gray-hue"},
 
     /**
@@ -1670,7 +2073,6 @@ options.registry.ThemeColors = options.registry.OptionsTab.extend({
 options.registry.menu_data = options.Class.extend({
     init() {
         this._super(...arguments);
-        this.user = this.bindService("user");
         this.orm = this.bindService("orm");
         this.notification = this.bindService("notification");
     },
@@ -1692,7 +2094,7 @@ options.registry.menu_data = options.Class.extend({
             wysiwyg,
             container: popoverContainer,
             notify: this.notification.add,
-            checkIsWebsiteDesigner: () => this.user.hasGroup("website.group_website_designer"),
+            checkIsWebsiteDesigner: () => user.hasGroup("website.group_website_designer"),
             onEditLinkClick: (widget) => {
                 var $menu = widget.$target.find('[data-oe-id]');
                 this.trigger_up('menu_dialog', {
@@ -1749,7 +2151,6 @@ options.registry.Carousel = options.registry.CarouselHandler.extend({
      * @override
      */
     start: function () {
-        this.$bsTarget.carousel('pause');
         this.$indicators = this.$target.find('.carousel-indicators');
         this.$controls = this.$target.find('.carousel-control-prev, .carousel-control-next, .carousel-indicators');
 
@@ -1846,8 +2247,12 @@ options.registry.Carousel = options.registry.CarouselHandler.extend({
         const $items = this.$target.find('.carousel-item');
         this.$controls.removeClass('d-none');
         const $active = $items.filter('.active');
-        this.$indicators.append($('<li>', {
+        this.$indicators.append($('<button>', {
             'data-bs-target': '#' + this.$target.attr('id'),
+<<<<<<< HEAD
+=======
+            'aria-label': _t('Carousel indicator'),
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
         }));
         this.$indicators.append(' ');
         // Need to remove editor data from the clone so it gets its own.
@@ -1927,7 +2332,11 @@ options.registry.Carousel = options.registry.CarouselHandler.extend({
             direction = "next";
         } else {
             const indicatorEl = ev.target;
+<<<<<<< HEAD
             if (!indicatorEl.matches("li") || indicatorEl.classList.contains("active")) {
+=======
+            if (!indicatorEl.matches(".carousel-indicators > *") || indicatorEl.classList.contains("active")) {
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
                 return;
             }
             direction = [...controlEl.children].indexOf(indicatorEl);
@@ -1989,6 +2398,7 @@ options.registry.CarouselItem = options.Class.extend({
         this.$targetCarousel = this.$target.closest(".carousel");
         this.$indicators = this.$carousel.find('.carousel-indicators');
         this.$controls = this.$carousel.find('.carousel-control-prev, .carousel-control-next, .carousel-indicators');
+        this.carouselOptionName = this.$carousel[0].classList.contains("s_carousel_intro") ? "CarouselIntro" : "Carousel";
 
         var leftPanelEl = this.$overlay.data('$optionsSection')[0];
         var titleTextEl = leftPanelEl.querySelector('we-title > span');
@@ -2040,7 +2450,11 @@ options.registry.CarouselItem = options.Class.extend({
     addSlideItem(previewMode, widgetValue, params) {
         return new Promise(resolve => {
             this.trigger_up("option_update", {
+<<<<<<< HEAD
                 optionName: "Carousel",
+=======
+                optionName: this.carouselOptionName,
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
                 name: "add_slide",
                 data: {
                     onSuccess: () => resolve(),
@@ -2065,7 +2479,11 @@ options.registry.CarouselItem = options.Class.extend({
             // Go to the previous slide.
             await new Promise(resolve => {
                 this.trigger_up("option_update", {
+<<<<<<< HEAD
                     optionName: "Carousel",
+=======
+                    optionName: this.carouselOptionName,
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
                     name: "slide",
                     data: {
                         direction: "prev",
@@ -2092,7 +2510,11 @@ options.registry.CarouselItem = options.Class.extend({
         const direction = widgetValue === "left" ? "prev" : "next";
         return new Promise(resolve => {
             this.trigger_up("option_update", {
+<<<<<<< HEAD
                 optionName: "Carousel",
+=======
+                optionName: this.carouselOptionName,
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
                 name: "slide",
                 data: {
                     direction: direction,
@@ -2256,7 +2678,7 @@ options.registry.collapse = options.Class.extend({
      */
     start: function () {
         var self = this;
-        this.$bsTarget.on('shown.bs.collapse hidden.bs.collapse', '[role="tabpanel"]', function () {
+        this.$bsTarget.on('shown.bs.collapse hidden.bs.collapse', '[role="region"]', function () {
             self.trigger_up('cover_update');
             self.$target.trigger('content_changed');
         });
@@ -2301,27 +2723,27 @@ options.registry.collapse = options.Class.extend({
      */
     _createIDs: function () {
         let time = new Date().getTime();
-        const $tablist = this.$target.closest('[role="tablist"]');
-        const $tab = this.$target.find('[role="tab"]');
-        const $panel = this.$target.find('[role="tabpanel"]');
+        const accordionEl = this.$target[0].closest(".accordion");
+        const accordionBtnEl = this.$target[0].querySelector(".accordion-button");
+        const accordionContentEl = this.$target[0].querySelector('[role="region"]');
         const $body = this.$target.closest('body');
 
-        const setUniqueId = ($elem, label) => {
-            let elemId = $elem.attr('id');
+        const setUniqueId = (el, label) => {
+            let elemId = el.id;
             if (!elemId || $body.find('[id="' + elemId + '"]').length > 1) {
                 do {
                     time++;
                     elemId = label + time;
                 } while ($body.find('#' + elemId).length);
-                $elem.attr('id', elemId);
+                el.id = elemId;
             }
             return elemId;
         };
 
-        const tablistId = setUniqueId($tablist, 'myCollapse');
-        $panel.attr('data-bs-parent', '#' + tablistId);
-        $panel.data('bs-parent', '#' + tablistId);
+        const accordionId = setUniqueId(accordionEl, "myCollapse");
+        accordionContentEl.dataset.bsParent = "#" + accordionId;
 
+<<<<<<< HEAD
         const panelId = setUniqueId($panel, 'myCollapseTab');
         $tab.attr('data-bs-target', '#' + panelId);
         $tab.data('bs-target', '#' + panelId);
@@ -2329,90 +2751,31 @@ options.registry.collapse = options.Class.extend({
         $tab[0].setAttribute("aria-controls", panelId);
     },
 });
+=======
+        const contentId = setUniqueId(accordionContentEl, "myCollapseTab");
+        accordionBtnEl.dataset.bsTarget = "#" + contentId;
+        accordionBtnEl.setAttribute("aria-controls", contentId);
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
-options.registry.WebsiteLevelColor = options.Class.extend({
-    specialCheckAndReloadMethodsNames: options.Class.prototype.specialCheckAndReloadMethodsNames
-        .concat(['customizeWebsiteLayer2Color']),
-    /**
-     * @constructor
-     */
-    init() {
-        this._super(...arguments);
-        this._rpc = options.serviceCached(this.bindService("rpc"));
-    },
-    /**
-     * @see this.selectClass for parameters
-     */
-    async customizeWebsiteLayer2Color(previewMode, widgetValue, params) {
-        if (previewMode) {
-            return;
-        }
-        params.color = params.layerColor;
-        params.variable = params.layerGradient;
-        let color = undefined;
-        let gradient = undefined;
-        if (weUtils.isColorGradient(widgetValue)) {
-            color = '';
-            gradient = widgetValue;
-        } else {
-            color = widgetValue;
-            gradient = '';
-        }
-        await this.customizeWebsiteVariable(previewMode, gradient, params);
-        params.noBundleReload = false;
-        return this.customizeWebsiteColor(previewMode, color, params);
-    },
-
-    //--------------------------------------------------------------------------
-    // Private
-    //--------------------------------------------------------------------------
-
-    /**
-     * @override
-     */
-    async _computeWidgetState(methodName, params) {
-        if (methodName === 'customizeWebsiteLayer2Color') {
-            params.variable = params.layerGradient;
-            const gradient = await this._computeWidgetState('customizeWebsiteVariable', params);
-            if (gradient) {
-                return gradient.substring(1, gradient.length - 1); // Unquote
-            }
-            params.color = params.layerColor;
-            return this._computeWidgetState('customizeWebsiteColor', params);
-        }
-        return this._super(...arguments);
-    },
-    /**
-     * @override
-     */
-    async _computeWidgetVisibility(widgetName, params) {
-        const _super = this._super.bind(this);
-        if (
-            [
-                "footer_language_selector_label_opt",
-                "footer_language_selector_opt",
-            ].includes(widgetName)
-        ) {
-            this._languages = await this._rpc.call("/website/get_languages");
-            if (this._languages.length === 1) {
-                return false;
-            }
-        }
-        return _super(...arguments);
+        const buttonId = setUniqueId(accordionBtnEl, "myCollapseBtn");
+        accordionContentEl.setAttribute("aria-labelledby", buttonId);
     },
 });
 
+<<<<<<< HEAD
 options.registry.HeaderLayout = options.registry.WebsiteLevelColor.extend({
     // TODO: to remove in master, it is only kept for the stable versions.
 });
 
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 options.registry.HeaderElements = options.Class.extend({
     /**
      * @constructor
      */
     init() {
         this._super(...arguments);
-        this._rpc = options.serviceCached(this.bindService("rpc"));
+        this._rpc = options.serviceCached(rpc);
     },
 
     //--------------------------------------------------------------------------
@@ -3101,7 +3464,11 @@ options.registry.CoverProperties = options.Class.extend({
             if (previewMode === false) {
                 const imgEl = document.createElement("img");
                 imgEl.src = widgetValue;
+<<<<<<< HEAD
                 await loadImageInfo(imgEl, this.rpc);
+=======
+                await loadImageInfo(imgEl);
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
                 if (imgEl.dataset.mimetype && ![
                     "image/gif",
                     "image/svg+xml",
@@ -3521,7 +3888,7 @@ options.registry.ConditionalVisibility = options.registry.DeviceVisibility.exten
                 });
                 if (attribute.saveAttribute === 'visibilityValueLang') {
                     records = records.map(lang => {
-                        lang.value = lang.value.replace(/_/g, '-');
+                        lang.value = pyToJsLocale(lang.value);
                         return lang;
                     });
                 }
@@ -3797,7 +4164,11 @@ options.registry.WebsiteAnimate = options.Class.extend({
                     const hoverEffectWidget = hoverEffectOverlayWidget.getParent();
                     const imageToolsOpt = hoverEffectWidget.getParent();
                     return (
+<<<<<<< HEAD
                         imageToolsOpt._canHaveHoverEffect() && imageToolsOpt._isImageSupportedForShapes()
+=======
+                        imageToolsOpt._canHaveHoverEffect()
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
                         && !await weUtils.isImageCorsProtected(this.$target[0])
                     );
                 }
@@ -4064,38 +4435,6 @@ options.registry.MegaMenuNoDelete = options.Class.extend({
 });
 
 options.registry.sizing.include({
-    /**
-     * @override
-     */
-    start() {
-        const defs = this._super(...arguments);
-        const self = this;
-        this.$handles.on('mousedown', function (ev) {
-            // Since website is edited in an iframe, a div that goes over the
-            // iframe is necessary to catch mousemove and mouseup events,
-            // otherwise the iframe absorbs them.
-            const $body = $(this.ownerDocument.body);
-            if (!self.divEl) {
-                self.divEl = document.createElement('div');
-                self.divEl.style.position = 'absolute';
-                self.divEl.style.height = '100%';
-                self.divEl.style.width = '100%';
-                self.divEl.setAttribute('id', 'iframeEventOverlay');
-                $body.append(self.divEl);
-            }
-            const documentMouseUp = () => {
-                // Multiple mouseup can occur if mouse goes out of the window
-                // while moving.
-                if (self.divEl) {
-                    self.divEl.remove();
-                    self.divEl = undefined;
-                }
-                $body.off('mouseup', documentMouseUp);
-            };
-            $body.on('mouseup', documentMouseUp);
-        });
-        return defs;
-    },
 
     //--------------------------------------------------------------------------
     // Public
@@ -4227,7 +4566,8 @@ options.registry.GalleryElement = options.Class.extend({
      * @see this.selectClass for parameters
      */
     position(previewMode, widgetValue, params) {
-        const optionName = this.$target[0].classList.contains("carousel-item") ? "Carousel"
+        const carouselOptionName = this.$target[0].parentNode.parentNode.classList.contains("s_carousel_intro") ? "CarouselIntro" : "Carousel";
+        const optionName = this.$target[0].classList.contains("carousel-item") ? carouselOptionName
             : "GalleryImageList";
         const itemEl = this.$target[0];
         this.trigger_up("option_update", {

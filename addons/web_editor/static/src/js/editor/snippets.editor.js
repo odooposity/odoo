@@ -1,11 +1,15 @@
 /** @odoo-module **/
 
-import { Mutex } from "@web/core/utils/concurrency";
 import { clamp } from "@web/core/utils/numbers";
 import { ConfirmationDialog } from "@web/core/confirmation_dialog/confirmation_dialog";
+<<<<<<< HEAD
 import dom from "@web/legacy/js/core/dom";
 import { session } from "@web/session";
 import Widget from "@web/legacy/js/core/widget";
+=======
+import { useService, useBus } from "@web/core/utils/hooks";
+import publicWidget from "@web/legacy/js/public/public_widget";
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 import { useDragAndDrop } from "@web_editor/js/editor/drag_and_drop";
 import options from "@web_editor/js/editor/snippets.options";
 import weUtils from "@web_editor/js/common/utils";
@@ -16,20 +20,42 @@ import { debounce, throttleForAnimation } from "@web/core/utils/timing";
 import { uniqueId } from "@web/core/utils/functions";
 import { sortBy, unique } from "@web/core/utils/arrays";
 import { browser } from "@web/core/browser/browser";
-import { attachComponent } from "@web/legacy/utils";
 import { Toolbar } from "@web_editor/js/editor/toolbar";
 import {
     Component,
+    EventBus,
     markup,
-    xml,
+    onMounted,
+    onWillStart,
+    onWillUnmount,
+    useEffect,
+    useRef,
+    useState,
 } from "@odoo/owl";
 import { LinkTools } from '@web_editor/js/wysiwyg/widgets/link_tools';
+<<<<<<< HEAD
 import { touching, closest, isVisible } from "@web/core/utils/ui";
+=======
+import {
+    touching,
+    closest,
+    addLoadingEffect as addButtonLoadingEffect,
+    isVisible,
+} from "@web/core/utils/ui";
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 import { _t } from "@web/core/l10n/translation";
 import { pyToJsLocale } from "@web/core/l10n/utils";
 import { renderToElement } from "@web/core/utils/render";
+<<<<<<< HEAD
 import { RPCError } from "@web/core/network/rpc_service";
 import { ColumnLayoutMixin } from "@web_editor/js/common/column_layout_mixin";
+=======
+import { RPCError } from "@web/core/network/rpc";
+import { ColumnLayoutMixin } from "@web_editor/js/common/column_layout_mixin";
+import { Tooltip as OdooTooltip } from "@web/core/tooltip/tooltip";
+import { AddSnippetDialog } from "@web_editor/js/editor/add_snippet_dialog";
+import { scrollTo } from "@web_editor/js/common/scrolling";
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 let cacheSnippetTemplate = {};
 
@@ -42,13 +68,14 @@ var globalSelector = {
 /**
  * Management of the overlay and option list for a snippet.
  */
-var SnippetEditor = Widget.extend({
+var SnippetEditor = publicWidget.Widget.extend({
     template: 'web_editor.snippet_overlay',
     events: {
         'click .oe_snippet_remove': '_onRemoveClick',
         'wheel': '_onMouseWheel',
         'click .o_send_back': '_onSendBackClick',
         'click .o_bring_front': '_onBringFrontClick',
+        'click .o_snippet_replace': '_onReplaceClick',
     },
     custom_events: {
         'option_update': '_onOptionUpdate',
@@ -62,7 +89,7 @@ var SnippetEditor = Widget.extend({
 
     /**
      * @constructor
-     * @param {Widget} parent
+     * @param {PublicWidget} parent
      * @param {Element} target
      * @param {Object} templateOptions
      * @param {jQuery} $editable
@@ -134,6 +161,21 @@ var SnippetEditor = Widget.extend({
 
         if (!this.isTargetRemovable) {
             this.$el.add($customize).find('.oe_snippet_remove').addClass('d-none');
+        }
+
+        // Snippets are replaceable only if they are not within another snippet.
+        // (e.g., a "s_countdown" is not replaceable when it is dropped as inner
+        // content)
+        if (this.$target[0].matches("[data-snippet]:not([data-snippet] *), .oe_structure > *")
+                && !this.$target[0].matches(".oe_structure_solo *")) {
+            this.trigger_up('find_snippet_template', {
+                snippet: this.$target[0],
+                callback: (snippet) => {
+                    if (snippet.group) {
+                        this.$el.add($customize).find('.o_snippet_replace').removeClass('d-none');
+                    }
+                },
+            });
         }
 
         var _animationsCount = 0;
@@ -214,10 +256,14 @@ var SnippetEditor = Widget.extend({
                 isCurrent: targetEl === this.$target[0],
             });
         }
+<<<<<<< HEAD
         // TODO In master differentiate device-based visibility.
         this._toggleVisibilityStatusIgnoreDeviceVisibility = true;
         await this.toggleTargetVisibility(true);
         this._toggleVisibilityStatusIgnoreDeviceVisibility = false;
+=======
+        await this.toggleTargetVisibility(true, true);
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
     },
     /**
      * Notifies all the associated snippet options that the template which
@@ -484,8 +530,18 @@ var SnippetEditor = Widget.extend({
                         // Consider layout-only elements (like bg-shapes) as empty
                         return el.matches(this.layoutElementsSelector);
                     }));
+<<<<<<< HEAD
                 return isEmpty && !$el.hasClass('oe_structure')
                     && !$el.parent().hasClass('carousel-item')
+=======
+                const notRemovableSelector =
+                    `.oe_structure,
+                    .carousel-item,
+                    .carousel-item > .container,
+                    .carousel-item > .container-fluid,
+                    .carousel-item > .o_container_small`;
+                return isEmpty && !$el[0].matches(notRemovableSelector)
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
                     && (!editor || editor.isTargetParentEditable)
                     && !isUnremovable($el[0]);
             };
@@ -596,6 +652,7 @@ var SnippetEditor = Widget.extend({
             await focusOrBlur(editor, styles);
         }
         await Promise.all(editorUIsToUpdate.map(editor => editor.updateOptionsUI()));
+<<<<<<< HEAD
         await Promise.all(editorUIsToUpdate.map(editor => editor.updateOptionsUIVisibility()));
 
         // As the 'd-none' class is added to option sections that have no visible
@@ -615,6 +672,17 @@ var SnippetEditor = Widget.extend({
                 editor.styles[key].el.closest(".oe-toolbar")
             )
         );
+=======
+        // A `d-none` class is added to option sections that have no visible
+        // options with `updateOptionsUIVisibility`. If no option section is
+        // visible (including the options moved to the toolbar), we prevent
+        // the activation of the options.
+        const optionsSectionVisible = await Promise.all(
+            editorUIsToUpdate.map(editor => editor.updateOptionsUIVisibility())
+        ).then(editorVisibilityValues => {
+            return editorVisibilityValues.some(editorVisibilityValue => editorVisibilityValue);
+        });
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
         if (editorUIsToUpdate.length > 0 && !optionsSectionVisible) {
             return null;
         }
@@ -622,10 +690,11 @@ var SnippetEditor = Widget.extend({
     },
     /**
      * @param {boolean} [show]
+     * @param {boolean} [ignoreDeviceVisibility]
      * @returns {Promise<boolean>}
      */
-    toggleTargetVisibility: async function (show) {
-        show = this._toggleVisibilityStatus(show);
+    toggleTargetVisibility: async function (show, ignoreDeviceVisibility) {
+        show = this._toggleVisibilityStatus(show, ignoreDeviceVisibility);
         var styles = Object.values(this.styles);
         const proms = sortBy(styles, "__order").map((style) => {
             return show ? style.onTargetShow() : style.onTargetHide();
@@ -667,13 +736,30 @@ var SnippetEditor = Widget.extend({
         const proms = Object.values(this.styles).map(opt => {
             return opt.updateUIVisibility();
         });
-        await Promise.all(proms);
+        // Get information about the visibility of options (except the ones
+        // located in the overlay). This is needed to check if the editor has
+        // visible options outside the options section.
+        const someOptionsVisible = await Promise.all(proms).then(optionsVisibilityValues => {
+            return optionsVisibilityValues.some(optionsVisibilityValue => optionsVisibilityValue);
+        });
         // Hide the snippetEditor if none of its options are visible
         // This cannot be done using the visibility of the options' UI
-        // because some options can be located in the overlay.
-        const $visibleOptions = this.$optionsSection.find('we-top-button-group, we-customizeblock-option')
-                .children(':not(.d-none)');
-        this.$optionsSection.toggleClass('d-none', !$visibleOptions.length);
+        // because some options can be located in the overlay / toolbar.
+        const visibleOptionsInSection = this.$optionsSection.find('we-top-button-group, we-customizeblock-option')
+            .children(':not(.d-none)').length;
+        // Some options (e.g., text highlights / animations) may have a special
+        // way to be displayed in the editor: We add the options in the toolbar
+        // `onFocus()` and set them back `onBlur()`. Which means that the
+        // options section will be empty and should be hidden, while editor's
+        // visible options should be displayed in the toolbar DOM. We need to
+        // take this scenario into consideration too.
+        const optionsSectionEmpty = !this.$optionsSection[0].querySelector(":scope > we-customizeblock-option");
+        const optionsSectionVisible = visibleOptionsInSection && !optionsSectionEmpty;
+        // At this level, we can hide the options section.
+        this.$optionsSection.toggleClass("d-none", !optionsSectionVisible);
+        // Even with a hidden options section, the editor is still considered
+        // visible" if it has visible toolbar options.
+        return optionsSectionVisible || someOptionsVisible;
     },
     /**
      * Clones the current snippet.
@@ -732,15 +818,18 @@ var SnippetEditor = Widget.extend({
         this.selectorLockWithin = new Set();
         const selectorExcludeAncestor = new Set();
 
-        var $element = this.$target.parent();
-        while ($element.length) {
-            var parentEditor = $element.data('snippet-editor');
-            if (parentEditor) {
-                this._customize$Elements = this._customize$Elements
-                    .concat(parentEditor._customize$Elements);
-                break;
+        if (this.options.allowParentsEditors) {
+            // TODO Should not rely on .data('snippet-editor') but ask parents
+            var $element = this.$target.parent();
+            while ($element.length) {
+                var parentEditor = $element.data('snippet-editor');
+                if (parentEditor) {
+                    this._customize$Elements = this._customize$Elements
+                        .concat(parentEditor._customize$Elements);
+                    break;
+                }
+                $element = $element.parent();
             }
-            $element = $element.parent();
         }
 
         var $optionsSection = $(renderToElement('web_editor.customize_block_options_section', {
@@ -866,7 +955,7 @@ var SnippetEditor = Widget.extend({
     _initDragAndDrop(handle, elementsSelector, element) {
         const modalAncestorEl = this.$target[0].closest('.modal');
         const $scrollable = modalAncestorEl && $(modalAncestorEl)
-            || (this.options.wysiwyg.snippetsMenu && this.options.wysiwyg.snippetsMenu.$scrollable)
+            || (this.options.$scrollable)
             || (this.$scrollingElement.length && this.$scrollingElement)
             || $().getScrollingElement(this.ownerDocument);
         const dragAndDropOptions = {
@@ -920,10 +1009,17 @@ var SnippetEditor = Widget.extend({
     /**
      * @private
      * @param {boolean} [show]
+     * @param {boolean} [ignoreDeviceVisibility]
+     * @returns {boolean}
      */
+<<<<<<< HEAD
     _toggleVisibilityStatus: function (show) {
         // TODO In master differentiate device-based visibility.
         if (this._toggleVisibilityStatusIgnoreDeviceVisibility) {
+=======
+    _toggleVisibilityStatus: function (show, ignoreDeviceVisibility) {
+        if (ignoreDeviceVisibility) {
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
             if (this.$target[0].matches(".o_snippet_mobile_invisible, .o_snippet_desktop_invisible")) {
                 const isMobilePreview = weUtils.isMobileView(this.$target[0]);
                 const isMobileHidden = this.$target[0].classList.contains("o_snippet_mobile_invisible");
@@ -956,8 +1052,8 @@ var SnippetEditor = Widget.extend({
         for (const snippetEl of [el, ...el.querySelectorAll('[data-snippet]')]) {
             this.trigger_up('find_snippet_template', {
                 snippet: snippetEl,
-                callback: function (snippetTemplate) {
-                    const forbidSanitize = snippetTemplate.dataset.oeForbidSanitize;
+                callback: function (snippet) {
+                    const forbidSanitize = snippet.data.oeForbidSanitize;
                     if (forbidSanitize) {
                         result = forbidSanitize === 'form' ? 'form' : false;
                     }
@@ -1150,7 +1246,7 @@ var SnippetEditor = Widget.extend({
         self.$target.detach();
         self.$el.addClass('d-none');
 
-        var $selectorSiblings;
+        var $selectorSiblings = $();
         for (var i = 0; i < self.selectorSiblings.length; i++) {
             let $siblings = self.selectorSiblings[i].all();
             if (this.excludeAncestors) {
@@ -1760,12 +1856,25 @@ var SnippetEditor = Widget.extend({
                 this.dragState.currentHeight = (maxRowEnd - 1) * (gridProp.rowSize + gridProp.rowGap) - gridProp.rowGap;
             }
         }
-    }
+    },
+    /**
+     * Called when the "replace" overlay button is clicked.
+     *
+     * @private
+     * @param {Event} ev
+     */
+    _onReplaceClick(ev) {
+        ev.stopPropagation();
+        this.trigger_up('open_add_snippet_dialog', {
+            initialSnippetEl: this.$target[0],
+        });
+    },
 });
 
 /**
  * Management of drag&drop menu and snippet related behaviors in the page.
  */
+<<<<<<< HEAD
 var SnippetsMenu = Widget.extend({
     id: 'oe_snippets',
     cacheSnippetTemplate: {},
@@ -1788,6 +1897,11 @@ var SnippetsMenu = Widget.extend({
         'click .o_we_website_top_actions button[data-action=redo]': '_onRedo',
     },
     custom_events: {
+=======
+class SnippetsMenu extends Component {
+    static cacheSnippetTemplate = {};
+    static custom_events = {
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
         'activate_insertion_zones': '_onActivateInsertionZones',
         'activate_snippet': '_onActivateSnippet',
         'call_for_each_child_snippet': '_onCallForEachChildSnippet',
@@ -1799,6 +1913,7 @@ var SnippetsMenu = Widget.extend({
         'drag_and_drop_start': '_onSnippetDragAndDropStart',
         'get_snippet_versions': '_onGetSnippetVersions',
         'find_snippet_template': '_onFindSnippetTemplate',
+        'is_element_selected': '_onIsElementSelected',
         'remove_snippet': '_onRemoveSnippet',
         'snippet_edition_request': '_onSnippetEditionRequest',
         'snippet_editor_destroyed': '_onSnippetEditorDestroyed',
@@ -1818,38 +1933,71 @@ var SnippetsMenu = Widget.extend({
         'disable_loading_effect': '_onDisableLoadingEffect',
         'enable_loading_effect': '_onEnableLoadingEffect',
         "update_invisible_dom": "_onUpdateInvisibleDom",
-    },
+        "open_add_snippet_dialog": "_onOpenAddSnippetDialog",
+    };
     // enum of the SnippetsMenu's tabs.
-    tabs: {
+    static tabs = {
         BLOCKS: 'blocks',
         OPTIONS: 'options',
         CUSTOM: 'custom',
-    },
+    };
 
-    /**
-     * @param {Widget} parent
-     * @param {Object} [options]
-     * @param {string} [options.snippets]
-     *      URL of the snippets template. This URL might have been set
-     *      in the global 'snippets' variable, otherwise this function
-     *      assigns a default one.
-     *      default: 'web_editor.snippets'
-     *
-     * @constructor
-     */
-    init: function (parent, options) {
-        this._super.apply(this, arguments);
-        options = options || {};
-        this.$body = $((options.document || document).body);
+    static props = {
+        bus: { type: EventBus },
+        mountedProm: { type: Promise },
+        options: { type: Object },
+        trigger_up: { type: Function },
+        folded: { type: Boolean, optional: true },
+        onSnippetDropped: { type: Function, optional: true },
+        readyToCleanForSave: { type: Function, optional: true },
+        setCSSVariables: { type: Function, optional: true },
+    };
 
-        this.options = options;
-        if (!this.options.snippets) {
-            this.options.snippets = 'web_editor.snippets';
-        }
+    static defaultProps = {
+        folded: false,
+        onSnippetDropped: () => {},
+        readyToCleanForSave: () => {},
+        setCSSVariables: () => {},
+    };
+
+    static template = "web_editor.SnippetsMenu";
+
+    static components = { Toolbar, LinkTools };
+
+    setup() {
+        super.setup(...arguments);
+        this.options = Object.assign({}, this.props.options);
+        this.$body = $((this.options.document || document).body);
+        this.customEvents = SnippetsMenu.custom_events;
+        this.tabs = SnippetsMenu.tabs;
+
+        this.state = useState({
+            showCustomizePanel: false,
+            invisibleElements: [],
+            currentTab: SnippetsMenu.tabs.BLOCKS,
+            toolbarTitle: "",
+            showToolbar: false,
+            search: "",
+            canUndo: false,
+            canRedo: false,
+        });
+
+        this.snippets = useState(new Map());
+
+        this.snippetsMenuRef = useRef("snippets-menu");
+
+        // Odoo Editor uses the HTML Element to bind commands.
+        this.toolbarWrapperRef = useRef("toolbar-wrapper");
+        // SnippetOptions are still rendered using legacy widgets.
+        // TODO: remove this ref when Options are rendered using OWL.
+        this.customizePanelRef = useRef("customize-panel");
+        // Used for drag and drop of Snippets Thumbnails.
+        this.snippetsAreaRef = useRef("snippets-area");
+
         this.snippetEditors = [];
         this._enabledEditorHierarchy = [];
 
-        this._mutex = new Mutex();
+        this._mutex = this.options.mutex;
 
         this._notActivableElementsSelector = [
             '#web_editor-top-edit',
@@ -1872,26 +2020,137 @@ var SnippetsMenu = Widget.extend({
         this._loadingEffectDisabled = false;
         this._onClick = this._onClick.bind(this);
 
+<<<<<<< HEAD
         this.orm = this.bindService("orm");
         this.notification = this.bindService("notification");
         this.dialog = this.bindService("dialog");
     },
+=======
+        this.options.reloadSnippetDropzones = this.reloadSnippetDropzones.bind(this);
+
+        this.orm = useService("orm");
+        this.notification = useService("notification");
+        this.dialog = useService("dialog");
+        this.popover = useService("popover");
+
+        onWillStart(() => {
+            // Preload colorpalette dependencies without waiting for them. The
+            // widget have huge chances of being used by the user (clicking on any
+            // text will load it). The colorpalette itself will do the actual
+            // waiting of the loading completion.
+            this.options.wysiwyg.getColorpickerTemplate();
+            this.options.wysiwyg.toolbarEl.classList.add("d-none");
+        });
+
+        onMounted(async () => {
+            await this.start();
+            this.props.setCSSVariables(this.snippetsMenuRef.el);
+
+            // Bind removeFormat button
+            const titleButtons = this.customizePanel.querySelector("#o_we_editor_toolbar_container > we-title");
+            this.options.wysiwyg.odooEditor.bindExecCommand(titleButtons);
+
+            // Get table container and bind commands to Odoo Editor.
+            const customizeTableBlock = this.customizePanel.querySelector('#o-we-editor-table-container');
+            this.options.wysiwyg.odooEditor.bindExecCommand(customizeTableBlock);
+            // TODO: Remove this and instead, use a callback once the editor is
+            // ready, or make the parent component independent of SnippetsMenu
+            // being mounted.
+            this.props.mountedProm.resolve();
+            this.el.classList.add("o_loaded");
+            this.el.ownerDocument.body.classList.toggle('editor_has_snippets', !this.folded);
+        });
+
+        onWillUnmount(() => {
+            this.onWillUnmount();
+        });
+
+        useEffect(
+            (folded) => {
+                this.setFolded(folded);
+            },
+            () => [this.props.folded]
+        );
+
+        useBus(this.props.bus, "ACTIVATE_SNIPPET", ({ detail }) => {
+            const { $snippet, previewMode, onSuccess } = detail;
+            this._activateSnippet($snippet, previewMode).then(onSuccess);
+        });
+
+        useBus(this.props.bus, "CALL_POST_SNIPPET_DROP", ({ detail }) => {
+            this.callPostSnippetDrop(detail.$snippet).then(detail.onSuccess);
+        });
+
+        useBus(this.props.bus, "INSERT_SNIPPET", ({ detail }) => {
+            const { snippetSelector, block } = detail;
+            this._execWithLoadingEffect(() => {
+                const snippet = [...this.snippets.values()].find((snippet) => {
+                    return snippet.baseBody.matches(snippetSelector);
+                });
+                if (snippet && block) {
+                    const clonedBody = snippet.baseBody.cloneNode(true);
+                    clonedBody.classList.remove(".oe_snippet_body");
+                    block.after(clonedBody);
+                    // This call will block the mutex so it is not awaited.
+                    this.callPostSnippetDrop($(clonedBody));
+                }
+            });
+        });
+
+        useBus(this.props.bus, "CLEAN_FOR_SAVE", ({ detail }) => {
+            detail.proms.push(this.cleanForSave());
+        });
+
+        useBus(this.props.bus, "UPDATE_SCROLLING_ELEMENT", ({ detail }) => {
+            this.draggableComponent?.update({ scrollingElement: detail.scrollingElement });
+        });
+    }
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
     /**
-     * @override
+     * By default, the SnippetCache is only invalidated when the browser is
+     * refreshed. This should be overridden by apps that want to reset the cache
+     * on some events (e.g. in website, the prop is overridden and instead the
+     * website service is used.)
+     *
+     * @property {Boolean} - true if the cache is valid, false otherwise
      */
-    willStart: function () {
-        // Preload colorpalette dependencies without waiting for them. The
-        // widget have huge chances of being used by the user (clicking on any
-        // text will load it). The colorpalette itself will do the actual
-        // waiting of the loading completion.
-        this.options.wysiwyg.getColorpickerTemplate();
-        return this._super(...arguments);
-    },
+    get invalidateSnippetCache() {
+        return !!this._invalidateSnippetCache;
+    }
+    set invalidateSnippetCache(invalidate) {
+        this._invalidateSnippetCache = invalidate;
+    }
+    get hasSnippetGroups() {
+        return Array.from(this.snippets.values()).some(snippet => snippet.snippetGroup);
+    }
+    _createTooltip($el, title, selector = false) {
+        return new Tooltip($el, {
+            title: title,
+            selector: selector,
+            placement: "bottom",
+            delay: 100,
+            // Ensure the tooltips have a good position when in iframe.
+            container: this.el,
+            // Prevent horizontal scroll when tooltip is displayed.
+            boundary: this.el.ownerDocument.body,
+        });
+    }
     /**
-     * @override
+     * Method called when the SnippetsMenu is mounted.
+     * At this stage, references at accessible.
+     * It fetches and parses the snippets templates and options, as well as
+     * going through a first pass of the invisible elements.
+     * It also initializes click events on the documents, and sets up tooltips.
      */
     async start() {
-        var defs = [this._super.apply(this, arguments)];
+        // TODO: at a later date, we should remove this.$el (maybe when jQuery
+        // is removed) and instead use individual refs or use OWL.
+        this.el = this.snippetsMenuRef.el;
+        this.$el = $(this.el);
+        this.$ = this.$el.find.bind(this.$el);
+        this.customizePanel = this.customizePanelRef.el;
+
+        const defs = [];
         this.ownerDocument = this.$el[0].ownerDocument;
         this.$document = $(this.ownerDocument);
         this.window = this.ownerDocument.defaultView;
@@ -1914,6 +2173,7 @@ var SnippetsMenu = Widget.extend({
         document.addEventListener("touchmove", this.__onTouchEvent, true);
         document.addEventListener("touchend", this.__onTouchEvent, true);
 
+<<<<<<< HEAD
         this.customizePanel = document.createElement('div');
         this.customizePanel.classList.add('o_we_customize_panel', 'd-none');
 
@@ -1940,6 +2200,9 @@ var SnippetsMenu = Widget.extend({
         await attachComponent(this, this._toolbarWrapperEl, WebsiteToolbar, {
             wysiwygState: this.options.wysiwyg.state,
         });
+=======
+        this._toolbarWrapperEl = this.toolbarWrapperRef.el;
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
         this._toolbarWrapperEl.style.display = 'contents';
 
         const toolbarEl = this._toolbarWrapperEl.firstChild;
@@ -1948,15 +2211,6 @@ var SnippetsMenu = Widget.extend({
         this._addToolbar();
         this._checkEditorToolbarVisibilityCallback = this._checkEditorToolbarVisibility.bind(this);
         $(this.options.wysiwyg.odooEditor.document.body).on('click', this._checkEditorToolbarVisibilityCallback);
-
-        this.invisibleDOMPanelEl = document.createElement('div');
-        this.invisibleDOMPanelEl.classList.add('o_we_invisible_el_panel');
-        this.invisibleDOMPanelEl.appendChild(
-            $('<div/>', {
-                text: _t('Invisible Elements'),
-                class: 'o_panel_header',
-            })[0]
-        );
 
         // Prepare snippets editor environment
         this.$snippetEditorArea = $('<div/>', {
@@ -1969,19 +2223,11 @@ var SnippetsMenu = Widget.extend({
         // elements with available tooltip text. Note that the tooltips of the
         // blocks should not be taken into account here because they have
         // tooltips with a particular behavior (see _showSnippetTooltip).
-        this.tooltips = new Tooltip(this.el, {
-            selector: 'we-title, [title]:not(.oe_snippet)',
-            placement: 'bottom',
-            delay: 100,
-            // Ensure the tooltips have a good position when in iframe.
-            container: this.el,
-            // Prevent horizontal scroll when tooltip is displayed.
-            boundary: this.el.ownerDocument.body,
-            title: function () {
-                const el = this;
-                if (el.tagName !== 'WE-TITLE') {
-                    return el.title;
-                }
+        this.tooltips = this._createTooltip(
+            this.el,
+            function () {
+                // Workaround BS regression: https://github.com/twbs/bootstrap/issues/38720
+                const el = this === undefined ? arguments[0] : this.el;
                 // On Firefox, el.scrollWidth is equal to el.clientWidth when
                 // overflow: hidden, so we need to update the style before to
                 // get the right values.
@@ -1990,13 +2236,34 @@ var SnippetsMenu = Widget.extend({
                 el.style.removeProperty('overflow');
                 return tipContent;
             },
+<<<<<<< HEAD
+=======
+            "we-title"
+        );
+
+        this.buttonTooltips = [];
+        // Before boostrap 5.3, sub tooltips were working by default with hover
+        // behavior, now it is not the case so we instantiate them 1 by 1.
+        document.querySelectorAll("[title]:not(.oe_snippet)").forEach(el => {
+            this.buttonTooltips.push(this._createTooltip(
+                el,
+                function () {
+                    // Workaround BS regression: https://github.com/twbs/bootstrap/issues/38720
+                    const el = this === undefined ? arguments[0] : this.el;
+                    return el.title;
+                }
+            ));
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
         });
 
         // Active snippet editor on click in the page
         this.$document.on('click.snippets_menu', '*', this._onClick);
         // Needed as bootstrap stop the propagation of click events for dropdowns
         this.$document.on('mouseup.snippets_menu', '.dropdown-toggle', this._onClick);
-
+        // Also listen for clicks inside iframes.
+        if (this.$body[0].ownerDocument !== this.ownerDocument) {
+            this.$body.on('click.snippets_menu', '*', this._onClick);
+        }
         // Adapt overlay covering when the window is resized / content changes
         this.debouncedCoverUpdate = throttleForAnimation(() => {
             this.updateCurrentSnippetEditorOverlay();
@@ -2057,6 +2324,7 @@ var SnippetsMenu = Widget.extend({
             // Load the sidebar with the style tab only.
             await this._loadSnippetsTemplates();
             defs.push(this._updateInvisibleDOM());
+<<<<<<< HEAD
             this.$el.find('.o_we_website_top_actions').removeClass('d-none');
             this.$('.o_snippet_search_filter').addClass('d-none');
             this.$('#o_scroll').addClass('d-none');
@@ -2068,6 +2336,16 @@ var SnippetsMenu = Widget.extend({
             this.$('#o_we_editor_toolbar_container').hide();
             this.$('#o-we-editor-table-container').addClass('d-none');
             return Promise.all(defs).then(() => {});
+=======
+            this.state.currentTab = SnippetsMenu.tabs.OPTIONS;
+            this.$el.find('.o_we_website_top_actions').removeClass('d-none');
+            this.$('#snippets_menu button').removeClass('active').prop('disabled', true);
+            this.$('.o_we_customize_snippet_btn').addClass('active').prop('disabled', false);
+            this.$('o_we_ui_loading').addClass('d-none');
+            this.state.showToolbar = false;
+            this.$('#o-we-editor-table-container').addClass('d-none');
+            return Promise.all(defs);
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
         }
 
         this.emptyOptionsTabContent = document.createElement('div');
@@ -2076,7 +2354,11 @@ var SnippetsMenu = Widget.extend({
 
         // Fetch snippet templates and compute it
         defs.push((async () => {
+<<<<<<< HEAD
             await this._loadSnippetsTemplates(this.options.invalidateSnippetCache);
+=======
+            await this._loadSnippetsTemplates();
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
             await this._updateInvisibleDOM();
         })());
 
@@ -2128,19 +2410,14 @@ var SnippetsMenu = Widget.extend({
         this._activateSnippet($autoFocusEls.length ? $autoFocusEls.first() : false);
 
         return Promise.all(defs).then(() => {
-            const $undoButton = this.$('.o_we_external_history_buttons button[data-action="undo"]');
-            const $redoButton = this.$('.o_we_external_history_buttons button[data-action="redo"]');
-            if ($undoButton.length) {
-                const updateHistoryButtons = () => {
-                    $undoButton.attr('disabled', !this.options.wysiwyg.odooEditor.historyCanUndo());
-                    $redoButton.attr('disabled', !this.options.wysiwyg.odooEditor.historyCanRedo());
-                };
-                this.options.wysiwyg.odooEditor.addEventListener('historyStep', updateHistoryButtons);
-                this.options.wysiwyg.odooEditor.addEventListener('observerApply', () => {
-                    $(this.options.wysiwyg.odooEditor.editable).trigger('content_changed');
-                });
-            }
-
+            const updateHistoryButtons = () => {
+                this.state.canRedo = this.options.wysiwyg.odooEditor.historyCanRedo();
+                this.state.canUndo = this.options.wysiwyg.odooEditor.historyCanUndo();
+            };
+            this.options.wysiwyg.odooEditor.addEventListener('historyStep', updateHistoryButtons);
+            this.options.wysiwyg.odooEditor.addEventListener('observerApply', () => {
+                $(this.options.wysiwyg.odooEditor.editable).trigger('content_changed');
+            });
             // Trigger a resize event once entering edit mode as the snippets
             // menu will take part of the screen width (delayed because of
             // animation). (TODO wait for real animation end)
@@ -2148,12 +2425,12 @@ var SnippetsMenu = Widget.extend({
                 this.$window[0].dispatchEvent(new Event("resize"));
             }, 1000);
         });
-    },
+    }
     /**
-     * @override
+     * Called prior to unmounting to remove any event handlers and clean the
+     * DOM.
      */
-    destroy: function () {
-        this._super.apply(this, arguments);
+    onWillUnmount() {
         // Remove listeners for touch events.
         document.removeEventListener("touchstart", this.__onTouchEvent, true);
         document.removeEventListener("touchmove", this.__onTouchEvent, true);
@@ -2177,9 +2454,17 @@ var SnippetsMenu = Widget.extend({
         this.el.ownerDocument.body.classList.remove('editor_has_snippets');
         // Dispose BS tooltips.
         this.tooltips.dispose();
+        this.buttonTooltips.forEach(tooltip => tooltip.dispose());
         options.clearServiceCache();
         options.clearControlledSnippets();
+<<<<<<< HEAD
     },
+=======
+        if (this.$body[0].ownerDocument !== this.ownerDocument) {
+            this.$body.off('.snippets_menu');
+        }
+    }
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
     //--------------------------------------------------------------------------
     // Public
@@ -2190,7 +2475,7 @@ var SnippetsMenu = Widget.extend({
      * - Asks the snippet editors to clean their associated snippet
      * - Remove the 'contentEditable' attributes
      */
-    cleanForSave: async function () {
+    async cleanForSave() {
         // Wait for snippet post-drop code here, since sometimes we save very
         // quickly after a snippet drop during automated testing, which breaks
         // some options code (executed while destroying the editor).
@@ -2209,7 +2494,7 @@ var SnippetsMenu = Widget.extend({
 
         // Next, notify that we want the DOM to be cleaned (e.g. in website this
         // may be the moment where the public widgets need to be destroyed).
-        this.trigger_up('ready_to_clean_for_save');
+        this.props.readyToCleanForSave();
         // Wait for the mutex a second time as some options do editor actions when
         // their snippets are destroyed. (E.g. s_popup triggers visibility updates
         // when hidden, destroying the widget hides it.)
@@ -2229,17 +2514,16 @@ var SnippetsMenu = Widget.extend({
             editableAreaEl.querySelectorAll("[data-visibility='conditional']")
                             .forEach(invisibleEl => delete invisibleEl.dataset.invisible);
         });
-    },
+    }
     /**
      * Load snippets.
-     * @param {boolean} invalidateCache
      */
-    loadSnippets: function (invalidateCache) {
-        if (!invalidateCache && cacheSnippetTemplate[this.options.snippets]) {
+    loadSnippets() {
+        if (!this.invalidateSnippetCache && cacheSnippetTemplate[this.options.snippets]) {
             this._defLoadSnippets = cacheSnippetTemplate[this.options.snippets];
             return this._defLoadSnippets;
         }
-        let context = Object.assign({}, this.options.context);
+        const context = Object.assign({}, this.options.context, {rendering_bundle: true});
         if (context.user_lang) {
             context.lang = this.options.context.user_lang;
             context.snippet_lang = this.options.context.lang;
@@ -2251,30 +2535,86 @@ var SnippetsMenu = Widget.extend({
             { context }
         );
         cacheSnippetTemplate[this.options.snippets] = this._defLoadSnippets;
+        if (this.invalidateSnippetCache) {
+            this.invalidateSnippetCache = false;
+        }
         return this._defLoadSnippets;
-    },
+    }
     /**
      * Visually hide or display this snippet menu
      * @param {boolean} foldState
      */
-    setFolded: function (foldState = true) {
+    setFolded(foldState = true) {
         this.el.classList.toggle('d-none', foldState);
         this.el.ownerDocument.body.classList.toggle('editor_has_snippets', !foldState);
         this.folded = !!foldState;
-    },
+    }
     /**
      * Get the editable area.
      *
      * @returns {JQuery}
      */
-    getEditableArea: function () {
+    getEditableArea() {
         return this.options.wysiwyg.$editable.find(this.options.selectorEditableArea)
             .add(this.options.wysiwyg.$editable.filter(this.options.selectorEditableArea));
-    },
+    }
+    /**
+     * Returns a list of categories, each containing snippets, filtered by
+     * the search string currently in state.
+     *
+     * @returns {Map}
+     */
+    getSnippetsByCategories() {
+        const categories = new Map();
+        let snippets = Array.from(this.snippets.values());
+        let strMatches = null;
+        let hasCustomStructureSnippet = false;
+
+        if (this.hasSnippetGroups) {
+            hasCustomStructureSnippet = snippets
+                .some(snippet => snippet.isCustom
+                    && ["structure", "hybrid"].includes(snippet.fromCategory));
+            // We only show "categories" and "inner content" snippets in the side
+            // panel. Other snippets are displayed in the modal.
+            snippets = snippets.filter(snippet => {
+                return snippet.category.id !== "snippet_structure"
+                    && snippet.category.id !== "snippet_custom"
+                    || snippet.category.id === "snippet_custom"
+                    && ["content", "hybrid"].includes(snippet.fromCategory);
+            });
+        } else {
+            const search = this.state.search.toLowerCase();
+            strMatches = str => !search || str.toLowerCase().includes(search);
+        }
+
+        for (const snippet of snippets) {
+            let categorySnippets = categories.get(snippet.category);
+            if (!categorySnippets) {
+                categorySnippets = [];
+                categories.set(snippet.category, categorySnippets);
+            }
+            let matches = false;
+            if (!this.hasSnippetGroups) {
+                matches = strMatches(snippet.category.text)
+                    || strMatches(snippet.displayName)
+                    || strMatches(snippet.data.oeKeywords || '');
+            } else if (snippet.snippetGroup === "custom") {
+                // Hide "custom" category if there is no "custom" snippets.
+                if (!hasCustomStructureSnippet) {
+                    continue;
+                }
+            }
+            if (this.hasSnippetGroups || matches) {
+                categorySnippets.push(snippet);
+            }
+        }
+
+        return categories;
+    }
     /**
      * Updates the cover dimensions of the current snippet editor.
      */
-    updateCurrentSnippetEditorOverlay: function () {
+    updateCurrentSnippetEditorOverlay() {
         if (this.snippetEditorDragging) {
             return;
         }
@@ -2288,7 +2628,11 @@ var SnippetsMenu = Widget.extend({
             this._mutex.exec(() => this._destroyEditor(snippetEditor));
         }
         this._mutex.exec(() => {
+<<<<<<< HEAD
             if (this._currentTab === this.tabs.OPTIONS && !this.snippetEditors.length) {
+=======
+            if (this.state.currentTab === this.tabs.OPTIONS && !this.snippetEditors.length) {
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
                 const selection = this.$body[0].ownerDocument.getSelection();
                 const range = selection?.rangeCount && selection.getRangeAt(0);
                 const currentlySelectedNode = range?.commonAncestorContainer;
@@ -2303,10 +2647,7 @@ var SnippetsMenu = Widget.extend({
                 }
             }
         });
-    },
-    activateCustomTab: function (content) {
-        this._updateRightPanelContent({content: content, tab: this.tabs.CUSTOM});
-    },
+    }
     /**
      * Public method to activate a snippet.
      *
@@ -2314,17 +2655,19 @@ var SnippetsMenu = Widget.extend({
      * @param {jQuery} $snippet
      * @returns {Promise}
      */
-    activateSnippet: async function ($snippet) {
+    activateSnippet($snippet) {
         return this._activateSnippet($snippet);
-    },
+    }
 
     /**
      * Postprocesses a snippet node when it has been inserted in the dom.
      *
      * @param {jQuery} $target
+     * @param {function} [postSnippetDropExtraActions]
+     *        Additional actions to perform after the snippet is dropped.
      * @returns {Promise}
      */
-    callPostSnippetDrop: async function ($target) {
+    async callPostSnippetDrop($target, postSnippetDropExtraActions) {
         this.postSnippetDropPromise = new Promise(resolve => {
             this._postSnippetDropResolver = resolve;
         });
@@ -2342,7 +2685,7 @@ var SnippetsMenu = Widget.extend({
         // start public widgets for instance (no saved content)).
         await this._mutex.exec(() => {
             const proms = [];
-            this.trigger_up('snippet_dropped', {
+            this.props.onSnippetDropped({
                 $target: $target,
                 addPostDropAsync: prom => proms.push(prom),
             });
@@ -2353,12 +2696,17 @@ var SnippetsMenu = Widget.extend({
         // the invisible DOM list if needed.
         await this._updateInvisibleDOM();
 
+<<<<<<< HEAD
         if (this.__postSnippetDropExtraActions) {
             this.__postSnippetDropExtraActions();
             delete this.__postSnippetDropExtraActions;
+=======
+        if (postSnippetDropExtraActions) {
+            postSnippetDropExtraActions();
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
         }
         this._postSnippetDropResolver();
-    },
+    }
     /**
      * Public implementation of _execWithLoadingEffect.
      *
@@ -2366,10 +2714,10 @@ var SnippetsMenu = Widget.extend({
      */
     execWithLoadingEffect(action, contentLoading = true, delay = 500) {
         return this._execWithLoadingEffect(...arguments);
-    },
-    reload_snippet_dropzones() {
+    }
+    reloadSnippetDropzones() {
         this._disableUndroppableSnippets();
-    },
+    }
 
     //--------------------------------------------------------------------------
     // Private
@@ -2589,7 +2937,7 @@ var SnippetsMenu = Widget.extend({
         for (const rowEl of selectorGrids) {
             self._insertGridDropzone(rowEl);
         }
-    },
+    }
     /**
      * Adds an entry for every invisible snippet in the left panel box.
      * The entries will contains an 'Edit' button to activate their snippet.
@@ -2597,12 +2945,10 @@ var SnippetsMenu = Widget.extend({
      * @private
      * @returns {Promise}
      */
-    _updateInvisibleDOM: function () {
-        return this._execWithLoadingEffect(() => {
+    _updateInvisibleDOM() {
+        return this._execWithLoadingEffect(async () => {
             this.options.wysiwyg.odooEditor.automaticStepSkipStack();
             this.invisibleDOMMap = new Map();
-            const $invisibleDOMPanelEl = $(this.invisibleDOMPanelEl);
-            $invisibleDOMPanelEl.find('.o_we_invisible_entry').remove();
             const isMobile = this._isMobile();
             const invisibleSelector = `.o_snippet_invisible, ${isMobile ? '.o_snippet_mobile_invisible' : '.o_snippet_desktop_invisible'}`;
             const $selector = this.options.enableTranslation ? this.$body : globalSelector.all();
@@ -2613,7 +2959,6 @@ var SnippetsMenu = Widget.extend({
                 // hidden header or footer.
                 $invisibleSnippets = $invisibleSnippets.not("header, footer");
             }
-            $invisibleDOMPanelEl.toggleClass('d-none', !$invisibleSnippets.length);
 
             // descendantPerSnippet: a map with its keys set to invisible
             // snippets that have invisible descendants. The value corresponding
@@ -2636,6 +2981,7 @@ var SnippetsMenu = Widget.extend({
                 return false;
             });
             // Insert an invisible snippet in its "parentEl" element.
+<<<<<<< HEAD
             const createInvisibleElement = async (invisibleSnippetEl, isRootParent, isDescendant,
                                                   parentEl) => {
                 const $invisibleSnippetEl = $(invisibleSnippetEl);
@@ -2655,6 +3001,21 @@ var SnippetsMenu = Widget.extend({
                 invisibleEntryEl.appendChild(iconEl);
                 parentEl.appendChild(invisibleEntryEl);
                 this.invisibleDOMMap.set(invisibleEntryEl, invisibleSnippetEl);
+=======
+            const createInvisibleElement = async (invisibleSnippetEl, isRootParent, isDescendant, parents) => {
+                const editor = await this._createSnippetEditor($(invisibleSnippetEl), true);
+                return {
+                    editor,
+                    snippetEl: invisibleSnippetEl,
+                    name: editor.getName(),
+                    isRootParent,
+                    isDescendant,
+                    invisibleSnippetEl,
+                    isVisible: editor.isTargetVisible(),
+                    children: [],
+                    parents: isDescendant ? parents : null,
+                };
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
             };
             // Insert all the invisible snippets contained in "snippetEls" as
             // well as their descendants in the "parentEl" element. If
@@ -2665,24 +3026,22 @@ var SnippetsMenu = Widget.extend({
             //     └ descendantInvisibleSnippet
             //          └ descendantOfDescendantInvisibleSnippet
             //               └ etc...
-            const createInvisibleElements = async (snippetEls, isDescendant, parentEl) => {
-                for (const snippetEl of snippetEls) {
+            const createInvisibleElements = (snippetEls, isDescendant, parents) => {
+                return Promise.all((snippetEls).map(async (snippetEl) => {
                     const descendantSnippetEls = descendantPerSnippet.get(snippetEl);
                     // An element is considered as "RootParent" if it has one or
                     // more invisible descendants but is not a descendant.
-                    await createInvisibleElement(snippetEl,
-                        !isDescendant && !!descendantSnippetEls, isDescendant, parentEl);
+                    const invisibleElement = await createInvisibleElement(snippetEl,
+                        !isDescendant && !!descendantSnippetEls, isDescendant, parents);
                     if (descendantSnippetEls) {
-                        // Insert all the descendant snippets in a list.
-                        const listEntryEl = document.createElement("ul");
-                        await createInvisibleElements(descendantSnippetEls, true, listEntryEl);
-                        parentEl.appendChild(listEntryEl);
+                        invisibleElement.children = await createInvisibleElements(descendantSnippetEls, true, invisibleElement);
                     }
-                }
+                    return invisibleElement;
+                }));
             };
-            return createInvisibleElements(rootInvisibleSnippetEls, false, $invisibleDOMPanelEl[0]);
+            this.state.invisibleElements = await createInvisibleElements(rootInvisibleSnippetEls, false, this.state.invisibleElements);
         }, false);
-    },
+    }
     /**
      * Disable the overlay editor of the active snippet and activate the new one
      * if given.
@@ -2699,7 +3058,11 @@ var SnippetsMenu = Widget.extend({
      * @returns {Promise<SnippetEditor>}
      *          (might be async when an editor must be created)
      */
+<<<<<<< HEAD
     _activateSnippet: async function ($snippet, previewMode, ifInactiveOptions) {
+=======
+    async _activateSnippet($snippet, previewMode, ifInactiveOptions) {
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
         if (this._blockPreviewOverlays && previewMode) {
             return;
         }
@@ -2767,7 +3130,7 @@ var SnippetsMenu = Widget.extend({
                         if (wasShown) {
                             this._updateRightPanelContent({
                                 content: [],
-                                tab: this.tabs.BLOCKS,
+                                tab: SnippetsMenu.tabs.BLOCKS,
                             });
                         }
                     }
@@ -2811,18 +3174,26 @@ var SnippetsMenu = Widget.extend({
                 return editorToEnable;
             });
         });
-    },
+    }
     /**
      * @private
-     * @param {boolean} invalidateCache
      */
-    _loadSnippetsTemplates: async function (invalidateCache) {
-        return this._execWithLoadingEffect(async () => {
+    async _loadSnippetsTemplates(withMutex = true) {
+        const loadSnippetsTemplates = async () => {
             await this._destroyEditors();
-            const html = await this.loadSnippets(invalidateCache);
-            await this._computeSnippetTemplates(html);
-        }, false);
-    },
+            const html = await this.loadSnippets();
+            const snippetsDocument = new DOMParser().parseFromString(html, "text/html");
+            const snippetsBody = snippetsDocument.body;
+            await this._computeSnippetTemplates(snippetsBody);
+        };
+        if (withMutex) {
+            return this._execWithLoadingEffect(async () => {
+                await loadSnippetsTemplates();
+            }, false);
+        } else {
+            return loadSnippetsTemplates();
+        }
+    }
     /**
      * TODO everything related to SnippetEditor destroy / cleanForSave should
      * really be cleaned / unified.
@@ -2836,14 +3207,14 @@ var SnippetsMenu = Widget.extend({
         if (index >= 0) {
             this.snippetEditors.splice(index, 1);
         }
-    },
+    }
     /**
      * @private
      * @param {jQuery|null|undefined} [$el]
      *        The DOM element whose inside editors need to be destroyed.
      *        If no element is given, all the editors are destroyed.
      */
-    _destroyEditors: async function ($el) {
+    async _destroyEditors($el) {
         const aliveEditors = this.snippetEditors.filter((snippetEditor) => {
             return !$el || $el.has(snippetEditor.$target).length;
         });
@@ -2856,7 +3227,7 @@ var SnippetsMenu = Widget.extend({
             // element from the array.
             snippetEditor.destroy();
         }
-    },
+    }
     /**
      * Calls a given callback 'on' the given snippet and all its child ones if
      * any (DOM element with options).
@@ -2871,7 +3242,7 @@ var SnippetsMenu = Widget.extend({
      * @returns {Promise} (might be async if snippet editors need to be created
      *                     and/or the callback is async)
      */
-    _callForEachChildSnippet: function ($snippet, callback) {
+    _callForEachChildSnippet($snippet, callback) {
         var self = this;
         var defs = Array.from($snippet.add(globalSelector.all($snippet))).map((el) => {
             var $snippet = $(el);
@@ -2882,13 +3253,13 @@ var SnippetsMenu = Widget.extend({
             });
         });
         return Promise.all(defs);
-    },
+    }
     /**
      * @private
      */
-    _closeWidgets: function () {
+    _closeWidgets() {
         this.snippetEditors.forEach(editor => editor.closeWidgets());
-    },
+    }
     /**
      * Creates and returns a set of helper functions which can help finding
      * snippets in the DOM which match some parameters (typically parameters
@@ -2924,8 +3295,13 @@ var SnippetsMenu = Widget.extend({
      * @param {string} excludeParent
      *        jQuery selector that the parents of DOM elements must *not* match
      *        to be considered as potential snippet.
+     * @param {boolean} forDrop
+     *        true if the selector is used to find a drop zone.
+     * @param {string} textSelector
+     *        a selector that DOM elements must match to be considered as
+     *        "Text Options"-related snippets.
      */
-    _computeSelectorFunctions: function (selector, exclude, target, noCheck, isChildren, excludeParent) {
+    _computeSelectorFunctions({selector, exclude, target, noCheck, isChildren, excludeParent, forDrop, textSelector}) {
         var self = this;
 
         // TODO in master: FOR_DROP should be a param of the function.
@@ -2999,14 +3375,14 @@ var SnippetsMenu = Widget.extend({
         // are only the text zones and they should not be used inside functions
         // such as "is", "closest" and "all".
         if (noCheck || this.options.enableTranslation) {
-            functions.is = function ($from) {
-                return $from.is(selector) && $from.filter(filterFunc).length !== 0;
+            functions.is = function ($from, options = {}) {
+                return $from.is(options.onlyTextOptions ? textSelector : selector) && $from.filter(filterFunc).length !== 0;
             };
             functions.closest = function ($from, parentNode) {
                 return $from.closest(selector, parentNode).filter(filterFunc);
             };
             functions.all = function ($from) {
-                return ($from ? dom.cssFind($from, selector) : self.$body.find(selector)).filter(filterFunc);
+                return ($from ? self.cssFind($from, selector) : self.$body.find(selector)).filter(filterFunc);
             };
         } else {
             functions.is = function ($from) {
@@ -3028,27 +3404,26 @@ var SnippetsMenu = Widget.extend({
                 }).filter(filterFunc);
             };
             functions.all = isChildren ? function ($from) {
-                return dom.cssFind($from || self.getEditableArea(), selector).filter(filterFunc);
+                return self.cssFind($from || self.getEditableArea(), selector).filter(filterFunc);
             } : function ($from) {
                 $from = $from || self.getEditableArea();
-                return $from.filter(selector).add(dom.cssFind($from, selector)).filter(filterFunc);
+                return $from.filter(selector).add(self.cssFind($from, selector)).filter(filterFunc);
             };
         }
         return functions;
-    },
+    }
     /**
      * Processes the given snippet template to register snippet options, creates
      * draggable thumbnail, etc.
      *
      * @private
-     * @param {string} html
+     * @param {HTMLElement} html
      */
-    _computeSnippetTemplates: function (html) {
+    _computeSnippetTemplates(html) {
         var self = this;
         var $html = $(html);
-        this._patchForComputeSnippetTemplates($html);
-        var $scroll = $html.siblings('#o_scroll');
 
+<<<<<<< HEAD
         // TODO adapt in master. This patches the BlogPostTagSelection option
         // in stable versions. Done here to avoid converting the html back to
         // a string.
@@ -3057,6 +3432,13 @@ var SnippetsMenu = Widget.extend({
             optionEl.dataset.selector = '.o_wblog_post_page_cover[data-res-model="blog.post"]';
         }
 
+=======
+        // TODO: Remove in master and add it in template s_website_form
+        const websiteFormEditorOptionsEl = $html.find('[data-js="WebsiteFormEditor"]')[0];
+        if (websiteFormEditorOptionsEl) {
+            websiteFormEditorOptionsEl.dataset.dropExcludeAncestor = "form";
+        }
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
         this.templateOptions = [];
         var selectors = [];
         var $styles = $html.find('[data-selector]');
@@ -3073,15 +3455,31 @@ var SnippetsMenu = Widget.extend({
             // option DOM. This is used in JS tours. The data-js attribute can
             // be used without a corresponding JS class being defined.
             const optionID = $style.data('js');
+            const textSelector = $style.data("text-selector");
             var option = {
                 'option': optionID,
                 'base_selector': selector,
                 'base_exclude': exclude,
                 'base_target': target,
-                'selector': self._computeSelectorFunctions(selector, exclude, target, noCheck),
+                'selector': self._computeSelectorFunctions({selector, exclude, target, noCheck, textSelector}),
                 '$el': $style,
+<<<<<<< HEAD
                 'drop-near': $style.data('drop-near') && self._computeSelectorFunctions($style.data('drop-near'), 'FOR_DROP', false, noCheck, true, excludeParent),
                 'drop-in': $style.data('drop-in') && self._computeSelectorFunctions($style.data('drop-in'), 'FOR_DROP', false, noCheck),
+=======
+                'drop-near': $style.data('drop-near') && self._computeSelectorFunctions({
+                    selector: $style.data('drop-near'),
+                    noCheck,
+                    isChildren: true,
+                    excludeParent,
+                    forDrop: true
+                }),
+                'drop-in': $style.data('drop-in') && self._computeSelectorFunctions({
+                    selector: $style.data('drop-in'),
+                    noCheck,
+                    forDrop: true,
+                }),
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
                 'drop-exclude-ancestor': this.dataset.dropExcludeAncestor,
                 'drop-lock-within': this.dataset.dropLockWithin,
                 'data': Object.assign({string: $style.attr('string')}, $style.data()),
@@ -3111,13 +3509,18 @@ var SnippetsMenu = Widget.extend({
         };
         globalSelector.is = function ($from, options = {}) {
             for (var i = 0, len = selectors.length; i < len; i++) {
+<<<<<<< HEAD
                 if (options.onlyTextOptions ? $from.is(self.templateOptions[i].data.textSelector) : selectors[i].is($from)) {
+=======
+                if (selectors[i].is($from, options)) {
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
                     return true;
                 }
             }
             return false;
         };
 
+<<<<<<< HEAD
         this.$snippets = $scroll.find('.o_panel_body').children()
             .addClass('oe_snippet')
             .each((i, el) => {
@@ -3155,50 +3558,98 @@ var SnippetsMenu = Widget.extend({
                         type: 'button',
                         text: _t("Install"),
                     }));
+=======
+        this.snippets.clear();
+        let index = 0;
+        for (const snippetsEl of html.querySelectorAll("snippets")) {
+            const category = {
+                id: snippetsEl.id,
+                text: snippetsEl.getAttribute("string"),
+                classes: [...snippetsEl.classList]
+            };
+            for (const snippetEl of snippetsEl.children) {
+                const isCustom = !!snippetEl.closest('#snippet_custom');
+                const snippet = {
+                    id: parseInt(snippetEl.dataset.oeSnippetId) || uniqueId(snippetEl.dataset.moduleId),
+                    name: snippetEl.children[0].dataset.snippet,
+                    displayName: snippetEl.getAttribute("name"),
+                    category: category,
+                    content: snippetEl.children,
+                    thumbnailSrc: escape(snippetEl.dataset.oeThumbnail),
+                    imagePreview: escape(snippetEl.dataset.oImagePreview),
+                    visible: true,
+                    baseBody: snippetEl.children[0],
+                    data: {...snippetEl.dataset, ...snippetEl.children[0].dataset},
+                    isCustom: isCustom,
+                    snippetGroup: snippetEl.dataset.oSnippetGroup,
+                    group: isCustom ? "custom" : snippetEl.dataset.oGroup,
+                    key: index++,
+                };
+
+                if (snippetEl.dataset.oSnippetGroup) {
+                    snippet.content[0].dataset.snippetGroup = snippetEl.dataset.oSnippetGroup;
                 }
 
-                // Create the rename and delete button for custom snippets
-                if (isCustomSnippet) {
-                    const btnRenameEl = document.createElement('we-button');
-                    btnRenameEl.dataset.snippetId = $snippet.data('oeSnippetId');
-                    btnRenameEl.classList.add('o_rename_btn', 'fa', 'fa-pencil', 'btn', 'o_we_hover_success');
-                    btnRenameEl.title = _t("Rename %s", name);
-                    $snippet.append(btnRenameEl);
-                    const btnEl = document.createElement('we-button');
-                    btnEl.dataset.snippetId = $snippet.data('oeSnippetId');
-                    btnEl.classList.add('o_delete_btn', 'fa', 'fa-trash', 'btn', 'o_we_hover_danger');
-                    btnEl.title = _t("Delete %s", name);
-                    $snippet.append(btnEl);
+                [...snippet.content].forEach(el => {
+                    el.classList.add("oe_snippet_body");
+                    // Associate in-page snippets to their name
+                    // TODO I am not sure this is useful anymore and it should at
+                    // least be made more robust using data-snippet
+                    let snippetClasses = el.getAttribute('class').match(/s_[^ ]+/g);
+                    if (snippetClasses && snippetClasses.length) {
+                        snippetClasses = '.' + snippetClasses.join('.');
+                    }
+                    const $els = self.$body.find(snippetClasses).not('[data-name]').add($(snippetClasses)).add(el);
+                    $els.attr('data-name', snippet.displayName).data('name', snippet.displayName);
+                });
+
+                if (snippetEl.dataset.moduleId) {
+                    snippet.moduleId = snippetEl.dataset.moduleId;
+                    snippet.installable = true;
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
                 }
-            })
-            .not('[data-module-id]');
 
-        // Enable the snippet tooltips
-        this.$snippets.tooltip({
-            trigger: 'manual',
-            placement: 'bottom',
-            title: _t("Drag and drop the building block."),
-            // Ensure the tooltips have a good position when in iframe.
-            container: this.el,
-            // Prevent horizontal scroll when tooltip is displayed.
-            boundary: this.el.ownerDocument.body,
-        });
+                if (snippet.isCustom) {
+                    snippet.renameTitle = _t("Rename %s", snippet.displayName);
+                    snippet.deleteTitle = _t("Delete %s", snippet.displayName);
+                    snippet.isRenaming = false;
+                }
 
-        // Hide scroll if no snippets defined
-        if (!this.$snippets.length) {
-            this.$el.detach();
+                this.snippets.set(snippet.key, snippet);
+            }
+            const snippets = Array.from(this.snippets.values());
+            const customSnippets = snippets.filter(snippet => {
+                return snippet.category.id === "snippet_custom";
+            });
+            for (const customSnippet of customSnippets) {
+                // The "s_button" has a numeric value added to its name when it
+                // is custom, so we need to consider this in the search.
+                const customSnippetName = /s_button_\d+/.test(customSnippet.name) ?
+                    "s_button" :
+                    customSnippet.name;
+
+                const categoryIds = snippets
+                    .filter(snippet => snippet.name === customSnippetName)
+                    .map(snippet => snippet.category.id);
+
+                customSnippet.fromCategory = categoryIds.includes("snippet_structure")
+                        && categoryIds.includes("snippet_content") ?
+                    "hybrid" : categoryIds.includes("snippet_structure") ?
+                    "structure" : categoryIds.includes("snippet_content") ?
+                    "content" : "";
+                if (customSnippet.fromCategory === "content") {
+                    customSnippet.group = "";
+                }
+            }
         }
-
         // Register the text nodes that needs to be auto-selected on click
         this._registerDefaultTexts();
 
-        // Add the computed template and make elements draggable
-        this.$el.html($html);
-        this.$el.append(this.customizePanel);
-        this.$el.append(this.invisibleDOMPanelEl);
+        // Make elements draggable
         this._makeSnippetDraggable();
         this._disableUndroppableSnippets();
 
+<<<<<<< HEAD
         this.$el.addClass('o_loaded');
         $(this.el.ownerDocument.body).toggleClass('editor_has_snippets', !this.folded);
     },
@@ -3231,6 +3682,9 @@ var SnippetsMenu = Widget.extend({
             iframeEl.removeAttribute("src");
         }
     },
+=======
+    }
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
     /**
      * Creates a snippet editor to associated to the given snippet. If the given
      * snippet already has a linked snippet editor, the function only returns
@@ -3240,9 +3694,12 @@ var SnippetsMenu = Widget.extend({
      *
      * @private
      * @param {jQuery} $snippet
+     * @param {Boolean} [forceCreate=false] To force the editor creation (e.g.,
+     * we need to create editors for invisible snippets in translate mode to be
+     * able to handle them correctly).
      * @returns {Promise<SnippetEditor>}
      */
-    _createSnippetEditor: function ($snippet) {
+    _createSnippetEditor($snippet, forceCreate = false) {
         var self = this;
         var snippetEditor = $snippet.data('snippet-editor');
         if (snippetEditor) {
@@ -3251,6 +3708,7 @@ var SnippetsMenu = Widget.extend({
 
         // In translate mode, only allow creating the editor if the target is a
         // text option snippet.
+<<<<<<< HEAD
         if (!$snippet.__force_create_editor && this.options.enableTranslation && !this._allowInTranslationMode($snippet)) {
             return Promise.resolve(null);
         }
@@ -3259,6 +3717,15 @@ var SnippetsMenu = Widget.extend({
 
         var def;
         if (this._allowParentsEditors($snippet)) {
+=======
+        if (!forceCreate && this.options.enableTranslation && !this._allowInTranslationMode($snippet)) {
+            return Promise.resolve(null);
+        }
+
+        var def;
+        const allowParentsEditors = this._allowParentsEditors($snippet);
+        if (allowParentsEditors) {
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
             var $parent = globalSelector.closest($snippet.parent());
             if ($parent.length) {
                 def = this._createSnippetEditor($parent);
@@ -3276,7 +3743,13 @@ var SnippetsMenu = Widget.extend({
             }
 
             let editableArea = self.getEditableArea();
-            snippetEditor = new SnippetEditor(parentEditor || self, $snippet, self.templateOptions, $snippet.closest('[data-oe-type="html"], .oe_structure').add(editableArea), self.options);
+            snippetEditor = new SnippetEditor(
+                parentEditor || self,
+                $snippet,
+                self.templateOptions,
+                $snippet.closest('[data-oe-type="html"], .oe_structure').add(editableArea),
+                Object.assign({}, self.options, {allowParentsEditors: allowParentsEditors})
+            );
             self.snippetEditors.push(snippetEditor);
             // Keep parent below its child inside the DOM as its `o_handle`
             // needs to be (visually) on top of the child ones.
@@ -3284,7 +3757,34 @@ var SnippetsMenu = Widget.extend({
         }).then(function () {
             return snippetEditor;
         });
-    },
+    }
+    /**
+     * jQuery find function behavior is:
+     *
+     *     $('A').find('B C') <=> $('A B C')
+     *
+     * The searches behavior to find options' DOM needs to be:
+     *
+     *     $('A').find('B C') <=> $('A B C, B A C, AB C')
+     *
+     * This is what this function does.
+     *
+     * @todo get rid of this function and use a simple querySelectorAll, which
+     *       does not have this problem. The only issue is that jQuery selectors
+     *       support more things than querySelectorAll ones but we could stop
+     *       relying on that and/or add other filtering systems.
+     * @param {jQuery} $from - the jQuery element(s) from which to search
+     * @param {string} selector - the CSS selector to match
+     * @returns {jQuery}
+     */
+    cssFind($from, selector) {
+        // No way to correctly parse a complex jQuery selector but having no
+        // spaces should be a good-enough condition to use a simple find
+        if (selector.indexOf(' ') >= 0) {
+            return $from.closest('body').find(selector).filter((i, $el) => $from.has($el).length);
+        }
+        return $from.find(selector);
+    }
     /**
      * There may be no location where some snippets might be dropped. This mades
      * them appear disabled in the menu.
@@ -3292,20 +3792,32 @@ var SnippetsMenu = Widget.extend({
      * @todo make them undraggable
      * @private
      */
-    _disableUndroppableSnippets: function () {
+    _disableUndroppableSnippets() {
         var self = this;
         var cache = {};
+<<<<<<< HEAD
         this.$snippets.each(function () {
             var $snippet = $(this);
             var $snippetBody = $snippet.find('.oe_snippet_body');
             const isSanitizeForbidden = $snippet.data('oeForbidSanitize');
+=======
+        [...this.snippets.values()].filter(snippet => !snippet.snippetGroup)
+                .forEach((snippet) => {
+            const $snippetBody = $(snippet.baseBody);
+            const isSnippetStructure = snippet.category.id === "snippet_structure";
+            const isSanitizeForbidden = snippet.data.oeForbidSanitize;
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
             const checkSanitize = isSanitizeForbidden === "form"
                 ? (el) => !el.closest('[data-oe-sanitize]:not([data-oe-sanitize="allow_form"])')
                 : isSanitizeForbidden
                     ? (el) => !el.closest('[data-oe-sanitize]')
                     : () => true;
             const isVisible = (el) => el.closest(".o_snippet_invisible")
+<<<<<<< HEAD
                 ? !(el.offsetHeight === 0 || el.offsetWidth === 0)
+=======
+                ? !el.closest("[data-invisible]")
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
                 : true;
             const canDrop = ($els) => [...$els].some((el) => checkSanitize(el) && isVisible(el));
 
@@ -3320,53 +3832,27 @@ var SnippetsMenu = Widget.extend({
                     'drop-near': option['drop-near'] ? canDrop(option['drop-near'].all()) : false,
                     'drop-in': option['drop-in'] ? canDrop(option['drop-in'].all()) : false,
                 };
-                check = (cache[k]['drop-near'] || cache[k]['drop-in']);
+
+                const hasDropNear = cache[k]['drop-near'];
+                const hasDropIn = cache[k]['drop-in'];
+                // The "isSnippetStructure" check is useful to prevent the use
+                // of groups for hybrid snippets ("s_form", "s_countdown", etc.)
+                // Without this check, for instance, the "Content" snippet group
+                // would be enabled on the login page and raise a traceback if
+                // clicked.
+                check = isSnippetStructure ? hasDropIn : hasDropNear || hasDropIn;
             });
 
-            $snippet.toggleClass('o_disabled', !check);
-            $snippet.attr('title', check ? '' : _t("No location to drop in"));
-            const $icon = $snippet.find('.o_snippet_undroppable').remove();
-            if (check) {
-                $icon.remove();
-            } else if (!$icon.length) {
-                const imgEl = document.createElement('img');
-                imgEl.classList.add('o_snippet_undroppable');
-                imgEl.src = '/web_editor/static/src/img/snippet_disabled.svg';
-                $snippet.append(imgEl);
-            }
+            snippet.disabled = !check;
         });
-    },
-    /**
-     * @private
-     * @param {string} [search]
-     */
-    _filterSnippets(search) {
-        const searchInputEl = this.el.querySelector('.o_snippet_search_filter_input');
-        const searchInputReset = this.el.querySelector('.o_snippet_search_filter_reset');
-        if (search !== undefined) {
-            searchInputEl.value = search;
-        } else {
-            search = searchInputEl.value;
-        }
-        search = search.toLowerCase();
-        searchInputReset.classList.toggle('d-none', !search);
-        const strMatches = str => !search || str.toLowerCase().includes(search);
-        for (const panelEl of this.el.querySelectorAll('.o_panel')) {
-            let hasVisibleSnippet = false;
-            const panelTitle = panelEl.querySelector('.o_panel_header').textContent;
-            const isPanelTitleMatch = strMatches(panelTitle);
-            for (const snippetEl of panelEl.querySelectorAll('.oe_snippet')) {
-                const matches = (isPanelTitleMatch
-                    || strMatches(snippetEl.getAttribute('name'))
-                    || strMatches(snippetEl.dataset.oeKeywords || ''));
-                if (matches) {
-                    hasVisibleSnippet = true;
-                }
-                snippetEl.classList.toggle('d-none', !matches);
-            }
-            panelEl.classList.toggle('d-none', !hasVisibleSnippet);
-        }
-    },
+        // Disable snippet groups that contain no enabled snippets.
+        [...this.snippets.values()].filter(snippetGroup => snippetGroup.snippetGroup)
+                .forEach((snippetGroup) => {
+            snippetGroup.disabled = ![...self.snippets.values()].some(snippet =>
+                !snippet.disabled && (snippet.group === snippetGroup.snippetGroup)
+            )
+        });
+    }
     /**
      * @private
      * @param {Object} [options={}]
@@ -3381,7 +3867,7 @@ var SnippetsMenu = Widget.extend({
             iframeWindow,
             cursor: "move",
         });
-    },
+    }
     /**
      * Creates a dropzone element and inserts it by replacing the given jQuery
      * location. This allows to add data on the dropzone depending on the hook
@@ -3396,7 +3882,7 @@ var SnippetsMenu = Widget.extend({
      *    'form': allow if forms are allowed
      *    false: always fobid
      */
-    _insertDropzone: function ($hook, vertical, style, canBeSanitizedUnless) {
+    _insertDropzone($hook, vertical, style, canBeSanitizedUnless) {
         const skip = $hook.closest('[data-oe-sanitize="no_block"]').length;
         let forbidSanitize;
         if (canBeSanitizedUnless === 'form') {
@@ -3418,7 +3904,7 @@ var SnippetsMenu = Widget.extend({
         }
         $hook.replaceWith($dropzone);
         return $dropzone;
-    },
+    }
     /**
      * Creates a dropzone taking the entire area of the row in grid mode in
      * which it will be added. It allows to place elements dragged over it
@@ -3436,7 +3922,7 @@ var SnippetsMenu = Widget.extend({
         $dropzone[0].style.minHeight = window.getComputedStyle(rowEl).height;
         $dropzone[0].style.width = window.getComputedStyle(rowEl).width;
         rowEl.append($dropzone[0]);
-    },
+    }
     /**
      * Make given snippets be draggable/droppable thanks to their thumbnail.
      *
@@ -3448,18 +3934,23 @@ var SnippetsMenu = Widget.extend({
         }
         var $toInsert, dropped, $snippet;
         let $dropZones;
+        let isSnippetGroup;
 
         let dragAndDropResolve;
         let $scrollingElement = $().getScrollingElement(this.$body[0].ownerDocument);
-        if (!$scrollingElement[0] || $scrollingElement.find('body.o_in_iframe').length) {
+        if (!$scrollingElement[0]) {
             $scrollingElement = $(this.ownerDocument).find('.o_editable');
+        }
+        const oNotebook = this.ownerDocument.querySelector(".o_notebook");
+        if (oNotebook) {
+            $scrollingElement = $(oNotebook);
         }
 
         const dragAndDropOptions = this.options.getDragAndDropOptions({
-            el: this.$el[0],
-            elements: ".oe_snippet",
+            el: this.snippetsAreaRef.el,
+            elements: ".oe_snippet.o_we_draggable",
             scrollingElement: $scrollingElement[0],
-            handle: '.oe_snippet_thumbnail:not(.o_we_already_dragging)',
+            handle: '.oe_snippet_thumbnail:not(.o_we_ongoing_insertion)',
             cancel: '.oe_snippet.o_disabled',
             dropzones: () => {
                 return $dropZones.toArray();
@@ -3471,9 +3962,10 @@ var SnippetsMenu = Widget.extend({
                 );
                 dragSnip.style.position = "fixed";
                 this.$el[0].ownerDocument.body.append(dragSnip);
-                // Prepare the offset of the helper to be at the position it was dragged from
-                helperOffset.x = x - elementRect.x;
-                helperOffset.y = y - elementRect.y;
+                // Prepare the offset of the helper to be centered on the thumbnail image.
+                const thumbnailImgEl = element.querySelector(".oe_snippet_thumbnail_img");
+                helperOffset.x = thumbnailImgEl.offsetWidth / 2;
+                helperOffset.y = thumbnailImgEl.offsetHeight / 2;
                 return dragSnip;
             },
             onDragStart: ({ element }) => {
@@ -3487,40 +3979,21 @@ var SnippetsMenu = Widget.extend({
 
                 this.options.wysiwyg.odooEditor.automaticStepUnactive();
 
-                this.$el.find('.oe_snippet_thumbnail').addClass('o_we_already_dragging');
+                this.$el.find('.oe_snippet_thumbnail').addClass('o_we_ongoing_insertion');
                 this.options.wysiwyg.odooEditor.observerUnactive('dragAndDropCreateSnippet');
 
                 dropped = false;
-                $snippet = $(element);
-                var $baseBody = $snippet.find('.oe_snippet_body');
-                var $selectorSiblings = $();
-                var $selectorChildren = $();
-                const selectorExcludeAncestor = [];
-                var temp = this.templateOptions;
-                for (var k in temp) {
-                    if ($baseBody.is(temp[k].base_selector) && !$baseBody.is(temp[k].base_exclude)) {
-                        if (temp[k]['drop-near']) {
-                            $selectorSiblings = $selectorSiblings.add(temp[k]['drop-near'].all());
-                        }
-                        if (temp[k]['drop-in']) {
-                            $selectorChildren = $selectorChildren.add(temp[k]['drop-in'].all());
-                        }
-                        if (temp[k]['drop-exclude-ancestor']) {
-                            selectorExcludeAncestor.push(temp[k]['drop-exclude-ancestor']);
-                        }
-                    }
-                }
+                const snippetKey = element.closest('.oe_snippet').dataset.snippetKey;
+                const snippet = this.snippets.get(parseInt(snippetKey));
+                $snippet = $(element).closest('.oe_snippet');
 
-                // Prevent dropping an element into another one.
-                // (E.g. ToC inside another ToC)
-                for (const excludedAncestorSelector of selectorExcludeAncestor) {
-                    $selectorSiblings = $selectorSiblings.filter((i, el) => !el.closest(excludedAncestorSelector));
-                    $selectorChildren = $selectorChildren.filter((i, el) => !el.closest(excludedAncestorSelector));
-                }
+                const $baseBody = $(snippet.baseBody);
+                const { $selectorSiblings, $selectorChildren } = this._getSelectors($baseBody);
 
                 $toInsert = $baseBody.clone();
+                isSnippetGroup = $toInsert[0].matches(".s_snippet_group");
                 // Color-customize dynamic SVGs in dropped snippets with current theme colors.
-                [...$toInsert.find('img[src^="/web_editor/shape/"]')].forEach(dynamicSvg => {
+                [...$toInsert.find('img[src^="/html_editor/shape/"], img[src^="/web_editor/shape/"]')].forEach(dynamicSvg => {
                     const colorCustomizedURL = new URL(dynamicSvg.getAttribute('src'), window.location.origin);
                     colorCustomizedURL.searchParams.forEach((value, key) => {
                         const match = key.match(/^c([1-5])$/);
@@ -3544,13 +4017,20 @@ var SnippetsMenu = Widget.extend({
                     return;
                 }
 
-                const forbidSanitize = $snippet.data('oeForbidSanitize');
+                const forbidSanitize = snippet.data.oeForbidSanitize;
                 const canBeSanitizedUnless = forbidSanitize === 'form' ? 'form' : !forbidSanitize;
                 // Specific case for inline snippet (e.g. "s_badge")
-                    $baseBody[0].classList.remove("oe_snippet_body");
-                    const toInsertInline = window.getComputedStyle($baseBody[0]).display.includes('inline');
-                    $baseBody[0].classList.add("oe_snippet_body");
-                    this._activateInsertionZones($selectorSiblings, $selectorChildren, canBeSanitizedUnless, toInsertInline);
+                // Add the Snippet to the page to quickly compute its display
+                // properties (e.g. inline or not)
+                this.$body[0].appendChild($toInsert[0]);
+                $toInsert[0].classList.remove("oe_snippet_body");
+                const toInsertInline = window.getComputedStyle($toInsert[0]).display.includes('inline');
+                if (!isSnippetGroup) {
+                    $toInsert[0].classList.add("oe_snippet_body");
+                }
+                $toInsert[0].remove();
+
+                this._activateInsertionZones($selectorSiblings, $selectorChildren, canBeSanitizedUnless, toInsertInline);
                 $dropZones = this.getEditableArea().find('.oe_drop_zone');
                 if (forbidSanitize === 'form') {
                     $dropZones = $dropZones.filter((i, el) => !el.closest('[data-oe-sanitize]:not([data-oe-sanitize="allow_form"]) .oe_drop_zone'));
@@ -3563,9 +4043,13 @@ var SnippetsMenu = Widget.extend({
                     this.draggableComponent.update({ scrollingElement: $openModal[0]});
                     $scrollingElement = $openModal;
                 }
-                this.trigger_up('drop_zone_start');
+                this._onDropZoneStart();
             },
             dropzoneOver: ({ dropzone }) => {
+                if (isSnippetGroup) {
+                    dropzone.el.classList.add("o_dropzone_highlighted");
+                    return;
+                }
                 if (dropped) {
                     $toInsert.detach();
                     $toInsert.addClass('oe_snippet_body');
@@ -3575,9 +4059,13 @@ var SnippetsMenu = Widget.extend({
                 dropped = true;
                 $(dropzone.el).first().after($toInsert).addClass('invisible');
                 $toInsert.removeClass('oe_snippet_body');
-                this.trigger_up('drop_zone_over');
+                this._onDropZoneOver();
             },
             dropzoneOut: ({ dropzone }) => {
+                if (isSnippetGroup) {
+                    dropzone.el.classList.remove("o_dropzone_highlighted");
+                    return;
+                }
                 var prev = $toInsert.prev();
                 if (dropzone.el === prev[0]) {
                     dropped = false;
@@ -3585,7 +4073,7 @@ var SnippetsMenu = Widget.extend({
                     $(dropzone.el).removeClass('invisible');
                     $toInsert.addClass('oe_snippet_body');
                 }
-                this.trigger_up('drop_zone_out');
+                this._onDropZoneOut();
             },
             onDragEnd: async ({ x, y, helper }) => {
                 const doc = this.options.wysiwyg.odooEditor.document;
@@ -3594,6 +4082,13 @@ var SnippetsMenu = Widget.extend({
                 this.options.wysiwyg.odooEditor.automaticStepSkipStack();
                 $toInsert.removeClass('oe_snippet_body');
                 $scrollingElement.off('scroll.scrolling_element');
+                if (isSnippetGroup) {
+                    const highlightedDropzoneEl = doc.body.querySelector(".o_dropzone_highlighted");
+                    if (highlightedDropzoneEl) {
+                        highlightedDropzoneEl.insertAdjacentElement('afterend', $toInsert[0]);
+                        dropped = true;
+                    }
+                }
                 if (!dropped && y > 3 && x + helper.getBoundingClientRect().height < this.el.getBoundingClientRect().left) {
                     const point = { x, y };
                     let droppedOnNotNearest = touching(doc.body.querySelectorAll('.oe_structure_not_nearest'), point);
@@ -3636,6 +4131,7 @@ var SnippetsMenu = Widget.extend({
                     }
 
                     var $target = $toInsert;
+<<<<<<< HEAD
                     this._updateDroppedSnippet($target);
 
                     this.options.wysiwyg.odooEditor.observerUnactive('dragAndDropCreateSnippet');
@@ -3657,18 +4153,84 @@ var SnippetsMenu = Widget.extend({
                         };
                         await this.callPostSnippetDrop($target);
                     });
+=======
+
+                    this._updateDroppedSnippet($target);
+
+                    const isSnippetGroup = $target[0].matches(".s_snippet_group");
+                    if (!isSnippetGroup) {
+                        this.options.wysiwyg.odooEditor.observerUnactive('dragAndDropCreateSnippet');
+                        await this._scrollToSnippet($target, this.$scrollable);
+                        this.options.wysiwyg.odooEditor.observerActive('dragAndDropCreateSnippet');
+                        browser.setTimeout(async () => {
+                            // Free the mutex now to allow following operations
+                            // (mutexed as well).
+                            dragAndDropResolve();
+
+                            await this.callPostSnippetDrop($target, () => {
+                                // Restore editor to its normal edition state, also
+                                // make sure the undroppable snippets are updated.
+                                this._disableUndroppableSnippets();
+                                this.options.wysiwyg.odooEditor.unbreakableStepUnactive();
+                                this.options.wysiwyg.odooEditor.historyStep();
+                                this.$el.find('.oe_snippet_thumbnail').removeClass('o_we_ongoing_insertion');
+                            });
+                        });
+                    } else {
+                        dragAndDropResolve();
+                        this._openAddSnippetDialog($target[0].dataset.snippetGroup, $target[0]);
+                    }
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
                 } else {
                     $toInsert.remove();
                     if (dragAndDropResolve) {
                         dragAndDropResolve();
                     }
-                    this.$el.find('.oe_snippet_thumbnail').removeClass('o_we_already_dragging');
+                    this.$el.find('.oe_snippet_thumbnail').removeClass('o_we_ongoing_insertion');
                 }
-                this.trigger_up('drop_zone_stop');
+                this._onDropZoneStop();
             },
         });
         this.draggableComponent = useDragAndDrop({ ref: { el: this.el }, ...dragAndDropOptions });
-    },
+    }
+    /**
+     * Gets the selectors that determine where the snippet can be placed.
+     *
+     * @private
+     * @param {jQuery} $baseBody
+     * @return {Object} selectors
+     */
+    _getSelectors($baseBody) {
+        let $selectorSiblings = $();
+        let $selectorChildren = $();
+        const selectorExcludeAncestor = [];
+        var temp = this.templateOptions;
+        for (const k in temp) {
+            if ($baseBody.is(temp[k].base_selector) && !$baseBody.is(temp[k].base_exclude)) {
+                if (temp[k]['drop-near']) {
+                    $selectorSiblings = $selectorSiblings.add(temp[k]['drop-near'].all());
+                }
+                if (temp[k]['drop-in']) {
+                    $selectorChildren = $selectorChildren.add(temp[k]['drop-in'].all());
+                }
+                if (temp[k]['drop-exclude-ancestor']) {
+                    selectorExcludeAncestor.push(temp[k]['drop-exclude-ancestor']);
+                }
+            }
+        }
+
+        // Prevent dropping an element into another one.
+        // (E.g. ToC inside another ToC)
+        for (const excludedAncestorSelector of selectorExcludeAncestor) {
+            $selectorSiblings = $selectorSiblings.filter((i, el) => !el.closest(excludedAncestorSelector));
+            $selectorChildren = $selectorChildren.filter((i, el) => !el.closest(excludedAncestorSelector));
+        }
+
+        return {
+            $selectorSiblings: $selectorSiblings,
+            $selectorChildren: $selectorChildren,
+        };
+    }
     /**
      * Adds the 'o_default_snippet_text' class on nodes which contain only
      * non-empty text nodes. Those nodes are then auto-selected by the editor
@@ -3678,12 +4240,19 @@ var SnippetsMenu = Widget.extend({
      * @param {jQuery} [$in] - the element in which to search, default to the
      *                       snippet bodies in the menu
      */
-    _registerDefaultTexts: function ($in) {
+    _registerDefaultTexts($in) {
         if ($in === undefined) {
             // By default, we don't want the `o_default_snippet_text` class on
             // custom snippets. Those are most likely already ready, we don't
             // really need the auto-selection by the editor.
+<<<<<<< HEAD
             $in = this.$snippets.find('.oe_snippet_body:not(.s_custom_snippet)');
+=======
+            const snippets = [...this.snippets.values()]
+                .filter((snippet) => !snippet.isCustom)
+                .map((snippet) => snippet.baseBody);
+            $in = $(snippets);
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
         }
 
         $in.find('*').addBack()
@@ -3691,7 +4260,7 @@ var SnippetsMenu = Widget.extend({
             .filter(function () {
                 return this.nodeType === 3 && this.textContent.match(/\S/);
             }).parent().addClass('o_default_snippet_text');
-    },
+    }
     /**
      * Changes the content of the left panel and selects a tab.
      *
@@ -3700,39 +4269,47 @@ var SnippetsMenu = Widget.extend({
      * the new content of the customizePanel
      * @param {this.tabs.VALUE} [tab='blocks'] - the tab to select
      */
-    _updateRightPanelContent: function ({content, tab, ...options}) {
+    _updateRightPanelContent({content, tab, ...options}) {
         this._hideTooltips();
         this._closeWidgets();
 
         // In translation mode, only the options tab is available.
         if (this.options.enableTranslation) {
+<<<<<<< HEAD
             tab = this.tabs.OPTIONS;
         }
 
         this._currentTab = tab || this.tabs.BLOCKS;
+=======
+            tab = SnippetsMenu.tabs.OPTIONS;
+        }
+
+        this.state.currentTab = tab || SnippetsMenu.tabs.BLOCKS;
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
         if (this._$toolbarContainer) {
             this._$toolbarContainer[0].remove();
         }
+        this.state.showToolbar = false;
         this._$toolbarContainer = null;
         if (content) {
-            while (this.customizePanel.firstChild) {
+            // The toolbar component will be hidden or shown by state.showToolbar
+            // as it is an OWL Component, OWL is in charge of the HTML for that
+            // component. So we do not want to remove it.
+            // TODO: This should be improved when SnippetEditor / SnippetOptions
+            // are converted to OWL.
+            while (this.customizePanel.firstChild?.id !== "o_we_editor_toolbar_container") {
                 this.customizePanel.removeChild(this.customizePanel.firstChild);
             }
-            $(this.customizePanel).append(content);
-            if (this._currentTab === this.tabs.OPTIONS && !options.forceEmptyTab) {
+            $(this.customizePanel).prepend(content);
+            if (this.state.currentTab === this.tabs.OPTIONS && !options.forceEmptyTab) {
                 this._addToolbar();
             }
         }
-
-        this.$('.o_snippet_search_filter').toggleClass('d-none', this._currentTab !== this.tabs.BLOCKS);
-        this.$('#o_scroll').toggleClass('d-none', this._currentTab !== this.tabs.BLOCKS);
-        this.customizePanel.classList.toggle('d-none', this._currentTab === this.tabs.BLOCKS);
-        // Remove active class of custom button (e.g. mass mailing theme selection).
-        this.$('#snippets_menu button').removeClass('active');
-        this.$('.o_we_add_snippet_btn').toggleClass('active', this._currentTab === this.tabs.BLOCKS);
-        this.$('.o_we_customize_snippet_btn').toggleClass('active', this._currentTab === this.tabs.OPTIONS);
-    },
+        if (options.forceEmptyTab) {
+            this.state.showToolbar = false;
+        }
+    }
     /**
      * Scrolls to given snippet.
      *
@@ -3748,8 +4325,9 @@ var SnippetsMenu = Widget.extend({
         if (modalEl && !$(modalEl).hasScrollableContent()) {
             return;
         }
-        return dom.scrollTo($el[0], {extraOffset: 50, $scrollable: $scrollable});
-    },
+        const scrollable = $scrollable?.get(0);
+        return scrollTo($el[0], {extraOffset: 50, scrollable: scrollable});
+    }
     /**
      * @private
      * @returns {HTMLElement}
@@ -3767,7 +4345,7 @@ var SnippetsMenu = Widget.extend({
         loader.setAttribute('src', '/web/static/img/spin.svg');
         loaderContainer.appendChild(loader);
         return loaderContainer;
-    },
+    }
     /**
      * Adds the action to the mutex queue and sets a loading effect over the
      * editor to appear if the action takes too much time.
@@ -3775,11 +4353,21 @@ var SnippetsMenu = Widget.extend({
      *
      * @private
      * @param {function} action
-     * @param {boolean} [contentLoading=true]
+     * @param {boolean|string} [contentLoading=true]
+     *     - true: puts the load effect on the edited page
+     *     - false: puts the load effect on the editor options
+     *     - "both": puts the load effect on both the page and the options
      * @param {number} [delay=500]
      * @returns {Promise}
      */
     async _execWithLoadingEffect(action, contentLoading = true, delay = 500) {
+        if (contentLoading === "both") {
+            contentLoading = false;
+            const actualAction = action;
+            action = () => {
+                this._execWithLoadingEffect(actualAction, true, delay);
+            };
+        }
         const mutexExecResult = this._mutex.exec(action);
         if (!this.loadingTimers[contentLoading]) {
             const addLoader = () => {
@@ -3816,7 +4404,7 @@ var SnippetsMenu = Widget.extend({
             });
         }
         return mutexExecResult;
-    },
+    }
     /**
      * Update the options pannel as being empty.
      *
@@ -3832,7 +4420,7 @@ var SnippetsMenu = Widget.extend({
             tab: this.tabs.OPTIONS,
             forceEmptyTab: true,
         });
-    },
+    }
     /**
      * Hides the active tooltips.
      *
@@ -3856,7 +4444,7 @@ var SnippetsMenu = Widget.extend({
         for (const el of tooltipTargetEls) {
             Tooltip.getInstance(el)?.hide();
         }
-    },
+    }
     /**
      * Returns whether the edited content is a mobile view content.
      *
@@ -3864,20 +4452,67 @@ var SnippetsMenu = Widget.extend({
      */
     _isMobile() {
         return weUtils.isMobileView(this.$body[0]);
+<<<<<<< HEAD
     },
+=======
+    }
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
     /**
      * @private
      */
     _allowParentsEditors($snippet) {
+<<<<<<< HEAD
         return !this.options.enableTranslation
             && !$snippet[0].classList.contains("o_no_parent_editor");
     },
+=======
+        return !this.options.enableTranslation;
+    }
+    /**
+     * When the editor panel receives a notification indicating that an option
+     * was used, the panel is in charge of asking for an UI update of the whole
+     * panel. Logically, the options are displayed so that an option above
+     * may influence the status and visibility of an option which is below;
+     * e.g.:
+     * - the user sets a badge type to 'info'
+     *      -> the badge background option (below) is shown as blue
+     * - the user adds a shadow
+     *      -> more options are shown afterwards to control it (not above)
+     *
+     * Technically we however update the whole editor panel (parent and child
+     * options) wherever the updates comes from. The only important thing is
+     * to first update the options UI then their visibility as their visibility
+     * may depend on their UI status.
+     *
+     * @private
+     * @returns {Promise}
+     */
+    async _snippetOptionUpdate() {
+        // Only update editors whose DOM target is still inside the document
+        // as a top option may have removed currently-enabled child items.
+        const editors = this._enabledEditorHierarchy.filter(editor => !!editor.$target[0].closest('body'));
+
+        await Promise.all(editors.map(editor => editor.updateOptionsUI()));
+        await Promise.all(editors.map(editor => editor.updateOptionsUIVisibility()));
+
+        // Always enable the deepest editor whose DOM target is still inside
+        // the document.
+        if (editors[0] !== this._enabledEditorHierarchy[0]) {
+            // No awaiting this as the mutex is currently locked here.
+            this._activateSnippet(editors[0].$target);
+        }
+    }
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
     /**
      * @private
      */
     _allowInTranslationMode($snippet) {
         return globalSelector.is($snippet, { onlyTextOptions: true });
+<<<<<<< HEAD
     },
+=======
+    }
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
     /**
      * Allows to update the snippets to build & adapt dynamic content right
      * after adding it to the DOM.
@@ -3894,7 +4529,11 @@ var SnippetsMenu = Widget.extend({
             delete $target[0].dataset.snippet;
             delete $target[0].dataset.name;
         }
+<<<<<<< HEAD
     },
+=======
+    }
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
     //--------------------------------------------------------------------------
     // Handlers
@@ -3935,37 +4574,43 @@ var SnippetsMenu = Widget.extend({
             return;
         }
         const $oeStructure = $target.closest('.oe_structure');
-        if ($oeStructure.length && !$oeStructure.children().length && this.$snippets) {
+        if ($oeStructure.length && !$oeStructure.children().length && this.snippets.size > 0) {
             // If empty oe_structure, encourage using snippets in there by
             // making them "wizz" in the panel.
             this._activateSnippet(false).then(() => {
-                this.$snippets.odooBounce();
+                this.$el.find('.oe_snippet').odooBounce();
             });
             return;
         }
         this._activateSnippet($target);
-    },
+    }
     /**
      * Called when a child editor asks for insertion zones to be enabled.
      *
      * @private
      * @param {OdooEvent} ev
      */
+<<<<<<< HEAD
     _onActivateInsertionZones: function (ev) {
         this._activateInsertionZones(ev.data.$selectorSiblings, ev.data.$selectorChildren, ev.data.canBeSanitizedUnless, ev.data.toInsertInline, ev.data.selectorGrids, ev.data.fromIframe);
     },
+=======
+    _onActivateInsertionZones(ev) {
+        this._activateInsertionZones(ev.data.$selectorSiblings, ev.data.$selectorChildren, ev.data.canBeSanitizedUnless, ev.data.toInsertInline, ev.data.selectorGrids, ev.data.fromIframe);
+    }
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
     /**
      * Called when a child editor asks to deactivate the current snippet
      * overlay.
      *
      * @private
      */
-    _onActivateSnippet: function (ev) {
+    _onActivateSnippet(ev) {
         const prom = this._activateSnippet(ev.data.$snippet, ev.data.previewMode, ev.data.ifInactiveOptions);
         if (ev.data.onSuccess) {
             prom.then(() => ev.data.onSuccess());
         }
-    },
+    }
     /**
      * Called when a child editor asks to operate some operation on all child
      * snippet of a DOM element.
@@ -3973,24 +4618,24 @@ var SnippetsMenu = Widget.extend({
      * @private
      * @param {OdooEvent} ev
      */
-    _onCallForEachChildSnippet: function (ev) {
+    _onCallForEachChildSnippet(ev) {
         this._callForEachChildSnippet(ev.data.$snippet, ev.data.callback)
             .then(() => ev.data.onSuccess());
-    },
+    }
     /**
      * Called when the overlay dimensions/positions should be recomputed.
      *
      * @private
      * @param {OdooEvent} ev
      */
-    _onOverlaysCoverUpdate: function (ev) {
+    _onOverlaysCoverUpdate(ev) {
         this.snippetEditors.forEach(editor => {
             if (ev.data.overlayVisible) {
                 editor.toggleOverlayVisibility(true);
             }
             editor.cover();
         });
-    },
+    }
     /**
      * Called when a child editor asks to clone a snippet, allows to correctly
      * call the _onClone methods if the element's editor has one.
@@ -3998,14 +4643,14 @@ var SnippetsMenu = Widget.extend({
      * @private
      * @param {OdooEvent} ev
      */
-    _onCloneSnippet: async function (ev) {
+    async _onCloneSnippet(ev) {
         ev.stopPropagation();
         const editor = await this._createSnippetEditor(ev.data.$snippet);
         await editor.clone();
         if (ev.data.onSuccess) {
             ev.data.onSuccess();
         }
-    },
+    }
     /**
      * Called when a child editor asks to clean the UI of a snippet.
      *
@@ -4019,31 +4664,31 @@ var SnippetsMenu = Widget.extend({
         Promise.all(targetEditors.map(editor => editor.cleanUI())).then(() => {
             ev.data.onSuccess();
         });
-    },
+    }
     /**
      * Called when a child editor asks to deactivate the current snippet
      * overlay.
      *
      * @private
      */
-    _onDeactivateSnippet: function () {
+    _onDeactivateSnippet() {
         this._activateSnippet(false);
-    },
+    }
     /**
     * Called when a snippet will move in the page.
     *
     * @private
     */
-   _onSnippetDragAndDropStart: function () {
+   _onSnippetDragAndDropStart() {
         this.snippetEditorDragging = true;
-    },
+    }
     /**
      * Called when a snippet has moved in the page.
      *
      * @private
      * @param {OdooEvent} ev
      */
-    _onSnippetDragAndDropStop: async function (ev) {
+    async _onSnippetDragAndDropStop(ev) {
         this.snippetEditorDragging = false;
         const visibleConditionalEls = [];
         for (const snippetEditor of this.snippetEditors) {
@@ -4072,7 +4717,7 @@ var SnippetsMenu = Widget.extend({
         // Update the "Invisible Elements" panel as the order of invisible
         // snippets could have changed on the page.
         await this._updateInvisibleDOM();
-    },
+    }
     /**
      * Transforms an event coming from a touch screen into a mouse event.
      *
@@ -4100,7 +4745,7 @@ var SnippetsMenu = Widget.extend({
             cancelable: true,
         });
         touch.target.dispatchEvent(simulatedEvent);
-    },
+    }
     /**
      * Returns the droppable snippet from which a dropped snippet originates.
      *
@@ -4108,26 +4753,39 @@ var SnippetsMenu = Widget.extend({
      * @param {OdooEvent} ev
      */
     _onFindSnippetTemplate(ev) {
-        this.$snippets.each(function () {
-            const snippetBody = this.querySelector(`.oe_snippet_body[data-snippet=${ev.data.snippet.dataset.snippet}]`);
-            if (snippetBody) {
-                ev.data.callback(snippetBody.parentElement);
-                return false;
-            }
+        const snippet = [...this.snippets.values()].find((snippet) => {
+            return snippet.name === ev.data.snippet.dataset.snippet;
         });
-    },
+        if (snippet) {
+            ev.data.callback(snippet);
+        }
+    }
     /**
      * @private
      */
-    _onHideOverlay: function () {
+    _onHideOverlay() {
         for (const editor of this.snippetEditors) {
             editor.toggleOverlay(false);
         }
-    },
+    }
+    /**
+     * Calls back if the specified element is selected.
+     *
+     * @private
+     * @param {OdooEvent} ev
+     */
+    _onIsElementSelected(ev) {
+        for (const editor of this.snippetEditors) {
+            if (editor.isShown() && editor.$target[0] === ev.data.el) {
+                ev.data.callback();
+            }
+        }
+    }
     /**
      * @private
      * @param {Event} ev
      */
+<<<<<<< HEAD
     _onInstallBtnClick: function (ev) {
         var $snippet = $(ev.currentTarget).closest('[data-module-id]');
         var moduleID = $snippet.data('moduleId');
@@ -4162,10 +4820,19 @@ var SnippetsMenu = Widget.extend({
             cancel: () => {},
         });
     },
+=======
+    _onInstallBtnClick(ev) {
+        const snippetEl = ev.currentTarget.closest('[data-module-id]');
+        const moduleID = parseInt(snippetEl.dataset.moduleId);
+        const snippetName = snippetEl.getAttribute("name");
+        this._installModule(moduleID, snippetName);
+    }
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
     /**
      * @private
      * @param {Event} ev
      */
+<<<<<<< HEAD
     _onInvisibleEntryClick: async function (ev) {
         ev.preventDefault();
         const $snippet = $(this.invisibleDOMMap.get(ev.currentTarget));
@@ -4181,30 +4848,57 @@ var SnippetsMenu = Widget.extend({
             .toggleClass('fa-eye-slash', !isVisible);
         return this._activateSnippet(isVisible ? $snippet : false);
     },
+=======
+    async onInvisibleEntryClick(invisibleEntry) {
+        const toggleVisibility = async (snippetEl) => {
+            const isVisible = await this._execWithLoadingEffect(async () => {
+                const editor = await this._createSnippetEditor($(snippetEl));
+                const show = editor.toggleTargetVisibility();
+                this._disableUndroppableSnippets();
+                return show;
+            }, true);
+            invisibleEntry.isVisible = isVisible;
+            this._activateSnippet(isVisible ? $(snippetEl) : false);
+        };
+
+        // Toggle all its descendants to invisible (Hide)
+        if (invisibleEntry.isVisible) {
+            invisibleEntry.children.forEach((child) => {
+                if (child.isVisible) {
+                    this.onInvisibleEntryClick(child);
+                }
+            });
+        } else if (invisibleEntry.parents && !invisibleEntry.parents.isVisible) {
+            // Toggle all its parents to visible (show)
+            this.onInvisibleEntryClick(invisibleEntry.parents);
+        }
+
+        await toggleVisibility(invisibleEntry.snippetEl);
+    }
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
     /**
      * @private
      */
-    _onBlocksTabClick: function (ev) {
+    _onBlocksTabClick(ev) {
         this._activateSnippet(false);
-    },
+    }
     /**
      * @private
      */
-    _onOptionsTabClick: function (ev) {
+    _onOptionsTabClick(ev) {
         if (!ev.currentTarget.classList.contains('active')) {
             this._activateSnippet(false);
             this._mutex.exec(() => {
                 this._activateEmptyOptionsTab();
             });
         }
-    },
+    }
     /**
      * @private
      */
-    _onDeleteBtnClick: function (ev) {
-        const $snippet = $(ev.target).closest('.oe_snippet');
-        const snippetId = parseInt(ev.currentTarget.dataset.snippetId);
+    _onDeleteBtnClick(ev) {
         ev.stopPropagation();
+<<<<<<< HEAD
         const message = _t("Are you sure you want to delete the snippet %s?", $snippet[0].getAttribute("name"));
         this.dialog.add(ConfirmationDialog, {
             body: message,
@@ -4260,13 +4954,35 @@ var SnippetsMenu = Widget.extend({
             await this._loadSnippetsTemplates(false);
         });
     },
+=======
+        const snippetKey = parseInt(ev.currentTarget.dataset.snippetKey);
+        this._deleteCustomSnippet(snippetKey);
+    }
+    /**
+     * @private
+     */
+    _onRenameBtnClick(ev) {
+        const snippetKey = parseInt(ev.currentTarget.dataset.snippetKey);
+        const snippet = this.snippets.get(snippetKey);
+        snippet.renaming = true;
+    }
+    /**
+     * @private
+     */
+    async _onConfirmRename(ev) {
+        const input = ev.target.parentElement.querySelector("input");
+        const snippetKey = parseInt(ev.target.closest(".oe_snippet").dataset.snippetKey);
+        const newName = input.value;
+        this._renameCustomSnippet(snippetKey, newName);
+    }
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
     /**
      * Prevents pointer-events to change the focus when a pointer slide from
      * left-panel to the editable area.
      *
      * @private
      */
-    _onMouseDown: function (ev) {
+    _onMouseDown(ev) {
         const $blockedArea = $('#wrapwrap'); // TODO should get that element another way
         this.options.wysiwyg.odooEditor.automaticStepSkipStack();
         $blockedArea.addClass('o_we_no_pointer_events');
@@ -4281,17 +4997,22 @@ var SnippetsMenu = Widget.extend({
             clearTimeout(enableTimeoutID);
             reenable();
         });
-    },
+    }
     /**
      * @private
      */
     _onMouseUp(ev) {
         const snippetEl = ev.target.closest('.oe_snippet');
+<<<<<<< HEAD
         if (snippetEl && !snippetEl.querySelector(".o_we_already_dragging")
                     && !ev.target.matches(".o_rename_btn")) {
             this._showSnippetTooltip($(snippetEl));
+=======
+        if (snippetEl && snippetEl.classList.contains("o_we_draggable")) {
+            this._showSnippetTooltip(snippetEl);
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
         }
-    },
+    }
     /**
      * Displays an autofading tooltip over a snippet, after a delay.
      * If in the meantime the user has started to drag the snippet, it won't be
@@ -4303,11 +5024,18 @@ var SnippetsMenu = Widget.extend({
      * @param {jQuery} $snippet
      * @param {Number} [delay=1500]
      */
-    _showSnippetTooltip($snippet, delay = 1500) {
-        this.$snippets.not($snippet).tooltip('hide');
-        $snippet.tooltip('show');
+    _showSnippetTooltip(snippetEl, delay = 1500) {
+        if (snippetEl.dataset.snippetGroup || snippetEl.classList.contains("o_snippet_install")) {
+            return;
+        }
+        if (this.hideShownTooltip) {
+            this.hideShownTooltip();
+        }
+        this.hideShownTooltip = this.popover.add(snippetEl, OdooTooltip, {
+            tooltip: _t("Drag and drop the building block."),
+        });
         this._hideSnippetTooltips(1500);
-    },
+    }
     /**
      * @private
      * @param {Number} [delay=0]
@@ -4315,21 +5043,21 @@ var SnippetsMenu = Widget.extend({
     _hideSnippetTooltips(delay = 0) {
         clearTimeout(this.__hideSnippetTooltipTimeout);
         this.__hideSnippetTooltipTimeout = setTimeout(() => {
-            this.$snippets.tooltip('hide');
+            this.hideShownTooltip?.();
         }, delay);
-    },
+    }
     /**
      * @private
      * @param {OdooEvent} ev
      */
-    _onGetSnippetVersions: function (ev) {
-        const snippet = this.el.querySelector(`.oe_snippet > [data-snippet="${ev.data.snippetName}"]`);
+    _onGetSnippetVersions(ev) {
+        const snippet = [...this.snippets.values()].find((snippet) => snippet.name === ev.data.snippetName);
         ev.data.onSuccess(snippet && {
-            vcss: snippet.dataset.vcss,
-            vjs: snippet.dataset.vjs,
-            vxml: snippet.dataset.vxml,
+            vcss: snippet.data.vcss,
+            vjs: snippet.data.vjs,
+            vxml: snippet.data.vxml,
         });
-    },
+    }
     /**
      * UNUSED: used to be called when saving a custom snippet. We now save and
      * reload the page when saving a custom snippet so that all the DOM cleanup
@@ -4339,42 +5067,44 @@ var SnippetsMenu = Widget.extend({
      *
      * @private
      */
-    _onReloadSnippetTemplate: async function (ev) {
+    async _onReloadSnippetTemplate(ev) {
         await this._activateSnippet(false);
-        await this._loadSnippetsTemplates(true);
-    },
+        this.invalidateSnippetCache = true;
+        await this._loadSnippetsTemplates();
+    }
     /**
      * @private
      */
-    _onBlockPreviewOverlays: function (ev) {
+    _onBlockPreviewOverlays(ev) {
         this._blockPreviewOverlays = true;
-    },
+    }
     /**
      * @private
      */
-    _onUnblockPreviewOverlays: function (ev) {
+    _onUnblockPreviewOverlays(ev) {
         this._blockPreviewOverlays = false;
-    },
+    }
     /**
      * @private
      * @param {OdooEvent} ev
      */
-    _onRemoveSnippet: async function (ev) {
+    async _onRemoveSnippet(ev) {
         ev.stopPropagation();
         const editor = await this._createSnippetEditor(ev.data.$snippet);
         await editor.removeSnippet(ev.data.shouldRecordUndo);
         if (ev.data.onSuccess) {
             ev.data.onSuccess();
         }
-    },
+    }
     /**
      * Saving will destroy all editors since they need to clean their DOM.
      * This has thus to be done when they are all finished doing their work.
      *
      * @private
      */
-    _onSaveRequest: function (ev) {
+    _onSaveRequest(ev) {
         const data = ev.data || {};
+<<<<<<< HEAD
         if (ev.target === this && !data._toMutex) {
             return;
         }
@@ -4383,6 +5113,17 @@ var SnippetsMenu = Widget.extend({
         this._buttonClick(async (after) => {
             await this.postSnippetDropPromise;
             return this._execWithLoadingEffect(async () => {
+=======
+        if (data.invalidateSnippetCache) {
+            this.invalidateSnippetCache = true;
+        }
+        // If it's an OdooEvent sent by sub-widgets, we prevent the event
+        // from triggering the request on the parent.
+        ev.stopped = true;
+        this._buttonClick(async (after) => {
+            await this.postSnippetDropPromise;
+            return this._execWithLoadingEffect(() => {
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
                 const oldOnFailure = data.onFailure;
                 data.onFailure = () => {
                     if (oldOnFailure) {
@@ -4390,30 +5131,44 @@ var SnippetsMenu = Widget.extend({
                     }
                     after();
                 };
+<<<<<<< HEAD
                 this.trigger_up('request_save', data);
             }, true);
         }, this.$el[0].querySelector('button[data-action=save]'));
     },
+=======
+                this.props.trigger_up({
+                    name: 'request_save',
+                    data
+                });
+            }, true);
+        }, this.$el[0].querySelector('button[data-action=save]'));
+    }
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
     /**
      * @private
      */
-    _onSnippetClick() {
-        const $els = this.getEditableArea().find('.oe_structure.oe_empty').addBack('.oe_structure.oe_empty');
-        for (const el of $els) {
-            if (!el.children.length) {
-                $(el).odooBounce('o_we_snippet_area_animation');
+    _onSnippetClick(ev) {
+        if (!ev.currentTarget.matches(".o_disabled") && ev.currentTarget.dataset.snippetGroup) {
+            this._openAddSnippetDialog(ev.currentTarget.dataset.snippetGroup, ev.currentTarget);
+        } else {
+            const $els = this.getEditableArea().find('.oe_structure.oe_empty').addBack('.oe_structure.oe_empty');
+            for (const el of $els) {
+                if (!el.children.length) {
+                    $(el).odooBounce('o_we_snippet_area_animation');
+                }
             }
         }
-    },
+    }
     /**
      * @private
      * @param {OdooEvent} ev
      * @param {Object} ev.data
      * @param {function} ev.data.exec
      */
-    _onSnippetEditionRequest: function (ev) {
-        this._execWithLoadingEffect(ev.data.exec, true);
-    },
+    _onSnippetEditionRequest(ev) {
+        this._execWithLoadingEffect(ev.data.exec, ev.data.optionsLoader ? "both" : true);
+    }
     /**
      * @private
      * @param {OdooEvent} ev
@@ -4422,67 +5177,40 @@ var SnippetsMenu = Widget.extend({
         ev.stopPropagation();
         const index = this.snippetEditors.indexOf(ev.target);
         this.snippetEditors.splice(index, 1);
-    },
+    }
     /**
      * @private
      */
-    _onSnippetCloned: function (ev) {
+    _onSnippetCloned(ev) {
         this._updateInvisibleDOM();
-    },
+    }
     /**
      * Called when a snippet is removed -> checks if there is draggable snippets
      * to enable/disable as the DOM changed.
      *
      * @private
      */
-    _onSnippetRemoved: function () {
+    _onSnippetRemoved() {
         this._disableUndroppableSnippets();
         this._updateInvisibleDOM();
-    },
+    }
     /**
-     * When the editor panel receives a notification indicating that an option
-     * was used, the panel is in charge of asking for an UI update of the whole
-     * panel. Logically, the options are displayed so that an option above
-     * may influence the status and visibility of an option which is below;
-     * e.g.:
-     * - the user sets a badge type to 'info'
-     *      -> the badge background option (below) is shown as blue
-     * - the user adds a shadow
-     *      -> more options are shown afterwards to control it (not above)
-     *
-     * Technically we however update the whole editor panel (parent and child
-     * options) wherever the updates comes from. The only important thing is
-     * to first update the options UI then their visibility as their visibility
-     * may depend on their UI status.
-     *
+     * @see _snippetOptionUpdate
      * @private
      * @param {OdooEvent} ev
      */
     _onSnippetOptionUpdate(ev) {
         ev.stopPropagation();
         (async () => {
-            // Only update editors whose DOM target is still inside the document
-            // as a top option may have removed currently-enabled child items.
-            const editors = this._enabledEditorHierarchy.filter(editor => !!editor.$target[0].closest('body'));
-
-            await Promise.all(editors.map(editor => editor.updateOptionsUI()));
-            await Promise.all(editors.map(editor => editor.updateOptionsUIVisibility()));
-
-            // Always enable the deepest editor whose DOM target is still inside
-            // the document.
-            if (editors[0] !== this._enabledEditorHierarchy[0]) {
-                // No awaiting this as the mutex is currently locked here.
-                this._activateSnippet(editors[0].$target);
-            }
-
+            await this._snippetOptionUpdate();
             ev.data.onSuccess();
         })();
-    },
+    }
     /**
      * @private
      * @param {OdooEvent} ev
      */
-    _onSnippetOptionVisibilityUpdate: async function (ev) {
+    async _onSnippetOptionVisibilityUpdate(ev) {
         if (this.options.wysiwyg.isSaving()) {
             // Do not update the option visibilities if we are destroying them.
             return;
@@ -4491,46 +5219,35 @@ var SnippetsMenu = Widget.extend({
             await this._activateSnippet(false);
         }
         await this._updateInvisibleDOM(); // Re-render to update status
-    },
+    }
     /**
      * @private
      * @param {OdooEvent} ev
      */
     _onSnippetThumbnailURLRequest(ev) {
-        const $snippet = this.$snippets.has(`[data-snippet="${ev.data.key}"]`);
-        ev.data.onSuccess($snippet.length ? $snippet[0].dataset.oeThumbnail : '');
-    },
+        if (!ev.data.key) {
+            ev.data.onSuccess("");
+        }
+        const snippet = [...this.snippets.values()].find((snippet) =>
+            !snippet.isCustom && snippet.name === ev.data.key
+        );
+        ev.data.onSuccess(snippet ? snippet.thumbnailSrc : '');
+    }
     /**
      * Called when an user value widget is being opened -> close all the other
      * user value widgets of all editors + add backdrop.
      */
-    _onUserValueWidgetOpening: function () {
+    _onUserValueWidgetOpening() {
         this._closeWidgets();
         this.el.classList.add('o_we_backdrop');
-    },
+    }
     /**
      * Called when an user value widget is being closed -> rely on the fact only
      * one widget can be opened at a time: remove the backdrop.
      */
-    _onUserValueWidgetClosing: function () {
+    _onUserValueWidgetClosing() {
         this.el.classList.remove('o_we_backdrop');
-    },
-    /**
-     * Called when search input value changed -> adapts the snippets grid.
-     *
-     * @private
-     */
-    _onSnippetSearchInput: function () {
-        this._filterSnippets();
-    },
-    /**
-     * Called on snippet search filter reset -> clear input field search.
-     *
-     * @private
-     */
-    _onSnippetSearchResetClick: function () {
-        this._filterSnippets('');
-    },
+    }
     /**
      * Called when a child editor asks to update the "Invisible Elements" panel.
      *
@@ -4538,8 +5255,14 @@ var SnippetsMenu = Widget.extend({
      */
     async _onUpdateInvisibleDom() {
         await this._updateInvisibleDOM();
-    },
+    }
     _addToolbar(toolbarMode = "text") {
+        // TODO: Now that the toolbar is not removed every time
+        // `_updateRightPanelContent` is called, we should probably rename this
+        // method ot "_updateToolbar" and remove some of the now useless code,
+        // since the only important thing is to check the visibility
+        // and rename the toolbar. The event binding happening every time is
+        // probably not necessary either.
         if (this.folded) {
             return;
         }
@@ -4555,10 +5278,7 @@ var SnippetsMenu = Widget.extend({
                 titleText = _t("Icon Formatting");
                 break;
         }
-        // Create toolbar custom container.
-        this._$toolbarContainer = $('<WE-CUSTOMIZEBLOCK-OPTIONS id="o_we_editor_toolbar_container"/>');
-        const $title = $("<we-title><span>" + titleText + "</span></we-title>");
-        this._$toolbarContainer.append($title);
+        this.state.toolbarTitle = titleText;
         // In case, the snippetEditor is inside an iframe, rebind the dropdown
         // from the iframe.
         for (const dropdown of this._toolbarWrapperEl.querySelectorAll('.colorpicker-group')) {
@@ -4571,6 +5291,7 @@ var SnippetsMenu = Widget.extend({
             $dropdown.off('hide.bs.dropdown');
             $dropdown.on('hide.bs.dropdown', (ev) => this.options.wysiwyg.onColorpaletteDropdownHide(ev));
         }
+<<<<<<< HEAD
         this._$toolbarContainer.append(this._toolbarWrapperEl);
         $(this.customizePanel).append(this._$toolbarContainer);
 
@@ -4581,14 +5302,15 @@ var SnippetsMenu = Widget.extend({
         this._removeFormatButton = this._removeFormatButton || this._toolbarWrapperEl.querySelector('#removeFormat');
         $title.append(this._removeFormatButton);
         this._$toolbarContainer.append(this._toolbarWrapperEl);
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
         this._checkEditorToolbarVisibility();
-    },
+    }
     /**
      * Update editor UI visibility based on the current range.
      */
-    _checkEditorToolbarVisibility: function (e) {
-        const $toolbarContainer = this.$('#o_we_editor_toolbar_container');
+    _checkEditorToolbarVisibility(e) {
         const $toolbarTableContainer = this.$('#o-we-editor-table-container');
         const selection = this.options.wysiwyg.odooEditor.document.getSelection();
         const range = selection && selection.rangeCount && selection.getRangeAt(0);
@@ -4600,37 +5322,39 @@ var SnippetsMenu = Widget.extend({
         ) {
             return;
         }
+<<<<<<< HEAD
         if (!range ||
             !$currentSelectionTarget.parents('#wrapwrap, .iframe-editor-wrapper').length ||
             closestElement(selection.anchorNode, '[data-oe-model]:not([data-oe-type="html"]):not([data-oe-field="arch"]):not([data-oe-translation-initial-sha])') ||
             closestElement(selection.focusNode, '[data-oe-model]:not([data-oe-type="html"]):not([data-oe-field="arch"]):not([data-oe-translation-initial-sha])') ||
+=======
+        this.state.showToolbar = !(!range ||
+            !$currentSelectionTarget.parents('#wrapwrap, .iframe-editor-wrapper').length ||
+            closestElement(selection.anchorNode, '[data-oe-model]:not([data-oe-type="html"]):not([data-oe-field="arch"]):not([data-oe-translation-source-sha])') ||
+            closestElement(selection.focusNode, '[data-oe-model]:not([data-oe-type="html"]):not([data-oe-field="arch"]):not([data-oe-translation-source-sha])') ||
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
             (e && $(e.target).closest('.fa, img').length ||
             this.options.wysiwyg.lastMediaClicked && $(this.options.wysiwyg.lastMediaClicked).is('.fa, img')) ||
             (this.options.wysiwyg.lastElement && !this.options.wysiwyg.lastElement.isContentEditable)
-        ) {
-            $toolbarContainer.hide();
-        } else {
-            $toolbarContainer.show();
-        }
-
+        );
         const isInsideTD = !!(
             range &&
             $(range.startContainer).closest('.o_editable td').length &&
             $(range.endContainer).closest('.o_editable td').length
         );
         $toolbarTableContainer.toggleClass('d-none', !isInsideTD);
-    },
+    }
     /**
      * On click on discard button.
      */
-    _onDiscardClick: function () {
+    _onDiscardClick() {
         this._buttonClick(after => {
             this.snippetEditors.forEach(editor => {
                 editor.toggleOverlay(false);
             });
-            this.trigger_up('request_cancel', {onReject: after});
+            this.props.trigger_up({ name: 'request_cancel', data: {onReject: after} });
         }, this.$el[0].querySelector('button[data-action=cancel]'), false);
-    },
+    }
     /**
      * Preview on mobile.
      */
@@ -4640,7 +5364,11 @@ var SnippetsMenu = Widget.extend({
         // this simulates what happens when a snippet option is used.
         this._execWithLoadingEffect(async () => {
             const initialBodySize = this.$body[0].clientWidth;
+<<<<<<< HEAD
             this.trigger_up('request_mobile_preview');
+=======
+            this._toggleMobilePreview();
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
             // TODO needed so that mobile edition is considered before updating
             // the UI but this is clearly random. The trigger_up above should
@@ -4659,6 +5387,7 @@ var SnippetsMenu = Widget.extend({
             for (const gridItemEl of $gridItemEls) {
                 gridUtils._reloadLazyImages(gridItemEl);
             }
+<<<<<<< HEAD
 
             const isMobilePreview = weUtils.isMobileView(this.$body[0]);
             for (const invisibleOverrideEl of this.getEditableArea().find('.o_snippet_mobile_invisible, .o_snippet_desktop_invisible')) {
@@ -4681,39 +5410,66 @@ var SnippetsMenu = Widget.extend({
             });
         }, false);
     },
+=======
+
+            const isMobilePreview = weUtils.isMobileView(this.$body[0]);
+            for (const invisibleOverrideEl of this.getEditableArea().find('.o_snippet_mobile_invisible, .o_snippet_desktop_invisible')) {
+                const isMobileHidden = invisibleOverrideEl.classList.contains("o_snippet_mobile_invisible");
+                invisibleOverrideEl.classList.remove('o_snippet_override_invisible');
+                if (isMobilePreview === isMobileHidden) {
+                    invisibleOverrideEl.dataset.invisible = '1';
+                } else {
+                    delete invisibleOverrideEl.dataset.invisible;
+                }
+            }
+
+            // This is async but using the main editor mutex, currently locked.
+            this._updateInvisibleDOM();
+
+            return this._snippetOptionUpdate();
+        }, false);
+    }
+    /**
+     * Method for modules to override if they want to integrate with the
+     * Mobile Preview feature.
+     */
+    _toggleMobilePreview() {
+        return false;
+    }
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
     /**
      * Undo..
      */
-    _onUndo: async function () {
+    async _onUndo() {
         this.options.wysiwyg.undo();
-    },
+    }
     /**
      * Redo.
      */
-    _onRedo: async function () {
+    async _onRedo() {
         this.options.wysiwyg.redo();
-    },
+    }
     /**
      * @private
      * @param {OdooEvent} ev
      */
-    _onRequestEditable: function (ev) {
+    _onRequestEditable(ev) {
         ev.data.callback($(this.options.wysiwyg.odooEditor.editable));
-    },
+    }
     /**
      * Enable loading effects
      *
      * @private
      */
-    _onEnableLoadingEffect: function () {
+    _onEnableLoadingEffect() {
         this._loadingEffectDisabled = false;
-    },
+    }
     /**
      * Disable loading effects and cancel the one displayed
      *
      * @private
      */
-    _onDisableLoadingEffect: function () {
+    _onDisableLoadingEffect() {
         this._loadingEffectDisabled = true;
         Object.keys(this.loadingElements).forEach(key => {
             if (this.loadingElements[key]) {
@@ -4721,7 +5477,7 @@ var SnippetsMenu = Widget.extend({
                 this.loadingElements[key] = null;
             }
         });
-    },
+    }
     /***
      * Display a loading effect on the clicked button, and disables the other
      * buttons. Passes an argument to restore the buttons to their normal
@@ -4743,7 +5499,7 @@ var SnippetsMenu = Widget.extend({
         // the tooltip will not be removable (see BS doc).
         this._hideTooltips();
         if (addLoadingEffect) {
-            removeLoadingEffect = dom.addButtonLoadingEffect(button);
+            removeLoadingEffect = addButtonLoadingEffect(button);
         }
         const actionButtons = this.$el[0].querySelectorAll('[data-action]');
         for (const actionButton of actionButtons) {
@@ -4759,8 +5515,380 @@ var SnippetsMenu = Widget.extend({
         };
         await action(after);
         this._buttonAction = false;
-    },
-});
+    }
+    /**
+     * Allows module to enable options for elements that are not snippets.
+     * Such as website params, or mass_mailing font-size.
+     *
+     * @param {String} tab - The tab to enable (defined in this.tabs)
+     */
+    async _enableFakeOptionsTab(tab) {
+        // Note: nothing async here but start the loading effect asap
+        let releaseLoader;
+        try {
+            const promise = new Promise(resolve => releaseLoader = resolve);
+            this._execWithLoadingEffect(() => promise, false, 0);
+            // Loader is added to the DOM synchronously
+            await new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve)));
+            // Ensure loader is rendered: first call asks for the (already done)
+            // DOM update, second call happens only after rendering the first
+            // "updates"
+
+            if (!this.topFakeOptionEl) {
+                let el;
+                for (const [elementName, title] of this.constructor.optionsTabStructure) {
+                    const newEl = document.createElement(elementName);
+                    newEl.dataset.name = title;
+                    if (el) {
+                        el.appendChild(newEl);
+                    } else {
+                        this.topFakeOptionEl = newEl;
+                    }
+                    el = newEl;
+                }
+                this.bottomFakeOptionEl = el;
+                this.$body[0].appendChild(this.topFakeOptionEl);
+            }
+
+            // Need all of this in that order so that:
+            // - the element is visible and can be enabled and the onFocus
+            //   method is called each time.
+            // - the element is hidden afterwards so it does not take space in
+            //   the DOM, same as the overlay which may make a scrollbar appear.
+            this.topFakeOptionEl.classList.remove('d-none');
+            const editorPromise = this._activateSnippet($(this.bottomFakeOptionEl));
+            // Because _activateSnippet uses the same mutex as the loader
+            releaseLoader();
+            releaseLoader = undefined;
+            const editor = await editorPromise;
+            this.topFakeOptionEl.classList.add('d-none');
+            editor.toggleOverlay(false);
+
+            this._updateRightPanelContent({
+                tab,
+            });
+        } catch (e) {
+            // Normally the loading effect is removed in case of error during
+            // the action but here the actual activity is happening outside of
+            // the action, the effect must therefore be cleared in case of error
+            // as well.
+            if (releaseLoader) {
+                releaseLoader();
+            }
+            throw e;
+        }
+    }
+    /**
+     * Allows other modules to react to drop zones being enabled
+     *
+     * @private
+     */
+    _onDropZoneStart() {}
+    /**
+     * @see _onDropZoneStart
+     *
+     * @private
+     */
+    _onDropZoneOver() {}
+    /**
+     * @see _onDropZoneStart
+     *
+     * @private
+     */
+    _onDropZoneOut() {}
+    /**
+     * @see _onDropZoneStart
+     *
+     * @private
+     */
+    _onDropZoneStop() {}
+    /**
+     * Compatibility layer for legacy widgets. Should be removed when everything
+     * is converted to OWL.
+     *
+     * @param ev {CustomEvent}
+     */
+    _trigger_up(ev) {
+        if (ev.name in this.constructor.custom_events) {
+            this[this.constructor.custom_events[ev.name]](ev);
+        }
+        if (!ev.stopped) {
+            return this.props.trigger_up(ev);
+        }
+    }
+    /**
+     * @private
+     * @param {OdooEvent} ev
+     */
+    _onOpenAddSnippetDialog(ev) {
+        this._openAddSnippetDialog(ev.data.snippetGroup, ev.data.initialSnippetEl);
+    }
+    /**
+     * Open a dialog with previews of snippets to add to the page.
+     *
+     * @param {String} [snippetGroup=null]
+     * @param {HTMLElement} initialSnippetEl
+     * @private
+     */
+    async _openAddSnippetDialog(snippetGroup = null, initialSnippetEl) {
+        this._mutex.exec(async () => {
+            let hookEl = null;
+            let dropZoneEls = null;
+            let isSnippetChosen = false;
+            const snippetThumbnails = this.el.querySelectorAll(".oe_snippet_thumbnail");
+            const isSnippetGroupClicked = initialSnippetEl.matches(".oe_snippet[data-snippet-group]");
+            const groupSelected = snippetGroup ||
+                [...this.snippets.values()].find(snippet =>
+                    snippet.name === initialSnippetEl.dataset.snippet
+                ).group;
+
+            this.options.wysiwyg.odooEditor.historyPauseSteps();
+            if (isSnippetGroupClicked) {
+                const thumbnailEl = initialSnippetEl.querySelector(".oe_snippet_thumbnail");
+                thumbnailEl.classList.add("o_we_ongoing_insertion");
+                // When the "snippet group block" is clicked, we add drop zones on
+                // the page where the snippet can be placed, then we detect
+                // the drop zone closest to the middle of the page.
+                const selectors = this._getSelectors($("<section></section>"));
+                this._activateInsertionZones(selectors.$selectorSiblings, selectors.$selectorChildren, false, false);
+                dropZoneEls = this.$body[0].querySelectorAll(".oe_drop_zone");
+                dropZoneEls.forEach(dropZoneEl => dropZoneEl.classList.add("invisible"));
+                // Do not allow drop by click in another snippet
+                // (e.g., "table of content") unless it is a "s_popup".
+                dropZoneEls = [...dropZoneEls].filter(dropzoneEl => {
+                    return !dropzoneEl.closest("[data-snippet]:not(.s_popup), #website_cookies_bar");
+                });
+                hookEl = this._getClosestDropzone(dropZoneEls)
+                    || dropZoneEls[dropZoneEls.length - 1];
+                hookEl.classList.add("o_hook_drop_zone");
+            } else {
+                hookEl = initialSnippetEl;
+            }
+
+            const hookParentEl = hookEl.parentNode;
+            // Excludes snippets that cannot be placed at the target location.
+            [...this.snippets.values()].forEach((snippet) => {
+                if (snippet.disabled) {
+                    snippet.excluded = true;
+                } else {
+                    const $snippetSelectorChildren =
+                            this._getSelectors($(snippet.baseBody)).$selectorChildren;
+                    const hasSelectorChild = [...$snippetSelectorChildren].some(snippetSelectorChild => {
+                        return snippetSelectorChild === hookParentEl;
+                    });
+                    const forbidSanitize = snippet.data.oeForbidSanitize;
+                    let isForbidden = false;
+                    if (forbidSanitize === "form") {
+                        isForbidden = hookEl.closest('[data-oe-sanitize]:not([data-oe-sanitize="allow_form"])');
+                    } else if (forbidSanitize) {
+                        isForbidden = hookEl.closest("[data-oe-sanitize]");
+                    }
+                    snippet.excluded = !hasSelectorChild || isForbidden;
+                }
+            });
+
+            const hasIncludedSnippet = [...this.snippets.values()].some(snippet => snippet.excluded === false);
+            if (!hasIncludedSnippet) {
+                if (dropZoneEls) {
+                    dropZoneEls.forEach(dropZoneEl => dropZoneEl.remove());
+                }
+                this.options.wysiwyg.odooEditor.historyUnpauseSteps();
+                for (const snippetThumbnail of snippetThumbnails) {
+                    snippetThumbnail.classList.remove('o_we_ongoing_insertion');
+                }
+                return;
+            }
+
+            await new Promise(resolve => {
+                this.dialog.add(AddSnippetDialog, {
+                    snippets: this.snippets,
+                    groupSelected: groupSelected,
+                    optionsSnippets: this.options.snippets,
+                    frontendDirection: this.options.direction,
+                    installModule: (moduleID, snippetName) => {
+                        resolve();
+                        this._installModule(moduleID, snippetName);
+                    },
+                    addSnippet: async (snippetEl) => {
+                        isSnippetChosen = true;
+                        // Depending on 3 possible scenarios, "hookEl" can be:
+                        // - The "s_snippet_group" template => When a snippet group is
+                        // dropped from the side panel into the page.
+                        // - The closest drop zone to the page center => When a snippet
+                        // group is clicked in the side panel.
+                        // - The snippet to be replaced => When the "replace" overlay
+                        // button is clicked.
+                        hookEl.parentNode.insertBefore(snippetEl, hookEl);
+                        hookEl.parentNode.removeChild(hookEl);
+                        this.options.wysiwyg.odooEditor.automaticStepSkipStack();
+                        await this._scrollToSnippet($(snippetEl), this.$scrollable);
+                        this.options.wysiwyg.odooEditor.historyUnpauseSteps();
+                        browser.setTimeout(async () => {
+                            resolve();
+                            await this.callPostSnippetDrop($(snippetEl), () => {
+                                // Restore editor to its normal edition state, also
+                                // make sure the undroppable snippets are updated.
+                                this._disableUndroppableSnippets();
+                                this.options.wysiwyg.odooEditor.historyStep();
+                                for (const snippetThumbnail of snippetThumbnails) {
+                                    snippetThumbnail.classList.remove('o_we_ongoing_insertion');
+                                }
+                            });
+                        });
+                    },
+                    deleteCustomSnippet: (snippetKey) => {
+                        return this._deleteCustomSnippet(snippetKey, false);
+                    },
+                    renameCustomSnippet: (snippetKey, newName) => {
+                        this._renameCustomSnippet(snippetKey, newName, false);
+                    },
+                }, {
+                    onClose: () => {
+                        if (isSnippetGroupClicked) {
+                            dropZoneEls = this.$body[0].querySelectorAll(".oe_drop_zone")
+                            if (dropZoneEls) {
+                                dropZoneEls.forEach(dropZoneEl => dropZoneEl.remove());
+                            }
+                        } else if (!isSnippetChosen && snippetGroup) {
+                            initialSnippetEl.remove();
+                        }
+                        if (!isSnippetChosen) {
+                            this.options.wysiwyg.odooEditor.automaticStepSkipStack();
+                            this.options.wysiwyg.odooEditor.historyUnpauseSteps();
+                            for (const snippetThumbnail of snippetThumbnails) {
+                                snippetThumbnail.classList.remove('o_we_ongoing_insertion');
+                            }
+                            resolve();
+                        }
+                    }
+                });
+            });
+        });
+    }
+    /**
+     * Gets the dropzone closest to the center of the viewport, excluding
+     * dropzones located in the top quarter of the viewport.
+     *
+     * @private
+     * @param {HTMLCollection} dropZoneEls
+     * @return {element} closestDropZoneEl
+     */
+    _getClosestDropzone(dropZoneEls) {
+        let closestDropZoneEl = null;
+        let closestDistance = Infinity;
+        const iframeWindow = this.$body[0].ownerDocument.defaultView;
+        const iframeWindowMidY = iframeWindow.innerHeight / 2;
+
+        for (const dropZoneEl of dropZoneEls) {
+            const rect = dropZoneEl.getBoundingClientRect();
+            if (0 > (rect.top - (iframeWindowMidY / 2))) {
+                continue;
+            }
+            const dropZoneElMidY = rect.top + (rect.height / 2);
+            const distance = Math.abs(iframeWindowMidY - dropZoneElMidY);
+
+            if (distance < closestDistance) {
+                closestDistance = distance;
+                closestDropZoneEl = dropZoneEl;
+            }
+        };
+
+        return closestDropZoneEl;
+    }
+    /**
+     * Installs the module of the selected snippet.
+     *
+     * @private
+     * @param {Number} moduleID
+     * @param {String} snippetName
+     */
+    _installModule(moduleID, snippetName) {
+        // TODO: Should be the app name, not the snippet name ... Maybe both ?
+        const bodyText = _t("Do you want to install %s App?", snippetName);
+        const linkText = _t("More info about this app.");
+        const linkUrl = '/odoo/action-base.open_module_tree/' + encodeURIComponent(moduleID);
+        this.dialog.add(ConfirmationDialog, {
+            title: _t("Install %s", snippetName),
+            body: markup(`${escape(bodyText)}\n<a href="${linkUrl}" target="_blank">${escape(linkText)}</a>`),
+            confirm: async () => {
+                try {
+                    await this.orm.call("ir.module.module", "button_immediate_install", [[moduleID]]);
+                    this.invalidateSnippetCache = true;
+                    this._onSaveRequest({
+                        data: {
+                            reloadWebClient: true,
+                        }
+                    });
+                } catch (e) {
+                    if (e instanceof RPCError) {
+                        const message = escape(_t("Could not install module %s", snippetName));
+                        this.notification.add(message, {
+                            type: "danger",
+                            sticky: true,
+                        });
+                    } else {
+                        throw e;
+                    }
+                }
+            },
+            confirmLabel: _t("Save and Install"),
+            cancel: () => {},
+        });
+    }
+    /**
+     * Deletes a custom snippet.
+     *
+     * @private
+     * @param {Number} snippetKey
+     */
+    async _deleteCustomSnippet(snippetKey, withMutex = true) {
+        const snippet = this.snippets.get(snippetKey);
+        const message = _t("Are you sure you want to delete the block %s?", snippet.displayName);
+        return new Promise(resolve => {
+            this.dialog.add(ConfirmationDialog, {
+                body: message,
+                confirm: async () => {
+                    await this.orm.call("ir.ui.view", "delete_snippet", [], {
+                        'view_id': snippet.id,
+                        'template_key': this.options.snippets,
+                    });
+                    this.invalidateSnippetCache = true;
+                    this.snippets.delete(snippetKey);
+                    await this._loadSnippetsTemplates(withMutex);
+                    resolve();
+                },
+                cancel: () => {
+                    resolve();
+                    return null;
+                },
+                confirmLabel: _t("Yes"),
+                cancelLabel: _t("No"),
+            });
+        });
+    }
+    /**
+     * Renames a custom snippet.
+     *
+     * @private
+     * @param {Number} snippetKey
+     * @param {String} newName
+     */
+    async _renameCustomSnippet(snippetKey, newName, withMutex = true) {
+        const snippet = this.snippets.get(snippetKey);
+        if (newName !== snippet.displayName) {
+            await this.orm.call("ir.ui.view", "rename_snippet", [], {
+                'name': newName,
+                'view_id': snippet.id,
+                'template_key': this.options.snippets,
+            });
+            // Prevent the name flashing while reloading the template.
+            this.invalidateSnippetCache = newName !== snippet.displayName;
+            snippet.displayName = newName;
+            await this._loadSnippetsTemplates(withMutex);
+        }
+        snippet.renaming = false;
+    }
+}
 
 export default {
     SnippetsMenu: SnippetsMenu,

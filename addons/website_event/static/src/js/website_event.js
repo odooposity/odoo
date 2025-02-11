@@ -3,7 +3,11 @@
 import publicWidget from "@web/legacy/js/public/public_widget";
 import { _t } from "@web/core/l10n/translation";
 import { ReCaptcha } from "@google_recaptcha/js/recaptcha";
+<<<<<<< HEAD
 import { jsonrpc } from "@web/core/network/rpc_service";
+=======
+import { rpc } from "@web/core/network/rpc";
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 // Catch registration form event, because of JS for attendee details
 var EventRegistrationForm = publicWidget.Widget.extend({
@@ -33,20 +37,24 @@ var EventRegistrationForm = publicWidget.Widget.extend({
         const post = this._getPost();
         const noTicketsOrdered = Object.values(post).map((value) => parseInt(value)).every(value => value === 0);
         var res = this._super.apply(this.arguments).then(function () {
-            $('#registration_form .a-submit')
-                .off('click')
-                .click(function (ev) {
-                    self.on_click(ev);
-                })
-                .prop('disabled', noTicketsOrdered);
+            self.__onClick = self._onClick.bind(self);
+            self.submitButtonEl = document.querySelector("#registration_form .a-submit");
+            self.submitButtonEl.addEventListener("click", self.__onClick);
+            self.submitButtonEl.disabled = noTicketsOrdered;
         });
         return res;
     },
 
+    destroy() {
+        this.submitButtonEl.removeEventListener("click", this.__onClick);
+        this._super(...arguments);
+    },
+
     _getPost: function () {
         var post = {};
-        $('#registration_form select').each(function () {
-            post[$(this).attr('name')] = $(this).val();
+        const selectEls = document.querySelectorAll("#registration_form select");
+        selectEls.forEach(function (selectEl) {
+            post[selectEl.name] = selectEl.value;
         });
         return post;
     },
@@ -59,12 +67,13 @@ var EventRegistrationForm = publicWidget.Widget.extend({
      * @private
      * @param {Event} ev
      */
-    on_click: function (ev) {
+    async _onClick(ev) {
         ev.preventDefault();
         ev.stopPropagation();
-        var $form = $(ev.currentTarget).closest('form');
-        var $button = $(ev.currentTarget).closest('[type="submit"]');
+        const formEl = ev.currentTarget.closest("form");
+        const buttonEl = ev.currentTarget.closest("[type='submit']");
         const post = this._getPost();
+<<<<<<< HEAD
         $button.attr('disabled', true);
         const self = this;
         return jsonrpc($form.attr('action'), post).then(async function (modal) {
@@ -98,7 +107,43 @@ var EventRegistrationForm = publicWidget.Widget.extend({
                 tokenInput.setAttribute('value', tokenObj.token);
                 ev.currentTarget.appendChild(tokenInput);
             })
+=======
+        buttonEl.disabled = true;
+        const [modal, recaptchaToken] = await Promise.all([
+            rpc(formEl.action, post),
+            this._recaptcha.getToken("website_event_registration"),
+        ]);
+        if (recaptchaToken.error) {
+            this.notification.add(recaptchaToken.error, {
+                type: "danger",
+                title: _t("Error"),
+                sticky: true,
+            });
+            buttonEl.disabled = false;
+            return false;
+        }
+        const modalEl = new DOMParser().parseFromString(modal, "text/html").body.firstChild;
+        const _onClick = () => {
+            buttonEl.disabled = false;
+            modalEl.querySelector(".js_goto_event").removeEventListener("click", _onClick);
+            modalEl.querySelector(".btn-close").removeEventListener("click", _onClick);
+            modalEl.remove();
+        };
+        modalEl.querySelector(".js_goto_event").addEventListener("click", _onClick);
+        modalEl.querySelector(".btn-close").addEventListener("click", _onClick);
+        modalEl.querySelector("form").addEventListener("submit", (ev) => {
+            const tokenInput = document.createElement("input");
+            tokenInput.setAttribute("name", "recaptcha_token_response");
+            tokenInput.setAttribute("type", "hidden");
+            tokenInput.setAttribute("value", recaptchaToken.token);
+            ev.currentTarget.appendChild(tokenInput);
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
         });
+        const formModal = Modal.getOrCreateInstance(modalEl, {
+            backdrop: "static",
+            keyboard: false,
+        });
+        formModal.show();
     },
 });
 
@@ -111,7 +156,7 @@ publicWidget.registry.EventRegistrationFormInstance = publicWidget.Widget.extend
     start: function () {
         var def = this._super.apply(this, arguments);
         this.instance = new EventRegistrationForm(this);
-        return Promise.all([def, this.instance.attachTo(this.$el)]);
+        return Promise.all([def, this.instance.attachTo(this.el)]);
     },
     /**
      * @override
@@ -119,7 +164,7 @@ publicWidget.registry.EventRegistrationFormInstance = publicWidget.Widget.extend
     destroy: function () {
         this.instance.setElement(null);
         this._super.apply(this, arguments);
-        this.instance.setElement(this.$el);
+        this.instance.setElement(this.el);
     },
 });
 

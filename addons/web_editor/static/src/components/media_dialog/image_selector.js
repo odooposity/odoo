@@ -1,7 +1,7 @@
 /** @odoo-module **/
 
 import { _t } from "@web/core/l10n/translation";
-import { useService } from '@web/core/utils/hooks';
+import { rpc } from "@web/core/network/rpc";
 import weUtils from '@web_editor/js/common/utils';
 import { Attachment, FileSelector, IMAGE_MIMETYPES, IMAGE_EXTENSIONS } from './file_selector';
 import { KeepLast } from "@web/core/utils/concurrency";
@@ -9,6 +9,7 @@ import { KeepLast } from "@web/core/utils/concurrency";
 import { useRef, useState, useEffect } from "@odoo/owl";
 
 export class AutoResizeImage extends Attachment {
+    static template = "web_editor.AutoResizeImage";
     setup() {
         super.setup();
 
@@ -45,13 +46,30 @@ export class AutoResizeImage extends Attachment {
         this.state.loaded = true;
     }
 }
-AutoResizeImage.template = 'web_editor.AutoResizeImage';
-
+const newLocal = "img-fluid";
 export class ImageSelector extends FileSelector {
+    static mediaSpecificClasses = ["img", newLocal, "o_we_custom_image"];
+    static mediaSpecificStyles = [];
+    static mediaExtraClasses = [
+        "rounded-circle",
+        "rounded",
+        "img-thumbnail",
+        "shadow",
+        "w-25",
+        "w-50",
+        "w-75",
+        "w-100",
+    ];
+    static tagNames = ["IMG"];
+    static attachmentsListTemplate = "web_editor.ImagesListTemplate";
+    static components = {
+        ...FileSelector.components,
+        AutoResizeImage,
+    };
+
     setup() {
         super.setup();
 
-        this.rpc = useService('rpc');
         this.keepLastLibraryMedia = new KeepLast();
 
         this.state.libraryMedia = [];
@@ -107,7 +125,9 @@ export class ImageSelector extends FileSelector {
         const domain = super.attachmentsDomain;
         domain.push(['mimetype', 'in', IMAGE_MIMETYPES]);
         if (!this.props.useMediaLibrary) {
-            domain.push('|', ['url', '=', false], '!', ['url', '=ilike', '/web_editor/shape/%']);
+            domain.push("|", ["url", "=", false],
+                "!", "|", ["url", "=ilike", "/html_editor/shape/%"], ["url", "=ilike", "/web_editor/shape/%"],
+            );
         }
         domain.push('!', ['name', '=like', '%.crop']);
         domain.push('|', ['type', '=', 'binary'], '!', ['url', '=like', '/%/static/%']);
@@ -187,10 +207,19 @@ export class ImageSelector extends FileSelector {
         });
     }
 
+<<<<<<< HEAD
     validateUrl(...args) {
+=======
+    async validateUrl(...args) {
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
         const { isValidUrl, path } = super.validateUrl(...args);
-        const isValidFileFormat = IMAGE_EXTENSIONS.some(format => path.endsWith(format));
-        return { isValidFileFormat, isValidUrl };
+        const isValidFileFormat = isValidUrl && await new Promise(resolve => {
+            const img = new Image();
+            img.src = path;
+            img.onload = () => resolve(true);
+            img.onerror = () => resolve(false);
+        });
+        return { isValidUrl, isValidFileFormat };
     }
 
     isInitialMedia(attachment) {
@@ -222,7 +251,9 @@ export class ImageSelector extends FileSelector {
             if (attachment.image_src.startsWith('/')) {
                 const newURL = new URL(attachment.image_src, window.location.origin);
                 // Set the main colors of dynamic SVGs to o-color-1~5
-                if (attachment.image_src.startsWith('/web_editor/shape/')) {
+                if (attachment.image_src.startsWith('/html_editor/shape/') ||
+                    attachment.image_src.startsWith('/web_editor/shape/')
+                ) {
                     newURL.searchParams.forEach((value, key) => {
                         const match = key.match(/^c([1-5])$/);
                         if (match) {
@@ -249,7 +280,7 @@ export class ImageSelector extends FileSelector {
 
         this.state.isFetchingLibrary = true;
         try {
-            const response = await this.rpc(
+            const response = await rpc(
                 '/web_editor/media_library_search',
                 {
                     'query': this.state.needle,
@@ -328,7 +359,7 @@ export class ImageSelector extends FileSelector {
     /**
      * Utility method used by the MediaDialog component.
      */
-    static async createElements(selectedMedia, { orm, rpc }) {
+    static async createElements(selectedMedia, { orm }) {
         // Create all media-library attachments.
         const toSave = Object.fromEntries(selectedMedia.filter(media => media.mediaType === 'libraryMedia').map(media => [
             media.id, {
@@ -343,7 +374,10 @@ export class ImageSelector extends FileSelector {
         }
         const selected = selectedMedia.filter(media => media.mediaType === 'attachment').concat(savedMedia).map(attachment => {
             // Color-customize dynamic SVGs with the theme colors
-            if (attachment.image_src && attachment.image_src.startsWith('/web_editor/shape/')) {
+            if (attachment.image_src && (
+                attachment.image_src.startsWith('/html_editor/shape/') ||
+                attachment.image_src.startsWith('/web_editor/shape/')
+            )) {
                 const colorCustomizedURL = new URL(attachment.image_src, window.location.origin);
                 colorCustomizedURL.searchParams.forEach((value, key) => {
                     const match = key.match(/^c([1-5])$/);
@@ -424,16 +458,3 @@ export class ImageSelector extends FileSelector {
         }
     }
 }
-
-ImageSelector.mediaSpecificClasses = ['img', 'img-fluid', 'o_we_custom_image'];
-ImageSelector.mediaSpecificStyles = [];
-ImageSelector.mediaExtraClasses = [
-    'rounded-circle', 'rounded', 'img-thumbnail', 'shadow',
-    'w-25', 'w-50', 'w-75', 'w-100',
-];
-ImageSelector.tagNames = ['IMG'];
-ImageSelector.attachmentsListTemplate = 'web_editor.ImagesListTemplate';
-ImageSelector.components = {
-    ...FileSelector.components,
-    AutoResizeImage,
-};

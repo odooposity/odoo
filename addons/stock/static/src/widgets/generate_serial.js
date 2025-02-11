@@ -8,37 +8,77 @@ import { registry } from "@web/core/registry";
 import { parseInteger  } from "@web/views/fields/parsers";
 import { getId } from "@web/model/relational_model/utils";
 import { Component, useRef, onMounted } from "@odoo/owl";
+<<<<<<< HEAD
+=======
+import { standardWidgetProps } from "@web/views/widgets/standard_widget_props";
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 export class GenerateDialog extends Component {
+    static template = "stock.generate_serial_dialog";
+    static components = { Dialog };
+    static props = {
+        mode: { type: String },
+        move: { type: Object },
+        close: { type: Function },
+    };
     setup() {
         this.size = 'md';
-        if (this.props.type === 'serial') {
-            this.title = _t("Generate Serials numbers");
+        if (this.props.mode === 'generate') {
+            this.title = this.props.move.data.has_tracking === 'lot'
+            ? _t("Generate Lot numbers")
+            : _t("Generate Serial numbers");
         } else {
-            this.title = _t("Import Lots");
+            this.title = this.props.move.data.has_tracking === 'lot' ? _t("Import Lots") : _t("Import Serials");
         }
 
         this.nextSerial = useRef('nextSerial');
         this.nextSerialCount = useRef('nextSerialCount');
+<<<<<<< HEAD
+=======
+        this.totalReceived = useRef('totalReceived');
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
         this.keepLines = useRef('keepLines');
         this.lots = useRef('lots');
         this.orm = useService("orm");
         onMounted(() => {
-            if (this.props.type === 'serial') {
+            if (this.props.mode === 'generate') {
                 this.nextSerialCount.el.value = this.props.move.data.product_uom_qty || 2;
+                if (this.props.move.data.has_tracking === 'lot') {
+                    this.totalReceived.el.value = this.props.move.data.quantity;
+                }
             }
         });
     }
     async _onGenerate() {
+<<<<<<< HEAD
         const count = parseInteger(this.nextSerialCount.el?.value || '0');
         const move_line_vals = await this.orm.call("stock.move", "action_generate_lot_line_vals", [
             {
+=======
+        let count;
+        let qtyToProcess;
+        if (this.props.move.data.has_tracking === 'lot'){
+            count = parseFloat(this.nextSerialCount.el?.value || '0');
+            qtyToProcess = parseFloat(this.totalReceived.el?.value || this.props.move.data.product_qty);
+        } else {
+            count = parseInteger(this.nextSerialCount.el?.value || '0');
+            qtyToProcess = this.props.move.data.product_qty;
+        }
+        const move_line_vals = await this.orm.call("stock.move", "action_generate_lot_line_vals", [{
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
                 ...this.props.move.context,
                 default_product_id: this.props.move.data.product_id[0],
                 default_location_dest_id: this.props.move.data.location_dest_id[0],
                 default_location_id: this.props.move.data.location_id[0],
+<<<<<<< HEAD
             },
             this.props.type,
+=======
+                default_tracking: this.props.move.data.has_tracking,
+                default_quantity: qtyToProcess,
+            },
+            this.props.mode,
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
             this.nextSerial.el?.value,
             count,
             this.lots.el?.value,
@@ -74,16 +114,12 @@ export class GenerateDialog extends Component {
     }
 }
 
-GenerateDialog.template = 'stock.generate_serial_dialog';
-GenerateDialog.props = {
-    type: { type: String },
-    move: { type: Object },
-    close: { type: Function },
-};
-GenerateDialog.components = { Dialog };
-
 class GenerateSerials extends Component {
     static template = "stock.GenerateSerials";
+<<<<<<< HEAD
+=======
+    static props = {...standardWidgetProps};
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
     setup(){
         this.dialog = useService("dialog");
@@ -92,14 +128,18 @@ class GenerateSerials extends Component {
     openDialog(ev){
         this.dialog.add(GenerateDialog, {
             move: this.props.record,
-            type: 'serial',
+            mode: 'generate',
         });
     }
 }
 
 class ImportLots extends Component {
     static template = "stock.ImportLots";
+<<<<<<< HEAD
 
+=======
+    static props = {...standardWidgetProps};
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
     setup(){
         this.dialog = useService("dialog");
     }
@@ -107,7 +147,7 @@ class ImportLots extends Component {
     openDialog(ev){
         this.dialog.add(GenerateDialog, {
             move: this.props.record,
-            type: 'import',
+            mode: 'import',
         });
     }
 }

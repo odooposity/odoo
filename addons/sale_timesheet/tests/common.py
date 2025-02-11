@@ -8,8 +8,9 @@ from odoo.addons.sale_project.tests.common import TestSaleProjectCommon
 class TestCommonSaleTimesheet(TestSaleProjectCommon):
 
     @classmethod
-    def setUpClass(cls, chart_template_ref=None):
-        super().setUpClass(chart_template_ref=chart_template_ref)
+    def setUpClass(cls):
+        super().setUpClass()
+        cls.company_data_2 = cls.setup_other_company()
 
         cls.user_employee_company_B = mail_new_test_user(
             cls.env,
@@ -30,6 +31,16 @@ class TestCommonSaleTimesheet(TestSaleProjectCommon):
             groups='base.group_user',
             company_id=cls.company_data_2['company'].id,
             company_ids=[cls.company_data_2['company'].id, cls.env.company.id],
+        )
+        # What's important here is that this user does not have access to read Sales data,
+        # but can still log time on a timesheet.
+        cls.user_employee_without_sales_access = mail_new_test_user(
+            cls.env,
+            name='Tyrion Lannister Employee',
+            login='tyrion',
+            email='tyrion@example.com',
+            notification_type='email',
+            groups='project.group_project_manager,hr_timesheet.group_hr_timesheet_user',
         )
 
         cls.employee_user = cls.env['hr.employee'].create({
@@ -52,6 +63,12 @@ class TestCommonSaleTimesheet(TestSaleProjectCommon):
             'user_id': cls.user_manager_company_B.id,
             'hourly_cost': 45,
         })
+        
+        cls.employee_without_sales_access = cls.env['hr.employee'].create({
+            'name': 'Tyrion Lannister',
+            'user_id': cls.user_employee_without_sales_access.id,
+            'hourly_cost': 25,
+        })
 
         # Account and project
         cls.analytic_account_sale.name = 'Project for selling timesheet - AA'
@@ -64,7 +81,7 @@ class TestCommonSaleTimesheet(TestSaleProjectCommon):
         })
 
         # Create projects
-        Project = cls.env['project.project'].with_context(tracking_disable=True)
+        Project = cls.env['project.project']
         cls.project_global.write({
             'name': 'Project for selling timesheets',
             'allow_timesheets': True,
@@ -78,7 +95,7 @@ class TestCommonSaleTimesheet(TestSaleProjectCommon):
             'allow_timesheets': True,
             'allow_billable': True,
             'partner_id': cls.partner_b.id,
-            'analytic_account_id': cls.analytic_account_sale.id,
+            'account_id': cls.analytic_account_sale.id,
         })
 
         cls.project_subtask = Project.create({
@@ -264,7 +281,7 @@ class TestCommonSaleTimesheet(TestSaleProjectCommon):
 
     def setUp(self):
         super().setUp()
-        self.so = self.env['sale.order'].with_context(mail_notrack=True, mail_create_nolog=True).create({
+        self.so = self.env['sale.order'].create({
             'partner_id': self.partner_b.id,
             'partner_invoice_id': self.partner_b.id,
             'partner_shipping_id': self.partner_b.id,

@@ -1,5 +1,3 @@
-/** @odoo-module **/
-
 import { browser } from "../../core/browser/browser";
 import { registry } from "../../core/registry";
 import { session } from "@web/session";
@@ -28,17 +26,24 @@ function makeMenus(env, menusData, fetchLoadMenus) {
     function _getMenu(menuId) {
         return menusData[menuId];
     }
+<<<<<<< HEAD
     function _updateURL(menuId) {
         env.services.router.pushState({ menu_id: menuId }, { lock: true });
     }
     function _setCurrentMenu(menu, updateURL = true) {
+=======
+    function setCurrentMenu(menu) {
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
         menu = typeof menu === "number" ? _getMenu(menu) : menu;
         if (menu && menu.appID !== currentAppId) {
             currentAppId = menu.appID;
             env.bus.trigger("MENUS:APP-CHANGED");
+<<<<<<< HEAD
             if (updateURL) {
                 _updateURL(menu.id);
             }
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
         }
     }
 
@@ -71,12 +76,20 @@ function makeMenus(env, menusData, fetchLoadMenus) {
             await env.services.action.doAction(menu.actionID, {
                 clearBreadcrumbs: true,
                 onActionReady: () => {
+<<<<<<< HEAD
                     _setCurrentMenu(menu, false);
+=======
+                    setCurrentMenu(menu);
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
                 },
             });
             _updateURL(menu.id);
         },
+<<<<<<< HEAD
         setCurrentMenu: (menu) => _setCurrentMenu(menu),
+=======
+        setCurrentMenu,
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
         async reload() {
             if (fetchLoadMenus) {
                 menusData = await fetchLoadMenus(true);
@@ -87,7 +100,7 @@ function makeMenus(env, menusData, fetchLoadMenus) {
 }
 
 export const menuService = {
-    dependencies: ["action", "router"],
+    dependencies: ["action"],
     async start(env) {
         const fetchLoadMenus = makeFetchLoadMenus();
         const menusData = await fetchLoadMenus();

@@ -27,7 +27,11 @@ class PosPaymentMethod(models.Model):
     def _get_payment_terminal_selection(self):
         return super()._get_payment_terminal_selection() + [('mercado_pago', 'Mercado Pago')]
 
+<<<<<<< HEAD
     def _check_access(self):
+=======
+    def _check_special_access(self):
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
         if not self.env.user.has_group('point_of_sale.group_pos_user'):
             raise AccessError(_("Do not have access to fetch token from Mercado Pago"))
 
@@ -36,7 +40,11 @@ class PosPaymentMethod(models.Model):
         Triggered in debug mode when the user wants to force the "PDV" mode.
         It calls the Mercado Pago API to set the terminal mode to "PDV".
         """
+<<<<<<< HEAD
         self._check_access()
+=======
+        self._check_special_access()
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
         mercado_pago = MercadoPagoPosRequest(self.sudo().mp_bearer_token)
         _logger.info('Calling Mercado Pago to force the terminal mode to "PDV"')
@@ -52,7 +60,11 @@ class PosPaymentMethod(models.Model):
         """
         Called from frontend for creating a payment intent in Mercado Pago
         """
+<<<<<<< HEAD
         self._check_access()
+=======
+        self._check_special_access()
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
         mercado_pago = MercadoPagoPosRequest(self.sudo().mp_bearer_token)
         # Call Mercado Pago for payment intend creation
@@ -64,7 +76,11 @@ class PosPaymentMethod(models.Model):
         """
         Called from frontend to get the last payment intend from Mercado Pago
         """
+<<<<<<< HEAD
         self._check_access()
+=======
+        self._check_special_access()
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
         mercado_pago = MercadoPagoPosRequest(self.sudo().mp_bearer_token)
         # Call Mercado Pago for payment intend status
@@ -76,7 +92,11 @@ class PosPaymentMethod(models.Model):
         """
         Called from frontend to get the payment status from Mercado Pago
         """
+<<<<<<< HEAD
         self._check_access()
+=======
+        self._check_special_access()
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
         mercado_pago = MercadoPagoPosRequest(self.sudo().mp_bearer_token)
 
@@ -88,7 +108,11 @@ class PosPaymentMethod(models.Model):
         """
         Called from frontend to cancel a payment intent in Mercado Pago
         """
+<<<<<<< HEAD
         self._check_access()
+=======
+        self._check_special_access()
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
         mercado_pago = MercadoPagoPosRequest(self.sudo().mp_bearer_token)
         # Call Mercado Pago for payment intend cancelation

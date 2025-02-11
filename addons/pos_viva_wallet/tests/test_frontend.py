@@ -11,8 +11,13 @@ import odoo.tests
 class TestVivaWalletHttpCommon(TestPointOfSaleHttpCommon):
 
     @classmethod
+<<<<<<< HEAD
     def setUpClass(cls, chart_template_ref=None):
         super().setUpClass(chart_template_ref=chart_template_ref)
+=======
+    def setUpClass(cls):
+        super().setUpClass()
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
         # Create viva wallet payment method
         viva_payment_method = cls.env['pos.payment.method'].create({

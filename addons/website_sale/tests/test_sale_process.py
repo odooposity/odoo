@@ -1,51 +1,57 @@
-# -*- coding: utf-8 -*-
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
 
 import logging
+<<<<<<< HEAD
 from unittest.mock import patch
 
 from werkzeug.exceptions import Forbidden
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
-import odoo.tests
+from odoo.fields import Command
+from odoo.tests import tagged
 
-from odoo import api, Command
-from odoo.addons.base.tests.common import HttpCaseWithUserDemo, TransactionCaseWithUserDemo, HttpCaseWithUserPortal
-from odoo.addons.website_sale.controllers.main import WebsiteSale
-from odoo.addons.website.tools import MockRequest
+from odoo.addons.base.tests.common import HttpCaseWithUserDemo
+from odoo.addons.website_sale.tests.common import WebsiteSaleCommon
 
 _logger = logging.getLogger(__name__)
+<<<<<<< HEAD
+
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 
-@odoo.tests.tagged('post_install', '-at_install')
-class TestUi(HttpCaseWithUserDemo):
+@tagged('post_install', '-at_install')
+class TestSaleProcess(HttpCaseWithUserDemo, WebsiteSaleCommon):
 
-    def setUp(self):
-        super(TestUi, self).setUp()
-        self.env['product.pricelist'].sudo().search([]).action_archive()
-        product_product_7 = self.env['product.product'].create({
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
+        cls.storage_box = cls.env['product.product'].create({
             'name': 'Storage Box',
             'standard_price': 70.0,
             'list_price': 79.0,
             'website_published': True,
         })
-        self.product_attribute_1 = self.env['product.attribute'].create({
+        cls.product_attribute_legs = cls.env['product.attribute'].create({
             'name': 'Legs',
             'sequence': 10,
+            'value_ids': [
+                Command.create({
+                    'name': 'Steel',
+                    'sequence': 1,
+                }),
+                Command.create({
+                    'name': 'Aluminium',
+                    'sequence': 2,
+                }),
+            ],
         })
-        product_attribute_value_1 = self.env['product.attribute.value'].create({
-            'name': 'Steel',
-            'attribute_id': self.product_attribute_1.id,
-            'sequence': 1,
-        })
-        product_attribute_value_2 = self.env['product.attribute.value'].create({
-            'name': 'Aluminium',
-            'attribute_id': self.product_attribute_1.id,
-            'sequence': 2,
-        })
-        self.product_product_11_product_template = self.env['product.template'].create({
+        cls.conference_chair = cls.env['product.template'].create({
             'name': 'Conference Chair',
             'list_price': 16.50,
             'website_published': True,
+<<<<<<< HEAD
             'sale_ok': True,
             'accessory_product_ids': [(4, product_product_7.id)],
         })
@@ -53,31 +59,52 @@ class TestUi(HttpCaseWithUserDemo):
             'product_tmpl_id': self.product_product_11_product_template.id,
             'attribute_id': self.product_attribute_1.id,
             'value_ids': [(4, product_attribute_value_1.id), (4, product_attribute_value_2.id)],
+=======
+            'accessory_product_ids': [Command.link(cls.storage_box.id)],
+            'attribute_line_ids': [
+                Command.create({
+                    'attribute_id': cls.product_attribute_legs.id,
+                    'value_ids': [Command.set(cls.product_attribute_legs.value_ids.ids)],
+                })
+            ],
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
         })
 
-        self.product_product_1_product_template = self.env['product.template'].create({
+        cls.chair_floor_protection = cls.env['product.template'].create({
             'name': 'Chair floor protection',
             'list_price': 12.0,
         })
         # Crappy hack: But otherwise the "Proceed To Checkout" modal button won't be displayed
+<<<<<<< HEAD
         if 'optional_product_ids' in self.env['product.template']:
             self.product_product_11_product_template.optional_product_ids = [(6, 0, self.product_product_1_product_template.ids)]
+=======
+        if 'optional_product_ids' in cls.env['product.template']:
+            cls.conference_chair.optional_product_ids = [Command.set(cls.chair_floor_protection.ids)]
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
-        self.env['account.journal'].create({'name': 'Cash - Test', 'type': 'cash', 'code': 'CASH - Test'})
-
-        # Avoid Shipping/Billing address page
-        (self.env.ref('base.partner_admin') + self.partner_demo).write({
-            'street': '215 Vine St',
-            'city': 'Scranton',
-            'zip': '18503',
-            'country_id': self.env.ref('base.us').id,
-            'state_id': self.env.ref('base.state_us_39').id,
-            'phone': '+1 555-555-5555',
-            'email': 'admin@yourcompany.example.com',
+        cls.env['account.journal'].create({
+            'name': 'Cash - Test',
+            'type': 'cash',
+            'code': 'CASH - Test',
         })
 
+        # Avoid Shipping/Billing address page
+        cls.env.ref('base.partner_admin').write(cls.dummy_partner_address_values)
+
+        if cls.env['ir.module.module']._get('payment_custom').state == 'installed':
+            transfer_provider = cls.env.ref('payment.payment_provider_transfer')
+            transfer_provider.write({
+                'state': 'enabled',
+                'is_published': True,
+            })
+            transfer_provider._transfer_ensure_pending_msg_is_set()
+
     def test_01_admin_shop_tour(self):
-        self.start_tour(self.env['website'].get_client_action_url('/shop'), 'shop', login='admin')
+        self.start_tour(self.env['website'].get_client_action_url('/shop'), 'test_01_admin_shop_tour', login='admin')
+
+    def test_01_cart_update_check(self):
+        self.start_tour('/', 'shop_update_cart', login='admin')
 
     def test_01_cart_update_check(self):
         self.start_tour('/', 'shop_update_cart', login='admin')
@@ -86,30 +113,20 @@ class TestUi(HttpCaseWithUserDemo):
         if self.env['ir.module.module']._get('payment_custom').state != 'installed':
             self.skipTest("Transfer provider is not installed")
 
-        transfer_provider = self.env.ref('payment.payment_provider_transfer')
-        transfer_provider.write({
-            'state': 'enabled',
-            'is_published': True,
-        })
-        transfer_provider._transfer_ensure_pending_msg_is_set()
         self.start_tour("/", 'shop_buy_product', login="admin")
 
     def test_03_demo_checkout(self):
+        self.partner_demo.write(self.dummy_partner_address_values)
         if self.env['ir.module.module']._get('payment_custom').state != 'installed':
             self.skipTest("Transfer provider is not installed")
 
-        transfer_provider = self.env.ref('payment.payment_provider_transfer')
-        transfer_provider.write({
-            'state': 'enabled',
-            'is_published': True,
-        })
-        transfer_provider._transfer_ensure_pending_msg_is_set()
         self.start_tour("/", 'shop_buy_product', login="demo")
 
     def test_04_admin_website_sale_tour(self):
         if self.env['ir.module.module']._get('payment_custom').state != 'installed':
             self.skipTest("Transfer provider is not installed")
 
+<<<<<<< HEAD
         transfer_provider = self.env.ref('payment.payment_provider_transfer')
         transfer_provider.write({
             'state': 'enabled',
@@ -117,6 +134,9 @@ class TestUi(HttpCaseWithUserDemo):
         })
         transfer_provider._transfer_ensure_pending_msg_is_set()
         self.env.company.country_id = self.env.ref('base.us')
+=======
+        self.env.company.country_id = self.country_us
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
         tax_group = self.env['account.tax.group'].create({'name': 'Tax 15%'})
         tax = self.env['account.tax'].create({
             'name': 'Tax 15%',
@@ -129,7 +149,6 @@ class TestUi(HttpCaseWithUserDemo):
             'name': 'Storage Box Test',
             'standard_price': 70.0,
             'list_price': 79.0,
-            'categ_id': self.env.ref('product.product_category_all').id,
             'website_published': True,
             'invoice_policy': 'delivery',
         })
@@ -140,7 +159,11 @@ class TestUi(HttpCaseWithUserDemo):
         }).execute()
 
         self.start_tour("/", 'website_sale_tour_1')
-        self.start_tour(self.env['website'].get_client_action_url('/shop/cart'), 'website_sale_tour_backend', login='admin')
+        self.start_tour(
+            self.env['website'].get_client_action_url('/shop/cart'),
+            'website_sale_tour_backend',
+            login='admin'
+        )
         self.start_tour("/", 'website_sale_tour_2', login="admin")
 
     def test_05_google_analytics_tracking(self):
@@ -150,6 +173,7 @@ class TestUi(HttpCaseWithUserDemo):
             'sequence': 10,
             'display_type': 'color',
             'value_ids': [
+<<<<<<< HEAD
                 Command.create({
                     'name': 'Red',
                 }),
@@ -747,45 +771,48 @@ class TestWebsiteSaleCheckoutAddress(TransactionCaseWithUserDemo, HttpCaseWithUs
                 Command.create({
                     'name': 'partner_1',
                 }),
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
                 Command.create({
-                    'name': 'partner_2',
+                    'name': 'Red',
                 }),
                 Command.create({
-                    'name': 'partner_3',
+                    'name': 'Pink',
                 }),
-            ],
+            ]
         })
-        partner_1, _partner_2, _partner_3 = partner_company.child_ids
-        self.assertTrue(partner_company.can_edit_vat())
-        self.assertTrue(partner_company._can_edit_name())
-        self.assertTrue(all(not p.can_edit_vat() for p in partner_company.child_ids))
-        self.assertTrue(all(p._can_edit_name() for p in partner_company.child_ids))
-
-        dumb_product = self.env['product.product'].create({'name': 'test'})
-        invoice = self.env['account.move'].create({
-            'move_type': 'out_invoice',
-            'partner_id': partner_company.id,
-            'invoice_line_ids': [
+        self.env['product.template'].create({
+            'name': 'Colored T-Shirt',
+            'standard_price': 500,
+            'list_price': 750,
+            'type': 'consu',
+            'website_published': True,
+            'attribute_line_ids': [
                 Command.create({
-                    'product_id': dumb_product.id,
+                    'attribute_id': attribute.id,
+                    'value_ids': attribute.value_ids,
                 })
-            ],
+            ]
         })
-        invoice.action_post()
+        self.env['website'].browse(1).write({'google_analytics_key': 'G-XXXXXXXXXXX'})
+        self.start_tour("/shop", 'google_analytics_view_item')
+        # Data for google_analytics_add_to_cart
+        self.env['product.template'].create({
+            'name': 'Basic Shirt',
+            'standard_price': 500,
+            'type': 'consu',
+            'website_published': True
+        })
+        self.start_tour("/shop", 'google_analytics_add_to_cart')
 
-        self.assertEqual(invoice.state, 'posted')
-        self.assertFalse(partner_company.can_edit_vat())
-        self.assertFalse(partner_company._can_edit_name())
-        self.assertTrue(all(p._can_edit_name() for p in partner_company.child_ids))
-        invoice = self.env['account.move'].create({
-            'move_type': 'out_invoice',
-            'partner_id': partner_1.id,
-            'invoice_line_ids': [
-                Command.create({
-                    'product_id': dumb_product.id,
-                })
-            ],
+    def test_update_same_address_billing_shipping_edit(self):
+        ''' Phone field should be required when updating an adress for billing and shipping '''
+        self.env['product.product'].create({
+            'name': 'Office Chair Black TEST',
+            'list_price': 12.50,
+            'is_published': True,
         })
+<<<<<<< HEAD
         invoice.action_post()
         self.assertFalse(partner_1._can_edit_name())
 
@@ -817,3 +844,6 @@ class TestWebsiteSaleCheckoutAddress(TransactionCaseWithUserDemo, HttpCaseWithUs
             so.website_id = False
             self.WebsiteSaleController.address(**self.default_address_values)
             self.assertFalse(so.payment_term_id, "The website default payment term should not be set on a sale order not coming from the website")
+=======
+        self.start_tour("/shop", 'update_billing_shipping_address', login="admin")
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8

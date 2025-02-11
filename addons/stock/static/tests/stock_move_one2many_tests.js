@@ -82,6 +82,7 @@ QUnit.module("StockMoveX2ManyField", {}, function (hooks) {
                         <field name="state" widget="statusbar" />
                     </header>
                     <field name="moves" widget="stock_move_one2many">
+<<<<<<< HEAD
                         <tree editable="bottom">
                             <field name="display_name"/>
                             <field name="show_details_visible" column_invisible="True"/>
@@ -92,6 +93,18 @@ QUnit.module("StockMoveX2ManyField", {}, function (hooks) {
                                 <tree editable="bottom">
                                     <field name="display_name"/>
                                 </tree>
+=======
+                        <list editable="bottom">
+                            <field name="display_name"/>
+                            <field name="show_details_visible" column_invisible="True"/>
+                        </list>
+                        <form>
+                            <field name="display_name" />
+                            <field name="lines">
+                                <list editable="bottom">
+                                    <field name="display_name"/>
+                                </list>
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
                             </field>
                         </form>
                     </field>

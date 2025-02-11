@@ -5,6 +5,9 @@ import { useService } from "@web/core/utils/hooks";
 import { Component, onWillStart } from "@odoo/owl";
 
 export class ForecastedWarehouseFilter extends Component {
+    static template = "stock.ForecastedWarehouseFilter";
+    static components = { Dropdown, DropdownItem };
+    static props = { action: Object, setWarehouseInContext: Function, warehouses: Array };
 
     setup() {
         this.orm = useService("orm");
@@ -23,16 +26,28 @@ export class ForecastedWarehouseFilter extends Component {
 
     get activeWarehouse(){
         let warehouseId = null;
+<<<<<<< HEAD
         if (Array.isArray(this.context.warehouse)) {
             const validWarehouseIds = this.context.warehouse.filter(Number.isInteger);
             warehouseId = validWarehouseIds.length ? validWarehouseIds[0] : null;
         } else if (Number.isInteger(this.context.warehouse)) {
             warehouseId = this.context.warehouse;
+=======
+        if (Array.isArray(this.context.warehouse_id)) {
+            const validWarehouseIds = this.context.warehouse_id.filter(Number.isInteger);
+            warehouseId = validWarehouseIds.length ? validWarehouseIds[0] : null;
+        } else if (Number.isInteger(this.context.warehouse_id)) {
+            warehouseId = this.context.warehouse_id;
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
         }
         return warehouseId ? this.warehouses.find((w) => w.id == warehouseId) : this.warehouses[0];
     }
-}
 
-ForecastedWarehouseFilter.template = 'stock.ForecastedWarehouseFilter';
-ForecastedWarehouseFilter.components = {Dropdown, DropdownItem};
-ForecastedWarehouseFilter.props = {action: Object, setWarehouseInContext : Function, warehouses: Array};
+    get warehousesItems() {
+        return this.warehouses.map(warehouse => ({
+            id: warehouse.id,
+            label: warehouse.name,
+            onSelected: () => this._onSelected(warehouse.id),
+        }));
+    }
+}

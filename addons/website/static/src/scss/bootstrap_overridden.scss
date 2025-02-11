@@ -31,6 +31,8 @@ $variable-prefix: '' !default;
 // Restore negative margins disabled in BS5 by default
 $enable-negative-margins: true !default;
 
+// Enable CSS grid
+$enable-cssgrid: true !default;
 
 
 // Customize the light and dark text colors for use in our color contrast function.
@@ -64,7 +66,8 @@ $spacers: (
 // variable to compute some of their colors too). The background color behind
 // the box will be forced by an Odoo CSS rule instead of relying on Bootstrap
 // CSS rule (the <body> background color CSS rule) which uses `$body-bg`.
-// In future bootstrap version (> 5.1.3), this should probably be reviewed.
+// TODO lots of variables are still using $body-bg directly, they should use
+// var(--body-bg) instead, as the new bootstrap version intended.
 // grep: BOXED_BODY_BG_ODOO
 $body-bg: o-color('o-cc1-bg') !default;
 $body-color: o-color('o-cc1-text') or color-contrast($body-bg) !default;
@@ -80,6 +83,13 @@ $link-hover-color: auto-contrast(darken($link-color, 15%), $body-bg, 'o-cc1-link
 $link-decoration: if(o-website-value('link-underline') == 'always', underline, none) !default;
 $link-hover-decoration: if(o-website-value('link-underline') != 'never', underline, none) !default;
 
+// Emphasis
+//
+// For higher contrast text. Not applicable for backgrounds.
+
+// Increase contrast when needed, otherwise fallback to BS default
+$primary-text-emphasis: if(not has-enough-contrast(o-color('primary'), $body-bg), increase-contrast(o-color('primary'), $body-bg), null) !default;
+
 // Grid
 $grid-gutter-width: 30px !default;
 
@@ -93,7 +103,7 @@ $border-color: var(--o-border-color) !default;
 // Note: for the 'active' color, color preset edition is not really flexible but
 // this could come in a future update.
 $component-active-bg: o-color('o-cc1-btn-primary') !default;
-$component-active-color: if($component-active-bg, color-contrast($component-active-bg), null) !default;
+$component-active-color: color-contrast($component-active-bg or o-color('primary')) !default;
 
 // Fonts
 //
@@ -243,6 +253,7 @@ $input-bg: o-color('input') or $body-bg !default;
 $input-border-color: $border-color !default;
 $input-color: color-contrast($input-bg) !default;
 $input-placeholder-color: mix($input-bg, $input-color) !default;
+<<<<<<< HEAD
 
 $input-disabled-bg: mix($input-color, $input-bg, 10%) !default;
 
@@ -259,10 +270,24 @@ $form-check-input-border: ($input-border-width or 1px) solid $input-border-color
 //   a background color on its own is not enough to convey that meaning anyway
 //   (a disabled range should have its *active* part with a different color).
 $form-range-track-bg: $input-disabled-bg !default;
+=======
 
-// Badge
-$badge-padding-y: 0.25em !default;
-$badge-padding-x: 0.4em !default;
+$input-disabled-bg: mix($input-color, $input-bg, 10%) !default;
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
+
+$form-check-input-border: ($input-border-width or 1px) solid $input-border-color !default;
+// Note that using "input-disabled-bg" here might seems strange at first but it
+// is actually the most consistent found way at the moment:
+// - It does not depend on the "border-color", which is important as the
+//   border-color depends on the "currentColor" in standard... and the track
+//   does not have a color.
+// - It depends on "input-bg", which is what we want otherwise the "input-bg"
+//   color would be used for all control elements except the range one.
+// - The notion of "disabled" kinda fits the "track" part of the range, as it is
+//   the "disabled" part of the range value. True, it is still interactive but
+//   a background color on its own is not enough to convey that meaning anyway
+//   (a disabled range should have its *active* part with a different color).
+$form-range-track-bg: $input-disabled-bg !default;
 
 // Breadcrumbs
 $breadcrumb-padding-y: .75rem !default;
@@ -271,7 +296,6 @@ $breadcrumb-padding-x: 1rem !default;
 // Navbar
 
 // Increase default navbar padding for some navbar styles
-$navbar-padding-x: $spacer !default;
 $navbar-padding-y: if(index(('fill', 'pills', 'outline'), o-website-value('header-links-style')), ($spacer / 2) * 1.25, null) !default;
 $navbar-nav-link-padding-x: if(index(('outline', 'block'), o-website-value('header-links-style')), .5rem * 3, null) !default;
 $navbar-nav-link-padding-x: if(o-website-value('header-links-style') == 'border-bottom', .5rem * 2, null) !default;
@@ -328,6 +352,9 @@ $popover-border-color: $border-color !default;
 $popover-arrow-color: $body-bg !default;
 $popover-arrow-outer-color: $border-color !default;
 
+// Badge
+$badge-border-radius: $border-radius-pill !default;
+
 // Shadows
 $box-shadow: 0px 4px 16px rgba($black, 0.12) !default;
 $box-shadow-sm: 0px 1px 3px rgba($black, .1) !default;
@@ -341,7 +368,11 @@ $modal-header-border-width: 0 !default;
 $modal-footer-border-width: 0 !default;
 
 // HR Separator
+<<<<<<< HEAD
 $hr-color: $border-color !default;
+=======
+$hr-border-color: $border-color !default;
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 $hr-opacity: 1 !default;
 
 // Pagination
@@ -377,6 +408,12 @@ $pagination-padding-x-lg: $pagination-padding-x !default;
 $pagination-border-radius-lg: $pagination-border-radius !default;
 $pagination-border-radius-sm: $pagination-border-radius !default;
 
+<<<<<<< HEAD
+=======
+// Carousel
+$carousel-control-width: 10% !default;
+
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 // TODO adapt in master: fix the text columns web_editor feature to use standard
 // Bootstrap paddings and margins. See FIXED_TEXT_COLUMNS.
 $--enable-no-overflow-of-text-columns: false !default;

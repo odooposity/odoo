@@ -19,7 +19,10 @@ following:
     """,
     'data': [
         'views/pos_payment_method_views.xml',
+<<<<<<< HEAD
         'views/pos_payment_views.xml',
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
     ],
     'depends': ['point_of_sale'],
     'installable': True,

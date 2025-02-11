@@ -1,8 +1,12 @@
 /** @odoo-module **/
 
 import { Component, useState, markup, onWillDestroy, status } from "@odoo/owl";
+<<<<<<< HEAD
 import { useService } from "@web/core/utils/hooks";
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 import { Dialog } from "@web/core/dialog/dialog";
+import { rpc } from "@web/core/network/rpc";
 import { escape } from "@web/core/utils/strings";
 import { _t } from "@web/core/l10n/translation";
 
@@ -10,6 +14,7 @@ import { _t } from "@web/core/l10n/translation";
  * General component for common logic between different dialogs.
  */
 export class ChatGPTDialog extends Component {
+    static template = "";
     static components = { Dialog };
     static props = {
         close: Function,
@@ -17,7 +22,10 @@ export class ChatGPTDialog extends Component {
     };
 
     setup() {
+<<<<<<< HEAD
         this.rpc = useService('rpc');
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
         this.state = useState({ selectedMessageId: null });
         onWillDestroy(() => this.pendingRpcPromise?.abort());
     }
@@ -107,7 +115,11 @@ export class ChatGPTDialog extends Component {
                 return callback(...args);
             }
         }
+<<<<<<< HEAD
         this.pendingRpcPromise = this.rpc('/web_editor/generate_text', {
+=======
+        this.pendingRpcPromise = rpc('/web_editor/generate_text', {
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
             prompt,
             conversation_history: this.state.conversationHistory,
         }, { shadow: true });

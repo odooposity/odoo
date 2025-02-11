@@ -78,11 +78,19 @@ class EventRegistrationCase(TestEventCrmCommon):
         registrations = self.env['event.registration'].create(registration_values)
         registrations = registrations.sorted('id')
         self.assertEqual(len(registrations), 5)
+<<<<<<< HEAD
         self.assertEqual(len(test_rule_attendee.lead_ids), 5)
         self.assertEqual(len(test_rule_order.lead_ids), 1)
 
         # grouped description: all answers in lead
         order_lead = test_rule_order.lead_ids
+=======
+        self.assertEqual(len(test_rule_attendee.sudo().lead_ids), 5)
+        self.assertEqual(len(test_rule_order.sudo().lead_ids), 1)
+
+        # grouped description: all answers in lead
+        order_lead = test_rule_order.sudo().lead_ids
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
         for customer_data in self.batch_customer_data:
             self.assertIn(
                 f'&lt;div&gt;answer from {customer_data.get("name", "no_name")}&lt;/div&gt;',
@@ -91,10 +99,19 @@ class EventRegistrationCase(TestEventCrmCommon):
             self.assertIn('<li>', order_lead.description, 'HTML around the text box value should not be escaped')
 
         # attendee-based descriptions
+<<<<<<< HEAD
         attendee_leads = test_rule_attendee.lead_ids
         for lead, registration, customer_data in zip(attendee_leads, registrations, self.batch_customer_data):
             self.assertEqual(lead.registration_ids, registration)
             self.assertEqual(registration.lead_ids, lead + order_lead)
+=======
+        attendee_leads = test_rule_attendee.sudo().lead_ids
+        for registration, customer_data in zip(registrations, self.batch_customer_data):
+            lead = attendee_leads.filtered(lambda l: l.registration_ids == registration)
+            self.assertTrue(lead)
+            self.assertEqual(lead.registration_ids, registration)
+            self.assertEqual(registration.sudo().lead_ids, lead + order_lead)
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
             self.assertIn(
                 f'&lt;div&gt;answer from {customer_data.get("name", "no_name")}&lt;/div&gt;', lead.description,
                 "Answers should be escaped")
@@ -169,7 +186,11 @@ class EventRegistrationCase(TestEventCrmCommon):
                     'email': 'test.fr@test.example.com',
                 },
             ])
+<<<<<<< HEAD
         leads = capture.records
+=======
+        leads = capture.records.sudo()
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
         self.assertEqual(len(leads), 4)
 
         # grouped: first found lang

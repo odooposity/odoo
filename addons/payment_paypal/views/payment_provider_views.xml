@@ -8,6 +8,7 @@
         <field name="arch" type="xml">
             <group name="provider_credentials" position='inside'>
                 <group invisible="code != 'paypal'">
+<<<<<<< HEAD
                     <field name="paypal_email_account"
                            required="code == 'paypal' and state != 'disabled'"/>
                     <field name="paypal_pdt_token"  password="True"
@@ -17,6 +18,40 @@
                        colspan="2">
                         How to configure your paypal account?
                     </a>
+=======
+                    <field
+                        name="paypal_email_account"
+                        required="code == 'paypal' and state != 'disabled'"
+                    />
+                    <field
+                        name="paypal_client_id"
+                        string="Client ID"
+                        required="code == 'paypal' and state != 'disabled'"
+                    />
+                    <field
+                        name="paypal_client_secret"
+                        string="Client Secret"
+                        password="True"
+                        required="code == 'paypal' and state != 'disabled'"
+                    />
+                    <label for="paypal_webhook_id" string="Webhook ID"/>
+                    <div class="o_row" col="2">
+                        <field name="paypal_webhook_id"/>
+                        <button
+                            string="Generate your webhook"
+                            type="object"
+                            name="action_paypal_create_webhook"
+                            class="btn-primary"
+                            invisible="paypal_webhook_id"
+                        />
+                    </div>
+                    <widget
+                        name="documentation_link"
+                        path="/applications/finance/payment_providers/paypal.html"
+                        label="How to configure your paypal account?"
+                        colspan="2"
+                    />
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
                 </group>
             </group>
         </field>

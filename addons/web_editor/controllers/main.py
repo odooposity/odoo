@@ -1,33 +1,23 @@
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
-import contextlib
 import io
 import json
 import logging
 import re
 import time
 import requests
-import uuid
 import werkzeug.exceptions
 import werkzeug.urls
 from PIL import Image, ImageFont, ImageDraw
 from lxml import etree
 from base64 import b64decode, b64encode
-from datetime import datetime
 from math import floor
 from os.path import join as opj
 
 from odoo.http import request, Response
-from odoo import http, tools, _, SUPERUSER_ID, release
-from odoo.addons.http_routing.models.ir_http import slug, unslug
-from odoo.addons.web_editor.tools import get_video_url_data
-from odoo.exceptions import UserError, MissingError, AccessError
+from odoo import http, tools, _
 from odoo.tools.misc import file_open
-from odoo.tools.mimetypes import guess_mimetype
 from odoo.tools.image import image_data_uri, binary_to_image
-from odoo.addons.iap.tools import iap_tools
-from odoo.addons.base.models.assetsbundle import AssetsBundle
 
-from ..models.ir_attachment import SUPPORTED_IMAGE_MIMETYPES
 
 logger = logging.getLogger(__name__)
 DEFAULT_LIBRARY_ENDPOINT = 'https://media-api.odoo.com'
@@ -236,6 +226,7 @@ class Web_Editor(http.Controller):
 
         return value
 
+<<<<<<< HEAD
     @http.route('/web_editor/video_url/data', type='json', auth='user', website=True)
     def video_url_data(self, video_url, autoplay=False, loop=False,
                        hide_controls=False, hide_fullscreen=False, hide_yt_logo=False,
@@ -281,6 +272,8 @@ class Web_Editor(http.Controller):
         attachment = self._attachment_create(url=url, res_id=res_id, res_model=res_model)
         return attachment._get_media_info()
 
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
     @http.route('/web_editor/attachment/remove', type='json', auth='user', website=True)
     def remove(self, ids, **kwargs):
         """ Removes a web-based image attachment if it is used by no view (template)
@@ -313,6 +306,7 @@ class Web_Editor(http.Controller):
             attachments_to_remove.unlink()
         return removal_blocked_by
 
+<<<<<<< HEAD
     @http.route('/web_editor/get_image_info', type='json', auth='user', website=True)
     def get_image_info(self, src=''):
         """This route is used to determine the original of an attachment so that
@@ -400,6 +394,8 @@ class Web_Editor(http.Controller):
                 or IrAttachment.create(attachment_data)
 
         return attachment
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
     def _clean_context(self):
         # avoid allowed_company_ids which may erroneously restrict based on website
@@ -552,6 +548,7 @@ class Web_Editor(http.Controller):
 
         return files_data_by_bundle
 
+<<<<<<< HEAD
     @http.route('/web_editor/modify_image/<model("ir.attachment"):attachment>', type="json", auth="user", website=True)
     def modify_image(self, attachment, res_model=None, res_id=None, name=None, data=None, original_id=None, mimetype=None, alt_data=None):
         """
@@ -618,6 +615,8 @@ class Web_Editor(http.Controller):
         attachment.generate_access_token()
         return '%s?access_token=%s' % (attachment.image_src, attachment.access_token)
 
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
     def _get_shape_svg(self, module, *segments):
         Module = request.env['ir.module.module'].sudo()
         # Avoid creating a bridge module just for this check.
@@ -680,45 +679,6 @@ class Web_Editor(http.Controller):
             return color_mapping[key] if key in color_mapping else key
         return re.sub(regex, subber, svg), svg_options
 
-    @http.route(['/web_editor/shape/<module>/<path:filename>'], type='http', auth="public", website=True)
-    def shape(self, module, filename, **kwargs):
-        """
-        Returns a color-customized svg (background shape or illustration).
-        """
-        svg = None
-        if module == 'illustration':
-            attachment = request.env['ir.attachment'].sudo().browse(unslug(filename)[1])
-            if (not attachment.exists()
-                    or attachment.type != 'binary'
-                    or not attachment.public
-                    or not attachment.url.startswith(request.httprequest.path)):
-                # Fallback to URL lookup to allow using shapes that were
-                # imported from data files.
-                attachment = request.env['ir.attachment'].sudo().search([
-                    ('type', '=', 'binary'),
-                    ('public', '=', True),
-                    ('url', '=', request.httprequest.path),
-                ], limit=1)
-                if not attachment:
-                    raise werkzeug.exceptions.NotFound()
-            svg = attachment.raw.decode('utf-8')
-        else:
-            svg = self._get_shape_svg(module, 'shapes', filename)
-
-        svg, options = self._update_svg_colors(kwargs, svg)
-        flip_value = options.get('flip', False)
-        if flip_value == 'x':
-            svg = svg.replace('<svg ', '<svg style="transform: scaleX(-1);" ', 1)
-        elif flip_value == 'y':
-            svg = svg.replace('<svg ', '<svg style="transform: scaleY(-1)" ', 1)
-        elif flip_value == 'xy':
-            svg = svg.replace('<svg ', '<svg style="transform: scale(-1)" ', 1)
-
-        return request.make_response(svg, [
-            ('Content-type', 'image/svg+xml'),
-            ('Cache-control', 'max-age=%s' % http.STATIC_CACHE_LONG),
-        ])
-
     @http.route(['/web_editor/image_shape/<string:img_key>/<module>/<path:filename>'], type='http', auth="public", website=True)
     def image_shape(self, module, filename, img_key, **kwargs):
         svg = self._get_shape_svg(module, 'image_shapes', filename)
@@ -764,6 +724,7 @@ class Web_Editor(http.Controller):
         else:
             return {'error': response.status_code}
 
+<<<<<<< HEAD
     @http.route('/web_editor/save_library_media', type='json', auth='user', methods=['POST'])
     def save_library_media(self, media):
         """
@@ -833,10 +794,13 @@ class Web_Editor(http.Controller):
         bus_data.update({'model_name': model_name, 'field_name': field_name, 'res_id': res_id})
         request.env['bus.bus']._sendone(channel, 'editor_collaboration', bus_data)
 
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
     @http.route('/web_editor/tests', type='http', auth="user")
     def test_suite(self, mod=None, **kwargs):
         return request.render('web_editor.tests')
 
+<<<<<<< HEAD
     @http.route("/web_editor/generate_text", type="json", auth="user")
     def generate_text(self, prompt, conversation_history):
         try:
@@ -858,3 +822,9 @@ class Web_Editor(http.Controller):
                 raise UserError(_("Sorry, we could not generate a response. Please try again later."))
         except AccessError:
             raise AccessError(_("Oops, it looks like our AI is unreachable!"))
+=======
+    @http.route("/web_editor/field/translation/update", type="json", auth="user", website=True)
+    def update_field_translation(self, model, record_id, field_name, translations):
+        record = request.env[model].browse(record_id)
+        return record.web_update_field_translations(field_name, translations)
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8

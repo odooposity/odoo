@@ -1,10 +1,8 @@
-/** @odoo-module */
-
 import { Component, useExternalListener, useState } from "@odoo/owl";
 
 export class ProductInfoPopup extends Component {
     static template = "pos_self_order.ProductInfoPopup";
-    static props = ["product", "addToCart"];
+    static props = ["product", "addToCart", "close"];
 
     setup() {
         useExternalListener(window, "click", this.props.close);

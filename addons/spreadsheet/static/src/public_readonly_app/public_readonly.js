@@ -4,10 +4,15 @@ import { Component, onWillStart, useChildSubEnv, useState } from "@odoo/owl";
 import { useService } from "@web/core/utils/hooks";
 import { download } from "@web/core/network/download";
 
+import { useSpreadsheetNotificationStore } from "@spreadsheet/hooks";
+
 import * as spreadsheet from "@odoo/o-spreadsheet";
 import { Spreadsheet, Model, registries } from "@odoo/o-spreadsheet";
 import { _t } from "@web/core/l10n/translation";
+<<<<<<< HEAD
 import { migrate } from "../o_spreadsheet/migration";
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 import { useSpreadsheetPrint } from "../hooks";
 
 registries.topbarMenuRegistry.addChild("download_public_excel", ["file"], {
@@ -18,6 +23,8 @@ registries.topbarMenuRegistry.addChild("download_public_excel", ["file"], {
 });
 
 export class PublicReadonlySpreadsheet extends Component {
+    static template = "spreadsheet.PublicReadonlySpreadsheet";
+    static components = { Spreadsheet };
     static props = {
         dataUrl: String,
         downloadExcelUrl: String,
@@ -25,6 +32,7 @@ export class PublicReadonlySpreadsheet extends Component {
     };
 
     setup() {
+        useSpreadsheetNotificationStore();
         this.http = useService("http");
         this.state = useState({
             isFilterShown: false,
@@ -57,9 +65,11 @@ export class PublicReadonlySpreadsheet extends Component {
 
     async createModel() {
         this.data = await this.http.get(this.props.dataUrl);
-        this.model = new Model(migrate(this.data), {
-            mode: this.props.mode === "dashboard" ? "dashboard" : "readonly",
-        });
+        this.model = new Model(
+            this.data,
+            { mode: this.props.mode === "dashboard" ? "dashboard" : "readonly" },
+            this.data.revisions || []
+        );
         if (this.env.debug) {
             // eslint-disable-next-line no-import-assign
             spreadsheet.__DEBUG__ = spreadsheet.__DEBUG__ || {};
@@ -71,6 +81,3 @@ export class PublicReadonlySpreadsheet extends Component {
         this.state.isFilterShown = !this.state.isFilterShown;
     }
 }
-
-PublicReadonlySpreadsheet.template = "spreadsheet.PublicReadonlySpreadsheet";
-PublicReadonlySpreadsheet.components = { Spreadsheet };

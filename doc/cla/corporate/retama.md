@@ -12,4 +12,9 @@ Yedidel Elhayany yedidel@retama.co.il https://github.com/yediel
 
 List of contributors:
 
+<<<<<<< HEAD
 Yedidel Elhayany yedidel@retama.co.il https://github.com/yediel
+=======
+Yedidel Elhayany yedidel@retama.co.il https://github.com/yediel
+Nitzan Hen nitzan@retama.co.il https://github.com/nitzanhen-retama
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8

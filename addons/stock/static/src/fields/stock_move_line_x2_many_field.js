@@ -41,7 +41,11 @@ export class SMLX2ManyField extends X2ManyField {
         context = {
             ...context,
             single_product: true,
+<<<<<<< HEAD
             tree_view_ref: "stock.view_stock_quant_tree_simple",
+=======
+            list_view_ref: "stock.view_stock_quant_tree_simple",
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
             search_default_on_hand: true,
             search_default_in_stock: true,
         };
@@ -51,9 +55,12 @@ export class SMLX2ManyField extends X2ManyField {
             ["product_id", "=", this.props.record.data.product_id[0]],
             ["location_id", "child_of", this.props.context.default_location_id],
         ];
+<<<<<<< HEAD
         if (this.props.domain) {
             domain = [...domain, ...this.props.domain()];
         }
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
         if (this.dirtyQuantsData.size) {
             const notFullyUsed = [];
             const fullyUsed = [];

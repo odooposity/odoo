@@ -88,4 +88,8 @@ class PaymentProvider(models.Model):
         default_codes = super()._get_default_payment_method_codes()
         if self.code != 'mollie':
             return default_codes
+<<<<<<< HEAD
         return const.DEFAULT_PAYMENT_METHODS_CODES
+=======
+        return const.DEFAULT_PAYMENT_METHOD_CODES
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8

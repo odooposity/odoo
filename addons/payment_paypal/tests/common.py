@@ -11,13 +11,17 @@ class PaypalCommon(PaymentCommon):
 
         cls.paypal = cls._prepare_provider('paypal', update_values={
             'paypal_email_account': 'dummy@test.mail.com',
+            'paypal_client_id': 'dummy_client_id',
+            'paypal_client_secret': 'dummy_secret',
         })
 
         # Override default values
         cls.provider = cls.paypal
         cls.currency = cls.currency_euro
+        cls.order_id = '123DUMMY456'
 
         cls.notification_data = {
+<<<<<<< HEAD
             'PayerID': '59XDVNACRAZZK',
             'address_city': 'Scranton',
             'address_country_code': 'US',
@@ -50,4 +54,43 @@ class PaypalCommon(PaymentCommon):
             'txn_id': '1H89255869624041K',
             'txn_type': 'web_accept',
             'verify_sign': 'dummy',
+=======
+            'event_type': 'CHECKOUT.ORDER.APPROVED',
+            'resource': {
+                'id': cls.order_id,
+                'intent': 'CAPTURE',
+                'status': 'COMPLETED',
+                'payment_source': {
+                    'paypal': {
+                        'account_id': '59XDVNACRAZZJ',
+                    }},
+                'purchase_units': [{
+                    'amount': {
+                        'currency_code': cls.currency.name,
+                        'value': str(cls.amount),
+                    },
+                    'reference_id': cls.reference,
+                }],
+            }
+        }
+
+        cls.completed_order = {
+            'status': 'COMPLETED',
+            'payment_source': {
+                'paypal': {'account_id': '59XDVNACRAZZJ'},
+            },
+            'purchase_units': [{
+                'reference_id': cls.reference,
+                'payments': {
+                    'captures': [{
+                        'amount': {
+                            'currency_code': cls.currency.name,
+                            'value': str(cls.amount),
+                        },
+                        'status': 'COMPLETED',
+                        'id': cls.order_id,
+                    }],
+                },
+            }],
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
         }

@@ -1,9 +1,16 @@
 # -*- coding: utf-8 -*-
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
 
+from odoo import Command
 from odoo.addons.stock.tests.common import TestStockCommon
+<<<<<<< HEAD
 from odoo.tests.common import Form
 from odoo import Command
+=======
+from odoo.tests import Form
+from odoo.exceptions import ValidationError
+
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 class TestLotSerial(TestStockCommon):
     @classmethod
@@ -25,7 +32,6 @@ class TestLotSerial(TestStockCommon):
         cls.lot_p_a = cls.LotObj.create({
             'name': 'lot_product_a',
             'product_id': cls.productA.id,
-            'company_id': cls.env.company.id,
         })
         cls.StockQuantObj.create({
             'product_id': cls.productA.id,
@@ -38,7 +44,10 @@ class TestLotSerial(TestStockCommon):
         cls.lot_p_b = cls.LotObj.create({
             'name': 'lot_product_b',
             'product_id': cls.productB.id,
+<<<<<<< HEAD
             'company_id': cls.env.company.id,
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
         })
         cls.env['stock.quant']._update_available_quantity(
             cls.productB,
@@ -76,9 +85,101 @@ class TestLotSerial(TestStockCommon):
         self.StockQuantObj._unlink_zero_quants()
         self.assertEqual(self.lot_p_a.location_id, self.locationC)
 
+<<<<<<< HEAD
     def test_bypass_reservation(self):
         """
         Check that the reservation of is bypassed when the stock move is added after the picking is done
+=======
+    def test_import_lots(self):
+        vals = self.MoveObj.action_generate_lot_line_vals({
+            'default_tracking': 'lot',
+            'default_product_id': self.productA.id,
+            'default_location_dest_id': self.locationC.id,
+        }, "import", "", 0, "aze;2\nqsd;4\nwxc")
+
+        self.assertEqual(len(vals), 3)
+        self.assertEqual(vals[0]['lot_name'], 'aze')
+        self.assertEqual(vals[0]['quantity'], 2)
+        self.assertEqual(vals[1]['lot_name'], 'qsd')
+        self.assertEqual(vals[1]['quantity'], 4)
+        self.assertEqual(vals[2]['lot_name'], 'wxc')
+        self.assertEqual(vals[2]['quantity'], 1, "default lot qty")
+
+    def test_lot_no_company(self):
+        """ check the lot created in a receipt should not have a company if the product is not
+        linked to a company"""
+        picking1 = self.env['stock.picking'].create({
+            'name': 'Picking 1',
+            'location_id': self.supplier_location,
+            'location_dest_id': self.stock_location,
+            'picking_type_id': self.env.ref('stock.picking_type_in').id,
+            'move_ids': [Command.create({
+                'name': self.productB.name,
+                'location_id': self.supplier_location,
+                'location_dest_id': self.stock_location,
+                'product_id': self.productB.id,
+                'product_uom_qty': 1.0,
+            })]
+        })
+        picking1.action_confirm()
+        move = picking1.move_ids
+        move.move_line_ids.lot_name = 'sn_test'
+        move.picked = True
+        picking1._action_done()
+        self.assertEqual(move.state, 'done')
+        # there is a lot but without a company
+        self.assertTrue(move.move_line_ids.lot_id)
+        self.assertFalse(move.move_line_ids.lot_id.company_id)
+
+    def test_lot_uniqueness(self):
+        """ Checks that the same lot name cannot be inserted twice for the same company or 'no-company'.
+        """
+        lot_1 = self.env['stock.lot'].create({
+            'name': 'unique',
+            'product_id': self.productB.id,
+            'company_id': False,
+        })
+        self.assertTrue(lot_1)
+        # Now try to insert the same one without company
+        with self.assertRaises(ValidationError):
+            self.env['stock.lot'].create({
+                'name': 'unique',
+                'product_id': self.productB.id,
+                'company_id': False,
+            })
+        # Same thing should happen when creating it from a company now
+        with self.assertRaises(ValidationError):
+            self.env['stock.lot'].create({
+                'name': 'unique',
+                'product_id': self.productB.id,
+                'company_id': self.env.company.id,
+            })
+
+        lot_2 = self.env['stock.lot'].create({
+            'name': 'also_unique',
+            'product_id': self.productB.id,
+            'company_id': self.env.company.id,
+        })
+        self.assertTrue(lot_2)
+        # Now try to insert the same one without company
+        with self.assertRaises(ValidationError):
+            self.env['stock.lot'].create({
+                'name': 'also_unique',
+                'product_id': self.productB.id,
+                'company_id': False,
+            })
+        # Same thing should happen when creating it from a company now
+        with self.assertRaises(ValidationError):
+            self.env['stock.lot'].create({
+                'name': 'also_unique',
+                'product_id': self.productB.id,
+                'company_id': self.env.company.id,
+            })
+
+    def test_bypass_reservation(self):
+        """
+        Check that the reservation of is bypassed when a stock move is added after the picking is done
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
         """
         customer = self.PartnerObj.create({'name': 'bob'})
         delivery_picking = self.env['stock.picking'].create({
@@ -93,6 +194,7 @@ class TestLotSerial(TestStockCommon):
                 'location_dest_id': self.customer_location,
             })]
         })
+<<<<<<< HEAD
         delivery_picking.button_validate()
         delivery_picking.is_locked = False
         self.env['stock.move.line'].create({
@@ -106,6 +208,26 @@ class TestLotSerial(TestStockCommon):
         self.assertRecordValues(delivery_picking.move_ids, [{'state': 'done', 'quantity': 5.0, 'picked': True}, {'state': 'done', 'quantity': 1.0, 'picked': True}])
         quant = self.lot_p_a.quant_ids.filtered(lambda q: q.location_id == self.locationA)
         self.assertRecordValues(quant, [{'quantity': 9.0, 'reserved_quantity': 0.0}])
+=======
+        stock = self.env['stock.location'].browse(self.stock_location)
+        additional_product = self.productA
+        lot = self.lot_p_a
+        lot.location_id = stock
+        quant = additional_product.stock_quant_ids.filtered(lambda q: q.location_id == stock)
+        self.assertRecordValues(quant, [{'quantity': 10.0, 'reserved_quantity': 0.0}])
+        delivery_picking.button_validate()
+        delivery_picking.is_locked = False
+        self.env['stock.move.line'].create({
+            'product_id': additional_product.id,
+            'product_uom_id': additional_product.uom_id.id,
+            'picking_id': delivery_picking.id,
+            'quantity': 3,
+            'lot_id': lot.id,
+            'quant_id': quant.id
+        })
+        self.assertRecordValues(delivery_picking.move_ids, [{'state': 'done', 'quantity': 5.0, 'picked': True}, {'state': 'done', 'quantity': 3.0, 'picked': True}])
+        self.assertRecordValues(quant, [{'quantity': 7.0, 'reserved_quantity': 0.0}])
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
     def test_location_lot_id_update_quant_qty(self):
         """
@@ -148,3 +270,45 @@ class TestLotSerial(TestStockCommon):
         self.assertEqual(move.state, 'done')
         self.assertEqual(starting_quant.quantity, 1)
         self.assertEqual(self.lot_p_b.location_id, self.locationA)
+<<<<<<< HEAD
+=======
+
+    def test_lot_id_with_branch_company(self):
+        """Test that a lot can be created in branch company when
+        the product is limited to the parent company"""
+        branch_a = self.env['res.company'].create({
+            'name': 'Branch X',
+            'country_id': self.env.company.country_id.id,
+            'parent_id': self.env.company.id,
+        })
+        self.assertEqual(self.productB.tracking, 'serial')
+        self.productB.company_id = self.env.company
+        branch_a_warehouse = self.env['stock.warehouse'].search([('company_id', '=', branch_a.id)])
+        branch_receipt_type = self.env['stock.picking.type'].search([('company_id', '=', branch_a.id), ('code', '=', 'incoming')], limit=1)
+        # create a receipt and confirm it
+        picking1 = self.env['stock.picking'].create({
+            'name': 'Picking 1',
+            'location_id': self.supplier_location,
+            'location_dest_id': branch_a_warehouse.lot_stock_id.id,
+            'picking_type_id': branch_receipt_type.id,
+        })
+        move = self.env["stock.move"].with_company(branch_a).create({
+            'name': 'test_move',
+            'location_id': self.supplier_location,
+            'location_dest_id': branch_a_warehouse.lot_stock_id.id,
+            'product_id': self.productB.id,
+            'product_uom_qty': 1.0,
+            'picking_id': picking1.id,
+        })
+        picking1.with_company(branch_a).action_confirm()
+        move.move_line_ids.lot_name =  'sn_test'
+        move.picked = True
+        picking1.with_company(branch_a)._action_done()
+        self.assertTrue(move.move_line_ids.lot_id)
+        self.assertEqual(move.state, 'done')
+        sn_form = Form(self.env['stock.lot'].with_company(branch_a))
+        sn_form.name = 'sn_test_2'
+        sn_form.product_id = self.productB
+        sn = sn_form.save()
+        self.assertEqual(sn.company_id, branch_a)
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8

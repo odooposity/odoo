@@ -4,7 +4,11 @@ import { intersection } from "@web/core/utils/arrays";
 import { _t } from "@web/core/l10n/translation";
 import { renderToElement } from "@web/core/utils/render";
 import { App, Component } from "@odoo/owl";
+<<<<<<< HEAD
 import { templates } from "@web/core/assets";
+=======
+import { getTemplate } from "@web/core/templates";
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 import { UrlAutoComplete } from "@website/components/autocomplete_with_pages/url_autocomplete";
 
 /**
@@ -53,7 +57,11 @@ function autocompleteWithPages(input, options= {}) {
     const owlApp = new App(UrlAutoComplete, {
         env: Component.env,
         dev: Component.env.debug,
+<<<<<<< HEAD
         templates,
+=======
+        getTemplate,
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
         props: {
             options,
             loadAnchors,
@@ -381,6 +389,7 @@ export function generateGMapIframe() {
     iframeEl.setAttribute('marginheight', '0');
     iframeEl.setAttribute('marginwidth', '0');
     iframeEl.setAttribute('src', 'about:blank');
+    iframeEl.setAttribute('aria-label', _t("Map"));
     return iframeEl;
 }
 
@@ -461,6 +470,44 @@ export function cloneContentEls(content, keepScripts = false) {
     return copyFragment;
 }
 
+<<<<<<< HEAD
+=======
+/**
+ * Checks SEO data and notifies if either the page title or description is not
+ * set.
+ *
+ * @param {Object} seo_data - The SEO data to check.
+ * @param {Component} OptimizeSEODialog - Dialog to be displayed
+ * @param {Object} services - Services object which will be used to display
+ * notifications and dialog.
+ */
+export function checkAndNotifySEO(seo_data, OptimizeSEODialog, services) {
+    if (seo_data) {
+        let message;
+        if (!seo_data.website_meta_title) {
+            message = _t("Page title not set.");
+        } else if (!seo_data.website_meta_description) {
+            message = _t("Page description not set.");
+        }
+        if (message) {
+            const closeNotification = services.notification.add(message, {
+                type: "warning",
+                sticky: false,
+                buttons: [
+                    {
+                        name: _t("Optimize SEO"),
+                        onClick: () => {
+                            services.dialog.add(OptimizeSEODialog);
+                            closeNotification();
+                        },
+                    },
+                ],
+            });
+        }
+    }
+}
+
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 export default {
     loadAnchors: loadAnchors,
     autocompleteWithPages: autocompleteWithPages,
@@ -476,4 +523,8 @@ export default {
     isMobile: isMobile,
     getParsedDataFor: getParsedDataFor,
     cloneContentEls: cloneContentEls,
+<<<<<<< HEAD
+=======
+    checkAndNotifySEO: checkAndNotifySEO,
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 };

@@ -19,7 +19,11 @@ publicWidget.registry.websiteEventMeetingRoom = publicWidget.Widget.extend({
 
     start: function () {
         this._super.apply(this, arguments);
+<<<<<<< HEAD
         this.meetingRoomId = parseInt(this.$el.data('meeting-room-id'));
+=======
+        this.meetingRoomId = parseInt(this.el.dataset["meetingRoomId"]);
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
     },
 
     //--------------------------------------------------------------------------
@@ -46,7 +50,7 @@ publicWidget.registry.websiteEventMeetingRoom = publicWidget.Widget.extend({
                 );
 
                 // remove the element so we do not need to refresh the page
-                this.$el.remove();
+                this.el.remove();
             },
         });
     },

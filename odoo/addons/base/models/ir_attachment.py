@@ -4,22 +4,21 @@ import base64
 import binascii
 import contextlib
 import hashlib
-import io
-import itertools
 import logging
 import mimetypes
 import os
 import psycopg2
 import re
 import uuid
+import werkzeug
 
 from collections import defaultdict
-from PIL import Image
 
 from odoo import api, fields, models, SUPERUSER_ID, tools, _
 from odoo.exceptions import AccessError, ValidationError, UserError
-from odoo.tools import config, human_size, ImageProcess, str2bool, consteq
-from odoo.tools.mimetypes import guess_mimetype
+from odoo.http import Stream, root, request
+from odoo.tools import config, human_size, image, str2bool, consteq
+from odoo.tools.mimetypes import guess_mimetype, fix_filename_extension
 from odoo.osv import expression
 
 _logger = logging.getLogger(__name__)
@@ -102,12 +101,6 @@ class IrAttachment(models.Model):
 
     @api.model
     def _get_path(self, bin_data, sha):
-        # retro compatibility
-        fname = sha[:3] + '/' + sha
-        full_path = self._full_path(fname)
-        if os.path.isfile(full_path):
-            return fname, full_path        # keep existing path
-
         # scatter files across 256 dirs
         # we use '/' in the db (even on windows)
         fname = sha[:2] + '/' + sha
@@ -115,6 +108,10 @@ class IrAttachment(models.Model):
         dirname = os.path.dirname(full_path)
         if not os.path.isdir(dirname):
             os.makedirs(dirname, exist_ok=True)
+<<<<<<< HEAD
+=======
+
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
         # prevent sha-1 collision
         if os.path.isfile(full_path) and not self._same_content(bin_data, full_path):
             raise UserError(_("The attachment collides with an existing file."))
@@ -340,11 +337,14 @@ class IrAttachment(models.Model):
             max_resolution = ICP('base.image_autoresize_max_px', '1920x1920')
             if str2bool(max_resolution, True):
                 try:
-                    img = False
                     if is_raw:
-                        img = ImageProcess(values['raw'], verify_resolution=False)
+                        img = image.ImageProcess(values['raw'], verify_resolution=False)
                     else:  # datas
-                        img = ImageProcess(base64.b64decode(values['datas']), verify_resolution=False)
+                        img = image.ImageProcess(base64.b64decode(values['datas']), verify_resolution=False)
+
+                    if not img.image:
+                        _logger.info('Post processing ignored : Empty source, SVG, or WEBP')
+                        return values
 
                     if not img.image:
                         _logger.info('Post processing ignored : Empty source, SVG, or WEBP')
@@ -363,7 +363,8 @@ class IrAttachment(models.Model):
                 except UserError as e:
                     # Catch error during test where we provide fake image
                     # raise UserError(_("This file could not be decoded as an image file. Please try with a different file."))
-                    _logger.info('Post processing ignored : %s', e)
+                    msg = str(e)  # the exception can be lazy-translated, resolve it here
+                    _logger.info('Post processing ignored : %s', msg)
         return values
 
     def _check_contents(self, values):
@@ -372,8 +373,9 @@ class IrAttachment(models.Model):
                 'xml' in mimetype and    # other xml (svg, text/xml, etc)
                 not mimetype.startswith('application/vnd.openxmlformats'))  # exception for Office formats
         force_text = xml_like and (
-            self.env.context.get('attachments_mime_plainxml') or
-            not self.env['ir.ui.view'].sudo(False).check_access_rights('write', False))
+            self.env.context.get('attachments_mime_plainxml')
+            or not self.env['ir.ui.view'].sudo(False).has_access('write')
+        )
         if force_text:
             values['mimetype'] = 'text/plain'
         if not self.env.context.get('image_no_postprocess'):
@@ -407,10 +409,9 @@ class IrAttachment(models.Model):
     name = fields.Char('Name', required=True)
     description = fields.Text('Description')
     res_name = fields.Char('Resource Name', compute='_compute_res_name')
-    res_model = fields.Char('Resource Model', readonly=True)
-    res_field = fields.Char('Resource Field', readonly=True)
-    res_id = fields.Many2oneReference('Resource ID', model_field='res_model',
-                                      readonly=True)
+    res_model = fields.Char('Resource Model')
+    res_field = fields.Char('Resource Field')
+    res_id = fields.Many2oneReference('Resource ID', model_field='res_model')
     company_id = fields.Many2one('res.company', string='Company', change_default=True,
                                  default=lambda self: self.env.company)
     type = fields.Selection([('url', 'URL'), ('binary', 'File')],
@@ -426,7 +427,7 @@ class IrAttachment(models.Model):
     raw = fields.Binary(string="File Content (raw)", compute='_compute_raw', inverse='_inverse_raw')
     datas = fields.Binary(string='File Content (base64)', compute='_compute_datas', inverse='_inverse_datas')
     db_datas = fields.Binary('Database Data', attachment=False)
-    store_fname = fields.Char('Stored Filename', index=True, unaccent=False)
+    store_fname = fields.Char('Stored Filename', index=True)
     file_size = fields.Integer('File Size', readonly=True)
     checksum = fields.Char("Checksum/SHA1", size=40, readonly=True)
     mimetype = fields.Char('Mime Type', readonly=True)
@@ -474,9 +475,8 @@ class IrAttachment(models.Model):
                         raise AccessError(_("Sorry, you are not allowed to access this document."))
                     if res_field:
                         field = self.env[res_model]._fields[res_field]
-                        if field.groups:
-                            if not self.env.user.user_has_groups(field.groups):
-                                raise AccessError(_("Sorry, you are not allowed to access this document."))
+                        if not field.is_accessible(self.env):
+                            raise AccessError(_("Sorry, you are not allowed to access this document."))
                 if not (res_model and res_id):
                     continue
                 model_ids[res_model].add(res_id)
@@ -499,8 +499,7 @@ class IrAttachment(models.Model):
             # For related models, check if we can write to the model, as unlinking
             # and creating attachments can be seen as an update to the model
             access_mode = 'write' if mode in ('create', 'unlink') else mode
-            records.check_access_rights(access_mode)
-            records.check_access_rule(access_mode)
+            records.check_access(access_mode)
 
     @api.model
     def _filter_attachment_access(self, attachment_ids):
@@ -511,7 +510,7 @@ class IrAttachment(models.Model):
         """
         ret_attachments = self.env['ir.attachment']
         attachments = self.browse(attachment_ids)
-        if not attachments.check_access_rights('read', raise_exception=False):
+        if not attachments.has_access('read'):
             return ret_attachments
 
         for attachment in attachments.sudo():
@@ -525,7 +524,7 @@ class IrAttachment(models.Model):
         return ret_attachments
 
     @api.model
-    def _search(self, domain, offset=0, limit=None, order=None, access_rights_uid=None):
+    def _search(self, domain, offset=0, limit=None, order=None):
         # add res_field=False in domain if not present; the arg[0] trick below
         # works for domain items and '&'/'|'/'!' operators too
         disable_binary_fields_attachments = False
@@ -535,24 +534,17 @@ class IrAttachment(models.Model):
 
         if self.env.is_superuser():
             # rules do not apply for the superuser
-            return super()._search(domain, offset, limit, order, access_rights_uid)
+            return super()._search(domain, offset, limit, order)
 
         # For attachments, the permissions of the document they are attached to
         # apply, so we must remove attachments for which the user cannot access
         # the linked document. For the sake of performance, fetch the fields to
         # determine those permissions within the same SQL query.
-        self.flush_model(['res_model', 'res_id', 'res_field', 'public', 'create_uid'])
-        query = super()._search(domain, offset, limit, order, access_rights_uid)
-        query_str, params = query.select(
-            f'"{self._table}"."id"',
-            f'"{self._table}"."res_model"',
-            f'"{self._table}"."res_id"',
-            f'"{self._table}"."res_field"',
-            f'"{self._table}"."public"',
-            f'"{self._table}"."create_uid"',
-        )
-        self.env.cr.execute(query_str, params)
-        rows = self.env.cr.fetchall()
+        fnames_to_read = ['id', 'res_model', 'res_id', 'res_field', 'public', 'create_uid']
+        query = super()._search(domain, offset, limit, order)
+        rows = self.env.execute_query(query.select(
+            *[self._field_to_sql(self._table, fname) for fname in fnames_to_read],
+        ))
 
         # determine permissions based on linked records
         all_ids = []
@@ -574,7 +566,7 @@ class IrAttachment(models.Model):
             if res_model not in self.env:
                 allowed_ids.update(id_ for ids in targets.values() for id_ in ids)
                 continue
-            if not self.env[res_model].check_access_rights('read', False):
+            if not self.env[res_model].has_access('read'):
                 continue
             # filter ids according to what access rules permit
             ResModel = self.env[res_model].with_context(active_test=False)
@@ -593,7 +585,7 @@ class IrAttachment(models.Model):
         if len(all_ids) == limit and len(result) < self._context.get('need', limit):
             need = self._context.get('need', limit) - len(result)
             more_ids = self.with_context(need=need)._search(
-                domain, offset + len(all_ids), limit, order, access_rights_uid,
+                domain, offset + len(all_ids), limit, order,
             )
             result.extend(list(more_ids)[:limit - len(result)])
 
@@ -608,11 +600,14 @@ class IrAttachment(models.Model):
             vals = self._check_contents(vals)
         return super(IrAttachment, self).write(vals)
 
-    def copy(self, default=None):
-        if not (default or {}).keys() & {'datas', 'db_datas', 'raw'}:
-            # ensure the content is kept and recomputes checksum/store_fname
-            default = dict(default or {}, raw=self.raw)
-        return super(IrAttachment, self).copy(default)
+    def copy_data(self, default=None):
+        default = dict(default or {})
+        vals_list = super().copy_data(default=default)
+        for attachment, vals in zip(self, vals_list):
+            if not default.keys() & {'datas', 'db_datas', 'raw'}:
+                # ensure the content is kept and recomputes checksum/store_fname
+                vals['raw'] = attachment.raw
+        return vals_list
 
     def unlink(self):
         if not self:
@@ -723,7 +718,7 @@ class IrAttachment(models.Model):
         if record_sudo.with_context(prefetch_fields=False).public:
             return record_sudo
 
-        if self.env.user.has_group('base.group_portal'):
+        if self.env.user._is_portal():
             # Check the read access on the record linked to the attachment
             # eg: Allow to download an attachment on a task from /my/tasks/task_id
             self.check('read')
@@ -750,3 +745,92 @@ class IrAttachment(models.Model):
             ('create_uid', '=', SUPERUSER_ID),
         ]).unlink()
         self.env.registry.clear_cache('assets')
+<<<<<<< HEAD
+=======
+
+    def _from_request_file(self, file, *, mimetype, **vals):
+        """
+        Create an attachment out of a request file
+
+        :param file: the request file
+        :param str mimetype:
+            * "TRUST" to use the mimetype and file extension from the
+              request file with no verification.
+            * "GUESS" to determine the mimetype and file extension on
+              the file's content. The determined extension is added at
+              the end of the filename unless the filename already had a
+              valid extension.
+            * a mimetype in format "{type}/{subtype}" to force the
+              mimetype to the given value, it adds the corresponding
+              file extension at the end of the filename unless the
+              filename already had a valid extension.
+        """
+        if mimetype == 'TRUST':
+            mimetype = file.content_type
+            filename = file.filename
+        elif mimetype == 'GUESS':
+            head = file.read(1024)
+            file.seek(-len(head), 1)  # rewind
+            mimetype = guess_mimetype(head)
+            filename = fix_filename_extension(file.filename, mimetype)
+        elif all(mimetype.partition('/')):
+            filename = fix_filename_extension(file.filename, mimetype)
+        else:
+            raise ValueError(f'{mimetype=}')
+
+        return self.create({
+            'name': filename,
+            'type': 'binary',
+            'raw': file.read(),  # load the entire file in memory :(
+            'mimetype': mimetype,
+            **vals,
+        })
+
+    def _to_http_stream(self):
+        """ Create a :class:`~Stream`: from an ir.attachment record. """
+        self.ensure_one()
+
+        stream = Stream(
+            mimetype=self.mimetype,
+            download_name=self.name,
+            etag=self.checksum,
+            public=self.public,
+        )
+
+        if self.store_fname:
+            stream.type = 'path'
+            stream.path = werkzeug.security.safe_join(
+                os.path.abspath(config.filestore(request.db)),
+                self.store_fname
+            )
+            stat = os.stat(stream.path)
+            stream.last_modified = stat.st_mtime
+            stream.size = stat.st_size
+
+        elif self.db_datas:
+            stream.type = 'data'
+            stream.data = self.raw
+            stream.last_modified = self.write_date
+            stream.size = len(stream.data)
+
+        elif self.url:
+            # When the URL targets a file located in an addon, assume it
+            # is a path to the resource. It saves an indirection and
+            # stream the file right away.
+            static_path = root.get_static_file(
+                self.url,
+                host=request.httprequest.environ.get('HTTP_HOST', '')
+            )
+            if static_path:
+                stream = Stream.from_path(static_path, public=True)
+            else:
+                stream.type = 'url'
+                stream.url = self.url
+
+        else:
+            stream.type = 'data'
+            stream.data = b''
+            stream.size = 0
+
+        return stream
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8

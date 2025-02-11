@@ -25,6 +25,12 @@ class SaleOrderDiscount(models.TransientModel):
         ],
         default='sol_discount',
     )
+    tax_ids = fields.Many2many(
+        string="Taxes",
+        help="Taxes to add on the discount line.",
+        comodel_name='account.tax',
+        domain="[('type_tax_use', '=', 'sale'), ('company_id', '=', company_id)]",
+    )
 
     # CONSTRAINT METHODS #
 
@@ -70,9 +76,15 @@ class SaleOrderDiscount(models.TransientModel):
         discount_product = self.company_id.sale_discount_product_id
         if not discount_product:
             if (
+<<<<<<< HEAD
                 self.env['product.product'].check_access_rights('create', raise_exception=False)
                 and self.company_id.check_access_rights('write', raise_exception=False)
                 and self.company_id._filter_access_rules_python('write')
+=======
+                self.env['product.product'].has_access('create')
+                and self.company_id.has_access('write')
+                and self.company_id._filtered_access('write')
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
                 and self.company_id.check_field_access_rights('write', ['sale_discount_product_id'])
             ):
                 self.company_id.sale_discount_product_id = self.env['product.product'].create(
@@ -97,7 +109,7 @@ class SaleOrderDiscount(models.TransientModel):
                 self._prepare_discount_line_values(
                     product=discount_product,
                     amount=self.discount_amount,
-                    taxes=self.env['account.tax'],
+                    taxes=self.tax_ids,
                 )
             ]
         else: # so_discount
@@ -122,7 +134,11 @@ class SaleOrderDiscount(models.TransientModel):
                         amount=subtotal * self.discount_percentage,
                         taxes=taxes,
                         description=_(
+<<<<<<< HEAD
                             "Discount: %(percent)s%%",
+=======
+                            "Discount %(percent)s%%",
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
                             percent=float_repr(self.discount_percentage * 100, discount_dp),
                         ),
                     ),
@@ -134,7 +150,7 @@ class SaleOrderDiscount(models.TransientModel):
                         amount=subtotal * self.discount_percentage,
                         taxes=taxes,
                         description=_(
-                            "Discount: %(percent)s%%"
+                            "Discount %(percent)s%%"
                             "- On products with the following taxes %(taxes)s",
                             percent=float_repr(self.discount_percentage * 100, discount_dp),
                             taxes=", ".join(taxes.mapped('name')),

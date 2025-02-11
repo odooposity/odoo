@@ -1,7 +1,10 @@
 # -*- coding: utf-8 -*-
 
 from odoo import http
+<<<<<<< HEAD
 from odoo.addons.http_routing.models.ir_http import unslug, slug
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 from odoo.http import request
 
 
@@ -11,13 +14,23 @@ class WebsitePartnerPage(http.Controller):
     @http.route(['/partners/<partner_id>'], type='http', auth="public", website=True)
     def partners_detail(self, partner_id, **post):
         current_slug = partner_id
+<<<<<<< HEAD
         _, partner_id = unslug(partner_id)
+=======
+        _, partner_id = request.env['ir.http']._unslug(partner_id)
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
         if partner_id:
             partner_sudo = request.env['res.partner'].sudo().browse(partner_id)
-            is_website_restricted_editor = request.env['res.users'].has_group('website.group_website_restricted_editor')
+            is_website_restricted_editor = request.env.user.has_group('website.group_website_restricted_editor')
             if partner_sudo.exists() and (partner_sudo.website_published or is_website_restricted_editor):
+<<<<<<< HEAD
                 if slug(partner_sudo) != current_slug:
                     return request.redirect('/partners/%s' % slug(partner_sudo))
+=======
+                partner_slug = request.env['ir.http']._slug(partner_sudo)
+                if partner_slug != current_slug:
+                    return request.redirect('/partners/%s' % partner_slug)
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
                 values = {
                     'main_object': partner_sudo,
                     'partner': partner_sudo,

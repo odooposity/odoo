@@ -1,155 +1,129 @@
-/** @odoo-module */
 /* global waitForWebfonts */
 
-import { PosCollection, Order, Product } from "@point_of_sale/app/store/models";
 import { Mutex } from "@web/core/utils/concurrency";
-import { PosDB } from "@point_of_sale/app/store/db";
-import { markRaw, reactive } from "@odoo/owl";
-import { roundPrecision as round_pr, floatIsZero } from "@web/core/utils/numbers";
+import { markRaw } from "@odoo/owl";
+import { floatIsZero } from "@web/core/utils/numbers";
+import { renderToElement } from "@web/core/utils/render";
 import { registry } from "@web/core/registry";
-import { ConfirmPopup } from "@point_of_sale/app/utils/confirm_popup/confirm_popup";
-import { deduceUrl } from "@point_of_sale/utils";
+import { AlertDialog } from "@web/core/confirmation_dialog/confirmation_dialog";
+import { deduceUrl, lte, random5Chars, uuidv4 } from "@point_of_sale/utils";
 import { Reactive } from "@web/core/utils/reactive";
 import { HWPrinter } from "@point_of_sale/app/printer/hw_printer";
+<<<<<<< HEAD
 import { memoize } from "@web/core/utils/functions";
 import { ErrorPopup } from "@point_of_sale/app/errors/popups/error_popup";
 import { ConnectionLostError, RPCError } from "@web/core/network/rpc_service";
+=======
+import { ConnectionLostError } from "@web/core/network/rpc";
+import { OrderReceipt } from "@point_of_sale/app/screens/receipt_screen/receipt/order_receipt";
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 import { _t } from "@web/core/l10n/translation";
-import { CashOpeningPopup } from "@point_of_sale/app/store/cash_opening_popup/cash_opening_popup";
-import { PaymentScreen } from "@point_of_sale/app/screens/payment_screen/payment_screen";
+import { OpeningControlPopup } from "@point_of_sale/app/store/opening_control_popup/opening_control_popup";
 import { ProductScreen } from "@point_of_sale/app/screens/product_screen/product_screen";
-import { renderToString } from "@web/core/utils/render";
-import { batched } from "@web/core/utils/timing";
 import { TicketScreen } from "@point_of_sale/app/screens/ticket_screen/ticket_screen";
-import { EditListPopup } from "./select_lot_popup/select_lot_popup";
+import { PaymentScreen } from "@point_of_sale/app/screens/payment_screen/payment_screen";
+import { EditListPopup } from "@point_of_sale/app/store/select_lot_popup/select_lot_popup";
+import { ProductConfiguratorPopup } from "./product_configurator_popup/product_configurator_popup";
+import { ComboConfiguratorPopup } from "./combo_configurator_popup/combo_configurator_popup";
+import {
+    makeAwaitable,
+    ask,
+    makeActionAwaitable,
+} from "@point_of_sale/app/store/make_awaitable_dialog";
+import { deserializeDate } from "@web/core/l10n/dates";
+import { PartnerList } from "../screens/partner_list/partner_list";
+import { ScaleScreen } from "../screens/scale_screen/scale_screen";
+import { computeComboItems } from "../models/utils/compute_combo_items";
+import { changesToOrder, getOrderChanges } from "../models/utils/order_change";
+import { getTaxesAfterFiscalPosition } from "../models/utils/tax_utils";
+import { accountTaxHelpers } from "@account/helpers/account_tax";
+import { QRPopup } from "@point_of_sale/app/utils/qr_code_popup/qr_code_popup";
+import { ActionScreen } from "@point_of_sale/app/screens/action_screen";
+import { FormViewDialog } from "@web/views/view_dialogs/form_view_dialog";
+import { CashMovePopup } from "@point_of_sale/app/navbar/cash_move_popup/cash_move_popup";
+import { ClosePosPopup } from "../navbar/closing_popup/closing_popup";
+import { user } from "@web/core/user";
+import { debounce } from "@web/core/utils/timing";
+import DevicesSynchronisation from "./devices_synchronisation";
 
-/* Returns an array containing all elements of the given
- * array corresponding to the rule function {agg} and without duplicates
- *
- * @template T
- * @template F
- * @param {T[]} array
- * @param {F} function
- * @returns {T[]}
- */
-export function uniqueBy(array, agg) {
-    const map = new Map();
-    for (const item of array) {
-        const key = agg(item);
-        if (!map.has(key)) {
-            map.set(key, item);
-        }
-    }
-    return [...map.values()];
-}
-
-/**
- * Gets a product image as a base64 string so that it can be sent to the
- * customer display, as the display won't be able to fetch it, since the image
- * controller requires the client to be logged. This function is memoized on the
- * product id, so that we will only do this once per product.
- *
- * @param {number} productId id of the product
- * @param {string} writeDate the write date of the product, used as a cache
- *  buster in case the product image has been changed
- * @returns {string} the base64 representation of the product's image
- */
-const getProductImage = memoize(function getProductImage(productId, writeDate) {
-    return new Promise(function (resolve, reject) {
-        const img = new Image();
-        img.addEventListener("load", () => {
-            const canvas = document.createElement("canvas");
-            const ctx = canvas.getContext("2d");
-            canvas.height = img.height;
-            canvas.width = img.width;
-            ctx.drawImage(img, 0, 0);
-            resolve(canvas.toDataURL("image/jpeg"));
-        });
-        img.addEventListener("error", reject);
-        img.src = `/web/image?model=product.product&field=image_128&id=${productId}&unique=${writeDate}`;
-    });
-});
+const { DateTime } = luxon;
 
 export class PosStore extends Reactive {
     hasBigScrollBars = false;
     loadingSkipButtonIsShown = false;
     mainScreen = { name: null, component: null };
-    tempScreen = null;
 
     static serviceDependencies = [
-        "popup",
-        "orm",
+        "bus_service",
         "number_buffer",
         "barcode_reader",
         "hardware_proxy",
         "ui",
+        "pos_data",
+        "dialog",
+        "notification",
+        "printer",
+        "action",
+        "alert",
+        "mail.sound_effects",
     ];
     constructor() {
         super();
         this.ready = this.setup(...arguments).then(() => this);
     }
     // use setup instead of constructor because setup can be patched.
-    async setup(env, { popup, orm, number_buffer, hardware_proxy, barcode_reader, ui }) {
+    async setup(
+        env,
+        {
+            number_buffer,
+            hardware_proxy,
+            barcode_reader,
+            ui,
+            dialog,
+            notification,
+            printer,
+            bus_service,
+            pos_data,
+            action,
+            alert,
+        }
+    ) {
         this.env = env;
-        this.orm = orm;
-        this.popup = popup;
         this.numberBuffer = number_buffer;
         this.barcodeReader = barcode_reader;
         this.ui = ui;
-
-        this.db = new PosDB(); // a local database used to search trough products and categories & store pending orders
+        this.dialog = dialog;
+        this.printer = printer;
+        this.bus = bus_service;
+        this.data = pos_data;
+        this.action = action;
+        this.alert = alert;
+        this.sound = env.services["mail.sound_effects"];
+        this.notification = notification;
         this.unwatched = markRaw({});
         this.pushOrderMutex = new Mutex();
 
         // Business data; loaded from the server at launch
         this.company_logo = null;
         this.company_logo_base64 = "";
-        this.currency = null;
-        this.company = null;
-        this.user = null;
-        this.partners = [];
-        this.taxes = [];
-        this.pos_session = null;
-        this.config = null;
-        this.units = [];
-        this.units_by_id = {};
-        this.uom_unit_id = null;
-        this.default_pricelist = null;
         this.order_sequence = 1;
         this.printers_category_ids_set = new Set();
 
-        // Object mapping the order's name (which contains the uid) to it's server_id after
+        // Object mapping the order's name (which contains the uuid) to it's server_id after
         // validation (order paid then sent to the backend).
         this.validated_orders_name_server_id_map = {};
-
         this.numpadMode = "quantity";
         this.mobile_pane = "right";
         this.ticket_screen_mobile_pane = "left";
         this.productListView = window.localStorage.getItem("productListView") || "grid";
 
-        // Record<orderlineId, { 'qty': number, 'orderline': { qty: number, refundedQty: number, orderUid: string }, 'destinationOrderUid': string }>
-        this.toRefundLines = {};
-        this.TICKET_SCREEN_STATE = {
-            syncedOrders: {
-                currentPage: 1,
-                cache: {},
-                toShow: [],
-                nPerPage: 80,
-                totalCount: null,
-                cacheDate: null,
-            },
-            ui: {
-                selectedOrder: null,
-                searchDetails: this.getDefaultSearchDetails(),
-                filter: null,
-                // maps the order's backendId to it's selected orderline
-                selectedOrderlineIds: {},
-                highlightHeaderNote: false,
-            },
+        this.ticketScreenState = {
+            offsetByDomain: {},
+            totalCount: 0,
         };
 
-        this.ordersToUpdateSet = new Set(); // used to know which orders need to be sent to the back end when syncing
         this.loadingOrderState = false; // used to prevent orders fetched to be put in the update set during the reactive change
+<<<<<<< HEAD
         this.showOfflineWarning = true; // Allows to avoid the display of the offline popup when the user has already had it.
         this.tempScreenIsShown = false;
 
@@ -164,25 +138,52 @@ export class PosStore extends Reactive {
             // but it currently needs to be available to the ProductInfo screen for dubious functional reasons
             searchProductWord: "",
         });
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
+        // Handle offline mode
+        // All of Set of ids
+        this.pendingOrder = {
+            write: new Set(),
+            delete: new Set(),
+            create: new Set(),
+        };
+
+        this.hardwareProxy = hardware_proxy;
+        this.hiddenProductIds = new Set();
+        this.selectedOrderUuid = null;
+        this.selectedPartner = null;
+        this.selectedCategory = null;
+        this.searchProductWord = "";
+        this.mainProductVariant = {};
         this.ready = new Promise((resolve) => {
             this.markReady = resolve;
         });
+        this.isScaleScreenVisible = false;
+        this.scaleData = null;
+        this.scaleWeight = 0;
+        this.scaleTare = 0;
+        this.totalPriceOnScale = 0;
 
-        this.hardwareProxy = hardware_proxy;
         // FIXME POSREF: the hardwareProxy needs the pos and the pos needs the hardwareProxy. Maybe
         // the hardware proxy should just be part of the pos service?
         this.hardwareProxy.pos = this;
+<<<<<<< HEAD
 
         this.syncingOrders = new Set();
         await this.load_server_data();
         if (this.config.use_proxy) {
+=======
+        this.syncingOrders = new Set();
+        await this.initServerData();
+        if (this.useProxy()) {
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
             await this.connectToProxy();
         }
         this.closeOtherTabs();
-        this.preloadImages();
-        this.showScreen("ProductScreen");
+        this.syncAllOrdersDebounced = debounce(this.syncAllOrders, 100);
     }
+<<<<<<< HEAD
     toggleImages(imageType = "product") {
         if (imageType === "product") {
             this.show_product_images = !this.show_product_images;
@@ -202,23 +203,48 @@ export class PosStore extends Reactive {
             return "d-grid gap-1";
         } else {
             return "";
+=======
+
+    get firstScreen() {
+        if (odoo.from_backend) {
+            // Remove from_backend params in the URL but keep the rest
+            const url = new URL(window.location.href);
+            url.searchParams.delete("from_backend");
+            window.history.replaceState({}, "", url);
+
+            if (!this.config.module_pos_hr) {
+                this.set_cashier(this.user);
+            }
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
         }
-    }
-    get productViewMode() {
-        const viewMode = this.productListView && this.ui.isSmall ? this.productListView : "grid";
-        if (viewMode === "grid") {
-            return "flex-column";
-        } else {
-            return "flex-row-reverse justify-content-between m-1";
-        }
-    }
-    getDefaultSearchDetails() {
-        return {
-            fieldName: "RECEIPT_NUMBER",
-            searchTerm: "",
-        };
+
+        return !this.cashier ? "LoginScreen" : "ProductScreen";
     }
 
+    get idleTimeout() {
+        return [
+            {
+                timeout: 300000, // 5 minutes
+                action: () =>
+                    this.mainScreen.component.name !== "PaymentScreen" &&
+                    this.showScreen("SaverScreen"),
+            },
+            {
+                timeout: 120000, // 2 minutes
+                action: () =>
+                    this.mainScreen.component.name === "LoginScreen" &&
+                    this.showScreen("SaverScreen"),
+            },
+        ];
+    }
+
+    async showLoginScreen() {
+        this.reset_cashier();
+        this.showScreen("LoginScreen");
+        this.dialog.closeAll();
+    }
+
+<<<<<<< HEAD
     async setDiscountFromUI(line, val) {
         line.set_discount(val);
     }
@@ -229,15 +255,21 @@ export class PosStore extends Reactive {
             return current_order.pricelist;
         }
         return this.default_pricelist;
-    }
-    async load_product_uom_unit() {
-        const uom_id = await this.orm.call("ir.model.data", "check_object_reference", [
-            "uom",
-            "product_uom_unit",
-        ]);
-        this.uom_unit_id = uom_id[1];
+=======
+    reset_cashier() {
+        this.cashier = false;
+        this._resetConnectedCashier();
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
     }
 
+    checkPreviousLoggedCashier() {
+        const savedCashier = this._getConnectedCashier();
+        if (savedCashier) {
+            this.set_cashier(savedCashier);
+        }
+    }
+
+<<<<<<< HEAD
     async after_load_server_data() {
         await this.load_product_uom_unit();
         await this.load_orders();
@@ -341,316 +373,276 @@ export class PosStore extends Reactive {
             for (const id of printer.config.product_categories_ids) {
                 this.printers_category_ids_set.add(id);
             }
+=======
+    set_cashier(user) {
+        if (!user) {
+            return;
         }
-        this.config.iface_printers = !!this.unwatched.printers.length;
+
+        this.cashier = user;
+        this._storeConnectedCashier(user);
     }
-    create_printer(config) {
-        const url = deduceUrl(config.proxy_ip || "");
-        return new HWPrinter({ rpc: this.env.services.rpc, url });
-    }
-    _loadPoSConfig() {
-        this.db.set_uuid(this.config.uuid);
-    }
-    addPartners(partners) {
-        return this.db.add_partners(partners);
-    }
-    _assignApplicableItems(pricelist, correspondingProduct, pricelistItem) {
-        if (!(pricelist.id in correspondingProduct.applicablePricelistItems)) {
-            correspondingProduct.applicablePricelistItems[pricelist.id] = [];
+
+    _getConnectedCashier() {
+        const cashier_id = Number(sessionStorage.getItem(`connected_cashier_${this.config.id}`));
+        if (cashier_id && this.models["res.users"].get(cashier_id)) {
+            return this.models["res.users"].get(cashier_id);
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
         }
-        correspondingProduct.applicablePricelistItems[pricelist.id].push(pricelistItem);
+        return false;
     }
-    _loadProductProduct(products) {
-        const productMap = {};
-        const productTemplateMap = {};
 
-        const modelProducts = products.map((product) => {
-            product.pos = this;
-            product.env = this.env;
-            product.applicablePricelistItems = {};
-            productMap[product.id] = product;
-            productTemplateMap[product.product_tmpl_id[0]] = (
-                productTemplateMap[product.product_tmpl_id[0]] || []
-            ).concat(product);
-            return new Product(product);
-        });
+    _storeConnectedCashier(user) {
+        sessionStorage.setItem(`connected_cashier_${this.config.id}`, user.id);
+    }
 
-        for (const pricelist of this.pricelists) {
-            for (const pricelistItem of pricelist.items) {
-                if (pricelistItem.product_id) {
-                    const product_id = pricelistItem.product_id[0];
-                    const correspondingProduct = productMap[product_id];
-                    if (correspondingProduct) {
-                        this._assignApplicableItems(pricelist, correspondingProduct, pricelistItem);
-                    }
-                } else if (pricelistItem.product_tmpl_id) {
-                    const product_tmpl_id = pricelistItem.product_tmpl_id[0];
-                    const correspondingProducts = productTemplateMap[product_tmpl_id];
-                    for (const correspondingProduct of correspondingProducts || []) {
-                        this._assignApplicableItems(pricelist, correspondingProduct, pricelistItem);
-                    }
-                } else {
-                    for (const correspondingProduct of products) {
-                        this._assignApplicableItems(pricelist, correspondingProduct, pricelistItem);
-                    }
+    _resetConnectedCashier() {
+        sessionStorage.removeItem(`connected_cashier_${this.config.id}`);
+    }
+
+    useProxy() {
+        return (
+            this.config.is_posbox &&
+            (this.config.iface_electronic_scale ||
+                this.config.iface_print_via_proxy ||
+                this.config.iface_scan_via_proxy ||
+                this.config.iface_customer_facing_display_via_proxy)
+        );
+    }
+
+    async initServerData() {
+        await this.processServerData();
+        this.data.connectWebSocket("CLOSING_SESSION", this.closingSessionNotification.bind(this));
+        return await this.afterProcessServerData();
+    }
+
+    async closingSessionNotification(data) {
+        if (data.login_number == this.session.login_number) {
+            return;
+        }
+
+        try {
+            const paidOrderNotSynced = this.models["pos.order"].filter(
+                (order) => order.state === "paid" && order.id !== "number"
+            );
+            this.addPendingOrder(paidOrderNotSynced.map((o) => o.id));
+            await this.syncAllOrders({ throw: true });
+
+            this.dialog.add(AlertDialog, {
+                title: _t("Closing Session"),
+                body: _t("The session is being closed by another user. The page will be reloaded."),
+            });
+        } catch {
+            this.dialog.add(AlertDialog, {
+                title: _t("Error"),
+                body: _t(
+                    "An error occurred while closing the session. Unsynced orders will be available in the next session. The page will be reloaded."
+                ),
+            });
+        } finally {
+            const orders = this.models["pos.order"].filter((o) => typeof o.id !== "number");
+            for (const order of orders) {
+                if (!order.finalized) {
+                    order.state = "cancel";
                 }
             }
         }
-        this.db.add_products(modelProducts);
+
+        setTimeout(() => {
+            window.location.reload();
+        }, 3000);
     }
-    _loadPosPaymentMethod() {
-        // need to do this for pos_iot due to reference, this is a temporary fix
-        this.payment_methods_by_id = {};
-        for (const pm of this.payment_methods) {
-            this.payment_methods_by_id[pm.id] = pm;
+
+    get session() {
+        return this.data.models["pos.session"].getFirst();
+    }
+
+    async processServerData() {
+        // These fields should be unique for the pos_config
+        // and should not change during the session, so we can
+        // safely take the first element.this.models
+        this.config = this.data.models["pos.config"].getFirst();
+        this.company = this.data.models["res.company"].getFirst();
+        this.user = this.data.models["res.users"].getFirst();
+        this.currency = this.config.currency_id;
+        this.pickingType = this.data.models["stock.picking.type"].getFirst();
+        this.models = this.data.models;
+        this.models["pos.session"].getFirst().login_number = parseInt(odoo.login_number);
+
+        const models = Object.keys(this.models);
+        const dynamicModels = this.data.opts.dynamicModels;
+        const staticModels = models.filter((model) => !dynamicModels.includes(model));
+        const deviceSync = new DevicesSynchronisation(dynamicModels, staticModels, this);
+
+        this.deviceSync = deviceSync;
+        this.data.deviceSync = deviceSync;
+
+        // Check cashier
+        this.checkPreviousLoggedCashier();
+
+        // Add Payment Interface to Payment Method
+        for (const pm of this.models["pos.payment.method"].getAll()) {
             const PaymentInterface = this.electronic_payment_interfaces[pm.use_payment_terminal];
             if (PaymentInterface) {
                 pm.payment_terminal = new PaymentInterface(this, pm);
             }
         }
-    }
-    async _loadFonts() {
-        return new Promise(function (resolve, reject) {
-            // Waiting for fonts to be loaded to prevent receipt printing
-            // from printing empty receipt while loading Inconsolata
-            // ( The font used for the receipt )
-            waitForWebfonts(["Lato", "Inconsolata"], function () {
-                resolve();
+
+        // Create printer with hardware proxy, this will override related model data
+        this.unwatched.printers = [];
+        for (const relPrinter of this.models["pos.printer"].getAll()) {
+            const printer = relPrinter.serialize();
+            const HWPrinter = this.create_printer(printer);
+
+            HWPrinter.config = printer;
+            this.unwatched.printers.push(HWPrinter);
+
+            for (const id of printer.product_categories_ids) {
+                this.printers_category_ids_set.add(id);
+            }
+        }
+        this.config.iface_printers = !!this.unwatched.printers.length;
+
+        // Monitor product pricelist
+        ["product.product", "product.pricelist.item"].forEach((model) => {
+            ["create", "update"].forEach((event) => {
+                this.models[model].addEventListener(
+                    event,
+                    this.computeProductPricelistCache.bind(this)
+                );
             });
-            // The JS used to detect font loading is not 100% robust, so
-            // do not wait more than 5sec
-            setTimeout(resolve, 5000);
         });
+        if (this.data.loadedIndexedDBProducts && this.data.loadedIndexedDBProducts.length > 0) {
+            await this._loadMissingPricelistItems(this.data.loadedIndexedDBProducts);
+            delete this.data.loadedIndexedDBProducts;
+        }
+        this.computeProductPricelistCache();
+        await this.processProductAttributes();
     }
-    async _loadPictures() {
-        this.company_logo = new Image();
-        return new Promise((resolve, reject) => {
-            this.company_logo.onload = () => {
-                const img = this.company_logo;
-                let ratio = 1;
-                const targetwidth = 300;
-                const maxheight = 150;
-                if (img.width !== targetwidth) {
-                    ratio = targetwidth / img.width;
+    cashMove() {
+        this.hardwareProxy.openCashbox(_t("Cash in / out"));
+        return makeAwaitable(this.dialog, CashMovePopup);
+    }
+    async closeSession() {
+        const info = await this.getClosePosInfo();
+
+        if (info) {
+            this.dialog.add(ClosePosPopup, info);
+        }
+    }
+    async processProductAttributes() {
+        const productIds = new Set();
+        const productTmplIds = new Set();
+        const productByTmplId = {};
+
+        for (const product of this.models["product.product"].getAll()) {
+            if (product.product_template_variant_value_ids.length > 0) {
+                productTmplIds.add(product.raw.product_tmpl_id);
+                productIds.add(product.id);
+
+                if (!productByTmplId[product.raw.product_tmpl_id]) {
+                    productByTmplId[product.raw.product_tmpl_id] = [];
                 }
-                if (img.height * ratio > maxheight) {
-                    ratio = maxheight / img.height;
+
+                productByTmplId[product.raw.product_tmpl_id].push(product);
+            }
+        }
+
+        if (productIds.size > 0) {
+            await this.data.searchRead("product.product", [
+                "&",
+                ["id", "not in", [...productIds]],
+                ["product_tmpl_id", "in", [...productTmplIds]],
+            ]);
+        }
+
+        for (const product of this.models["product.product"].filter(
+            (p) => !productIds.has(p.id) && p.product_template_variant_value_ids.length > 0
+        )) {
+            productByTmplId[product.raw.product_tmpl_id].push(product);
+        }
+
+        for (const products of Object.values(productByTmplId)) {
+            const nbrProduct = products.length;
+
+            for (let i = 0; i < nbrProduct - 1; i++) {
+                products[i].available_in_pos = false;
+                this.mainProductVariant[products[i].id] = products[nbrProduct - 1];
+            }
+        }
+    }
+
+    async onDeleteOrder(order) {
+        if (order.get_orderlines().length > 0) {
+            const confirmed = await ask(this.dialog, {
+                title: _t("Existing orderlines"),
+                body: _t(
+                    "%s has a total amount of %s, are you sure you want to delete this order?",
+                    order.pos_reference,
+                    this.env.utils.formatCurrency(order.get_total_with_tax())
+                ),
+            });
+            if (!confirmed) {
+                return false;
+            }
+        }
+        const orderIsDeleted = await this.deleteOrders([order]);
+        if (orderIsDeleted) {
+            order.uiState.displayed = false;
+            this.afterOrderDeletion();
+        }
+        return orderIsDeleted;
+    }
+    afterOrderDeletion() {
+        this.set_order(this.get_open_orders().at(-1) || this.createNewOrder());
+    }
+
+    async deleteOrders(orders, serverIds = []) {
+        const ids = new Set();
+        for (const order of orders) {
+            if (order && (await this._onBeforeDeleteOrder(order))) {
+                if (
+                    typeof order.id === "number" &&
+                    Object.keys(order.last_order_preparation_change.lines).length > 0
+                ) {
+                    await this.sendOrderInPreparation(order, true);
                 }
-                const width = Math.floor(img.width * ratio);
-                const height = Math.floor(img.height * ratio);
-                const c = document.createElement("canvas");
-                c.width = width;
-                c.height = height;
-                const ctx = c.getContext("2d");
-                ctx.drawImage(this.company_logo, 0, 0, width, height);
 
-                this.company_logo_base64 = c.toDataURL();
-                resolve();
-            };
-            this.company_logo.onerror = () => {
-                reject();
-            };
-            this.company_logo.crossOrigin = "anonymous";
-            this.company_logo.src = `/web/image?model=res.company&id=${this.company.id}&field=logo`;
-        });
-    }
-    prepare_new_partners_domain() {
-        return [["write_date", ">", this.db.get_partner_write_date()]];
-    }
-
-    // reload the list of partner, returns as a promise that resolves if there were
-    // updated partners, and fails if not
-    async load_new_partners() {
-        const search_params = { domain: this.prepare_new_partners_domain() };
-        // FIXME POSREF TIMEOUT 3000
-        const partners = await this.orm.silent.call(
-            "pos.session",
-            "get_pos_ui_res_partner_by_params",
-            [[odoo.pos_session_id], search_params]
-        );
-        return this.addPartners(partners);
-    }
-
-    async updateModelsData(models_data) {
-        const products = models_data["product.product"];
-        const categories = models_data["pos.category"];
-        const openOrders = models_data["pos.order"];
-
-        let removed_categories_id;
-        if (categories) {
-            const previous_categories_id = Object.values(this.db.category_by_id).map((c) => c.id);
-            const received_categories_id = new Set(categories.map((c) => c.id));
-            this.db.add_categories(categories);
-            removed_categories_id = previous_categories_id.filter(
-                (p) => !received_categories_id.has(p)
-            );
-        }
-        if (products) {
-            const previous_products_id = Object.values(this.db.product_by_id).map((p) => p.id);
-            const received_products_id = new Set(products.map((p) => p.id));
-            this._loadProductProduct(products);
-
-            const removed_products_id = previous_products_id.filter(
-                (p) => !received_products_id.has(p)
-            );
-            this.db.remove_products(removed_products_id);
-
-            if (
-                Object.values(this.db.product_by_id).some(
-                    (p) => p.available_in_pos && p.lst_price > 0
-                )
-            ) {
-                this.pos_has_valid_product = true;
+                const cancelled = this.removeOrder(order, false);
+                this.removePendingOrder(order);
+                if (!cancelled) {
+                    return false;
+                } else if (typeof order.id === "number") {
+                    ids.add(order.id);
+                }
+            } else {
+                return false;
             }
         }
 
-        if (categories) {
-            this.db.remove_categories(removed_categories_id);
-        }
-
-        if (openOrders) {
-            this.loadOpenOrders(openOrders);
-        }
-    }
-
-    loadOpenOrders(openOrders) {
-        // This method is for the demo data
-        let isOrderSet = false;
-        for (const json of openOrders) {
-            if (this.orders.find((el) => el.server_id === json.id)) {
-                continue;
-            }
-            this._createOrder(json);
-            if (!isOrderSet) {
-                this.selectedOrder = this.orders[this.orders.length - 1];
-                isOrderSet = true;
+        if (serverIds.length > 0) {
+            for (const id of serverIds) {
+                if (typeof id !== "number") {
+                    continue;
+                }
+                ids.add(id);
             }
         }
-    }
 
-    /**
-     * @returns true if the POS app (not only this POS config) has at least one valid product.
-     */
-    posHasValidProduct() {
-        return this.pos_has_valid_product;
-    }
+        if (ids.size > 0) {
+            await this.data.callRelated("pos.order", "action_pos_order_cancel", [Array.from(ids)]);
+            return true;
+        }
 
-    setSelectedCategoryId(categoryId) {
-        this.selectedCategoryId = categoryId;
-    }
-
-    /**
-     * Remove the order passed in params from the list of orders
-     * @param order
-     */
-    removeOrder(order, removeFromServer = true) {
-        this.orders.remove(order);
-        this.db.remove_unpaid_order(order);
-        for (const line of order.get_orderlines()) {
-            if (line.refunded_orderline_id) {
-                delete this.toRefundLines[line.refunded_orderline_id];
-            }
-        }
-        if (this.isOpenOrderShareable() && removeFromServer) {
-            if (this.ordersToUpdateSet.has(order)) {
-                this.ordersToUpdateSet.delete(order);
-            }
-            if (order.server_id && !order.finalized) {
-                this.setOrderToRemove(order);
-            }
-        }
-    }
-    setOrderToRemove(order) {
-        this.db.set_order_to_remove_from_server(order);
-    }
-
-    /**
-     * Return the current cashier (in this case, the user)
-     * @returns {name: string, id: int, role: string}
-     */
-    get_cashier() {
-        return this.user;
-    }
-    get_cashier_user_id() {
-        return this.user.id;
-    }
-    get orderPreparationCategories() {
-        if (this.printers_category_ids_set) {
-            return new Set([...this.printers_category_ids_set]);
-        }
-        return new Set();
-    }
-    cashierHasPriceControlRights() {
-        return !this.config.restrict_price_control || this.get_cashier().role == "manager";
-    }
-    _onReactiveOrderUpdated(order) {
-        order.save_to_db();
-        if (this.isOpenOrderShareable() && !this.loadingOrderState) {
-            this.ordersToUpdateSet.add(order);
-        }
-    }
-    createReactiveOrder(json) {
-        const options = { pos: this };
-        if (json) {
-            options.json = json;
-        }
-        return this.makeOrderReactive(new Order({ env: this.env }, options));
-    }
-    makeOrderReactive(order) {
-        const batchedCallback = batched(() => {
-            this._onReactiveOrderUpdated(order);
-        });
-        order = reactive(order, batchedCallback);
-        order.save_to_db();
-        return order;
-    }
-    // creates a new empty order and sets it as the current order
-    add_new_order() {
-        if (this.isOpenOrderShareable()) {
-            this.sendDraftToServer();
-        }
-        if (this.selectedOrder) {
-            this.selectedOrder.firstDraft = false;
-            this.selectedOrder.updateSavedQuantity();
-        }
-        const order = this.createReactiveOrder();
-        this.orders.add(order);
-        this.selectedOrder = order;
-        return order;
-    }
-    selectNextOrder() {
-        if (this.orders.length > 0) {
-            this.selectedOrder = this.orders[0];
-        } else {
-            this.add_new_order();
-        }
-    }
-    async sendDraftToServer() {
-        const ordersUidsToSync = [...this.ordersToUpdateSet].map((order) => order.uid);
-        const ordersToSync = this.db.get_unpaid_orders_to_sync(ordersUidsToSync);
-        const ordersResponse = await this._save_to_server(ordersToSync, { draft: true });
-        const orders = [...this.ordersToUpdateSet].map((order) => order);
-        ordersResponse.forEach((orderResponseData) => this._updateOrder(orderResponseData, orders));
-        this.ordersToUpdateSet.clear();
-    }
-    addOrderToUpdateSet() {
-        this.ordersToUpdateSet.add(this.selectedOrder);
-    }
-    // created this hook for modularity
-    _updateOrder(ordersResponseData, orders) {
-        const order = orders.find((order) => order.name === ordersResponseData.pos_reference);
-        if (order) {
-            order.server_id = ordersResponseData.id;
-            return order;
-        }
+        return true;
     }
     /**
-     * Load the locally saved unpaid orders for this PoS Config.
-     *
-     * First load all orders belonging to the current session.
-     * Second load all orders belonging to the same config but from other sessions,
-     * Only if tho order has orderlines.
+     * Override to do something before deleting the order.
+     * Make sure to return true to proceed on deleting the order.
+     * @param {*} order
+     * @returns {boolean}
      */
+<<<<<<< HEAD
     async load_orders() {
         this.loadingOrderState = true;
         var jsons = this.db.get_unpaid_orders();
@@ -677,33 +669,105 @@ export class PosStore extends Reactive {
         orders = orders.sort(function (a, b) {
             return a.sequence_number - b.sequence_number;
         });
+=======
+    async _onBeforeDeleteOrder(order) {
+        return true;
+    }
+    computeProductPricelistCache(data) {
+        if (data) {
+            data = this.models[data.model].readMany(data.ids);
+        }
+        // This function is called via the addEventListener callback initiated in the
+        // processServerData function when new products or pricelists are loaded into the PoS.
+        // It caches the heavy pricelist calculation when there are many products and pricelists.
+        const date = DateTime.now();
+        let pricelistItems = this.models["product.pricelist.item"].getAll();
+        let products = this.models["product.product"].getAll();
 
-        if (orders.length) {
-            for (const order of orders) {
-                this.orders.add(order);
+        if (data && data.length > 0) {
+            if (data[0].model.modelName === "product.product") {
+                products = data;
+            }
+
+            if (data[0].model.modelName === "product.pricelist.item") {
+                pricelistItems = data;
+                // it needs only to compute for the products that are affected by the pricelist items
+                const productTmplIds = new Set(data.map((item) => item.raw.product_tmpl_id));
+                const productIds = new Set(data.map((item) => item.raw.product_id));
+                products = products.filter(
+                    (product) =>
+                        productTmplIds.has(product.raw.product_tmpl_id) ||
+                        productIds.has(product.id)
+                );
             }
         }
-        this.loadingOrderState = false;
-    }
-    load_server_orders() {
-        if (!this.open_orders_json) {
-            return;
+
+        const pushItem = (targetArray, key, item) => {
+            if (!targetArray[key]) {
+                targetArray[key] = [];
+            }
+            targetArray[key].push(item);
+        };
+
+        const pricelistRules = {};
+
+        for (const item of pricelistItems) {
+            if (
+                (item.date_start && deserializeDate(item.date_start, { zone: "utc" }) > date) ||
+                (item.date_end && deserializeDate(item.date_end, { zone: "utc" }) < date)
+            ) {
+                continue;
+            }
+            const pricelistId = item.pricelist_id.id;
+
+            if (!pricelistRules[pricelistId]) {
+                pricelistRules[pricelistId] = {
+                    productItems: {},
+                    productTmlpItems: {},
+                    categoryItems: {},
+                    globalItems: [],
+                };
+            }
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
+
+            const productId = item.raw.product_id;
+            if (productId) {
+                pushItem(pricelistRules[pricelistId].productItems, productId, item);
+                continue;
+            }
+            const productTmplId = item.raw.product_tmpl_id;
+            if (productTmplId) {
+                pushItem(pricelistRules[pricelistId].productTmlpItems, productTmplId, item);
+                continue;
+            }
+            const categId = item.raw.categ_id;
+            if (categId) {
+                pushItem(pricelistRules[pricelistId].categoryItems, categId, item);
+            } else {
+                pricelistRules[pricelistId].globalItems.push(item);
+            }
         }
-        this.loadOpenOrders(this.open_orders_json);
-    }
-    async _loadMissingProducts(orders) {
-        const missingProductIds = new Set([]);
-        for (const order of orders) {
-            for (const line of order.lines) {
-                const productId = line[2].product_id;
-                if (missingProductIds.has(productId)) {
-                    continue;
-                }
-                if (!this.db.get_product_by_id(productId)) {
-                    missingProductIds.add(productId);
+
+        for (const product of products) {
+            const applicableRules = product.getApplicablePricelistRules(pricelistRules);
+            for (const pricelistId in applicableRules) {
+                if (product.cachedPricelistRules[pricelistId]) {
+                    const existingRuleIds = product.cachedPricelistRules[pricelistId].map(
+                        (rule) => rule.id
+                    );
+                    const newRules = applicableRules[pricelistId].filter(
+                        (rule) => !existingRuleIds.includes(rule.id)
+                    );
+                    product.cachedPricelistRules[pricelistId] = [
+                        ...newRules,
+                        ...product.cachedPricelistRules[pricelistId],
+                    ];
+                } else {
+                    product.cachedPricelistRules[pricelistId] = applicableRules[pricelistId];
                 }
             }
         }
+<<<<<<< HEAD
         if (!missingProductIds.size) {
             return;
         }
@@ -752,307 +816,410 @@ export class PosStore extends Reactive {
                 [[odoo.pos_session_id], { domain: [["id", "in", partnerIds]] }]
             );
             this.addPartners(fetchedPartners);
+=======
+        if (data && data.length > 0 && data[0].model.modelName === "product.product") {
+            this._loadMissingPricelistItems(products);
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
         }
     }
-    async _loadMissingPartners(orders) {
-        const missingPartnerIds = new Set([]);
-        for (const order of orders) {
-            const partnerId = order.partner_id;
-            if (missingPartnerIds.has(partnerId)) {
-                continue;
-            }
-            if (partnerId && !this.db.get_partner_by_id(partnerId)) {
-                missingPartnerIds.add(partnerId);
-            }
-        }
-        await this._loadPartners([...missingPartnerIds]);
-    }
-    setLoadingOrderState(bool) {
-        this.loadingOrderState = bool;
-    }
-    async _removeOrdersFromServer() {
-        const removedOrdersIds = this.db.get_ids_to_remove_from_server();
-        if (removedOrdersIds.length === 0) {
+
+    async _loadMissingPricelistItems(products) {
+        const validProducts = products.filter((product) => typeof product.id === "number");
+        if (!validProducts.length) {
             return;
         }
+        const product_tmpl_ids = validProducts.map((product) => product.raw.product_tmpl_id);
+        const product_ids = validProducts.map((product) => product.id);
+        await this.data.callRelated("pos.session", "get_pos_ui_product_pricelist_item_by_product", [
+            odoo.pos_session_id,
+            product_tmpl_ids,
+            product_ids,
+            this.config.id,
+        ]);
+    }
 
-        this.set_synch("connecting", removedOrdersIds.length);
-        try {
-            const removeOrdersResponseData = await this.orm.silent.call(
-                "pos.order",
-                "remove_from_ui",
-                [removedOrdersIds]
-            );
-            this.set_synch("connected");
-            this._postRemoveFromServer(removedOrdersIds, removeOrdersResponseData);
-        } catch (reason) {
-            const error = reason.message;
-            if (error.code === 200) {
-                // Business Logic Error, not a connection problem
-                //if warning do not need to display traceback!!
-                if (error.data.exception_type == "warning") {
-                    delete error.data.debug;
-                }
-            }
-            // important to throw error here and let the rendering component handle the error
-            console.warn("Failed to remove orders:", removedOrdersIds);
-            this._postRemoveFromServer(removedOrdersIds);
-            throw error;
+    async afterProcessServerData() {
+        const paidUnsyncedOrderIds = this.models["pos.order"]
+            .filter((order) => order.isUnsyncedPaid)
+            .map((order) => order.id);
+
+        if (paidUnsyncedOrderIds.length > 0) {
+            this.addPendingOrder(paidUnsyncedOrderIds);
+        }
+
+        // Adding the not synced paid orders to the pending orders
+        const openOrders = this.data.models["pos.order"].filter((order) => !order.finalized);
+        this.syncAllOrders();
+
+        if (!this.config.module_pos_restaurant) {
+            this.selectedOrderUuid = openOrders.length
+                ? openOrders[openOrders.length - 1].uuid
+                : this.add_new_order().uuid;
+        }
+
+        this.markReady();
+        this.showScreen(this.firstScreen);
+        await this.deviceSync.readDataFromServer();
+    }
+
+    get productListViewMode() {
+        const viewMode = this.productListView && this.ui.isSmall ? this.productListView : "grid";
+        if (viewMode === "grid") {
+            return "d-grid gap-2";
+        } else {
+            return "";
         }
     }
-    _postRemoveFromServer(serverIds, data) {
-        this.db.set_ids_removed_from_server(serverIds);
-    }
-    _replaceOrders(ordersToReplace, newOrdersJsons) {
-        ordersToReplace.forEach((order) => {
-            // We don't remove the validated orders because we still want to see them in the ticket screen.
-            // Orders in 'ReceiptScreen' or 'TipScreen' are validated orders.
-            if (this._shouldRemoveOrder(order)) {
-                this.removeOrder(order, false);
-            }
-        });
-        let removeSelected = true;
-        newOrdersJsons.forEach((json) => {
-            const isSelectedOrder = this._createOrder(json);
-            if (removeSelected && isSelectedOrder) {
-                removeSelected = false;
-            }
-        });
-        if (this._shouldRemoveSelectedOrder(removeSelected)) {
-            this._removeSelectedOrder();
+    get productViewMode() {
+        const viewMode = this.productListView && this.ui.isSmall ? this.productListView : "grid";
+        if (viewMode === "grid") {
+            return "flex-column";
+        } else {
+            return "flex-row-reverse justify-content-between m-1";
         }
     }
-    _shouldRemoveOrder(order) {
-        return (
-            (!this.selectedOrder || this.selectedOrder.uid != order.uid) &&
-            order.server_id &&
-            !order.finalized
+    getProductPriceFormatted(product) {
+        const formattedUnitPrice = this.env.utils.formatCurrency(this.getProductPrice(product));
+
+        if (product.to_weight) {
+            return `${formattedUnitPrice}/${product.uom_id.name}`;
+        } else {
+            return formattedUnitPrice;
+        }
+    }
+    async openConfigurator(product) {
+        const attrById = this.models["product.attribute"].getAllBy("id");
+        const attributeLines = product.attribute_line_ids.filter(
+            (attr) => attr.attribute_id?.id in attrById
         );
-    }
-    _shouldRemoveSelectedOrder(removeSelected) {
-        return removeSelected && this.selectedOrder.server_id && !this.selectedOrder.finalized;
-    }
-    _shouldCreateOrder(json) {
-        return json.uid != this.selectedOrder.uid;
-    }
-    _isSelectedOrder(json) {
-        return json.uid == this.selectedOrder.uid;
-    }
-    _createOrder(json) {
-        if (this._shouldCreateOrder(json)) {
-            const order = this.createReactiveOrder(json);
-            this.orders.add(order);
+        const attributeLinesValues = attributeLines.map((attr) => attr.product_template_value_ids);
+        if (attributeLinesValues.some((values) => values.length > 1 || values[0].is_custom)) {
+            return await makeAwaitable(this.dialog, ProductConfiguratorPopup, {
+                product: product,
+            });
         }
-        return this._isSelectedOrder(json);
+        return {
+            attribute_value_ids: attributeLinesValues.map((values) => values[0].id),
+            attribute_custom_values: [],
+            price_extra: attributeLinesValues
+                .filter((attr) => attr[0].attribute_id.create_variant !== "always")
+                .reduce((acc, values) => acc + values[0].price_extra, 0),
+            quantity: 1,
+        };
     }
-    _removeSelectedOrder() {
-        this.removeOrder(this.selectedOrder, false);
-        const orderList = this.get_order_list();
-        if (orderList.length != 0) {
-            this.set_order(orderList[0]);
-        }
+    getDefaultSearchDetails() {
+        return {
+            fieldName: "RECEIPT_NUMBER",
+            searchTerm: "",
+        };
     }
-    async _syncAllOrdersFromServer() {
-        await this._removeOrdersFromServer();
-        const ordersJson = await this._getOrdersJson();
-        let message = null;
-        message = await this._addPricelists(ordersJson);
-        let messageFp = null;
-        messageFp = await this._addFiscalPositions(ordersJson);
-        if (messageFp) {
-            if (message) {
-                message += "\n" + messageFp;
-            } else {
-                message = messageFp;
-            }
+
+    async setDiscountFromUI(line, val) {
+        line.set_discount(val);
+    }
+
+    getDefaultPricelist() {
+        const current_order = this.get_order();
+        if (current_order) {
+            return current_order.pricelist_id;
         }
+        return this.config.pricelist_id;
+    }
+
+    async set_tip(tip) {
+        const currentOrder = this.get_order();
+        const tipProduct = this.config.tip_product_id;
+        let line = currentOrder.lines.find((line) => line.product_id.id === tipProduct.id);
+
+        if (line) {
+            line.set_unit_price(tip);
+        } else {
+            line = await this.addLineToCurrentOrder(
+                { product_id: tipProduct, price_unit: tip },
+                {}
+            );
+        }
+<<<<<<< HEAD
         await this._loadMissingProducts(ordersJson);
         await this._loadMissingPartners(ordersJson);
         const allOrders = [...this.get_order_list()];
         this._replaceOrders(allOrders, ordersJson);
         this.sortOrders();
         return message;
+=======
+
+        currentOrder.is_tipped = true;
+        currentOrder.tip_amount = tip;
+        return line;
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
     }
-    async _getOrdersJson() {
-        return await this.orm.call("pos.order", "export_for_ui_shared_order", [], {
-            config_id: this.config.id,
-        });
+
+    selectOrderLine(order, line) {
+        order.select_orderline(line);
+        this.numpadMode = "quantity";
     }
-    async _addPricelists(ordersJson) {
-        const pricelistsToGet = [];
-        ordersJson.forEach((order) => {
-            let found = false;
-            for (const pricelist of this.pricelists) {
-                if (pricelist.id === order.pricelist_id) {
-                    found = true;
-                    break;
-                }
-            }
-            if (!found && order.pricelist_id) {
-                pricelistsToGet.push(order.pricelist_id);
-            }
-        });
-        let message = null;
-        if (pricelistsToGet.length > 0) {
-            const pricelistsJson = await this._getPricelistJson(pricelistsToGet);
-            message = this._addPosPricelists(pricelistsJson);
+    // This method should be called every time a product is added to an order.
+    // The configure parameter is available if the orderline already contains all
+    // the information without having to be calculated. For example, importing a SO.
+    async addLineToCurrentOrder(vals, opts = {}, configure = true) {
+        let order = this.get_order();
+        if (!order) {
+            order = this.add_new_order();
         }
-        return message;
+        this.addPendingOrder([order.id]);
+        return await this.addLineToOrder(vals, order, opts, configure);
     }
-    async _getPricelistJson(pricelistsToGet) {
-        return await this.env.services.orm.call(
-            "pos.session",
-            "get_pos_ui_product_pricelists_by_ids",
-            [[odoo.pos_session_id], pricelistsToGet]
-        );
-    }
+<<<<<<< HEAD
     _addPosPricelists(pricelistsJson) {
         if (!this.config.use_pricelist) {
             this.config.use_pricelist = true;
-        }
-        this.pricelists.push(...pricelistsJson);
-        let message = "";
-        const pricelistsNames = pricelistsJson.map((pricelist) => {
-            return pricelist.display_name;
-        });
-        message = _t(
-            "%s fiscal position(s) added to the configuration.",
-            pricelistsNames.join(", ")
-        );
-        return message;
-    }
-    async _addFiscalPositions(ordersJson) {
-        const fiscalPositionToGet = [];
-        ordersJson.forEach((order) => {
-            let found = false;
-            for (const fp of this.fiscal_positions) {
-                if (fp.id === order.fiscal_position_id) {
-                    found = true;
-                    break;
-                }
-            }
-            if (!found && order.fiscal_position_id) {
-                fiscalPositionToGet.push(order.fiscal_position_id);
-            }
-        });
-        let message = null;
-        if (fiscalPositionToGet.length > 0) {
-            const fiscalPositionJson = await this._getFiscalPositionJson(fiscalPositionToGet);
-            message = this._addPosFiscalPosition(fiscalPositionJson);
-        }
-        return message;
-    }
-    async _getFiscalPositionJson(fiscalPositionToGet) {
-        return await this.env.services.orm.call(
-            "pos.session",
-            "get_pos_ui_account_fiscal_positions_by_ids",
-            [[odoo.pos_session_id], fiscalPositionToGet]
-        );
-    }
-    _addPosFiscalPosition(fiscalPositionJson) {
-        this.fiscal_positions.push(...fiscalPositionJson);
-        let message = "";
-        const fiscalPositionNames = fiscalPositionJson.map((fp) => {
-            return fp.display_name;
-        });
-        message = _t(
-            "%s fiscal position(s) added to the configuration.",
-            fiscalPositionNames.join(", ")
-        );
-        return message;
-    }
-    sortOrders() {
-        this.orders.sort((a, b) => (a.name > b.name ? 1 : -1));
-    }
-    async getProductInfo(product, quantity) {
-        const order = this.get_order();
-        // check back-end method `get_product_info_pos` to see what it returns
-        // We do this so it's easier to override the value returned and use it in the component template later
-        const productInfo = await this.orm.call("product.product", "get_product_info_pos", [
-            [product.id],
-            product.get_price(order.pricelist, quantity),
-            quantity,
-            this.config.id,
-        ]);
+=======
 
-        const priceWithoutTax = productInfo["all_prices"]["price_without_tax"];
-        const margin = priceWithoutTax - product.standard_price;
-        const orderPriceWithoutTax = order.get_total_without_tax();
-        const orderCost = order.get_total_cost();
-        const orderMargin = orderPriceWithoutTax - orderCost;
+    async addLineToOrder(vals, order, opts = {}, configure = true) {
+        let merge = true;
+        order.assert_editable();
 
-        const costCurrency = this.env.utils.formatCurrency(product.standard_price);
-        const marginCurrency = this.env.utils.formatCurrency(margin);
-        const marginPercent = priceWithoutTax
-            ? Math.round((margin / priceWithoutTax) * 10000) / 100
-            : 0;
-        const orderPriceWithoutTaxCurrency = this.env.utils.formatCurrency(orderPriceWithoutTax);
-        const orderCostCurrency = this.env.utils.formatCurrency(orderCost);
-        const orderMarginCurrency = this.env.utils.formatCurrency(orderMargin);
-        const orderMarginPercent = orderPriceWithoutTax
-            ? Math.round((orderMargin / orderPriceWithoutTax) * 10000) / 100
-            : 0;
-        return {
-            costCurrency,
-            marginCurrency,
-            marginPercent,
-            orderPriceWithoutTaxCurrency,
-            orderCostCurrency,
-            orderMarginCurrency,
-            orderMarginPercent,
-            productInfo,
+        const options = {
+            ...opts,
         };
-    }
-    async getClosePosInfo() {
-        return await this.orm.call("pos.session", "get_closing_control_data", [
-            [this.pos_session.id],
-        ]);
-    }
-    set_start_order() {
-        if (this.orders.length && !this.selectedOrder) {
-            this.selectedOrder = this.orders[0];
-            if (this.isOpenOrderShareable()) {
-                this.ordersToUpdateSet.add(this.orders[0]);
+
+        if ("price_unit" in vals) {
+            merge = false;
+        }
+
+        if (typeof vals.product_id == "number") {
+            vals.product_id = this.data.models["product.product"].get(vals.product_id);
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
+        }
+        const product = vals.product_id;
+
+        const values = {
+            price_type: "price_unit" in vals ? "manual" : "original",
+            price_extra: 0,
+            price_unit: 0,
+            order_id: this.get_order(),
+            qty: 1,
+            tax_ids: product.taxes_id.map((tax) => ["link", tax]),
+            ...vals,
+        };
+
+        // Handle refund constraints
+        if (
+            order.doNotAllowRefundAndSales() &&
+            order._isRefundOrder() &&
+            (!values.qty || values.qty > 0)
+        ) {
+            this.dialog.add(AlertDialog, {
+                title: _t("Refund and Sales not allowed"),
+                body: _t("It is not allowed to mix refunds and sales"),
+            });
+            return;
+        }
+
+        // In case of configurable product a popup will be shown to the user
+        // We assign the payload to the current values object.
+        // ---
+        // This actions cannot be handled inside pos_order.js or pos_order_line.js
+        if (values.product_id.isConfigurable() && configure) {
+            const payload = await this.openConfigurator(values.product_id);
+
+            if (payload) {
+                const productFound = this.models["product.product"]
+                    .filter((p) => p.raw?.product_template_variant_value_ids?.length > 0)
+                    .find((p) =>
+                        p.raw.product_template_variant_value_ids.every((v) =>
+                            payload.attribute_value_ids.includes(v)
+                        )
+                    );
+
+                Object.assign(values, {
+                    attribute_value_ids: payload.attribute_value_ids
+                        .filter((a) => {
+                            if (productFound) {
+                                const attr =
+                                    this.data.models["product.template.attribute.value"].get(a);
+                                return (
+                                    attr.is_custom || attr.attribute_id.create_variant !== "always"
+                                );
+                            }
+                            return true;
+                        })
+                        .map((id) => [
+                            "link",
+                            this.data.models["product.template.attribute.value"].get(id),
+                        ]),
+                    custom_attribute_value_ids: Object.entries(payload.attribute_custom_values).map(
+                        ([id, cus]) => [
+                            "create",
+                            {
+                                custom_product_template_attribute_value_id:
+                                    this.data.models["product.template.attribute.value"].get(id),
+                                custom_value: cus,
+                            },
+                        ]
+                    ),
+                    price_extra: values.price_extra + payload.price_extra,
+                    qty: payload.qty || values.qty,
+                    product_id: productFound || values.product_id,
+                });
+            } else {
+                return;
             }
-        } else {
-            this.add_new_order();
+        } else if (values.product_id.product_template_variant_value_ids.length > 0) {
+            // Verify price extra of variant products
+            const priceExtra = values.product_id.product_template_variant_value_ids
+                .filter((attr) => attr.attribute_id.create_variant !== "always")
+                .reduce((acc, attr) => acc + attr.price_extra, 0);
+            values.price_extra += priceExtra;
         }
-    }
 
-    // return the current order
-    get_order() {
-        return this.selectedOrder;
-    }
-
-    // change the current order
-    set_order(order, options) {
-        if (this.selectedOrder) {
-            this.selectedOrder.firstDraft = false;
-            this.selectedOrder.updateSavedQuantity();
-        }
-        this.selectedOrder = order;
-    }
-
-    // return the list of unpaid orders
-    get_order_list() {
-        return this.orders;
-    }
-
-    computePriceAfterFp(price, taxes) {
-        const order = this.get_order();
-        if (order && order.fiscal_position) {
-            const mapped_included_taxes = [];
-            let new_included_taxes = [];
-            taxes.forEach((tax) => {
-                const line_taxes = this.get_taxes_after_fp([tax.id], order.fiscal_position);
-                if (line_taxes.length && line_taxes[0].price_include) {
-                    new_included_taxes = new_included_taxes.concat(line_taxes);
-                }
-                if (tax.price_include && !line_taxes.includes(tax)) {
-                    mapped_included_taxes.push(tax);
-                }
+        // In case of clicking a combo product a popup will be shown to the user
+        // It will return the combo prices and the selected products
+        // ---
+        // This actions cannot be handled inside pos_order.js or pos_order_line.js
+        if (values.product_id.isCombo() && configure) {
+            const payload = await makeAwaitable(this.dialog, ComboConfiguratorPopup, {
+                product: values.product_id,
             });
 
+            if (!payload) {
+                return;
+            }
+
+            const comboPrices = computeComboItems(
+                values.product_id,
+                payload,
+                order.pricelist_id,
+                this.data.models["decimal.precision"].getAll(),
+                this.data.models["product.template.attribute.value"].getAllBy("id")
+            );
+
+            values.combo_line_ids = comboPrices.map((comboItem) => [
+                "create",
+                {
+                    product_id: comboItem.combo_item_id.product_id,
+                    tax_ids: comboItem.combo_item_id.product_id.taxes_id.map((tax) => [
+                        "link",
+                        tax,
+                    ]),
+                    combo_item_id: comboItem.combo_item_id,
+                    price_unit: comboItem.price_unit,
+                    order_id: order,
+                    qty: 1,
+                    attribute_value_ids: comboItem.attribute_value_ids?.map((attr) => [
+                        "link",
+                        attr,
+                    ]),
+                    custom_attribute_value_ids: Object.entries(
+                        comboItem.attribute_custom_values
+                    ).map(([id, cus]) => [
+                        "create",
+                        {
+                            custom_product_template_attribute_value_id:
+                                this.data.models["product.template.attribute.value"].get(id),
+                            custom_value: cus,
+                        },
+                    ]),
+                },
+            ]);
+        }
+
+        // In the case of a product with tracking enabled, we need to ask the user for the lot/serial number.
+        // It will return an instance of pos.pack.operation.lot
+        // ---
+        // This actions cannot be handled inside pos_order.js or pos_order_line.js
+        const code = opts.code;
+        if (values.product_id.isTracked() && (configure || code)) {
+            let pack_lot_ids = {};
+            const packLotLinesToEdit =
+                (!values.product_id.isAllowOnlyOneLot() &&
+                    this.get_order()
+                        .get_orderlines()
+                        .filter((line) => !line.get_discount())
+                        .find((line) => line.product_id.id === values.product_id.id)
+                        ?.getPackLotLinesToEdit()) ||
+                [];
+
+            // if the lot information exists in the barcode, we don't need to ask it from the user.
+            if (code && code.type === "lot") {
+                // consider the old and new packlot lines
+                const modifiedPackLotLines = Object.fromEntries(
+                    packLotLinesToEdit.filter((item) => item.id).map((item) => [item.id, item.text])
+                );
+                const newPackLotLines = [{ lot_name: code.code }];
+                pack_lot_ids = { modifiedPackLotLines, newPackLotLines };
+            } else {
+                pack_lot_ids = await this.editLots(values.product_id, packLotLinesToEdit);
+            }
+
+            if (!pack_lot_ids) {
+                return;
+            } else {
+                const packLotLine = pack_lot_ids.newPackLotLines;
+                values.pack_lot_ids = packLotLine.map((lot) => ["create", lot]);
+            }
+        }
+
+        // In case of clicking a product with tracking weight enabled a popup will be shown to the user
+        // It will return the weight of the product as quantity
+        // ---
+        // This actions cannot be handled inside pos_order.js or pos_order_line.js
+        if (values.product_id.to_weight && this.config.iface_electronic_scale && configure) {
+            if (values.product_id.isScaleAvailable) {
+                this.isScaleScreenVisible = true;
+                this.scaleData = {
+                    productName: values.product_id?.display_name,
+                    uomName: values.product_id.uom_id?.name,
+                    uomRounding: values.product_id.uom_id?.rounding,
+                    productPrice: this.getProductPrice(values.product_id),
+                };
+                const weight = await makeAwaitable(
+                    this.env.services.dialog,
+                    ScaleScreen,
+                    this.scaleData
+                );
+                if (weight) {
+                    values.qty = weight;
+                }
+                this.isScaleScreenVisible = false;
+                this.scaleWeight = 0;
+                this.scaleTare = 0;
+                this.totalPriceOnScale = 0;
+            } else {
+                await values.product_id._onScaleNotAvailable();
+            }
+        }
+
+        // Handle price unit
+        if (!values.product_id.isCombo() && vals.price_unit === undefined) {
+            values.price_unit = values.product_id.get_price(order.pricelist_id, values.qty);
+        }
+        const isScannedProduct = opts.code && opts.code.type === "product";
+        if (values.price_extra && !isScannedProduct) {
+            const price = values.product_id.get_price(
+                order.pricelist_id,
+                values.qty,
+                values.price_extra
+            );
+
+            values.price_unit = price;
+        }
+
+        const line = this.data.models["pos.order.line"].create({ ...values, order_id: order });
+        line.setOptions(options);
+        this.selectOrderLine(order, line);
+        if (configure) {
+            this.numberBuffer.reset();
+        }
+        const selectedOrderline = order.get_selected_orderline();
+        if (options.draftPackLotLines && configure) {
+            selectedOrderline.setPackLotLines({
+                ...options.draftPackLotLines,
+                setQuantity: options.quantity === undefined,
+            });
+        }
+
+<<<<<<< HEAD
             if (mapped_included_taxes.length > 0) {
                 if (new_included_taxes.length > 0) {
                     //If previous tax and new tax where both included in price. The price including tax is the same
@@ -1065,55 +1232,37 @@ export class PosStore extends Reactive {
                         this.currency.rounding,
                         true
                     ).total_excluded;
+=======
+        let to_merge_orderline;
+        for (const curLine of order.lines) {
+            if (curLine.id !== line.id) {
+                if (curLine.can_be_merged_with(line) && merge !== false) {
+                    to_merge_orderline = curLine;
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
                 }
             }
         }
-        return price;
-    }
 
-    getTaxesByIds(taxIds) {
-        const taxes = [];
-        for (let i = 0; i < taxIds.length; i++) {
-            if (this.taxes_by_id[taxIds[i]]) {
-                taxes.push(this.taxes_by_id[taxIds[i]]);
-            }
-        }
-        return taxes;
-    }
-
-    /**
-     * Renders the HTML for the customer display and returns it as a string.
-     *
-     * @returns {string}
-     */
-    async customerDisplayHTML(closeUI = false) {
-        const order = this.get_order();
-        if (closeUI || !order) {
-            return renderToString("point_of_sale.CustomerFacingDisplayNoOrder", {
-                pos: this,
-                origin: window.location.origin,
-            });
+        if (to_merge_orderline) {
+            to_merge_orderline.merge(line);
+            line.delete();
+            this.selectOrderLine(order, to_merge_orderline);
+        } else if (!selectedOrderline) {
+            this.selectOrderLine(order, order.get_last_orderline());
         }
 
-        const orderLines = order.get_orderlines();
-        const productImages = Object.fromEntries(
-            await Promise.all(
-                orderLines.map(async ({ product }) => [
-                    product.id,
-                    await getProductImage(product.id, product.writeDate),
-                ])
-            )
-        );
+        if (configure) {
+            this.numberBuffer.reset();
+        }
 
-        return renderToString("point_of_sale.CustomerFacingDisplayOrder", {
-            pos: this,
-            formatCurrency: this.env.utils.formatCurrency,
-            origin: window.location.origin,
-            order,
-            productImages,
-        });
-    }
+        // FIXME: Put this in an effect so that we don't have to call it manually.
+        order.recomputeOrderData();
 
+        if (configure) {
+            this.numberBuffer.reset();
+        }
+
+<<<<<<< HEAD
     // To be used in the context of closing the POS
     // Saves the order locally and try to send it to the backend.
     // If there is an error show a popup
@@ -1212,45 +1361,131 @@ export class PosStore extends Reactive {
         }
         throw lastError;
     }
+=======
+        this.hasJustAddedProduct = true;
+        clearTimeout(this.productReminderTimeout);
+        this.productReminderTimeout = setTimeout(() => {
+            this.hasJustAddedProduct = false;
+        }, 3000);
+
+        // FIXME: If merged with another line, this returned object is useless.
+        return line;
+    }
+
+    create_printer(config) {
+        const url = deduceUrl(config.proxy_ip || "");
+        return new HWPrinter({ url });
+    }
+    async _loadFonts() {
+        return new Promise(function (resolve, reject) {
+            // Waiting for fonts to be loaded to prevent receipt printing
+            // from printing empty receipt while loading Inconsolata
+            // ( The font used for the receipt )
+            waitForWebfonts(["Lato", "Inconsolata"], function () {
+                resolve();
+            });
+            // The JS used to detect font loading is not 100% robust, so
+            // do not wait more than 5sec
+            setTimeout(resolve, 5000);
+        });
+    }
+
+    setSelectedCategory(categoryId) {
+        if (categoryId === this.selectedCategory?.id) {
+            if (this.selectedCategory.parent_id) {
+                this.selectedCategory = this.selectedCategory.parent_id;
+            } else {
+                this.selectedCategory = this.models["pos.category"].get(0);
+            }
+        } else {
+            this.selectedCategory = this.models["pos.category"].get(categoryId);
+        }
+    }
+    setScaleWeight(weight) {
+        this.scaleWeight = weight;
+    }
+    setScaleTare(tare) {
+        this.scaleTare = tare;
+    }
+
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
     /**
-     * Hook method after _flush_orders resolved or rejected.
-     * It aims to:
-     *   - remove the refund orderlines from toRefundLines
-     *   - invalidate cache of refunded synced orders
+     * Remove the order passed in params from the list of orders
+     * @param order
      */
-    _after_flush_orders(orders) {
-        const refundedOrderIds = new Set();
-        for (const order of orders) {
-            for (const line of order.data.lines) {
-                const refundDetail = this.toRefundLines[line[2].refunded_orderline_id];
-                if (!refundDetail) {
-                    continue;
-                }
-                // Collect the backend id of the refunded orders.
-                refundedOrderIds.add(refundDetail.orderline.orderBackendId);
-                // Reset the refund detail for the orderline.
-                delete this.toRefundLines[refundDetail.orderline.id];
+    removeOrder(order, removeFromServer = true) {
+        if (this.isOpenOrderShareable() || removeFromServer) {
+            if (typeof order.id === "number" && !order.finalized) {
+                this.addPendingOrder([order.id], true);
+                this.syncAllOrdersDebounced();
             }
         }
-        this._invalidateSyncedOrdersCache([...refundedOrderIds]);
-    }
-    _invalidateSyncedOrdersCache(ids) {
-        for (const id of ids) {
-            delete this.TICKET_SCREEN_STATE.syncedOrders.cache[id];
-        }
-    }
-    set_synch(status, pending) {
-        if (["connected", "connecting", "error", "disconnected"].indexOf(status) === -1) {
-            console.error(status, " is not a known connection state.");
-        } else if (status === "connected") {
-            this.showOfflineWarning = true;
+
+        if (typeof order.id === "string" && order.finalized) {
+            this.addPendingOrder([order.id]);
+            return;
         }
 
-        pending =
-            pending || this.db.get_orders().length + this.db.get_ids_to_remove_from_server().length;
-        this.synch = { status, pending };
+        return this.data.localDeleteCascade(order);
     }
 
+    /**
+     * Return the current cashier (in this case, the user)
+     * @returns {name: string, id: int, role: string}
+     */
+    get_cashier() {
+        this.user.role = this.user.raw.role;
+        return this.user;
+    }
+    get_cashier_user_id() {
+        return this.user.id;
+    }
+    get orderPreparationCategories() {
+        if (this.printers_category_ids_set) {
+            return new Set([...this.printers_category_ids_set]);
+        }
+        return new Set();
+    }
+    cashierHasPriceControlRights() {
+        return !this.config.restrict_price_control || this.get_cashier()._role == "manager";
+    }
+    get currentSequenceNumber() {
+        return this._sequenceNumber || 1;
+    }
+    getNextSequenceNumber() {
+        const sessionId = this.session.id;
+        const configId = this.config.id;
+        const storedData = localStorage.getItem("pos.sequenceNumbers") || "{}";
+        const cache = JSON.parse(storedData);
+
+        if (!cache[configId]) {
+            cache[configId] = {};
+        }
+        // Cleanup: Remove sequence numbers for previous sessions under the same configId
+        // If we used only sessionId, we wouldn't be able to remove outdated session data properly,
+        // because some session IDs might belong to a different configuration, which we must preserve.
+        for (const sid in cache[configId]) {
+            if (sid !== String(sessionId)) {
+                delete cache[configId][sid];
+            }
+        }
+
+        if (!cache[configId][sessionId]) {
+            cache[configId][sessionId] = 0;
+        }
+
+        cache[configId][sessionId] += 1;
+        this._sequenceNumber = cache[configId][sessionId];
+        localStorage.setItem("pos.sequenceNumbers", JSON.stringify(cache));
+
+        return this._sequenceNumber;
+    }
+    generate_unique_id() {
+        // Generates a public identification number for the order.
+        // The generated number must be unique and sequential. They are made 12 digit long
+        // to fit into EAN-13 barcodes, should it be needed
+
+<<<<<<< HEAD
     /**
      * Context to be overriden in other modules/localisations
      * while processing orders in the backend
@@ -1292,11 +1527,53 @@ export class PosStore extends Reactive {
 
         for (const order of ordersToSync) {
             order.to_invoice = options.to_invoice || false;
+=======
+        function zero_pad(num, size) {
+            var s = "" + num;
+            while (s.length < size) {
+                s = "0" + s;
+            }
+            return s;
         }
-        // we try to send the order. silent prevents a spinner if it takes too long. (unless we are sending an invoice,
-        // then we want to notify the user that we are waiting on something )
-        const orm = options.to_invoice ? this.orm : this.orm.silent;
+        return (
+            zero_pad(this.session.id, 5) +
+            "-" +
+            zero_pad(this.session.login_number, 3) +
+            "-" +
+            zero_pad(this.getNextSequenceNumber(), 4)
+        );
+    }
+    createNewOrder(data = {}) {
+        const fiscalPosition = this.models["account.fiscal.position"].find(
+            (fp) => fp.id === this.config.default_fiscal_position_id?.id
+        );
 
+        const uniqId = this.generate_unique_id();
+        const order = this.models["pos.order"].create({
+            session_id: this.session,
+            company_id: this.company,
+            config_id: this.config,
+            picking_type_id: this.pickingType,
+            user_id: this.user,
+            sequence_number: this.currentSequenceNumber,
+            access_token: uuidv4(),
+            ticket_code: random5Chars(),
+            fiscal_position_id: fiscalPosition,
+            name: _t("Order %s", uniqId),
+            pos_reference: uniqId,
+            ...data,
+        });
+
+        order.set_pricelist(this.config.pricelist_id);
+        return order;
+    }
+    add_new_order(data = {}) {
+        if (this.get_order()) {
+            this.get_order().updateSavedQuantity();
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
+        }
+
+<<<<<<< HEAD
         try {
             // FIXME POSREF timeout
             // const timeout = typeof options.timeout === "number" ? options.timeout : 30000 * orders.length;
@@ -1308,21 +1585,35 @@ export class PosStore extends Reactive {
                     context: this._getCreateOrderContext(ordersToSync, options),
                 }
             );
+=======
+        const order = this.createNewOrder(data);
+        this.selectedOrderUuid = order.uuid;
+        this.searchProductWord = "";
+        return order;
+    }
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
-            for (const serverId of serverIds) {
-                const order = this.env.services.pos.orders.find(
-                    (order) => order.name === serverId.pos_reference
-                );
+    selectNextOrder() {
+        const orders = this.models["pos.order"].filter((order) => !order.finalized);
+        if (orders.length > 0) {
+            this.selectedOrderUuid = orders[0].uuid;
+        } else {
+            this.add_new_order();
+        }
+    }
 
-                if (order) {
-                    order.server_id = serverId.id;
-                }
+    addPendingOrder(orderIds, remove = false) {
+        if (remove) {
+            for (const id of orderIds) {
+                this.pendingOrder["create"].delete(id);
+                this.pendingOrder["write"].delete(id);
             }
 
-            for (const order_id of order_ids_to_sync) {
-                this.db.remove_order(order_id);
-            }
+            this.pendingOrder["delete"].add(...orderIds);
+            return true;
+        }
 
+<<<<<<< HEAD
             this.failed = false;
             this.set_synch("connected");
             return serverIds;
@@ -1341,196 +1632,184 @@ export class PosStore extends Reactive {
             throw error;
         } finally {
             order_ids_to_sync.forEach(order_id => this.syncingOrders.delete(order_id));
+=======
+        for (const id of orderIds) {
+            if (typeof id === "number") {
+                this.pendingOrder["write"].add(id);
+            } else {
+                this.pendingOrder["create"].add(id);
+            }
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
         }
+
+        return true;
     }
 
-    // Exports the paid orders (the ones waiting for internet connection)
-    export_paid_orders() {
-        return JSON.stringify(
-            {
-                paid_orders: this.db.get_orders(),
-                session: this.pos_session.name,
-                session_id: this.pos_session.id,
-                date: new Date().toUTCString(),
-                version: this.version.server_version_info,
-            },
-            null,
-            2
+    getPendingOrder() {
+        const orderToCreate = this.models["pos.order"].filter(
+            (order) => this.pendingOrder.create.has(order.id) && order.hasItemsOrPayLater
         );
-    }
-
-    // Exports the unpaid orders (the tabs)
-    export_unpaid_orders() {
-        return JSON.stringify(
-            {
-                unpaid_orders: this.db.get_unpaid_orders(),
-                session: this.pos_session.name,
-                session_id: this.pos_session.id,
-                date: new Date().toUTCString(),
-                version: this.version.server_version_info,
-            },
-            null,
-            2
+        const orderToUpdate = this.models["pos.order"].readMany(
+            Array.from(this.pendingOrder.write)
         );
-    }
+        const orderToDelele = this.models["pos.order"].readMany(
+            Array.from(this.pendingOrder.delete)
+        );
 
-    // This imports paid or unpaid orders from a json file whose
-    // contents are provided as the string str.
-    // It returns a report of what could and what could not be
-    // imported.
-    import_orders(str) {
-        var json = JSON.parse(str);
-        var report = {
-            // Number of paid orders that were imported
-            paid: 0,
-            // Number of unpaid orders that were imported
-            unpaid: 0,
-            // Orders that were not imported because they already exist (uid conflict)
-            unpaid_skipped_existing: 0,
-            // Orders that were not imported because they belong to another session
-            unpaid_skipped_session: 0,
-            // The list of session ids to which skipped orders belong.
-            unpaid_skipped_sessions: [],
+        return {
+            orderToDelele,
+            orderToCreate,
+            orderToUpdate,
         };
-
-        if (json.paid_orders) {
-            for (var i = 0; i < json.paid_orders.length; i++) {
-                this.db.add_order(json.paid_orders[i].data);
-            }
-            report.paid = json.paid_orders.length;
-            this.push_orders();
-        }
-
-        if (json.unpaid_orders) {
-            var orders = [];
-            var existing = this.get_order_list();
-            var existing_uids = {};
-            var skipped_sessions = {};
-
-            for (i = 0; i < existing.length; i++) {
-                existing_uids[existing[i].uid] = true;
-            }
-
-            for (i = 0; i < json.unpaid_orders.length; i++) {
-                var order = json.unpaid_orders[i];
-                if (order.pos_session_id !== this.pos_session.id) {
-                    report.unpaid_skipped_session += 1;
-                    skipped_sessions[order.pos_session_id] = true;
-                } else if (existing_uids[order.uid]) {
-                    report.unpaid_skipped_existing += 1;
-                } else {
-                    orders.push(this.createReactiveOrder(order));
-                }
-            }
-
-            orders = orders.sort(function (a, b) {
-                return a.sequence_number - b.sequence_number;
-            });
-
-            if (orders.length) {
-                report.unpaid = orders.length;
-                this.orders.add(orders);
-            }
-
-            report.unpaid_skipped_sessions = Object.keys(skipped_sessions);
-        }
-
-        return report;
     }
 
-    _load_orders() {
-        var jsons = this.db.get_unpaid_orders();
-        var orders = [];
-        var not_loaded_count = 0;
+    getOrderIdsToDelete() {
+        return [...this.pendingOrder.delete];
+    }
 
-        for (var i = 0; i < jsons.length; i++) {
-            var json = jsons[i];
-            if (json.pos_session_id === this.pos_session.id) {
-                orders.push(this.createReactiveOrder(json));
-            } else {
-                not_loaded_count += 1;
+    removePendingOrder(order) {
+        this.pendingOrder["create"].delete(order.id);
+        this.pendingOrder["write"].delete(order.id);
+        this.pendingOrder["delete"].delete(order.id);
+        return true;
+    }
+
+    clearPendingOrder() {
+        this.pendingOrder = {
+            create: new Set(),
+            write: new Set(),
+            delete: new Set(),
+        };
+    }
+
+    getSyncAllOrdersContext(orders, options = {}) {
+        return {
+            config_id: this.config.id,
+            login_number: this.session.login_number,
+            ...(options.context || {}),
+        };
+    }
+
+    // There for override
+    async preSyncAllOrders(orders) {}
+    postSyncAllOrders(orders) {}
+    async syncAllOrders(options = {}) {
+        const { orderToCreate, orderToUpdate } = this.getPendingOrder();
+        let orders = options.orders || [...orderToCreate, ...orderToUpdate];
+
+        // Filter out orders that are already being synced
+        orders = orders.filter((order) => !this.syncingOrders.has(order.id));
+
+        try {
+            const orderIdsToDelete = this.getOrderIdsToDelete();
+            if (orderIdsToDelete.length > 0) {
+                await this.deleteOrders([], orderIdsToDelete);
             }
-        }
 
-        if (not_loaded_count) {
-            console.info(
-                "There are " +
-                    not_loaded_count +
-                    " locally saved unpaid orders belonging to another session"
+            const context = this.getSyncAllOrdersContext(orders, options);
+            await this.preSyncAllOrders(orders);
+
+            // Allow us to force the sync of the orders In the case of
+            // pos_restaurant is usefull to get unsynced orders
+            // for a specific table
+            if (orders.length === 0) {
+                return;
+            }
+
+            // Add order IDs to the syncing set
+            orders.forEach((order) => this.syncingOrders.add(order.id));
+
+            // Re-compute all taxes, prices and other information needed for the backend
+            for (const order of orders) {
+                order.recomputeOrderData();
+            }
+
+            const serializedOrder = orders.map((order) =>
+                order.serialize({ orm: true, clear: true })
             );
-        }
-
-        orders = orders.sort(function (a, b) {
-            return a.sequence_number - b.sequence_number;
-        });
-
-        if (orders.length) {
-            this.orders.add(orders);
-        }
-    }
-
-    /**
-     * Mirror JS method of:
-     * _compute_amount in addons/account/models/account.py
-     */
-    _compute_all(tax, base_amount, quantity, price_exclude) {
-        if (price_exclude === undefined) {
-            var price_include = tax.price_include;
-        } else {
-            price_include = !price_exclude;
-        }
-        if (tax.amount_type === "fixed") {
-            // Use sign on base_amount and abs on quantity to take into account the sign of the base amount,
-            // which includes the sign of the quantity and the sign of the price_unit
-            // Amount is the fixed price for the tax, it can be negative
-            // Base amount included the sign of the quantity and the sign of the unit price and when
-            // a product is returned, it can be done either by changing the sign of quantity or by changing the
-            // sign of the price unit.
-            // When the price unit is equal to 0, the sign of the quantity is absorbed in base_amount then
-            // a "else" case is needed.
-            if (base_amount) {
-                return Math.sign(base_amount) * Math.abs(quantity) * tax.amount;
-            } else {
-                return quantity * tax.amount;
-            }
-        }
-        if (tax.amount_type === "percent" && !price_include) {
-            return (base_amount * tax.amount) / 100;
-        }
-        if (tax.amount_type === "percent" && price_include) {
-            return base_amount - base_amount / (1 + tax.amount / 100);
-        }
-        if (tax.amount_type === "division" && !price_include) {
-            return base_amount / (1 - tax.amount / 100) - base_amount;
-        }
-        if (tax.amount_type === "division" && price_include) {
-            return base_amount - base_amount * (tax.amount / 100);
-        }
-        return false;
-    }
-
-    /**
-     * Mirror JS method of:
-     * compute_all in addons/account/models/account.py
-     *
-     * Read comments in the python side method for more details about each sub-methods.
-     */
-    compute_all(taxes, price_unit, quantity, currency_rounding, handle_price_include = true) {
-        var self = this;
-
-        // 1) Flatten the taxes.
-
-        var _collect_taxes = function (taxes, all_taxes) {
-            taxes = [...taxes].sort(function (tax1, tax2) {
-                return tax1.sequence - tax2.sequence;
+            const data = await this.data.call("pos.order", "sync_from_ui", [serializedOrder], {
+                context,
             });
-            taxes.forEach((tax) => {
-                if (tax.amount_type === "group") {
-                    all_taxes = _collect_taxes(tax.children_tax_ids, all_taxes);
-                } else {
-                    all_taxes.push(tax);
+            const missingRecords = await this.data.missingRecursive(data);
+            const newData = this.models.loadData(missingRecords, [], false, true);
+
+            for (const line of newData["pos.order.line"]) {
+                const refundedOrderLine = line.refunded_orderline_id;
+
+                if (refundedOrderLine) {
+                    const order = refundedOrderLine.order_id;
+                    if (order) {
+                        delete order.uiState.lineToRefund[refundedOrderLine.uuid];
+                    }
+                    refundedOrderLine.refunded_qty += Math.abs(line.qty);
                 }
+            }
+
+            this.postSyncAllOrders(newData["pos.order"]);
+
+            if (data["pos.session"].length > 0) {
+                // Replace the original session by the rescue one. And the rescue one will have
+                // a higher id than the original one since it's the last one created.
+                const session = this.models["pos.session"].sort((a, b) => a.id - b.id)[0];
+                session.delete();
+                this.models["pos.order"]
+                    .getAll()
+                    .filter((order) => order.state === "draft")
+                    .forEach((order) => (order.session_id = this.session));
+            }
+
+            this.clearPendingOrder();
+            return newData["pos.order"];
+        } catch (error) {
+            if (options.throw) {
+                throw error;
+            }
+
+            console.warn("Offline mode active, order will be synced later");
+            return error;
+        } finally {
+            orders.forEach((order) => this.syncingOrders.delete(order.id));
+        }
+    }
+
+    push_single_order(order) {
+        return this.pushOrderMutex.exec(() => this.syncAllOrders(order));
+    }
+
+    setLoadingOrderState(bool) {
+        this.loadingOrderState = bool;
+    }
+    async pay() {
+        const currentOrder = this.get_order();
+
+        if (!currentOrder.canPay()) {
+            return;
+        }
+
+        if (
+            currentOrder.lines.some(
+                (line) => line.get_product().tracking !== "none" && !line.has_valid_product_lot()
+            ) &&
+            (this.pickingType.use_create_lots || this.pickingType.use_existing_lots)
+        ) {
+            const confirmed = await ask(this.env.services.dialog, {
+                title: _t("Some Serial/Lot Numbers are missing"),
+                body: _t(
+                    "You are trying to sell products with serial/lot numbers, but some of them are not set.\nWould you like to proceed anyway?"
+                ),
             });
+            if (confirmed) {
+                this.mobile_pane = "right";
+                this.env.services.pos.showScreen("PaymentScreen", {
+                    orderUuid: this.selectedOrderUuid,
+                });
+            }
+        } else {
+            this.mobile_pane = "right";
+            this.env.services.pos.showScreen("PaymentScreen", {
+                orderUuid: this.selectedOrderUuid,
+            });
+<<<<<<< HEAD
             return all_taxes;
         };
         var collect_taxes = function (taxes) {
@@ -1641,9 +1920,38 @@ export class PosStore extends Reactive {
                 }
                 i -= 1;
                 is_base_affected = tax.is_base_affected;
+=======
+        }
+    }
+    async getServerOrders() {
+        return await this.loadServerOrders([
+            ["config_id", "in", [...this.config.raw.trusted_config_ids, this.config.id]],
+            ["state", "=", "draft"],
+        ]);
+    }
+    async loadServerOrders(domain) {
+        const orders = await this.data.searchRead("pos.order", domain);
+        for (const order of orders) {
+            order.update({
+                config_id: this.config,
+                session_id: this.session,
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
             });
         }
+        return orders;
+    }
+    async getProductInfo(product, quantity, priceExtra = 0) {
+        const order = this.get_order();
+        // check back-end method `get_product_info_pos` to see what it returns
+        // We do this so it's easier to override the value returned and use it in the component template later
+        const productInfo = await this.data.call("product.product", "get_product_info_pos", [
+            [product.id],
+            product.get_price(order.pricelist_id, quantity, priceExtra),
+            quantity,
+            this.config.id,
+        ]);
 
+<<<<<<< HEAD
         var total_excluded = round_pr(
             recompute_base(base, incl_tax_amounts),
             initial_currency_rounding
@@ -1676,121 +1984,197 @@ export class PosStore extends Reactive {
             }else{
                 var tax_amount = self._compute_all(tax, tax_base_amount, quantity, true);
             }
+=======
+        const priceWithoutTax = productInfo["all_prices"]["price_without_tax"];
+        const margin = priceWithoutTax - product.standard_price;
+        const orderPriceWithoutTax = order.get_total_without_tax();
+        const orderCost = order.get_total_cost();
+        const orderMargin = orderPriceWithoutTax - orderCost;
 
-            tax_amount = round_pr(tax_amount, currency_rounding);
-            var factorized_tax_amount = round_pr(
-                tax_amount * tax.sum_repartition_factor,
-                currency_rounding
-            );
+        const costCurrency = this.env.utils.formatCurrency(product.standard_price);
+        const marginCurrency = this.env.utils.formatCurrency(margin);
+        const marginPercent = priceWithoutTax
+            ? Math.round((margin / priceWithoutTax) * 10000) / 100
+            : 0;
+        const orderPriceWithoutTaxCurrency = this.env.utils.formatCurrency(orderPriceWithoutTax);
+        const orderCostCurrency = this.env.utils.formatCurrency(orderCost);
+        const orderMarginCurrency = this.env.utils.formatCurrency(orderMargin);
+        const orderMarginPercent = orderPriceWithoutTax
+            ? Math.round((orderMargin / orderPriceWithoutTax) * 10000) / 100
+            : 0;
+        return {
+            costCurrency,
+            marginCurrency,
+            marginPercent,
+            orderPriceWithoutTaxCurrency,
+            orderCostCurrency,
+            orderMarginCurrency,
+            orderMarginPercent,
+            productInfo,
+        };
+    }
+    async getClosePosInfo() {
+        return await this.data.call("pos.session", "get_closing_control_data", [[this.session.id]]);
+    }
+    // return the current order
+    get_order() {
+        if (!this.selectedOrderUuid) {
+            return undefined;
+        }
 
-            if (tax.price_include && total_included_checkpoints[i] === undefined) {
-                cumulated_tax_included_amount += factorized_tax_amount;
-            }
+        return this.models["pos.order"].getBy("uuid", this.selectedOrderUuid);
+    }
+    get selectedOrder() {
+        return this.get_order();
+    }
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
-            taxes_vals.push({
-                id: tax.id,
-                name: tax.name,
-                amount: sign * factorized_tax_amount,
-                base: sign * round_pr(tax_base_amount, currency_rounding),
+    // change the current order
+    set_order(order, options) {
+        if (this.get_order()) {
+            this.get_order().updateSavedQuantity();
+        }
+        this.selectedOrderUuid = order?.uuid;
+    }
+
+    // return the list of unpaid orders
+    get_open_orders() {
+        return this.models["pos.order"].filter((o) => !o.finalized && o.uiState.displayed);
+    }
+
+    // To be used in the context of closing the POS
+    // Saves the order locally and try to send it to the backend.
+    // If there is an error show a popup
+    async push_orders_with_closing_popup(opts = {}) {
+        try {
+            await this.syncAllOrders(opts);
+            return true;
+        } catch (error) {
+            console.warn(error);
+            const reason = this.failed
+                ? _t(
+                      "Some orders could not be submitted to " +
+                          "the server due to configuration errors. " +
+                          "You can exit the Point of Sale, but do " +
+                          "not close the session before the issue " +
+                          "has been resolved."
+                  )
+                : _t(
+                      "Some orders could not be submitted to " +
+                          "the server due to internet connection issues. " +
+                          "You can exit the Point of Sale, but do " +
+                          "not close the session before the issue " +
+                          "has been resolved."
+                  );
+            await ask(this.dialog, {
+                title: _t("Offline Orders"),
+                body: reason,
             });
+            return false;
+        }
+    }
 
-            if (tax.include_base_amount) {
-                base += factorized_tax_amount;
-                if (!tax.price_include) {
-                    skip_checkpoint = true;
-                }
-            }
+    prepareProductBaseLineForTaxesComputationExtraValues(product, p = false) {
+        const currency = this.config.currency_id;
+        const extraValues = { currency_id: currency };
+        const priceList = this.getDefaultPricelist();
+        const priceUnit = p === false ? product.get_price(priceList, 1) : p;
 
-            total_included += factorized_tax_amount;
-            i += 1;
-        });
+        let taxes = product.taxes_id;
+
+        // Fiscal position.
+        const order = this.get_order();
+        if (order && order.fiscal_position_id) {
+            taxes = getTaxesAfterFiscalPosition(taxes, order.fiscal_position_id, this.models);
+        }
 
         return {
-            taxes: taxes_vals,
-            total_excluded: sign * round_pr(total_excluded, this.currency.rounding),
-            total_included: sign * round_pr(total_included, this.currency.rounding),
+            ...extraValues,
+            product_id: accountTaxHelpers.eval_taxes_computation_prepare_product_values(
+                this.config._product_default_values,
+                product
+            ),
+            quantity: 1,
+            price_unit: priceUnit,
+            tax_ids: taxes,
         };
     }
 
-    /**
-     * Taxes after fiscal position mapping.
-     * @param {number[]} taxIds
-     * @param {object | falsy} fpos - fiscal position
-     * @returns {object[]}
-     */
-    get_taxes_after_fp(taxIds, fpos) {
-        if (!fpos) {
-            return taxIds.map((taxId) => this.taxes_by_id[taxId]);
+    getProducePriceDetails(product, p = false) {
+        const company = this.company;
+        const baseLine = accountTaxHelpers.prepare_base_line_for_taxes_computation(
+            {},
+            this.prepareProductBaseLineForTaxesComputationExtraValues(product, p)
+        );
+        accountTaxHelpers.add_tax_details_in_base_line(baseLine, company);
+        accountTaxHelpers.round_base_lines_tax_details([baseLine], company);
+
+        const results = baseLine.tax_details;
+        for (const taxData of results.taxes_data) {
+            Object.assign(taxData, taxData.tax);
         }
-        const mappedTaxes = [];
-        for (const taxId of taxIds) {
-            const tax = this.taxes_by_id[taxId];
-            if (tax) {
-                const taxMaps = Object.values(fpos.fiscal_position_taxes_by_id).filter(
-                    (fposTax) => fposTax.tax_src_id[0] === tax.id
-                );
-                if (taxMaps.length) {
-                    for (const taxMap of taxMaps) {
-                        if (taxMap.tax_dest_id) {
-                            const mappedTax = this.taxes_by_id[taxMap.tax_dest_id[0]];
-                            if (mappedTax) {
-                                mappedTaxes.push(mappedTax);
-                            }
-                        }
-                    }
-                } else {
-                    mappedTaxes.push(tax);
-                }
-            }
+        return results;
+    }
+
+    getProductPrice(product, p = false) {
+        const taxesData = this.getProducePriceDetails(product, p);
+        if (this.config.iface_tax_included === "total") {
+            return taxesData.total_included;
+        } else {
+            return taxesData.total_excluded;
         }
-        return uniqueBy(mappedTaxes, (tax) => tax.id);
     }
 
     /**
      * @param {str} terminalName
      */
     getPendingPaymentLine(terminalName) {
-        return this.get_order().paymentlines.find(
-            (paymentLine) =>
-                paymentLine.payment_method.use_payment_terminal === terminalName &&
-                !paymentLine.is_done()
-        );
-    }
-    /**
-     * TODO: We can probably remove this here and put it somewhere else.
-     * And that somewhere else becomes the parent of the proxy.
-     * Directly calls the requested service, instead of triggering a
-     * 'call_service' event up, which wouldn't work as services have no parent
-     *
-     * @param {OdooEvent} ev
-     */
-    _trigger_up(ev) {
-        if (ev.is_stopped()) {
-            return;
-        }
-        const payload = ev.data;
-        if (ev.name === "call_service") {
-            const service = this.env.services[payload.service];
-            const result = service[payload.method].apply(service, ev.data.args || []);
-            payload.callback(result);
+        for (const order of this.models["pos.order"].getAll()) {
+            const paymentLine = order.payment_ids.find(
+                (paymentLine) =>
+                    paymentLine.payment_method_id.use_payment_terminal === terminalName &&
+                    !paymentLine.is_done()
+            );
+            if (paymentLine) {
+                return paymentLine;
+            }
         }
     }
 
+    get linesToRefund() {
+        return this.models["pos.order"].reduce((acc, order) => {
+            acc.push(...Object.values(order.uiState.lineToRefund));
+            return acc;
+        }, []);
+    }
+
     isProductQtyZero(qty) {
-        return floatIsZero(qty, this.dp["Product Unit of Measure"]);
+        const dp = this.models["decimal.precision"].find(
+            (dp) => dp.name === "Product Unit of Measure"
+        );
+        return floatIsZero(qty, dp.digits);
     }
 
     disallowLineQuantityChange() {
         return false;
     }
 
+<<<<<<< HEAD
     disallowLineDiscountChange() {
+=======
+    restrictLineDiscountChange() {
+        return false;
+    }
+
+    restrictLinePriceChange() {
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
         return false;
     }
 
     getCurrencySymbol() {
         return this.currency ? this.currency.symbol : "$";
     }
+<<<<<<< HEAD
     /**
      * Make the products corresponding to the given ids to be available_in_pos and
      * fetch them to be added on the loaded products.
@@ -1815,8 +2199,10 @@ export class PosStore extends Reactive {
         await this._loadMissingPricelistItems(product);
         this._loadProductProduct(product);
     }
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
     isOpenOrderShareable() {
-        return this.config.trusted_config_ids.length > 0;
+        return this.config.raw.trusted_config_ids.length > 0;
     }
     switchPane() {
         this.mobile_pane = this.mobile_pane === "left" ? "right" : "left";
@@ -1826,44 +2212,86 @@ export class PosStore extends Reactive {
             this.ticket_screen_mobile_pane === "left" ? "right" : "left";
     }
     async logEmployeeMessage(action, message) {
-        await this.orm.call("pos.session", "log_partner_message", [
-            this.pos_session.id,
-            this.user.partner_id.id,
-            action,
-            message,
-        ]);
+        await this.data.call(
+            "pos.session",
+            "log_partner_message",
+            [this.session.id, this.user.partner_id.id, action, message],
+            {},
+            true
+        );
     }
     showScreen(name, props) {
+        if (name === "PaymentScreen" && !props.orderUuid) {
+            name = "ProductScreen";
+        }
+        if (name === "ProductScreen") {
+            this.get_order()?.deselect_orderline();
+        }
         const component = registry.category("pos_screens").get(name);
+        if (
+            (component.updatePreviousScreen ?? true) &&
+            (this.mainScreen.component?.updatePreviousScreen ?? true)
+        ) {
+            this.previousScreen = this.mainScreen.component?.name;
+        }
         this.mainScreen = { component, props };
         // Save the screen to the order so that it is shown again when the order is selected.
         if (component.storeOnOrder ?? true) {
             this.get_order()?.set_screen_data({ name, props });
         }
     }
-
+    orderExportForPrinting(order) {
+        const headerData = this.getReceiptHeaderData(order);
+        const baseUrl = this.session._base_url;
+        return order.export_for_printing(baseUrl, headerData);
+    }
+    async printReceipt({
+        basic = false,
+        order = this.get_order(),
+        printBillActionTriggered = false,
+    } = {}) {
+        const result = await this.printer.print(
+            OrderReceipt,
+            {
+                data: this.orderExportForPrinting(order),
+                formatCurrency: this.env.utils.formatCurrency,
+                basic_receipt: basic,
+            },
+            { webPrintFallback: true }
+        );
+        if (!printBillActionTriggered) {
+            order.nb_print += 1;
+            if (typeof order.id === "number" && result) {
+                await this.data.write("pos.order", [order.id], { nb_print: order.nb_print });
+            }
+        }
+        return true;
+    }
+    getOrderChanges(skipped = false, order = this.get_order()) {
+        return getOrderChanges(order, skipped, this.orderPreparationCategories);
+    }
     // Now the printer should work in PoS without restaurant
     async sendOrderInPreparation(order, cancelled = false) {
         if (this.printers_category_ids_set.size) {
             try {
-                const changes = order.changesToOrder(cancelled);
-
-                if (changes.cancelled.length > 0 || changes.new.length > 0) {
-                    const isPrintSuccessful = await order.printChanges(cancelled);
-                    if (!isPrintSuccessful) {
-                        this.popup.add(ErrorPopup, {
-                            title: _t("Printing failed"),
-                            body: _t("Failed in printing the changes in the order"),
-                        });
-                    }
-                }
+                const orderChange = changesToOrder(
+                    order,
+                    false,
+                    this.orderPreparationCategories,
+                    cancelled
+                );
+                this.printChanges(order, orderChange);
             } catch (e) {
-                console.warn("Failed in printing the changes in the order", e);
+                console.info("Failed in printing the changes in the order", e);
             }
         }
+<<<<<<< HEAD
     }
     async sendOrderInPreparationUpdateLastChange(order, cancelled = false) {
         await this.sendOrderInPreparation(order, cancelled);
+=======
+
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
         order.updateLastOrderChange();
 
         //We make sure that the last_order_change is updated in the backend
@@ -1871,10 +2299,162 @@ export class PosStore extends Reactive {
         order.pos.ordersToUpdateSet.add(order);
         await order.pos.sendDraftToServer();
     }
+    async sendOrderInPreparationUpdateLastChange(o, cancelled = false) {
+        // Always display a "ConnectionLostError" when the user tries to send an order to the kitchen while offline
+        if (this.data.network.offline) {
+            this.data.network.warningTriggered = false;
+            throw new ConnectionLostError();
+        }
+        await this.sendOrderInPreparation(o, cancelled);
+    }
+
+    async printChanges(order, orderChange) {
+        const unsuccedPrints = [];
+        orderChange.new.sort((a, b) => {
+            const sequenceA = a.pos_categ_sequence;
+            const sequenceB = b.pos_categ_sequence;
+            if (sequenceA === 0 && sequenceB === 0) {
+                return a.pos_categ_id - b.pos_categ_id;
+            }
+
+            return sequenceA - sequenceB;
+        });
+
+        for (const printer of this.unwatched.printers) {
+            const changes = this._getPrintingCategoriesChanges(
+                printer.config.product_categories_ids,
+                orderChange
+            );
+            const anyChangesToPrint = Object.values(changes).some((change) => change.length);
+            const diningModeUpdate = orderChange.modeUpdate;
+            if (diningModeUpdate || anyChangesToPrint) {
+                const printed = await this.printReceipts(
+                    order,
+                    printer,
+                    "New",
+                    changes.new,
+                    true,
+                    diningModeUpdate
+                );
+                if (!printed) {
+                    unsuccedPrints.push("Detailed Receipt");
+                }
+            } else {
+                // Print all receipts related to line changes
+                const toPrintArray = this.preparePrintingData(order, changes);
+                for (const [key, value] of Object.entries(toPrintArray)) {
+                    const printed = await this.printReceipts(order, printer, key, value, false);
+                    if (!printed) {
+                        unsuccedPrints.push(key);
+                    }
+                }
+                // Print Order Note if changed
+                if (orderChange.generalNote) {
+                    const printed = await this.printReceipts(order, printer, "Message", []);
+                    if (!printed) {
+                        unsuccedPrints.push("General Message");
+                    }
+                }
+            }
+        }
+
+        // printing errors
+        if (unsuccedPrints.length) {
+            const failedReceipts = unsuccedPrints.join(", ");
+            this.dialog.add(AlertDialog, {
+                title: _t("Printing failed"),
+                body: _t("Failed in printing %s changes of the order", failedReceipts),
+            });
+        }
+    }
+
+    async printReceipts(order, printer, title, lines, fullReceipt = false, diningModeUpdate) {
+        let time;
+        if (order.write_date) {
+            time = order.write_date?.split(" ")[1].split(":");
+            time = time[0] + "h" + time[1];
+        }
+
+        const printingChanges = {
+            table_name: order.table_id ? order.table_id.table_number : "",
+            config_name: order.config.name,
+            time: order.write_date ? time : "",
+            tracking_number: order.tracking_number,
+            takeaway: order.config.takeaway && order.takeaway,
+            employee_name: order.employee_id?.name || order.user_id?.name,
+            order_note: order.general_note,
+            diningModeUpdate: diningModeUpdate,
+        };
+
+        const receipt = renderToElement("point_of_sale.OrderChangeReceipt", {
+            operational_title: title,
+            changes: printingChanges,
+            changedlines: lines,
+            fullReceipt: fullReceipt,
+        });
+        const result = await printer.printReceipt(receipt);
+        return result.successful;
+    }
+
+    preparePrintingData(order, changes) {
+        const order_modifications = {};
+        const pdisChangedLines = order.last_order_preparation_change.lines;
+
+        if (changes["new"].length) {
+            order_modifications["New"] = changes["new"];
+        }
+        if (changes["noteUpdated"].length) {
+            order_modifications["Note"] = changes["noteUpdated"];
+        }
+        // Handle removed lines
+        if (changes["cancelled"].length) {
+            if (changes["new"].length) {
+                order_modifications["Cancelled"] = changes["cancelled"];
+            } else {
+                const allCancelled = changes["cancelled"].every((line) => {
+                    const pdisLine = pdisChangedLines[line.uuid + " - " + line.note];
+                    return !pdisLine || pdisLine.quantity <= line.quantity;
+                });
+                if (
+                    allCancelled &&
+                    Object.keys(pdisChangedLines).length == changes["cancelled"].length
+                ) {
+                    order_modifications["Cancel"] = changes["cancelled"];
+                } else {
+                    order_modifications["Cancelled"] = changes["cancelled"];
+                }
+            }
+        }
+        return order_modifications;
+    }
+
+    _getPrintingCategoriesChanges(categories, currentOrderChange) {
+        const filterFn = (change) => {
+            const product = this.models["product.product"].get(change["product_id"]);
+            const categoryIds = product.parentPosCategIds;
+
+            for (const categoryId of categoryIds) {
+                if (categories.includes(categoryId)) {
+                    return true;
+                }
+            }
+        };
+
+        return {
+            new: currentOrderChange["new"].filter(filterFn),
+            cancelled: currentOrderChange["cancelled"].filter(filterFn),
+            noteUpdated: currentOrderChange["noteUpdated"].filter(filterFn),
+        };
+    }
+
     closeScreen() {
         this.addOrderIfEmpty();
         const { name: screenName } = this.get_order().get_screen_data();
-        this.showScreen(screenName);
+        const props = {};
+        if (screenName === "PaymentScreen") {
+            props.orderUuid = this.selectedOrderUuid;
+        }
+        this.showScreen(screenName, props);
     }
 
     addOrderIfEmpty() {
@@ -1915,15 +2495,65 @@ export class PosStore extends Reactive {
             );
         });
     }
-
+    /**
+     * @param {import("@point_of_sale/app/models/res_partner").ResPartner?} partner leave undefined to create a new partner
+     */
+    async editPartner(partner) {
+        const record = await makeActionAwaitable(
+            this.action,
+            "point_of_sale.res_partner_action_edit_pos",
+            {
+                props: { resId: partner?.id },
+            }
+        );
+        const newPartner = await this.data.read("res.partner", record.config.resIds);
+        return newPartner[0];
+    }
+    /**
+     * @param {import("@point_of_sale/app/models/product_product").ProductProduct?} product leave undefined to create a new product
+     */
+    async editProduct(product) {
+        this.action.doAction(
+            product
+                ? "point_of_sale.product_product_action_edit_pos"
+                : "point_of_sale.product_product_action_add_pos",
+            {
+                props: {
+                    resId: product?.id,
+                    onSave: (record) => {
+                        this.data.read("product.product", [record.evalContext.id]);
+                        this.action.doAction({
+                            type: "ir.actions.act_window_close",
+                        });
+                    },
+                },
+            }
+        );
+    }
+    async allowProductCreation() {
+        return await user.hasGroup("base.group_system");
+    }
+    async orderDetails(order) {
+        this.dialog.add(FormViewDialog, {
+            resModel: "pos.order",
+            resId: order.id,
+            onRecordSaved: async (record) => {
+                await this.data.read("pos.order", [record.evalContext.id]);
+                await this.data.read(
+                    "pos.payment",
+                    order.payment_ids.map((p) => p.id)
+                );
+                this.action.doAction({
+                    type: "ir.actions.act_window_close",
+                });
+            },
+        });
+    }
     async closePos() {
-        const customerDisplayService = this.env.services.customer_display;
-        if (customerDisplayService) {
-            customerDisplayService.update({ closeUI: true });
-        }
-
+        this._resetConnectedCashier();
         // If pos is not properly loaded, we just go back to /web without
         // doing anything in the order data.
+<<<<<<< HEAD
         if (!this || this.db.get_orders().length === 0) {
             this.redirectToBackend();
         }
@@ -1932,60 +2562,150 @@ export class PosStore extends Reactive {
         const syncSuccess = await this.push_orders_with_closing_popup();
         if (syncSuccess) {
             this.redirectToBackend();
+=======
+        if (!this) {
+            this.redirectToBackend();
         }
+
+        if (this.session.state === "opening_control") {
+            const data = await this.data.call("pos.session", "delete_opening_control_session", [
+                this.session.id,
+            ]);
+
+            if (data.status === "success") {
+                this.redirectToBackend();
+            }
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
+        }
+
+        // If there are orders in the db left unsynced, we try to sync.
+        const syncSuccess = await this.push_orders_with_closing_popup();
+        if (syncSuccess) {
+            this.redirectToBackend();
+        }
+    }
+    async selectPricelist(pricelist) {
+        await this.get_order().set_pricelist(pricelist);
     }
     async selectPartner() {
         // FIXME, find order to refund when we are in the ticketscreen.
         const currentOrder = this.get_order();
         if (!currentOrder) {
-            return;
+            return false;
         }
         const currentPartner = currentOrder.get_partner();
         if (currentPartner && currentOrder.getHasRefundLines()) {
-            this.popup.add(ErrorPopup, {
+            this.dialog.add(AlertDialog, {
                 title: _t("Can't change customer"),
                 body: _t(
                     "This order already has refund lines for %s. We can't change the customer associated to it. Create a new order for the new customer.",
                     currentPartner.name
                 ),
             });
-            return;
+            return currentPartner;
         }
-        const { confirmed, payload: newPartner } = await this.showTempScreen("PartnerListScreen", {
+        const payload = await makeAwaitable(this.dialog, PartnerList, {
             partner: currentPartner,
+            getPayload: (newPartner) => currentOrder.set_partner(newPartner),
         });
-        if (confirmed) {
-            currentOrder.set_partner(newPartner);
-        }
-    }
-    // FIXME: POSREF, method exist only to be overrided
-    async addProductFromUi(product, options) {
-        return this.get_order().add_product(product, options);
-    }
-    async addProductToCurrentOrder(product, options = {}) {
-        if (Number.isInteger(product)) {
-            product = this.db.get_product_by_id(product);
-        }
-        this.get_order() || this.add_new_order();
 
+        if (payload) {
+            currentOrder.set_partner(payload);
+        } else {
+            currentOrder.set_partner(false);
+        }
+
+        return currentPartner;
+    }
+    async editLots(product, packLotLinesToEdit) {
+        const isAllowOnlyOneLot = product.isAllowOnlyOneLot();
+        let canCreateLots = this.pickingType.use_create_lots || !this.pickingType.use_existing_lots;
+
+        let existingLots = [];
+        try {
+            existingLots = await this.data.call(
+                "pos.order.line",
+                "get_existing_lots",
+                [this.company.id, product.id],
+                {
+                    context: {
+                        config_id: this.config.id,
+                    },
+                }
+            );
+            if (!canCreateLots && (!existingLots || existingLots.length === 0)) {
+                this.dialog.add(AlertDialog, {
+                    title: _t("No existing serial/lot number"),
+                    body: _t(
+                        "There is no serial/lot number for the selected product, and their creation is not allowed from the Point of Sale app."
+                    ),
+                });
+                return null;
+            }
+        } catch (ex) {
+            console.error("Collecting existing lots failed: ", ex);
+            const confirmed = await ask(this.dialog, {
+                title: _t("Server communication problem"),
+                body: _t(
+                    "The existing serial/lot numbers could not be retrieved. \nContinue without checking the validity of serial/lot numbers ?"
+                ),
+                confirmLabel: _t("Yes"),
+                cancelLabel: _t("No"),
+            });
+            if (!confirmed) {
+                return null;
+            }
+            canCreateLots = true;
+        }
+
+<<<<<<< HEAD
         options = { ...(await product.getAddProductOptions()), ...options };
+=======
+        const usedLotsQty = this.models["pos.pack.operation.lot"]
+            .filter(
+                (lot) =>
+                    lot.pos_order_line_id?.product_id?.id === product.id &&
+                    lot.pos_order_line_id?.order_id?.state === "draft"
+            )
+            .reduce((acc, lot) => {
+                if (!acc[lot.lot_name]) {
+                    acc[lot.lot_name] = { total: 0, currentOrderCount: 0 };
+                }
+                acc[lot.lot_name].total += lot.pos_order_line_id?.qty || 0;
 
-        if (!Object.keys(options).length) {
-            return;
-        }
+                if (lot.pos_order_line_id?.order_id?.id === this.selectedOrder.id) {
+                    acc[lot.lot_name].currentOrderCount += lot.pos_order_line_id?.qty || 0;
+                }
+                return acc;
+            }, {});
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
-        // Add the product after having the extra information.
-        await this.addProductFromUi(product, options);
-        this.numberBuffer.reset();
-    }
+        // Remove lot/serial names that are already used in draft orders
+        existingLots = existingLots.filter(
+            (lot) => lot.product_qty > (usedLotsQty[lot.name]?.total || 0)
+        );
 
-    async getEditedPackLotLines(isAllowOnlyOneLot, packLotLinesToEdit, productName) {
-        const { confirmed, payload } = await this.env.services.popup.add(EditListPopup, {
+        // Check if the input lot/serial name is already used in another order
+        const isLotNameUsed = (itemValue) => {
+            const totalQty = existingLots.find((lt) => lt.name == itemValue)?.product_qty || 0;
+            const usedQty = usedLotsQty[itemValue]
+                ? usedLotsQty[itemValue].total - usedLotsQty[itemValue].currentOrderCount
+                : 0;
+            return usedQty ? usedQty >= totalQty : false;
+        };
+
+        const existingLotsName = existingLots.map((l) => l.name);
+        const payload = await makeAwaitable(this.dialog, EditListPopup, {
             title: _t("Lot/Serial Number(s) Required"),
-            name: productName,
+            name: product.display_name,
             isSingleItem: isAllowOnlyOneLot,
             array: packLotLinesToEdit,
+            options: existingLotsName,
+            customInput: canCreateLots,
+            uniqueValues: product.tracking === "serial",
+            isLotNameUsed: isLotNameUsed,
         });
+<<<<<<< HEAD
         if (!confirmed) {
             return;
         }
@@ -2019,24 +2739,43 @@ export class PosStore extends Reactive {
     openCashControl() {
         if (this.shouldShowCashControl()) {
             this.popup.add(CashOpeningPopup);
+=======
+        if (payload) {
+            // Segregate the old and new packlot lines
+            const modifiedPackLotLines = Object.fromEntries(
+                payload.filter((item) => item.id).map((item) => [item.id, item.text])
+            );
+            const newPackLotLines = payload
+                .filter((item) => !item.id)
+                .map((item) => ({ lot_name: item.text }));
+
+            return { modifiedPackLotLines, newPackLotLines };
+        } else {
+            return null;
         }
-    }
-    shouldShowCashControl() {
-        return this.config.cash_control && this.pos_session.state == "opening_control";
     }
 
-    preloadImages() {
-        for (const product of this.db.get_product_by_category(0)) {
-            const image = new Image();
-            image.src = `/web/image?model=product.product&field=image_128&id=${product.id}&unique=${product.write_date}`;
+    openOpeningControl() {
+        if (this.shouldShowOpeningControl()) {
+            this.dialog.add(
+                OpeningControlPopup,
+                {},
+                {
+                    onClose: () => {
+                        if (
+                            this.session.state !== "opened" &&
+                            this.mainScreen.component === ProductScreen
+                        ) {
+                            this.closePos();
+                        }
+                    },
+                }
+            );
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
         }
-        for (const category of Object.values(this.db.category_by_id)) {
-            if (category.id == 0) {
-                continue;
-            }
-            const image = new Image();
-            image.src = `/web/image?model=pos.category&field=image_128&id=${category.id}&unique=${category.write_date}`;
-        }
+    }
+    shouldShowOpeningControl() {
+        return this.session.state == "opening_control";
     }
 
     /**
@@ -2047,7 +2786,7 @@ export class PosStore extends Reactive {
         localStorage["message"] = "";
         localStorage["message"] = JSON.stringify({
             message: "close_tabs",
-            session: this.pos_session.id,
+            session: this.session.id,
         });
 
         window.addEventListener(
@@ -2055,7 +2794,7 @@ export class PosStore extends Reactive {
             (event) => {
                 if (event.key === "message" && event.newValue) {
                     const msg = JSON.parse(event.newValue);
-                    if (msg.message === "close_tabs" && msg.session == this.pos_session.id) {
+                    if (msg.message === "close_tabs" && msg.session == this.session.id) {
                         console.info("POS / Session opened in another window. EXITING POS");
                         this.closePos();
                     }
@@ -2067,10 +2806,31 @@ export class PosStore extends Reactive {
 
     showBackButton() {
         return (
-            this.mainScreen.component === PaymentScreen ||
-            (this.mainScreen.component === ProductScreen && this.mobile_pane == "left") ||
-            this.mainScreen.component === TicketScreen
+            (this.ui.isSmall && this.mainScreen.component !== ProductScreen) ||
+            (this.mobile_pane === "left" && this.mainScreen.component === ProductScreen)
         );
+    }
+    async onClickBackButton() {
+        if (this.mainScreen.component === TicketScreen) {
+            if (this.ticket_screen_mobile_pane == "left") {
+                this.closeScreen();
+            } else {
+                this.ticket_screen_mobile_pane = "left";
+            }
+        } else if (
+            this.mobile_pane == "left" ||
+            [PaymentScreen, ActionScreen].includes(this.mainScreen.component)
+        ) {
+            this.mobile_pane = this.mainScreen.component === PaymentScreen ? "left" : "right";
+            this.showScreen("ProductScreen");
+        }
+    }
+
+    showSearchButton() {
+        if (this.mainScreen.component === ProductScreen) {
+            return this.ui.isSmall ? this.mobile_pane === "right" : true;
+        }
+        return false;
     }
 
     doNotAllowRefundAndSales() {
@@ -2080,11 +2840,12 @@ export class PosStore extends Reactive {
     getReceiptHeaderData(order) {
         return {
             company: this.company,
-            cashier: this.get_cashier()?.name,
+            cashier: _t("Served by %s", order?.getCashierName() || this.get_cashier()?.name),
             header: this.config.receipt_header,
         };
     }
 
+<<<<<<< HEAD
     isChildPartner(partner) {
         return partner.parent_name;
     }
@@ -2097,6 +2858,87 @@ export class PosStore extends Reactive {
         this.searchProductWord = "";
         const { start_category, iface_start_categ_id } = this.config;
         this.selectedCategoryId = (start_category && iface_start_categ_id?.[0]) || 0;
+=======
+    async showQR(payment) {
+        let qr;
+        try {
+            qr = await this.data.call("pos.payment.method", "get_qr_code", [
+                [payment.payment_method_id.id],
+                payment.amount,
+                payment.pos_order_id.name + " " + payment.pos_order_id.tracking_number,
+                "",
+                this.currency.id,
+                payment.pos_order_id.partner_id?.id,
+            ]);
+        } catch (error) {
+            qr = payment.payment_method_id.default_qr;
+            if (!qr) {
+                let message;
+                if (error instanceof ConnectionLostError) {
+                    message = _t(
+                        "Connection to the server has been lost. Please check your internet connection."
+                    );
+                } else {
+                    message = error.data.message;
+                }
+                this.env.services.dialog.add(AlertDialog, {
+                    title: _t("Failure to generate Payment QR Code"),
+                    body: message,
+                });
+                return false;
+            }
+        }
+        return await ask(
+            this.env.services.dialog,
+            {
+                title: payment.name,
+                line: payment,
+                order: payment.pos_order_id,
+                qrCode: qr,
+            },
+            {},
+            QRPopup
+        );
+    }
+
+    get isTicketScreenShown() {
+        return this.mainScreen.component === TicketScreen;
+    }
+
+    _shouldLoadOrders() {
+        return this.config.raw.trusted_config_ids.length > 0;
+    }
+
+    redirectToBackend() {
+        window.location = "/odoo/action-point_of_sale.action_client_pos_menu";
+    }
+
+    getDisplayDeviceIP() {
+        return this.config.proxy_ip;
+    }
+
+    isProductVariant(product) {
+        return (
+            this.models["product.product"].filter(
+                (p) => p.raw.product_tmpl_id === product.raw.product_tmpl_id
+            ).length > 1
+        );
+    }
+
+    getPaymentMethodDisplayText(pm, order) {
+        const { cash_rounding, only_round_cash_method } = this.config;
+        const amount = order.getDefaultAmountDueToPayIn(pm);
+        const fmtAmount = this.env.utils.formatCurrency(amount, false);
+        if (
+            lte(amount, 0, { decimals: this.currency.decimal_places }) ||
+            !cash_rounding ||
+            (only_round_cash_method && pm.type !== "cash")
+        ) {
+            return pm.name;
+        } else {
+            return `${pm.name} (${fmtAmount})`;
+        }
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
     }
 }
 

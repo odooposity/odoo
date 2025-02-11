@@ -59,7 +59,7 @@ class TestSQL(BaseCase):
     def test_sql_idempotence(self):
         sql1 = SQL("SELECT id FROM table WHERE foo=%s AND bar=%s", 42, 'baz')
         sql2 = SQL(sql1)
-        self.assertIs(sql1, sql2)
+        self.assertEqual(sql1, sql2)
 
     def test_sql_unpacking(self):
         sql = SQL("SELECT id FROM table WHERE foo=%s AND bar=%s", 42, 'baz')
@@ -174,4 +174,7 @@ class TestSqlTools(TransactionCase):
         # ensure the definitions match
         db_definition = sql.constraint_definition(self.env.cr, 'res_bank', 'test_constraint_dummy')
         self.assertEqual(definition, db_definition)
+<<<<<<< HEAD
 
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8

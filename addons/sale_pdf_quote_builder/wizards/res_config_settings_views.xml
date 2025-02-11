@@ -6,6 +6,7 @@
         <field name="model">res.config.settings</field>
         <field name="inherit_id" ref="sale_management.res_config_settings_view_form"/>
         <field name="arch" type="xml">
+<<<<<<< HEAD
             <setting id="sale_pdf_quote_builder" position="replace">
                 <setting id="sale_pdf_quote_builder"
                          string="PDF Quote builder"
@@ -27,6 +28,17 @@
                     </a>
                 </setting>
             </setting>
+=======
+            <div name="sale_pdf_module_settings" position="inside">
+                <button
+                    name="%(sale_pdf_quote_builder.quotation_document_action)d"
+                    icon="oi-arrow-right"
+                    type="action"
+                    string="Headers/Footers"
+                    class="btn-link"
+                />
+            </div>
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
         </field>
     </record>
 

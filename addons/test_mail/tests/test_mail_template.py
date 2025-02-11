@@ -194,6 +194,14 @@ class TestMailTemplateLanguages(TestMailTemplateCommon):
 
         cls.env.flush_all()
 
+<<<<<<< HEAD
+=======
+    def setUp(self):
+        super().setUp()
+        # warm up group access cache: 5 queries + 1 query per user
+        self.user_employee.has_group('base.group_user')
+
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
     @mute_logger('odoo.addons.mail.models.mail_mail')
     @warmup
     def test_template_send_email(self):
@@ -207,6 +215,8 @@ class TestMailTemplateLanguages(TestMailTemplateCommon):
         self.assertEqual(sorted(mail.attachment_ids.mapped('name')), ['first.txt', 'second.txt'])
         self.assertEqual(mail.body_html,
                          f'<body><p>EnglishBody for {self.test_record.name}</p> English Layout for Lang Chatter Model</body>')
+<<<<<<< HEAD
+=======
         self.assertEqual(mail.email_cc, self.test_template.email_cc)
         self.assertEqual(mail.email_to, self.test_template.email_to)
         self.assertEqual(mail.recipient_ids, self.partner_2 | self.user_admin.partner_id)
@@ -225,6 +235,7 @@ class TestMailTemplateLanguages(TestMailTemplateCommon):
         self.assertEqual(sorted(mail.attachment_ids.mapped('name')), ['first.txt', 'second.txt'])
         self.assertEqual(mail.body_html,
                          f'<p>EnglishBody for {self.test_record.name}</p>')
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
         self.assertEqual(mail.email_cc, self.test_template.email_cc)
         self.assertEqual(mail.email_to, self.test_template.email_to)
         self.assertEqual(mail.recipient_ids, self.partner_2 | self.user_admin.partner_id)
@@ -232,6 +243,27 @@ class TestMailTemplateLanguages(TestMailTemplateCommon):
 
     @mute_logger('odoo.addons.mail.models.mail_mail')
     @warmup
+<<<<<<< HEAD
+    def test_template_send_email_nolayout(self):
+        """ Test without layout, just to check impact """
+        self.test_template.email_layout_xmlid = False
+        self.env.invalidate_all()
+        with self.with_user(self.user_employee.login), self.assertQueryCount(12):
+            mail_id = self.test_template.with_env(self.env).send_mail(self.test_record.id)
+            mail = self.env['mail.mail'].sudo().browse(mail_id)
+
+        self.assertEqual(sorted(mail.attachment_ids.mapped('name')), ['first.txt', 'second.txt'])
+        self.assertEqual(mail.body_html,
+                         f'<p>EnglishBody for {self.test_record.name}</p>')
+        self.assertEqual(mail.email_cc, self.test_template.email_cc)
+        self.assertEqual(mail.email_to, self.test_template.email_to)
+        self.assertEqual(mail.recipient_ids, self.partner_2 | self.user_admin.partner_id)
+        self.assertEqual(mail.subject, f'EnglishSubject for {self.test_record.name}')
+
+    @mute_logger('odoo.addons.mail.models.mail_mail')
+    @warmup
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
     def test_template_send_email_batch(self):
         """ Test 'send_email' on template in batch """
         self.env.invalidate_all()
@@ -258,7 +290,11 @@ class TestMailTemplateLanguages(TestMailTemplateCommon):
         """ Test 'send_email' on template on a given record, used notably as
         contextual action, with dynamic reports involved """
         self.env.invalidate_all()
+<<<<<<< HEAD
         with self.with_user(self.user_employee.login), self.assertQueryCount(24):
+=======
+        with self.with_user(self.user_employee.login), self.assertQueryCount(23):
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
             mail_id = self.test_template_wreports.with_env(self.env).send_mail(self.test_record.id)
             mail = self.env['mail.mail'].sudo().browse(mail_id)
 
@@ -274,8 +310,12 @@ class TestMailTemplateLanguages(TestMailTemplateCommon):
     def test_template_send_email_wreport_batch(self):
         """ Test 'send_email' on template in batch with dynamic reports """
         self.env.invalidate_all()
+<<<<<<< HEAD
 
         with self.with_user(self.user_employee.login), self.assertQueryCount(236):
+=======
+        with self.with_user(self.user_employee.login), self.assertQueryCount(234):
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
             template = self.test_template_wreports.with_env(self.env)
             mails_sudo = template.send_mail_batch(self.test_records_batch.ids)
 
@@ -386,7 +426,10 @@ class TestMailTemplateLanguages(TestMailTemplateCommon):
         test_records[1].write({'customer_id': customers[1].id})
 
         self.env.invalidate_all()
+<<<<<<< HEAD
 
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
         with self.with_user(self.user_employee.login), self.assertQueryCount(18):
             template = self.test_template.with_env(self.env)
             mails_sudo = template.send_mail_batch(self.test_records.ids, email_layout_xmlid='mail.test_layout')

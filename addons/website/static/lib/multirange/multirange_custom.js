@@ -265,7 +265,20 @@ export class Multirange {
 
     formatNumber(number) {
         const language = document.querySelector("html").getAttribute("lang");
+<<<<<<< HEAD
         const locale = language === "sr@latin" ? "sr-Latn-RS" : language.replace(/_/g, "-");
+=======
+        const locale = (() => {
+            switch (language) {
+                case "sr@latin":
+                    return "sr-Latn";
+                case "sr@Cyrl":
+                    return "sr-Cyrl";
+                default:
+                    return language.replaceAll("_", "-");
+            }
+        })();
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
         let formatedNumber = number.toLocaleString(locale, {
             minimumFractionDigits: 2,
             maximumFractionDigits: 2,

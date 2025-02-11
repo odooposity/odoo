@@ -13,6 +13,15 @@ from odoo.tools.misc import file_open
 
 
 class TestUICommon(HttpCaseGamification, HttpCaseWithUserPortal):
+<<<<<<< HEAD
+=======
+
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
+        # remove demo data
+        cls.env["slide.channel"].search([]).unlink()
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
     def setUp(self):
         super().setUp()

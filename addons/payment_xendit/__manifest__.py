@@ -16,5 +16,13 @@
     ],
     'post_init_hook': 'post_init_hook',
     'uninstall_hook': 'uninstall_hook',
+<<<<<<< HEAD
+=======
+    'assets': {
+        'web.assets_frontend': [
+            'payment_xendit/static/src/**/*',
+        ]
+    },
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
     'license': 'LGPL-3',
 }

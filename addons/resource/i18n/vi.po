@@ -3,6 +3,7 @@
 # 	* resource
 # 
 # Translators:
+<<<<<<< HEAD
 # Vo Thanh Thuy, 2023
 # Wil Odoo, 2023
 # Thi Huong Nguyen, 2024
@@ -14,6 +15,18 @@ msgstr ""
 "POT-Creation-Date: 2023-10-26 21:55+0000\n"
 "PO-Revision-Date: 2023-10-26 23:09+0000\n"
 "Last-Translator: Thi Huong Nguyen, 2024\n"
+=======
+# Wil Odoo, 2024
+# Thi Huong Nguyen, 2025
+# 
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 18.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2024-09-26 08:56+0000\n"
+"PO-Revision-Date: 2024-09-25 09:41+0000\n"
+"Last-Translator: Thi Huong Nguyen, 2025\n"
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 "Language-Team: Vietnamese (https://app.transifex.com/odoo/teams/41243/vi/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -25,7 +38,6 @@ msgstr ""
 #. odoo-python
 #: code:addons/resource/models/resource_calendar.py:0
 #: code:addons/resource/models/resource_resource.py:0
-#, python-format
 msgid "%s (copy)"
 msgstr "%s (sao chép)"
 
@@ -37,7 +49,16 @@ msgstr "<span class=\"o_stat_text\">Nghỉ phép</span>"
 #. module: resource
 #: model_terms:ir.ui.view,arch_db:resource.resource_calendar_form
 msgid "<span class=\"o_stat_text\">Work Resources</span>"
+<<<<<<< HEAD
 msgstr "<span class=\"o_stat_text\">Nguồn lực làm việc</span>"
+=======
+msgstr "<span class=\"o_stat_text\">Nhân lực làm việc</span>"
+
+#. module: resource
+#: model_terms:ir.ui.view,arch_db:resource.resource_calendar_form
+msgid "<span> hours/week</span>"
+msgstr "<span>giờ/tuần</span>"
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 #. module: resource
 #: model:ir.model.fields,field_description:resource.field_resource_calendar__active
@@ -61,27 +82,45 @@ msgstr "Đã lưu trữ"
 #. module: resource
 #: model_terms:ir.ui.view,arch_db:resource.resource_calendar_form
 msgid ""
+<<<<<<< HEAD
 "Are you sure you want to switch this calendar to 1 week calendar? All "
 "entries will be lost"
 msgstr ""
 "Bạn có chắc chắn muốn chuyển lịch này sang lịch 1 tuần không? Tất cả dữ liệu"
 " đã nhập sẽ bị mất"
+=======
+"Are you sure you want to switch to a 1-week calendar? All work entries will "
+"be lost."
+msgstr ""
+"Bạn có chắc chắn muốn chuyển sang lịch 1 tuần không? Tất cả công sẽ bị mất."
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 #. module: resource
 #: model_terms:ir.ui.view,arch_db:resource.resource_calendar_form
 msgid ""
+<<<<<<< HEAD
 "Are you sure you want to switch this calendar to 2 weeks calendar? All "
 "entries will be lost"
 msgstr ""
 "Bạn có chắc chắn muốn chuyển lịch này sang lịch 2 tuần không? Tất cả dữ liệu"
 " đã nhập sẽ bị mất"
+=======
+"Are you sure you want to switch to a 2-week calendar? All work entries will "
+"be lost."
+msgstr ""
+"Bạn có chắc chắn muốn chuyển sang lịch 2 tuần không? Tất cả công sẽ bị mất."
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 #. module: resource
 #. odoo-python
 #: code:addons/resource/models/resource_calendar.py:0
-#, python-format
 msgid "Attendances can't overlap."
 msgstr "Điểm danh không được trùng lặp."
+
+#. module: resource
+#: model:ir.model.fields,field_description:resource.field_resource_resource__avatar_128
+msgid "Avatar 128"
+msgstr "Hình đại diện 128"
 
 #. module: resource
 #: model:ir.model.fields,field_description:resource.field_resource_calendar__hours_per_day
@@ -93,7 +132,11 @@ msgstr "Giờ trung bình mỗi ngày"
 msgid ""
 "Average hours per day a resource is supposed to work with this calendar."
 msgstr ""
+<<<<<<< HEAD
 "Giờ trung bình mỗi ngày một nguồn lực được cho là hoạt động với lịch này."
+=======
+"Giờ trung bình mỗi ngày một nhân lực được cho là hoạt động với lịch này."
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 #. module: resource
 #: model:ir.model.fields.selection,name:resource.selection__resource_calendar_attendance__day_period__lunch
@@ -125,6 +168,11 @@ msgstr "Công ty"
 #: model_terms:ir.ui.view,arch_db:resource.view_resource_resource_search
 msgid "Company"
 msgstr "Công ty"
+
+#. module: resource
+#: model:ir.model.fields,field_description:resource.field_resource_calendar__full_time_required_hours
+msgid "Company Full Time"
+msgstr "Giờ làm việc toàn thời gian của công ty"
 
 #. module: resource
 #: model:ir.model.fields,field_description:resource.field_resource_calendar__create_uid
@@ -164,6 +212,17 @@ msgid "Default Working Hours"
 msgstr "Khung Giờ làm việc Mặc định"
 
 #. module: resource
+#: model:ir.model.fields,help:resource.field_res_users__resource_calendar_id
+#: model:ir.model.fields,help:resource.field_resource_mixin__resource_calendar_id
+#: model:ir.model.fields,help:resource.field_resource_resource__calendar_id
+msgid ""
+"Define the working schedule of the resource. If not set, the resource will "
+"have fully flexible working hours."
+msgstr ""
+"Xác định lịch trình làm việc của nhân lực. Nếu không thiết lập, nhân lực sẽ "
+"có giờ làm việc hoàn toàn linh hoạt."
+
+#. module: resource
 #: model_terms:ir.actions.act_window,help:resource.action_resource_calendar_form
 msgid ""
 "Define working hours and time table that could be scheduled to your project "
@@ -201,6 +260,11 @@ msgid "Efficiency Factor"
 msgstr "Hệ số Hiệu suất"
 
 #. module: resource
+#: model:ir.model.fields,field_description:resource.field_resource_resource__email
+msgid "Email"
+msgstr "Email"
+
+#. module: resource
 #: model:ir.model.fields,field_description:resource.field_resource_calendar_attendance__date_to
 #: model:ir.model.fields,field_description:resource.field_resource_calendar_leaves__date_to
 msgid "End Date"
@@ -212,6 +276,15 @@ msgid "Explanation"
 msgstr "Giải trình"
 
 #. module: resource
+#: model:ir.model.fields,help:resource.field_resource_resource__share
+msgid ""
+"External user with limited access, created only for the purpose of sharing "
+"data."
+msgstr ""
+"Người dùng bên ngoài có quyền truy cập hạn chế, chỉ được tạo cho mục đích "
+"chia sẻ dữ liệu."
+
+#. module: resource
 #: model:ir.model.fields.selection,name:resource.selection__resource_calendar_attendance__week_type__0
 msgid "First"
 msgstr "Đầu tiên"
@@ -219,9 +292,16 @@ msgstr "Đầu tiên"
 #. module: resource
 #. odoo-python
 #: code:addons/resource/models/resource_calendar_attendance.py:0
-#, python-format
 msgid "First week"
 msgstr "Tuần đầu tiên"
+<<<<<<< HEAD
+=======
+
+#. module: resource
+#: model:ir.model.fields,field_description:resource.field_resource_calendar__flexible_hours
+msgid "Flexible Hours"
+msgstr "Giờ linh hoạt"
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 #. module: resource
 #: model:ir.model.fields.selection,name:resource.selection__resource_calendar_attendance__dayofweek__4
@@ -231,28 +311,30 @@ msgstr "Thứ Sáu"
 #. module: resource
 #. odoo-python
 #: code:addons/resource/models/resource_calendar.py:0
-#, python-format
 msgid "Friday Afternoon"
 msgstr "Chiều Thứ Sáu"
 
 #. module: resource
 #. odoo-python
 #: code:addons/resource/models/resource_calendar.py:0
-#, python-format
 msgid "Friday Lunch"
 msgstr "Bữa trưa thứ 6"
 
 #. module: resource
 #. odoo-python
 #: code:addons/resource/models/resource_calendar.py:0
-#, python-format
 msgid "Friday Morning"
 msgstr "Sáng Thứ Sáu"
 
 #. module: resource
+#: model_terms:ir.ui.view,arch_db:resource.resource_resource_form
+msgid "Fully Flexible"
+msgstr "Hoàn toàn linh hoạt"
+
+#. module: resource
 #: model:ir.model.fields,help:resource.field_resource_calendar_attendance__sequence
 msgid "Gives the sequence of this line when displaying the resource calendar."
-msgstr "Cung cấp mã của dòng này khi hiển thị lịch Nguồn lực."
+msgstr "Cung cấp mã của dòng này khi hiển thị lịch Nhân lực."
 
 #. module: resource
 #: model:ir.model.fields,field_description:resource.field_resource_calendar__global_leave_ids
@@ -269,6 +351,11 @@ msgstr "Nhóm theo"
 #: model_terms:ir.ui.view,arch_db:resource.view_resource_calendar_attendance_form
 msgid "Hours"
 msgstr "Giờ"
+
+#. module: resource
+#: model_terms:ir.ui.view,arch_db:resource.resource_calendar_form
+msgid "Hours per Week"
+msgstr "Số giờ/tuần"
 
 #. module: resource
 #: model:ir.model.fields.selection,name:resource.selection__resource_resource__resource_type__user
@@ -290,8 +377,13 @@ msgid ""
 "If empty, this is a generic time off for the company. If a resource is set, "
 "the time off is only for this resource"
 msgstr ""
+<<<<<<< HEAD
 "Nếu trống, đây là thời gian nghỉ chung của công ty. Nếu một tài nguyên được "
 "đặt, thời gian nghỉ chỉ dành cho tài nguyên này"
+=======
+"Nếu trống, đây là lịch nghỉ phép chung của công ty. Nếu một nhân lực được "
+"thiết lập, nghỉ phép chỉ dành cho nhân lực này"
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 #. module: resource
 #: model:ir.model.fields,help:resource.field_resource_resource__active
@@ -299,8 +391,13 @@ msgid ""
 "If the active field is set to False, it will allow you to hide the resource "
 "record without removing it."
 msgstr ""
+<<<<<<< HEAD
 "Nếu trường hoạt động được đặt là Sai, bạn sẽ được phép ẩn dữ liệu tài nguyên"
 " mà không cần xóa bỏ. "
+=======
+"Nếu trường hoạt động được đặt là Sai, bạn sẽ được phép ẩn dữ liệu nhân lực "
+"mà không cần xóa bỏ. "
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 #. module: resource
 #: model:ir.model.fields,help:resource.field_resource_calendar__active
@@ -314,7 +411,10 @@ msgstr ""
 #. module: resource
 #. odoo-python
 #: code:addons/resource/models/resource_calendar.py:0
+<<<<<<< HEAD
 #, python-format
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 msgid ""
 "In a calendar with 2 weeks mode, all periods need to be in the sections."
 msgstr ""
@@ -351,21 +451,18 @@ msgstr "Thứ Hai"
 #. module: resource
 #. odoo-python
 #: code:addons/resource/models/resource_calendar.py:0
-#, python-format
 msgid "Monday Afternoon"
 msgstr "Chiều Thứ Hai"
 
 #. module: resource
 #. odoo-python
 #: code:addons/resource/models/resource_calendar.py:0
-#, python-format
 msgid "Monday Lunch"
 msgstr "Bữa trưa thứ 2"
 
 #. module: resource
 #. odoo-python
 #: code:addons/resource/models/resource_calendar.py:0
-#, python-format
 msgid "Monday Morning"
 msgstr "Sáng Thứ Hai"
 
@@ -382,6 +479,14 @@ msgid "Name"
 msgstr "Tên"
 
 #. module: resource
+#: model:ir.model.fields,help:resource.field_resource_calendar__full_time_required_hours
+msgid ""
+"Number of hours to work on the company schedule to be considered as "
+"fulltime."
+msgstr ""
+"Số giờ làm việc theo lịch làm việc của công ty được coi là toàn thời gian."
+
+#. module: resource
 #: model:ir.model.fields.selection,name:resource.selection__resource_calendar_leaves__time_type__other
 msgid "Other"
 msgstr "Khác"
@@ -390,6 +495,14 @@ msgstr "Khác"
 #: model_terms:ir.ui.view,arch_db:resource.view_resource_calendar_leaves_search
 msgid "Period"
 msgstr "Giai đoạn"
+<<<<<<< HEAD
+=======
+
+#. module: resource
+#: model:ir.model.fields,field_description:resource.field_resource_resource__phone
+msgid "Phone"
+msgstr "Điện thoại"
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 #. module: resource
 #: model:ir.model.fields,field_description:resource.field_resource_calendar_leaves__name
@@ -401,7 +514,7 @@ msgstr "Lý do"
 #. module: resource
 #: model:ir.model.fields,help:resource.field_resource_resource__user_id
 msgid "Related user name for the resource to manage its access."
-msgstr "Người dùng liên quan đến nguồn lực để quản lý sự truy cập."
+msgstr "Tên người dùng liên quan của nhân lực để quản lý quyền truy cập."
 
 #. module: resource
 #: model:ir.model.fields,field_description:resource.field_resource_calendar_attendance__resource_id
@@ -412,34 +525,34 @@ msgstr "Người dùng liên quan đến nguồn lực để quản lý sự tru
 #: model_terms:ir.ui.view,arch_db:resource.view_resource_calendar
 #: model_terms:ir.ui.view,arch_db:resource.view_resource_calendar_leaves_search
 msgid "Resource"
-msgstr "Nguồn lực"
+msgstr "Nhân lực"
 
 #. module: resource
 #: model:ir.model,name:resource.model_resource_mixin
 msgid "Resource Mixin"
-msgstr "Tài nguyên Mixin"
+msgstr "Nhân lực Mixin"
 
 #. module: resource
 #: model:ir.actions.act_window,name:resource.action_resource_calendar_leave_tree
 #: model:ir.actions.act_window,name:resource.resource_calendar_leaves_action_from_calendar
 #: model:ir.ui.menu,name:resource.menu_view_resource_calendar_leaves_search
 msgid "Resource Time Off"
-msgstr "Thời gian tài nguyên nghỉ"
+msgstr "Nghỉ phép"
 
 #. module: resource
 #: model:ir.model,name:resource.model_resource_calendar_leaves
 msgid "Resource Time Off Detail"
-msgstr "Chi tiết nguồn lực nghỉ phép"
+msgstr "Chi tiết nghỉ phép"
 
 #. module: resource
 #: model:ir.model,name:resource.model_resource_calendar
 msgid "Resource Working Time"
-msgstr "Nguồn lực thời gian làm việc"
+msgstr "Nhân lực thời gian làm việc"
 
 #. module: resource
 #: model:ir.model.fields,field_description:resource.field_resource_calendar_attendance__calendar_id
 msgid "Resource's Calendar"
-msgstr "Lịch của Nguồn lực"
+msgstr "Lịch của Nhân lực"
 
 #. module: resource
 #: model:ir.actions.act_window,name:resource.action_resource_resource_tree
@@ -449,12 +562,12 @@ msgstr "Lịch của Nguồn lực"
 #: model:ir.ui.menu,name:resource.menu_resource_resource
 #: model_terms:ir.ui.view,arch_db:resource.resource_resource_tree
 msgid "Resources"
-msgstr "Nguồn lực"
+msgstr "Nhân lực"
 
 #. module: resource
 #: model:ir.actions.act_window,name:resource.resource_calendar_resources_leaves
 msgid "Resources Time Off"
-msgstr "Thời gian tài nguyên nghỉ"
+msgstr "Nghỉ phép"
 
 #. module: resource
 #: model_terms:ir.actions.act_window,help:resource.action_resource_resource_tree
@@ -464,9 +577,15 @@ msgid ""
 "in a specific project phase. You can also set their efficiency level and "
 "workload based on their weekly working hours."
 msgstr ""
+<<<<<<< HEAD
 "Nguồn lực cho phép bạn tạo và quản lý nguồn lực sẽ được đưa vào tham gia "
 "trong các giai đoạn của dự án. Bạn cũng có thể thiết lập mức hiệu suất của "
 "họ và khả năng làm việc dựa trên thời gian làm việc của họ trong tuần."
+=======
+"Nhân lực cho phép bạn tạo và quản lý nhân lực sẽ tham gia trong các giai "
+"đoạn của dự án. Bạn cũng có thể thiết lập mức hiệu suất và khả năng làm việc"
+" dựa trên thời gian làm việc của họ trong tuần."
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 #. module: resource
 #: model:ir.model.fields.selection,name:resource.selection__resource_calendar_attendance__dayofweek__5
@@ -476,7 +595,7 @@ msgstr "Thứ Bảy"
 #. module: resource
 #: model_terms:ir.ui.view,arch_db:resource.view_resource_resource_search
 msgid "Search Resource"
-msgstr "Tìm kiếm Nguồn lực"
+msgstr "Tìm kiếm Nhân lực"
 
 #. module: resource
 #: model_terms:ir.ui.view,arch_db:resource.view_resource_calendar_leaves_search
@@ -496,7 +615,6 @@ msgstr "Giây"
 #. module: resource
 #. odoo-python
 #: code:addons/resource/models/resource_calendar_attendance.py:0
-#, python-format
 msgid "Second week"
 msgstr "Tuần thứ hai"
 
@@ -511,9 +629,13 @@ msgid "Sequence"
 msgstr "Trình tự"
 
 #. module: resource
+#: model:ir.model.fields,field_description:resource.field_resource_resource__share
+msgid "Share User"
+msgstr "Người dùng chia sẻ"
+
+#. module: resource
 #. odoo-python
 #: code:addons/resource/models/res_company.py:0
-#, python-format
 msgid "Standard 40 hours/week"
 msgstr "Tiêu chuẩn 40 giờ/tuần"
 
@@ -564,14 +686,22 @@ msgstr "Trường kỹ thuật cho mục đích UX."
 #. module: resource
 #. odoo-python
 #: code:addons/resource/models/resource_calendar.py:0
+<<<<<<< HEAD
 #, python-format
 msgid "The current week (from %s to %s) correspond to the  %s one."
 msgstr "Tuần hiện tại (từ %s đến %s) tương ứng với tuần %s."
+=======
+msgid ""
+"The current week (from %(first_day)s to %(last_day)s) corresponds to week "
+"number %(number)s."
+msgstr ""
+"Tuần hiện tại (từ %(first_day)s đến %(last_day)s) tương ứng với tuần "
+"%(number)s."
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 #. module: resource
 #. odoo-python
 #: code:addons/resource/models/resource_calendar_leaves.py:0
-#, python-format
 msgid "The start date of the time off must be earlier than the end date."
 msgstr "Ngày bắt đầu nghỉ phép phải trước ngày kết thúc."
 
@@ -605,21 +735,18 @@ msgstr "Thứ năm"
 #. module: resource
 #. odoo-python
 #: code:addons/resource/models/resource_calendar.py:0
-#, python-format
 msgid "Thursday Afternoon"
 msgstr "Chiều Thứ năm"
 
 #. module: resource
 #. odoo-python
 #: code:addons/resource/models/resource_calendar.py:0
-#, python-format
 msgid "Thursday Lunch"
 msgstr "Bữa trưa thứ 5"
 
 #. module: resource
 #. odoo-python
 #: code:addons/resource/models/resource_calendar.py:0
-#, python-format
 msgid "Thursday Morning"
 msgstr "Sáng Thứ Năm"
 
@@ -655,7 +782,7 @@ msgstr "Múi giờ"
 #. module: resource
 #: model:ir.model.fields,field_description:resource.field_resource_calendar__tz_offset
 msgid "Timezone offset"
-msgstr "Múi giờ chênh lệch"
+msgstr "Chênh lệch múi giờ"
 
 #. module: resource
 #: model:ir.model.fields.selection,name:resource.selection__resource_calendar_attendance__dayofweek__1
@@ -665,21 +792,18 @@ msgstr "Thứ Ba"
 #. module: resource
 #. odoo-python
 #: code:addons/resource/models/resource_calendar.py:0
-#, python-format
 msgid "Tuesday Afternoon"
 msgstr "Chiều Thứ Ba"
 
 #. module: resource
 #. odoo-python
 #: code:addons/resource/models/resource_calendar.py:0
-#, python-format
 msgid "Tuesday Lunch"
 msgstr "Bữa trưa thứ 3"
 
 #. module: resource
 #. odoo-python
 #: code:addons/resource/models/resource_calendar.py:0
-#, python-format
 msgid "Tuesday Morning"
 msgstr "Sáng Thứ Ba"
 
@@ -704,21 +828,18 @@ msgstr "Thứ Tư"
 #. module: resource
 #. odoo-python
 #: code:addons/resource/models/resource_calendar.py:0
-#, python-format
 msgid "Wednesday Afternoon"
 msgstr "Chiều Thứ Tư"
 
 #. module: resource
 #. odoo-python
 #: code:addons/resource/models/resource_calendar.py:0
-#, python-format
 msgid "Wednesday Lunch"
 msgstr "Bữa trưa thứ 4"
 
 #. module: resource
 #. odoo-python
 #: code:addons/resource/models/resource_calendar.py:0
-#, python-format
 msgid "Wednesday Morning"
 msgstr "Sáng Thứ Tư"
 
@@ -726,6 +847,18 @@ msgstr "Sáng Thứ Tư"
 #: model:ir.model.fields,field_description:resource.field_resource_calendar_attendance__week_type
 msgid "Week Number"
 msgstr "Số tuần"
+<<<<<<< HEAD
+=======
+
+#. module: resource
+#: model:ir.model.fields,help:resource.field_resource_calendar__flexible_hours
+msgid ""
+"When enabled, it will allow employees to work flexibly, without relying on "
+"the company's working schedule (working hours)."
+msgstr ""
+"Khi được bật, tính năng này sẽ cho phép nhân viên làm việc linh hoạt, không "
+"phụ thuộc vào lịch trình làm việc của công ty (giờ làm việc)."
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 #. module: resource
 #: model:ir.model.fields,help:resource.field_resource_calendar_leaves__time_type
@@ -762,7 +895,6 @@ msgstr "Giờ làm việc"
 #. module: resource
 #. odoo-python
 #: code:addons/resource/models/resource_calendar.py:0
-#, python-format
 msgid "Working Hours of %s"
 msgstr "Khung Giờ làm việc của %s"
 
@@ -787,34 +919,29 @@ msgstr "Thời gian làm việc"
 #. module: resource
 #. odoo-python
 #: code:addons/resource/models/resource_calendar.py:0
-#, python-format
 msgid "You can't delete section between weeks."
 msgstr "Bạn không thể xóa phiên giữa các tuần."
 
 #. module: resource
 #. odoo-python
 #: code:addons/resource/models/resource_calendar.py:0
-#, python-format
 msgid "first"
 msgstr "thứ nhất"
 
 #. module: resource
 #. odoo-python
 #: code:addons/resource/models/resource_calendar_attendance.py:0
-#, python-format
 msgid "other week"
 msgstr "tuần khác"
 
 #. module: resource
 #. odoo-python
 #: code:addons/resource/models/resource_calendar.py:0
-#, python-format
 msgid "second"
 msgstr "giây"
 
 #. module: resource
 #. odoo-python
 #: code:addons/resource/models/resource_calendar_attendance.py:0
-#, python-format
 msgid "this week"
 msgstr "tuần này"

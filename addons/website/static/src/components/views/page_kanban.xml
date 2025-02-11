@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <templates xml:space="preserve">
 
+<<<<<<< HEAD
 <!-- TODO master: remove this template -->
 <t t-name="website.PageKanbanRenderer" t-inherit="web.KanbanRenderer">
     <xpath expr="//t[@t-if='groupOrRecord.group']//KanbanRecord" position="attributes">
@@ -14,10 +15,9 @@
 </t>
 
 <!-- TODO master: remove this xpath -->
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 <t t-name="website.PageKanbanView" t-inherit="web.KanbanView">
-    <xpath expr="//t[@t-component='props.Renderer']" position="attributes">
-        <attribute name="activeWebsite">state.activeWebsite</attribute>
-    </xpath>
     <xpath expr="//SearchBar" position="inside">
         <t t-set-slot="search-bar-additional-menu">
             <t t-call="website.RecordFilter"/>

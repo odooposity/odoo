@@ -5,14 +5,16 @@ import { registry } from '@web/core/registry';
 import { Many2OneField, many2OneField } from '@web/views/fields/many2one/many2one_field';
 
 export class ProjectMany2OneField extends Many2OneField {
+    static template = "project.ProjectMany2OneField";
     get Many2XAutocompleteProps() {
         const props = super.Many2XAutocompleteProps;
-        const { project_id, parent_id } = this.props.record.data;
-        if (!project_id && !parent_id) {
+        const { record } = this.props;
+        if (!record.data.project_id && !record._isRequired("project_id")) {
             props.placeholder = _t("Private");
         }
         return props;
     }
+<<<<<<< HEAD
 
     get displayName() {
         const { project_id, display_in_project } = this.props.record.data;
@@ -26,15 +28,15 @@ export class ProjectMany2OneField extends Many2OneField {
         }
         super.updateRecord(value);
     }
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 }
-ProjectMany2OneField.template = 'project.ProjectMany2OneField';
 
 export const projectMany2OneField = {
     ...many2OneField,
     component: ProjectMany2OneField,
     fieldDependencies: [
         ...(many2OneField.fieldDependencies || []),
-        { name: "display_in_project", type: "boolean" },
     ],
 };
 

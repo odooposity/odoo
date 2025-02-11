@@ -1,5 +1,3 @@
-/** @odoo-module **/
-
 import { _t } from "@web/core/l10n/translation";
 import { useAutofocus } from "@web/core/utils/hooks";
 import { pick } from "@web/core/utils/objects";
@@ -10,6 +8,12 @@ import { SettingsFormRenderer } from "./settings_form_renderer";
 import { useSubEnv, useState, useRef, useEffect } from "@odoo/owl";
 
 export class SettingsFormController extends formView.Controller {
+    static template = "web.SettingsFormView";
+    static components = {
+        ...formView.Controller.components,
+        Renderer: SettingsFormRenderer,
+    };
+
     setup() {
         super.setup();
         useAutofocus();
@@ -59,6 +63,7 @@ export class SettingsFormController extends formView.Controller {
         return {
             ...super.modelParams,
             headerFields,
+            onChangeHeaderFields: () => this._confirmSave(),
         };
     }
 
@@ -94,8 +99,8 @@ export class SettingsFormController extends formView.Controller {
     //This is needed to avoid the auto save when unload
     beforeUnload() {}
 
-    //This is needed to avoid writing the id on the url
-    updateURL() {}
+    //This is needed to avoid the auto save when visibility change
+    beforeVisibilityChange() {}
 
     async save() {
         await this.env.onClickViewButton({
@@ -147,9 +152,3 @@ export class SettingsFormController extends formView.Controller {
         return _continue;
     }
 }
-
-SettingsFormController.components = {
-    ...formView.Controller.components,
-    Renderer: SettingsFormRenderer,
-};
-SettingsFormController.template = "web.SettingsFormView";

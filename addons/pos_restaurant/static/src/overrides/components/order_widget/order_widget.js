@@ -1,5 +1,8 @@
+<<<<<<< HEAD
 /** @odoo-module */
 
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 import { OrderWidget } from "@point_of_sale/app/generic_components/order_widget/order_widget";
 import { patch } from "@web/core/utils/patch";
 import { _t } from "@web/core/l10n/translation";

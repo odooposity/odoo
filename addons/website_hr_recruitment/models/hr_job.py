@@ -1,8 +1,13 @@
-# -*- coding: utf-8 -*-
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
 
+<<<<<<< HEAD
 from odoo import api, fields, models, _
 from odoo.addons.http_routing.models.ir_http import slug
+=======
+from werkzeug.urls import url_join
+
+from odoo import api, fields, models, _
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 from odoo.tools import mute_logger
 from odoo.tools.translate import html_translate
 
@@ -15,10 +20,6 @@ class Job(models.Model):
         'website.published.multi.mixin',
         'website.searchable.mixin',
     ]
-
-    @mute_logger('odoo.addons.base.models.ir_qweb')
-    def _get_default_description(self):
-        return self.env['ir.qweb']._render('website_hr_recruitment.default_description', raise_if_not_found=False)
 
     @mute_logger('odoo.addons.base.models.ir_qweb')
     def _get_default_website_description(self):
@@ -37,7 +38,7 @@ class Job(models.Model):
 
     description = fields.Html(
         'Job Description', translate=html_translate,
-        default=_get_default_description, prefetch=False,
+        prefetch=False,
         sanitize_overridable=True,
         sanitize_attributes=False, sanitize_form=False)
     website_published = fields.Boolean(help='Set if the application is published on the website of the company.', tracking=True)
@@ -53,6 +54,12 @@ class Job(models.Model):
         sanitize_attributes=False,
         default=_get_default_job_details)
     published_date = fields.Date(compute='_compute_published_date', store=True)
+    full_url = fields.Char('job URL', compute='_compute_full_url')
+
+    @api.depends('website_url')
+    def _compute_full_url(self):
+        for job in self:
+            job.full_url = url_join(job.get_base_url(), (job.website_url or '/jobs'))
 
     @api.depends('website_published')
     def _compute_published_date(self):
@@ -69,7 +76,7 @@ class Job(models.Model):
     def _compute_website_url(self):
         super(Job, self)._compute_website_url()
         for job in self:
-            job.website_url = f'/jobs/{slug(job)}'
+            job.website_url = f'/jobs/{self.env["ir.http"]._slug(job)}'
 
     def set_open(self):
         self.write({'website_published': False})

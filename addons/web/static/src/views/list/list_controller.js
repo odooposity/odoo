@@ -1,15 +1,16 @@
-/** @odoo-module **/
-
 import { _t } from "@web/core/l10n/translation";
 import {
     deleteConfirmationMessage,
     ConfirmationDialog,
 } from "@web/core/confirmation_dialog/confirmation_dialog";
 import { download } from "@web/core/network/download";
+import { rpc } from "@web/core/network/rpc";
 import { evaluateExpr, evaluateBooleanExpr } from "@web/core/py_js/py";
+import { user } from "@web/core/user";
 import { unique } from "@web/core/utils/arrays";
 import { useService, useBus } from "@web/core/utils/hooks";
 import { omit } from "@web/core/utils/objects";
+import { useSetupAction } from "@web/search/action_hook";
 import { ActionMenus, STATIC_ACTIONS_GROUP_NUMBER } from "@web/search/action_menus/action_menus";
 import { Layout } from "@web/search/layout";
 import { usePager } from "@web/search/pager_hook";
@@ -21,12 +22,12 @@ import { MultiRecordViewButton } from "@web/views/view_button/multi_record_view_
 import { ViewButton } from "@web/views/view_button/view_button";
 import { executeButtonCallback, useViewButtons } from "@web/views/view_button/view_button_hook";
 import { ExportDataDialog } from "@web/views/view_dialogs/export_data_dialog";
-import { useSetupView } from "@web/views/view_hook";
 import { ListConfirmationDialog } from "./list_confirmation_dialog";
 import { SearchBar } from "@web/search/search_bar/search_bar";
 import { useSearchBarToggler } from "@web/search/search_bar/search_bar_toggler";
-import { CogMenu } from "@web/search/cog_menu/cog_menu";
 import { session } from "@web/session";
+import { ListCogMenu } from "./list_cog_menu";
+import { DropdownItem } from "@web/core/dropdown/dropdown_item";
 
 import {
     Component,
@@ -43,20 +44,52 @@ import {
 // -----------------------------------------------------------------------------
 
 export class ListController extends Component {
+    static template = `web.ListView`;
+    static components = {
+        ActionMenus,
+        Layout,
+        ViewButton,
+        MultiRecordViewButton,
+        SearchBar,
+        CogMenu: ListCogMenu,
+        DropdownItem,
+    };
+    static props = {
+        ...standardViewProps,
+        allowSelectors: { type: Boolean, optional: true },
+        editable: { type: Boolean, optional: true },
+        onSelectionChanged: { type: Function, optional: true },
+        showButtons: { type: Boolean, optional: true },
+        Model: Function,
+        Renderer: Function,
+        buttonTemplate: String,
+        archInfo: Object,
+    };
+    static defaultProps = {
+        allowSelectors: true,
+        createRecord: () => {},
+        editable: true,
+        selectRecord: () => {},
+        showButtons: true,
+    };
+
     setup() {
         this.actionService = useService("action");
         this.dialogService = useService("dialog");
+<<<<<<< HEAD
         this.userService = useService("user");
         this.rpc = useService("rpc");
         this.orm = useService("orm");
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
         this.rootRef = useRef("root");
 
         this.archInfo = this.props.archInfo;
-        const openFormView = this.props.editable ? this.archInfo.openFormView : false;
-        this.onOpenFormView = openFormView ? this.openRecord.bind(this) : undefined;
         this.activeActions = this.archInfo.activeActions;
         this.editable =
             this.activeActions.edit && this.props.editable ? this.archInfo.editable : false;
+        this.onOpenFormView = this.openRecord.bind(this);
+        this.hasOpenFormViewButton = this.editable ? this.archInfo.openFormView : false;
         this.model = useState(useModelWithSampleData(this.props.Model, this.modelParams));
 
         // In multi edition, we save or notify invalidity directly when a field is updated, which
@@ -69,7 +102,12 @@ export class ListController extends Component {
         this.hasMousedownDiscard = false;
         this.nextActionAfterMouseup = null;
 
-        this.optionalActiveFields = [];
+        this.optionalActiveFields = {};
+
+        this.editedRecord = null;
+        onWillRender(() => {
+            this.editedRecord = this.model.root.editedRecord;
+        });
 
         this.editedRecord = null;
         onWillRender(() => {
@@ -77,7 +115,7 @@ export class ListController extends Component {
         });
 
         onWillStart(async () => {
-            this.isExportEnable = await this.userService.hasGroup("base.group_allow_export");
+            this.isExportEnable = await user.hasGroup("base.group_allow_export");
         });
 
         onMounted(() => {
@@ -96,11 +134,12 @@ export class ListController extends Component {
                 ? !this.props.fields.x_active.readonly
                 : false;
         useSubEnv({ model: this.model }); // do this in useModelWithSampleData?
-        useViewButtons(this.model, this.rootRef, {
+        useViewButtons(this.rootRef, {
             beforeExecuteAction: this.beforeExecuteActionButton.bind(this),
             afterExecuteAction: this.afterExecuteActionButton.bind(this),
+            reload: () => this.model.load(),
         });
-        useSetupView({
+        useSetupAction({
             rootRef: this.rootRef,
             beforeLeave: async () => {
                 return this.model.root.leaveEditMode();
@@ -203,9 +242,20 @@ export class ListController extends Component {
                 onRecordSaved: this.onRecordSaved.bind(this),
                 onWillSaveRecord: this.onWillSaveRecord.bind(this),
                 onWillSaveMulti: this.onWillSaveMulti.bind(this),
-                onSavedMulti: this.onSavedMulti.bind(this),
                 onWillSetInvalidField: this.onWillSetInvalidField.bind(this),
             },
+        };
+    }
+
+    get actionMenuProps() {
+        return {
+            getActiveIds: () => this.model.root.selection.map((r) => r.resId),
+            context: this.props.context,
+            domain: this.props.domain,
+            items: this.actionMenuItems,
+            isDomainSelected: this.model.root.isDomainSelected,
+            resModel: this.model.root.resModel,
+            onActionExecuted: () => this.model.load(),
         };
     }
 
@@ -241,7 +291,11 @@ export class ListController extends Component {
         }
     }
 
+<<<<<<< HEAD
     async openRecord(record) {
+=======
+    async openRecord(record, force = false) {
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
         const dirty = await record.isDirty();
         if (dirty) {
             await record.save();
@@ -260,7 +314,7 @@ export class ListController extends Component {
             });
         } else {
             const activeIds = this.model.root.records.map((datapoint) => datapoint.resId);
-            this.props.selectRecord(record.resId, { activeIds });
+            this.props.selectRecord(record.resId, { activeIds, force });
         }
     }
 
@@ -302,7 +356,11 @@ export class ListController extends Component {
 
     onPageChangeScroll() {
         if (this.rootRef && this.rootRef.el) {
-            this.rootRef.el.querySelector(".o_content").scrollTop = 0;
+            if (this.env.isSmall) {
+                this.rootRef.el.scrollTop = 0;
+            } else {
+                this.rootRef.el.querySelector(".o_content .o_list_renderer").scrollTop = 0;
+            }
         }
     }
 
@@ -311,11 +369,6 @@ export class ListController extends Component {
     }
 
     getStaticActionMenuItems() {
-        const list = this.model.root;
-        const isM2MGrouped = list.groupBy.some((groupBy) => {
-            const fieldName = groupBy.split(":")[0];
-            return list.fields[fieldName].type === "many2many";
-        });
         return {
             export: {
                 isAvailable: () => this.isExportEnable,
@@ -325,7 +378,7 @@ export class ListController extends Component {
                 callback: () => this.onExportData(),
             },
             archive: {
-                isAvailable: () => this.archiveEnabled && !isM2MGrouped,
+                isAvailable: () => this.archiveEnabled,
                 sequence: 20,
                 icon: "oi oi-archive",
                 description: _t("Archive"),
@@ -334,21 +387,21 @@ export class ListController extends Component {
                 },
             },
             unarchive: {
-                isAvailable: () => this.archiveEnabled && !isM2MGrouped,
+                isAvailable: () => this.archiveEnabled,
                 sequence: 30,
                 icon: "oi oi-unarchive",
                 description: _t("Unarchive"),
                 callback: () => this.toggleArchiveState(false),
             },
             duplicate: {
-                isAvailable: () => this.activeActions.duplicate && !isM2MGrouped,
+                isAvailable: () => this.activeActions.duplicate,
                 sequence: 35,
                 icon: "fa fa-clone",
                 description: _t("Duplicate"),
                 callback: () => this.duplicateRecords(),
             },
             delete: {
-                isAvailable: () => this.activeActions.delete && !isM2MGrouped,
+                isAvailable: () => this.activeActions.delete,
                 sequence: 40,
                 icon: "fa fa-trash-o",
                 description: _t("Delete"),
@@ -381,8 +434,8 @@ export class ListController extends Component {
             );
 
         return {
-            action: [...staticActionItems, ...(actionMenus.action || [])],
-            print: actionMenus.print,
+            action: [...staticActionItems, ...(actionMenus?.action || [])],
+            print: actionMenus?.print,
         };
     }
 
@@ -416,6 +469,10 @@ export class ListController extends Component {
         return this.props.className;
     }
 
+    get hasSelectedRecords() {
+        return this.nbSelected || this.isDomainSelected;
+    }
+
     get nbSelected() {
         return this.model.root.selection.length;
     }
@@ -438,10 +495,6 @@ export class ListController extends Component {
         return list.isGrouped ? list.recordCount : list.count;
     }
 
-    onOptionalFieldsChanged(optionalActiveFields) {
-        this.optionalActiveFields = optionalActiveFields;
-    }
-
     get defaultExportList() {
         return unique(
             this.props.archInfo.columns
@@ -462,7 +515,7 @@ export class ListController extends Component {
             ...this.props.display,
             controlPanel: {
                 ...controlPanel,
-                layoutActions: !this.nbSelected,
+                layoutActions: !this.hasSelectedRecords,
             },
         };
     }
@@ -502,9 +555,16 @@ export class ListController extends Component {
     }
 
     async getExportedFields(model, import_compat, parentParams) {
-        return await this.rpc("/web/export/get_fields", {
+        let domain = parentParams ? [] : this.model.root.domain;
+        if (!this.isDomainSelected) {
+            const resIds = await this.getSelectedResIds();
+            const ids = resIds.length > 0 && resIds;
+            domain = [["id", "in", ids]];
+        }
+        return await rpc("/web/export/get_fields", {
             ...parentParams,
             model,
+            domain,
             import_compat,
         });
     }
@@ -642,38 +702,4 @@ export class ListController extends Component {
         }
         return true;
     }
-
-    onSavedMulti(records) {
-        records.forEach((record) => {
-            record.selected = false;
-        });
-    }
 }
-
-ListController.template = `web.ListView`;
-ListController.components = {
-    ActionMenus,
-    Layout,
-    ViewButton,
-    MultiRecordViewButton,
-    SearchBar,
-    CogMenu,
-};
-ListController.props = {
-    ...standardViewProps,
-    allowSelectors: { type: Boolean, optional: true },
-    editable: { type: Boolean, optional: true },
-    onSelectionChanged: { type: Function, optional: true },
-    showButtons: { type: Boolean, optional: true },
-    Model: Function,
-    Renderer: Function,
-    buttonTemplate: String,
-    archInfo: Object,
-};
-ListController.defaultProps = {
-    allowSelectors: true,
-    createRecord: () => {},
-    editable: true,
-    selectRecord: () => {},
-    showButtons: true,
-};

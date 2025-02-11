@@ -19,31 +19,46 @@ function checkLoginColumn(translation) {
         }, {
             content: `Login column should be ${translation}`,
             trigger: `[data-name="login"] span:contains("${translation}")`,
-            isCheck: true,
         }
     ]
 }
 
 registry.category("web_tour.tours").add('ir_model_fields_translation_en_tour', {
+<<<<<<< HEAD
     test: true,
     url: '/web',
+=======
+    url: '/odoo',
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
     steps: () => checkLoginColumn('Login')
 });
 
 registry.category("web_tour.tours").add('ir_model_fields_translation_en_tour2', {
+<<<<<<< HEAD
     test: true,
     url: '/web',
+=======
+    url: '/odoo',
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
     steps: () => checkLoginColumn('Login2')
 });
 
 registry.category("web_tour.tours").add('ir_model_fields_translation_fr_tour', {
+<<<<<<< HEAD
     test: true,
     url: '/web',
+=======
+    url: '/odoo',
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
     steps: () => checkLoginColumn('Identifiant')
 });
 
 registry.category("web_tour.tours").add('ir_model_fields_translation_fr_tour2', {
+<<<<<<< HEAD
     test: true,
     url: '/web',
+=======
+    url: '/odoo',
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
     steps: () => checkLoginColumn('Identifiant2')
 });

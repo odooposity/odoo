@@ -1,18 +1,22 @@
-/** @odoo-module */
+/** @ts-check */
 
 /**
- * @typedef {import("@spreadsheet/data_sources/metadata_repository").Field} Field
- * @typedef {import("./global_filters_core_plugin").GlobalFilter} GlobalFilter
- * @typedef {import("./global_filters_core_plugin").FieldMatching} FieldMatching
-
+ * @typedef {import("@spreadsheet").GlobalFilter} GlobalFilter
+ * @typedef {import("@spreadsheet").FieldMatching} FieldMatching
+ * @typedef {import("@spreadsheet").DateGlobalFilter} DateGlobalFilter
+ * @typedef {import("@spreadsheet").RelationalGlobalFilter} RelationalGlobalFilter
  */
 
 import { _t } from "@web/core/l10n/translation";
 import { sprintf } from "@web/core/utils/strings";
 import { Domain } from "@web/core/domain";
+<<<<<<< HEAD
+=======
+import { user } from "@web/core/user";
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 import { constructDateRange, QUARTER_OPTIONS } from "@web/search/utils/dates";
 
-import * as spreadsheet from "@odoo/o-spreadsheet";
+import { EvaluationError, helpers } from "@odoo/o-spreadsheet";
 import { CommandResult } from "@spreadsheet/o_spreadsheet/cancelled_reason";
 
 import { isEmpty } from "@spreadsheet/helpers/helpers";
@@ -22,6 +26,10 @@ import {
     getRelativeDateDomain,
 } from "@spreadsheet/global_filters/helpers";
 import { RELATIVE_DATE_RANGE_TYPES } from "@spreadsheet/helpers/constants";
+<<<<<<< HEAD
+=======
+import { OdooUIPlugin } from "@spreadsheet/plugins";
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 import { getItemId } from "../../helpers/model";
 import { serializeDateTime, serializeDate } from "@web/core/l10n/dates";
 
@@ -42,16 +50,34 @@ const MONTHS = {
     december: { value: 12, granularity: "month" },
 };
 
+<<<<<<< HEAD
 const { UuidGenerator, createEmptyExcelSheet, createEmptySheet, toXC, toNumber } =
     spreadsheet.helpers;
+=======
+const { UuidGenerator, createEmptyExcelSheet, createEmptySheet, toXC, toNumber } = helpers;
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 const uuidGenerator = new UuidGenerator();
 
-export class GlobalFiltersUIPlugin extends spreadsheet.UIPlugin {
+export class GlobalFiltersUIPlugin extends OdooUIPlugin {
+    static getters = /** @type {const} */ ([
+        "exportSheetWithActiveFilters",
+        "getFilterDisplayValue",
+        "getGlobalFilterDomain",
+        "getGlobalFilterValue",
+        "getActiveFilterCount",
+        "isGlobalFilterActive",
+        "getTextFilterOptions",
+        "getTextFilterOptionsFromRange",
+    ]);
     constructor(config) {
         super(config);
         this.orm = config.custom.env?.services.orm;
+<<<<<<< HEAD
         this.dataSources = config.custom.dataSources;
         this.user = config.custom.env?.services.user;
+=======
+        this.odooDataProvider = config.custom.odooDataProvider;
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
         /**
          * Cache record display names for relation filters.
          * For each filter, contains a promise resolving to
@@ -195,7 +221,10 @@ export class GlobalFiltersUIPlugin extends spreadsheet.UIPlugin {
             return [];
         }
         if (filter.type === "relation" && isEmpty(value) && defaultValue === "current_user") {
-            return [this.user.userId];
+            return [user.userId];
+        }
+        if (filter.type === "text" && preventAutomaticValue) {
+            return "";
         }
         if (filter.type === "text" && preventAutomaticValue) {
             return "";
@@ -242,7 +271,7 @@ export class GlobalFiltersUIPlugin extends spreadsheet.UIPlugin {
     getFilterDisplayValue(filterName) {
         const filter = this.getters.getGlobalFilterLabel(filterName);
         if (!filter) {
-            throw new Error(sprintf(_t(`Filter "%s" not found`), filterName));
+            throw new EvaluationError(sprintf(_t(`Filter "%s" not found`), filterName));
         }
         const value = this.getGlobalFilterValue(filter.id);
         switch (filter.type) {
@@ -252,11 +281,19 @@ export class GlobalFiltersUIPlugin extends spreadsheet.UIPlugin {
                 if (filter.rangeType === "from_to") {
                     const locale = this.getters.getLocale();
                     const from = {
+<<<<<<< HEAD
                         value: value.from && toNumber(value.from, locale),
                         format: locale.dateFormat,
                     };
                     const to = {
                         value: value.to && toNumber(value.to, locale),
+=======
+                        value: value.from ? toNumber(value.from, locale) : "",
+                        format: locale.dateFormat,
+                    };
+                    const to = {
+                        value: value.to ? toNumber(value.to, locale) : "",
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
                         format: locale.dateFormat,
                     };
                     return [[from], [to]];
@@ -292,6 +329,7 @@ export class GlobalFiltersUIPlugin extends spreadsheet.UIPlugin {
                             const names = result.map(({ display_name }) => display_name);
                             this.recordsDisplayName[filter.id] = names;
                         });
+<<<<<<< HEAD
                     this.dataSources.notifyWhenPromiseResolves(promise);
                     return [[{ value: "" }]];
                 }
@@ -310,6 +348,12 @@ export class GlobalFiltersUIPlugin extends spreadsheet.UIPlugin {
         const range = filter.rangeOfAllowedValues;
         if (!range) {
             return [];
+=======
+                    this.odooDataProvider.notifyWhenPromiseResolves(promise);
+                    return [[{ value: "" }]];
+                }
+                return [[{ value: this.recordsDisplayName[filter.id].join(", ") }]];
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
         }
         const additionOptions = [
             // add the current value because it might not be in the range
@@ -357,6 +401,66 @@ export class GlobalFiltersUIPlugin extends spreadsheet.UIPlugin {
         return allowedValues.concat(additionalOptions);
     }
 
+    /**
+     * Returns the possible values a text global filter can take
+     * if the values are restricted by a range of allowed values
+     * @param {string} filterId
+     * @returns {{value: string, formattedValue: string}[]}
+     */
+    getTextFilterOptions(filterId) {
+        const filter = this.getters.getGlobalFilter(filterId);
+        if (filter.type !== "text" || !filter.rangeOfAllowedValues) {
+            return [];
+        }
+        const additionOptions = [
+            // add the current value because it might not be in the range
+            // if the range cells changed in the meantime
+            this.getGlobalFilterValue(filterId),
+            filter.defaultValue,
+        ];
+        const options = this.getTextFilterOptionsFromRange(
+            filter.rangeOfAllowedValues,
+            additionOptions
+        );
+        return options;
+    }
+
+    /**
+     * Returns the possible values a text global filter can take from a range
+     * or any addition raw string value. Removes duplicates and empty string values.
+     * @param {object} range
+     * @param {string[]} additionalOptionValues
+     */
+    getTextFilterOptionsFromRange(range, additionalOptionValues = []) {
+        const cells = this.getters.getEvaluatedCellsInZone(range.sheetId, range.zone);
+        const uniqueFormattedValues = new Set();
+        const uniqueValues = new Set();
+        const allowedValues = cells
+            .filter((cell) => !["empty", "error"].includes(cell.type) && cell.value !== "")
+            .map((cell) => ({
+                value: cell.value.toString(),
+                formattedValue: cell.formattedValue,
+            }))
+            .filter((cell) => {
+                if (uniqueFormattedValues.has(cell.formattedValue)) {
+                    return false;
+                }
+                uniqueFormattedValues.add(cell.formattedValue);
+                uniqueValues.add(cell.value);
+                return true;
+            });
+        const additionalOptions = additionalOptionValues
+            .map((value) => ({ value, formattedValue: value }))
+            .filter((cell) => {
+                if (cell.value === undefined || cell.value === "" || uniqueValues.has(cell.value)) {
+                    return false;
+                }
+                uniqueValues.add(cell.value);
+                return true;
+            });
+        return allowedValues.concat(additionalOptions);
+    }
+
     // -------------------------------------------------------------------------
     // Handlers
     // -------------------------------------------------------------------------
@@ -368,7 +472,11 @@ export class GlobalFiltersUIPlugin extends spreadsheet.UIPlugin {
      * @param {string|Array<string>|Object} value Current value to set
      */
     _setGlobalFilterValue(id, value) {
-        this.values[id] = { value: value, rangeType: this.getters.getGlobalFilter(id).rangeType };
+        const filter = this.getters.getGlobalFilter(id);
+        this.values[id] = {
+            value: value,
+            rangeType: filter.type === "date" ? filter.rangeType : undefined,
+        };
     }
 
     /**
@@ -403,9 +511,9 @@ export class GlobalFiltersUIPlugin extends spreadsheet.UIPlugin {
      * @param {string} id Id of the filter
      */
     _clearGlobalFilterValue(id) {
-        const { type, rangeType } = this.getters.getGlobalFilter(id);
+        const filter = this.getters.getGlobalFilter(id);
         let value;
-        switch (type) {
+        switch (filter.type) {
             case "text":
                 value = { preventAutomaticValue: true };
                 break;
@@ -416,7 +524,10 @@ export class GlobalFiltersUIPlugin extends spreadsheet.UIPlugin {
                 value = { preventAutomaticValue: true };
                 break;
         }
-        this.values[id] = { value, rangeType };
+        this.values[id] = {
+            value,
+            rangeType: filter.type === "date" ? filter.rangeType : undefined,
+        };
     }
 
     // -------------------------------------------------------------------------
@@ -428,7 +539,7 @@ export class GlobalFiltersUIPlugin extends spreadsheet.UIPlugin {
      *
      * @private
      *
-     * @param {GlobalFilter} filter
+     * @param {DateGlobalFilter} filter
      * @param {FieldMatching} fieldMatching
      *
      * @returns {Domain}
@@ -440,7 +551,7 @@ export class GlobalFiltersUIPlugin extends spreadsheet.UIPlugin {
             return new Domain();
         }
         const field = fieldMatching.chain;
-        const type = fieldMatching.type;
+        const type = /** @type {"date" | "datetime"} */ (fieldMatching.type);
         const offset = fieldMatching.offset || 0;
         const now = DateTime.local();
 
@@ -523,7 +634,7 @@ export class GlobalFiltersUIPlugin extends spreadsheet.UIPlugin {
      *
      * @private
      *
-     * @param {GlobalFilter} filter
+     * @param {RelationalGlobalFilter} filter
      * @param {FieldMatching} fieldMatching
      *
      * @returns {Domain}
@@ -534,7 +645,8 @@ export class GlobalFiltersUIPlugin extends spreadsheet.UIPlugin {
             return new Domain();
         }
         const field = fieldMatching.chain;
-        return new Domain([[field, "in", values]]);
+        const operator = filter.includeChildren ? "child_of" : "in";
+        return new Domain([[field, operator, values]]);
     }
 
     /**
@@ -559,9 +671,17 @@ export class GlobalFiltersUIPlugin extends spreadsheet.UIPlugin {
         }
         const styleId = getItemId({ bold: true }, data.styles);
 
+<<<<<<< HEAD
         const cells = {};
         cells["A1"] = { content: "Filter", style: styleId };
         cells["B1"] = { content: "Value", style: styleId };
+=======
+        const cells = {
+            A1: { content: "Filter" },
+            B1: { content: "Value" },
+        };
+        const formats = {};
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
         let numberOfCols = 2; // at least 2 cols (filter title and filter value)
         let filterRowIndex = 1; // first row is the column titles
         for (const filter of this.getters.getGlobalFilters()) {
@@ -578,7 +698,11 @@ export class GlobalFiltersUIPlugin extends spreadsheet.UIPlugin {
                     cells[xc] = { content: cell.value.toString() };
                     if (cell.format) {
                         const formatId = getItemId(cell.format, data.formats);
+<<<<<<< HEAD
                         cells[xc].format = formatId;
+=======
+                        formats[xc] = formatId;
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
                     }
                 }
             }
@@ -587,12 +711,21 @@ export class GlobalFiltersUIPlugin extends spreadsheet.UIPlugin {
         const sheet = {
             ...createEmptySheet(uuidGenerator.uuidv4(), _t("Active Filters")),
             cells,
+<<<<<<< HEAD
+=======
+            formats,
+            styles: {
+                A1: styleId,
+                B1: styleId,
+            },
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
             colNumber: numberOfCols,
             rowNumber: filterRowIndex,
         };
         data.sheets.push(sheet);
     }
 }
+<<<<<<< HEAD
 
 GlobalFiltersUIPlugin.getters = [
     "getFilterDisplayValue",
@@ -604,3 +737,5 @@ GlobalFiltersUIPlugin.getters = [
     "getTextFilterOptionsFromRange",
     "exportSheetWithActiveFilters",
 ];
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8

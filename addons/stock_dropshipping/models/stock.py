@@ -26,21 +26,31 @@ class ProcurementGroup(models.Model):
     _inherit = "procurement.group"
 
     @api.model
+<<<<<<< HEAD
     def _get_rule_domain(self, locations, values):
         if 'sale_line_id' in values and values.get('company_id'):
             return [('location_dest_id', 'in', locations.ids), ('action', '!=', 'push'), ('company_id', '=', values['company_id'].id)]
         else:
             return super()._get_rule_domain(locations, values)
+=======
+    def _get_rule_domain(self, location, values):
+        domain = super()._get_rule_domain(location, values)
+        if 'sale_line_id' in values and values.get('company_id'):
+            domain = expression.AND([domain, [('company_id', '=', values['company_id'].id)]])
+        return domain
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 class StockPicking(models.Model):
     _inherit = 'stock.picking'
 
     is_dropship = fields.Boolean("Is a Dropship", compute='_compute_is_dropship')
 
-    @api.depends('location_dest_id.usage', 'location_id.usage')
+    @api.depends('location_dest_id.usage', 'location_dest_id.company_id', 'location_id.usage', 'location_id.company_id')
     def _compute_is_dropship(self):
         for picking in self:
-            picking.is_dropship = picking.location_dest_id.usage == 'customer' and picking.location_id.usage == 'supplier'
+            source, dest = picking.location_id, picking.location_dest_id
+            picking.is_dropship = (source.usage == 'supplier' or (source.usage == 'transit' and not source.company_id)) \
+                              and (dest.usage == 'customer' or (dest.usage == 'transit' and not dest.company_id))
 
     def _is_to_external_location(self):
         self.ensure_one()
@@ -51,6 +61,18 @@ class StockPickingType(models.Model):
 
     code = fields.Selection(
         selection_add=[('dropship', 'Dropship')], ondelete={'dropship': lambda recs: recs.write({'code': 'outgoing', 'active': False})})
+
+    def _compute_default_location_src_id(self):
+        dropship_types = self.filtered(lambda pt: pt.code == 'dropship')
+        dropship_types.default_location_src_id = self.env.ref('stock.stock_location_suppliers').id
+
+        super(StockPickingType, self - dropship_types)._compute_default_location_src_id()
+
+    def _compute_default_location_dest_id(self):
+        dropship_types = self.filtered(lambda pt: pt.code == 'dropship')
+        dropship_types.default_location_dest_id = self.env.ref('stock.stock_location_customers').id
+
+        super(StockPickingType, self - dropship_types)._compute_default_location_dest_id()
 
     @api.depends('default_location_src_id', 'default_location_dest_id')
     def _compute_warehouse_id(self):

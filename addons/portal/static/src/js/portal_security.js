@@ -3,9 +3,9 @@
 import { ConfirmationDialog } from '@web/core/confirmation_dialog/confirmation_dialog';
 import { renderToMarkup } from "@web/core/utils/render";
 import publicWidget from '@web/legacy/js/public/public_widget';
-import { session } from "@web/session";
 import { InputConfirmationDialog } from './components/input_confirmation_dialog/input_confirmation_dialog';
 import { _t } from "@web/core/l10n/translation";
+import { user } from "@web/core/user";
 
 publicWidget.registry.NewAPIKeyButton = publicWidget.Widget.extend({
     selector: '.o_portal_new_api_key',
@@ -27,18 +27,28 @@ publicWidget.registry.NewAPIKeyButton = publicWidget.Widget.extend({
         // The result of the call is unused. But it's required to call a method with the decorator `@check_identity`
         // in order to use `handleCheckIdentity`.
         await handleCheckIdentity(
-            this.orm.call("res.users", "api_key_wizard", [session.user_id]),
+            this.orm.call("res.users", "api_key_wizard", [user.userId]),
             this.orm,
             this.dialog
         );
 
+        const { duration } = await this.bindService("field").loadFields("res.users.apikeys.description", {
+            fieldNames: ["duration"],
+        });
+
         this.call("dialog", "add", InputConfirmationDialog, {
             title: _t("New API Key"),
-            body: renderToMarkup("portal.keydescription"),
+            body: renderToMarkup("portal.keydescription", {
+                // Remove `'Custom Date'` selection for portal user
+                duration_selection: duration.selection.filter((option) => option[0] !== "-1"),
+            }),
             confirmLabel: _t("Confirm"),
             confirm: async ({ inputEl }) => {
-                const description = inputEl.value;
-                const wizard_id = await this.orm.create("res.users.apikeys.description", [{ name: description }]);
+                const formData = Object.fromEntries(new FormData(inputEl.closest("form")));
+                const wizard_id = await this.orm.create("res.users.apikeys.description", [{
+                    name: formData['description'],
+                    duration: formData['duration']
+                }]);
                 const res = await handleCheckIdentity(
                     this.orm.call("res.users.apikeys.description", "make_key", [wizard_id]),
                     this.orm,
@@ -119,45 +129,17 @@ publicWidget.registry.RevokeSessionsButton = publicWidget.Widget.extend({
     init() {
         this._super(...arguments);
         this.orm = this.bindService("orm");
+        this.dialog = this.bindService("dialog")
     },
 
     async _onClick() {
-        const { res_id: checkId } = await this.orm.call("res.users", "api_key_wizard", [
-            session.user_id,
-        ]);
-        this.call("dialog", "add", InputConfirmationDialog, {
-            title: _t("Log out from all devices?"),
-            body: renderToMarkup("portal.revoke_all_devices_popup_template"),
-            confirmLabel: _t("Log out from all devices"),
-            confirm: async ({ inputEl }) => {
-                if (!inputEl.reportValidity()) {
-                    inputEl.classList.add("is-invalid");
-                    return false;
-                }
-
-                await this.orm.write("res.users.identitycheck", [checkId], { password: inputEl.value });
-                try {
-                    await this.orm.call(
-                        "res.users.identitycheck",
-                        "revoke_all_devices",
-                        [checkId]
-                    );
-                } catch {
-                    inputEl.classList.add("is-invalid");
-                    inputEl.setCustomValidity(_t("Check failed"));
-                    inputEl.reportValidity();
-                    return false;
-                }
-
-                window.location.href = "/web/session/logout?redirect=/";
-                return true;
-            },
-            cancel: () => {},
-            onInput: ({ inputEl }) => {
-                inputEl.classList.remove("is-invalid");
-                inputEl.setCustomValidity("");
-            },
-        });
+        await handleCheckIdentity(
+            this.orm.call("res.users", "action_revoke_all_devices", [user.userId]),
+            this.orm,
+            this.dialog
+        );
+        window.location = window.location;
+        return true;
     },
 });
 
@@ -177,7 +159,7 @@ publicWidget.registry.RevokeSessionsButton = publicWidget.Widget.extend({
  */
 export async function handleCheckIdentity(wrapped, ormService, dialogService) {
     return wrapped.then((r) => {
-        if (!(r.type === "ir.actions.act_window" && r.res_model === "res.users.identitycheck")) {
+        if (!(r.type && r.type === "ir.actions.act_window" && r.res_model === "res.users.identitycheck")) {
             return r;
         }
         const checkId = r.res_id;

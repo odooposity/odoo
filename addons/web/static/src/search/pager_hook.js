@@ -1,5 +1,8 @@
+<<<<<<< HEAD
 /** @odoo-module **/
 
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 import { useEnv, useSubEnv, useState, onWillRender } from "@odoo/owl";
 
 /**

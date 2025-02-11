@@ -1,60 +1,40 @@
-/** @odoo-module */
-
 import { _t } from "@web/core/l10n/translation";
-import { AbstractAwaitablePopup } from "@point_of_sale/app/popup/abstract_awaitable_popup";
-import { useService } from "@web/core/utils/hooks";
-import { useState, useRef, onMounted } from "@odoo/owl";
-import { Numpad } from "@point_of_sale/app/generic_components/numpad/numpad";
+import { useBus, useService } from "@web/core/utils/hooks";
+import { Component, useState } from "@odoo/owl";
+import { Dialog } from "@web/core/dialog/dialog";
+import { Numpad, buttonsType } from "@point_of_sale/app/generic_components/numpad/numpad";
 
-export class NumberPopup extends AbstractAwaitablePopup {
+export class NumberPopup extends Component {
     static template = "point_of_sale.NumberPopup";
-    static components = { Numpad };
+    static components = { Numpad, Dialog };
+    static props = {
+        title: { type: String, optional: true },
+        subtitle: { type: String, optional: true },
+        buttons: { type: buttonsType, optional: true },
+        startingValue: { type: [Number, String], optional: true },
+        feedback: { type: Function, optional: true },
+        formatDisplayedValue: { type: Function, optional: true },
+        placeholder: { type: String, optional: true },
+        isValid: { type: Function, optional: true },
+        confirmButtonLabel: { type: String, optional: true },
+        getPayload: Function,
+        close: Function,
+    };
     static defaultProps = {
-        confirmText: _t("Confirm"),
-        cancelText: _t("Discard"),
         title: _t("Confirm?"),
-        subtitle: "",
-        body: "",
-        cheap: false,
-        startingValue: null,
-        isPassword: false,
-        nbrDecimal: 0,
-        inputSuffix: "",
-        getInputBufferReminder: () => false,
+        startingValue: "",
+        isValid: () => true,
+        formatDisplayedValue: (x) => x,
+        feedback: () => false,
     };
 
-    /**
-     * @param {Object} props
-     * @param {Boolean} props.isPassword Show password popup.
-     * @param {number|null} props.startingValue Starting value of the popup.
-     * @param {Boolean} props.isInputSelected Input is highlighted and will reset upon a change.
-     *
-     * Resolve to { confirmed, payload } when used with showPopup method.
-     * @confirmed {Boolean}
-     * @payload {String}
-     */
     setup() {
-        super.setup();
-        let startingBuffer = "";
-        let startingPayload = null;
-        if (typeof this.props.startingValue === "number" && this.props.startingValue > 0) {
-            startingBuffer = this.props.startingValue
-                .toFixed(this.props.nbrDecimal)
-                .toString()
-                .replace(".", this.decimalSeparator);
-            startingPayload = this.props.startingValue.toFixed(this.props.nbrDecimal);
-        }
-        this.state = useState({
-            buffer: startingBuffer,
-            toStartOver: this.props.isInputSelected,
-            payload: startingPayload,
-        });
         this.numberBuffer = useService("number_buffer");
         this.numberBuffer.use({
             triggerAtEnter: () => this.confirm(),
             triggerAtEscape: () => this.cancel(),
-            state: this.state,
         });
+<<<<<<< HEAD
         this.inputRef = useRef("input");
         onMounted(this.onMounted);
     }
@@ -101,18 +81,21 @@ export class NumberPopup extends AbstractAwaitablePopup {
         if (this.numberBuffer.get() || this.state.payload) {
             super.confirm();
         }
+=======
+        this.state = useState({
+            buffer: this.props.startingValue,
+        });
+        useBus(this.numberBuffer, "buffer-update", ({ detail: value }) => {
+            this.state.buffer = value;
+        });
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
     }
-    getPayload() {
-        let startingPayload = null;
-        if (typeof this.props.startingValue === "number" && this.props.startingValue > 0) {
-            startingPayload = this.props.startingValue.toFixed(this.props.nbrDecimal);
-        }
-        if (this.state.payload != startingPayload) {
-            return this.state.payload;
-        }
-        return this.numberBuffer.get();
+    confirm() {
+        this.props.getPayload(this.state.buffer);
+        this.props.close();
     }
-    isMobile() {
-        return window.innerWidth <= 768;
+
+    cancel() {
+        this.props.close();
     }
 }

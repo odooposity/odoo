@@ -4,32 +4,40 @@ import { registry } from "@web/core/registry";
 import { stepUtils } from "@web_tour/tour_service/tour_utils";
 
 registry.category("web_tour.tours").add('purchase_matrix_tour', {
-    url: "/web",
-    test: true,
+    url: "/odoo",
     steps: () => [stepUtils.showAppsMenuItem(), {
     trigger: '.o_app[data-menu-xmlid="purchase.menu_purchase_root"]',
-}, {
+    run: "click",
+},
+{
+    trigger: ".o_purchase_order",
+},
+{
     trigger: ".o_list_button_add",
-    extra_trigger: ".o_purchase_order"
+    run: "click",
 }, {
     trigger: '.o_required_modifier[name=partner_id] input',
-    run: 'text Agrolait',
+    run: "edit Agrolait",
 }, {
+    isActive: ["auto"],
     trigger: '.ui-menu-item > a:contains("Agrolait")',
-    auto: true,
+    run: "click",
 }, {
-    trigger: "a:contains('Add a product')"
+    trigger: "a:contains('Add a product')",
+    run: "click",
 }, {
     trigger: 'div[name="product_template_id"] input',
-    run: "text Matrix",
+    run: "edit Matrix",
 }, {
     trigger: 'ul.ui-autocomplete a:contains("Matrix")',
+    run: "click",
 }, {
-    trigger: '.o_matrix_input_table',
+    trigger: '.modal .o_matrix_input_table',
     run: function () {
         // fill the whole matrix with 1's
-        $('.o_matrix_input').val(1);
+        [...document.querySelectorAll(".o_matrix_input")].forEach((el) => el.value = 1);
     }
+<<<<<<< HEAD
 }, {
     trigger: '.o_matrix_input_table',
     run: function () {
@@ -39,6 +47,19 @@ registry.category("web_tour.tours").add('purchase_matrix_tour', {
     }
 }, {
     trigger: 'button:contains("Confirm")',
+=======
+},
+{
+    trigger: ".modal .o_matrix_input_table .o_matrix_input:eq(0)",
+    run: "edit 0",
+},
+{
+    trigger: ".modal .o_matrix_input_table .o_matrix_input:eq(8)",
+    run: "edit 0",
+},
+{
+    trigger: ".modal button:contains(Confirm)",
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
     run: 'click'
 }, {
     trigger: '.o_form_button_save',
@@ -46,41 +67,64 @@ registry.category("web_tour.tours").add('purchase_matrix_tour', {
 },
 // Open the matrix through the pencil button next to the product in line edit mode.
 {
-    trigger: 'span:contains("Matrix (PAV11, PAV22, PAV31)\nPA4: PAV41")',
-    extra_trigger: '.o_form_status_indicator_buttons.invisible', // wait for save to be finished
+    trigger: ".o_form_status_indicator_buttons:not(:visible)", // wait for save to be finished
+},
+{
+    trigger: '.o_field_pol_product_many2one',
+    run: "click",
 }, {
     trigger: '[name=product_template_id] button.fa-pencil', // edit the matrix
+    run: "click",
 }, {
     trigger: '.o_matrix_input_table',
     run: function () {
         // update some of the matrix values.
+<<<<<<< HEAD
         $('.o_matrix_input').slice(9, 16).val(4);
+=======
+        [...document.querySelectorAll(".o_matrix_input")]
+            .slice(9, 16)
+            .forEach((el) => (el.value = 4));
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
     } // set the qty to 4 for half of the matrix products.
 }, {
-    trigger: 'button:contains("Confirm")',
+    trigger: ".modal button:contains(Confirm)",
     run: 'click' // apply the matrix
-}, {
+},
+{
+    trigger: '.o_field_cell.o_data_cell.o_list_number:contains("4.00")',
+},
+{
     trigger: '.o_form_button_save',
-    extra_trigger: '.o_field_cell.o_data_cell.o_list_number:contains("4.00")',
     run: 'click' // SAVE Sales Order, after matrix has been applied (extra_trigger).
 },
 // Ensures the matrix is opened with the values, when adding the same product.
 {
+    trigger: ".o_form_status_indicator_buttons:not(:visible)",
+},
+{
     trigger: 'a:contains("Add a product")',
-    extra_trigger: '.o_form_status_indicator_buttons.invisible',
+    run: "click",
 }, {
     trigger: 'div[name="product_template_id"] input',
-    run: 'text Matrix',
+    run: "edit Matrix",
 }, {
     trigger: 'ul.ui-autocomplete a:contains("Matrix")',
+    run: "click",
 }, {
     trigger: 'input[value="4"]',
     run: function () {
         // update some values of the matrix
-        $("input[value='4']").slice(0, 4).val(8.2);
+        [...document.querySelectorAll("input[value='4']")]
+            .slice(0, 4)
+            .forEach((el) => (el.value = 8.2));
     }
 }, {
-    trigger: 'button:contains("Confirm")',
+    trigger: ".modal button:contains(Confirm)",
     run: 'click' // apply the matrix
-}, ...stepUtils.saveForm({ extra_trigger: '.o_field_cell.o_data_cell.o_list_number:contains("8.20")' })
+},
+{
+    trigger: ".o_field_cell.o_data_cell.o_list_number:contains(8.20)",
+},
+...stepUtils.saveForm()
 ]});

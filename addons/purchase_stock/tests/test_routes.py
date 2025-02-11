@@ -1,4 +1,5 @@
-from odoo.tests.common import TransactionCase, Form
+from odoo import Command
+from odoo.tests import Form, TransactionCase
 
 
 class TestRoutes(TransactionCase):
@@ -66,3 +67,4 @@ class TestRoutes(TransactionCase):
 
         wh.reception_steps = 'two_steps'
         self.assertEqual(wh.reception_steps, 'two_steps')
+

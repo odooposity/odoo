@@ -1,5 +1,3 @@
-/** @odoo-module */
-
 import { Component, onWillUnmount, useState, useSubEnv } from "@odoo/owl";
 import { useSelfOrder } from "@pos_self_order/app/self_order_service";
 import { AttributeSelection } from "@pos_self_order/app/components/attribute_selection/attribute_selection";
@@ -63,10 +61,6 @@ export class ProductPage extends Component {
         return 0;
     }
 
-    back() {
-        this.router.navigate("product_list");
-    }
-
     changeQuantity(increase) {
         const currentQty = this.state.qty;
 
@@ -79,6 +73,7 @@ export class ProductPage extends Component {
 
     get showQtyButtons() {
         return this.props.product.self_order_available;
+<<<<<<< HEAD
     }
     addToCart() {
         this.selfOrder.addToCart(
@@ -93,5 +88,28 @@ export class ProductPage extends Component {
 
     isEveryValueSelected() {
         return Object.values(this.state.selectedValues).find((value) => !value) == false;
+=======
+    }
+    addToCart() {
+        this.selfOrder.addToCart(
+            this.props.product,
+            this.state.qty,
+            this.state.customer_note,
+            this.env.selectedValues,
+            this.env.customValues
+        );
+        this.router.back();
+    }
+
+    isEveryValueSelected() {
+        return Object.values(this.state.selectedValues).find((value) => !value) == false;
+    }
+
+    isArchivedCombination() {
+        const variantAttributeValueIds = Object.values(this.state.selectedValues)
+            .filter((attr) => typeof attr !== "object")
+            .map((attr) => Number(attr));
+        return this.props.product._isArchivedCombination(variantAttributeValueIds);
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
     }
 }

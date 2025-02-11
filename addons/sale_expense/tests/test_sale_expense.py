@@ -25,7 +25,7 @@ class TestSaleExpense(TestExpenseCommon, TestSaleCommon):
             })],
         })
         so.action_confirm()
-        so._create_analytic_account()  # normally created at so confirmation when you use the right products
+        analytic_account = self.env['account.analytic.account'].create(so._prepare_analytic_account_data())
         init_price = so.amount_total
 
         # create some expense and validate it (expense at cost)
@@ -38,16 +38,17 @@ class TestSaleExpense(TestExpenseCommon, TestSaleCommon):
         exp = self.env['hr.expense'].create({
             'name': 'Air Travel',
             'product_id': self.company_data['product_delivery_cost'].id,
-            'analytic_distribution': {so.analytic_account_id.id: 100},
+            'analytic_distribution': {analytic_account.id: 100},
             'quantity': 11.30,
             'employee_id': self.expense_employee.id,
             'sheet_id': sheet.id,
             'sale_order_id': so.id,
         })
+        sheet.action_submit_sheet()
         # Approve
         sheet.action_approve_expense_sheets()
-        # Create Expense Entries
-        sheet.action_sheet_move_create()
+        # Post Expense Entries
+        sheet.action_sheet_move_post()
         # expense should now be in sales order
         self.assertIn(self.company_data['product_delivery_cost'], so.mapped('order_line.product_id'), 'Sale Expense: expense product should be in so')
         sol = so.order_line.filtered(lambda sol: sol.product_id.id == self.company_data['product_delivery_cost'].id)
@@ -76,17 +77,18 @@ class TestSaleExpense(TestExpenseCommon, TestSaleCommon):
         exp = self.env['hr.expense'].create({
             'name': 'Car Travel',
             'product_id': prod_exp_2.id,
-            'analytic_distribution': {so.analytic_account_id.id: 100},
+            'analytic_distribution': {analytic_account.id: 100},
             'product_uom_id': self.env.ref('uom.product_uom_km').id,
             'quantity': 100,
             'employee_id': self.expense_employee.id,
             'sheet_id': sheet.id,
             'sale_order_id': so.id,
         })
+        sheet.action_submit_sheet()
         # Approve
         sheet.action_approve_expense_sheets()
-        # Create Expense Entries
-        sheet.action_sheet_move_create()
+        # Post Expense Entries
+        sheet.action_sheet_move_post()
         # expense should now be in sales order
         self.assertIn(prod_exp_2, so.mapped('order_line.product_id'), 'Sale Expense: expense product should be in so')
         sol = so.order_line.filtered(lambda sol: sol.product_id.id == prod_exp_2.id)
@@ -106,7 +108,11 @@ class TestSaleExpense(TestExpenseCommon, TestSaleCommon):
         expensed_product = self.env['product.product'].create({
             'name': 'test product',
             'can_be_expensed': True,
+<<<<<<< HEAD
             'detailed_type': 'service',
+=======
+            'type': 'service',
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
             'invoice_policy': 'order',
             'standard_price': 100,
             'expense_policy': 'cost',
@@ -146,6 +152,7 @@ class TestSaleExpense(TestExpenseCommon, TestSaleCommon):
         })
         expense_sheet.action_submit_sheet()
         expense_sheet.action_approve_expense_sheets()
+<<<<<<< HEAD
         expense_sheet.action_sheet_move_create()
 
         self.assertTrue(self.env['account.move'].search([('expense_sheet_id', '=', expense_sheet.id)], limit=1))
@@ -170,3 +177,8 @@ class TestSaleExpense(TestExpenseCommon, TestSaleCommon):
         })
         so.action_confirm()
         self.assertFalse(so.analytic_account_id)
+=======
+        expense_sheet.action_sheet_move_post()
+
+        self.assertTrue(self.env['account.move'].search([('expense_sheet_id', '=', expense_sheet.id)], limit=1))
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8

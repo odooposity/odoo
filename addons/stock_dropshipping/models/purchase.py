@@ -23,6 +23,7 @@ class PurchaseOrder(models.Model):
     def action_view_dropship(self):
         return self._get_action_view_picking(self.picking_ids.filtered(lambda p: p.is_dropship))
 
+<<<<<<< HEAD
 
 class PurchaseOrderLine(models.Model):
     _inherit = 'purchase.order.line'
@@ -50,4 +51,11 @@ class PurchaseOrderLine(models.Model):
     def _prepare_purchase_order_line_from_procurement(self, product_id, product_qty, product_uom, company_id, values, po):
         res = super()._prepare_purchase_order_line_from_procurement(product_id, product_qty, product_uom, company_id, values, po)
         res['sale_line_id'] = values.get('sale_line_id', False)
+=======
+    def _prepare_group_vals(self):
+        res = super()._prepare_group_vals()
+        sale_orders = self.order_line.sale_order_id
+        if len(sale_orders) == 1:
+            res['sale_id'] = sale_orders.id
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
         return res

@@ -27,10 +27,17 @@
                                 </label>
                                 <span t-esc="answer.text_value"/>
                             </a>
+                            <t t-if="widget.slide.completed and answer.is_correct" t-set="correct_answer_comment" t-value="answer.comment"/>
                         </t>
-                        <div class="o_wslides_quiz_answer_info list-group-item list-group-item-info d-none">
+                        <div t-attf-class="o_wslides_quiz_answer_info list-group-item list-group-item-info #{correct_answer_comment ? '' : 'd-none'}">
                             <i class="fa fa-info-circle"/>
+<<<<<<< HEAD
                             <span class="o_wslides_quiz_answer_comment ms-2"/>
+=======
+                            <span class="o_wslides_quiz_answer_comment ms-2">
+                                <t t-if="correct_answer_comment" t-out="correct_answer_comment"/>
+                            </span>
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
                         </div>
                     </div>
                 </div>
@@ -66,7 +73,7 @@
                             </a>
                         </b>
                         <span class="my-0 h4">
-                            <span title="Succeed and gain karma" aria-label="Succeed and gain karma" class="badge rounded-pill bg-warning text-white fw-bold ms-3 px-2 py-1">
+                            <span title="Succeed and gain karma" aria-label="Succeed and gain karma" class="badge bg-warning fw-bold ms-3">
                                 + <t t-esc="widget.quiz.quizKarmaGain"/> XP
                             </span>
                         </span>
@@ -83,7 +90,7 @@
                             </span>
                         </b>
                         <span class="my-0 h4">
-                            <span title="Succeed and gain karma" aria-label="Succeed and gain karma" class="badge rounded-pill bg-warning text-white fw-bold ms-3 px-2 py-1">
+                            <span title="Succeed and gain karma" aria-label="Succeed and gain karma" class="badge bg-warning fw-bold ms-3">
                                 + <t t-esc="widget.quiz.quizKarmaGain"/> XP
                             </span>
                         </span>
@@ -97,6 +104,7 @@
             </div>
             <div t-else="" class="d-md-flex align-items-center justify-content-between">
                 <div t-att-class="'d-flex align-items-center' + (widget.slide.completed ? ' alert alert-success my-0 py-1 px-3' : '')">
+<<<<<<< HEAD
                     <!-- TODO: In master, remove the aria-label of the button
                         element, as it already has a title, to avoid an
                         accessibility error of type `Elements with visible text
@@ -111,6 +119,13 @@
                             text labels do not have matching accessible names`.
                         -->
                         <span role="button" title="Succeed and gain karma" aria-label="Succeed and gain karma" class="badge rounded-pill bg-warning text-white fw-bold ms-3 px-2">
+=======
+                    <button t-if="! widget.slide.completed" role="button" title="Check answers"
+                        class="btn btn-primary text-uppercase fw-bold o_wslides_js_lesson_quiz_submit">Check your answers</button>
+                    <b t-else="" class="my-0 h5">Done!</b>
+                    <span class="my-0 h5" style="line-height: 1">
+                        <span role="button" title="Succeed and gain karma" class="badge bg-warning fw-bold ms-3">
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
                             + <t t-if="!widget.slide.completed" t-esc="widget.quiz.quizKarmaGain"/><t t-else="" t-esc="widget.quiz.quizKarmaWon"/> XP
                         </span>
                     </span>
@@ -141,6 +156,7 @@
         </div>
     </t>
 
+<<<<<<< HEAD
     <t t-name="slide.slide.quiz.finish">
         <div>
             <button type="button" class="o_wslides_quiz_modal_close_btn btn-close position-absolute" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -195,4 +211,6 @@
         </div>
     </t>
 
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 </templates>

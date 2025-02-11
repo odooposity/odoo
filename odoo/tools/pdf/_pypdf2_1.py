@@ -17,6 +17,15 @@ class PdfReader(PdfFileReader):
     def __init__(self, stream, strict=True, warndest=None, overwriteWarnings=True):
         super().__init__(stream, strict=strict, warndest=warndest, overwriteWarnings=False)
 
+<<<<<<< HEAD
+=======
+    def getFormTextFields(self):
+        if self.getFields() is None:
+            # Prevent this version of PyPDF2 from trying to iterate over `None`
+            return None
+        return super().getFormTextFields()
+
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 class PdfWriter(PdfFileWriter):
     def get_fields(self, *args, **kwargs):

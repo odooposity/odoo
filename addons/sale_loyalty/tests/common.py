@@ -1,24 +1,35 @@
-# -*- coding: utf-8 -*-
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
 
 from collections import defaultdict
 
+<<<<<<< HEAD
 from odoo import Command
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 from odoo.exceptions import ValidationError
+from odoo.fields import Command
+
+from odoo.addons.sale.tests.common import SaleCommon
 
 from odoo.addons.sale.tests.test_sale_product_attribute_value_config import TestSaleProductAttributeValueCommon
 
 
-class TestSaleCouponCommon(TestSaleProductAttributeValueCommon):
+class TestSaleCouponCommon(SaleCommon):
 
     @classmethod
     def setUpClass(cls):
+<<<<<<< HEAD
         super(TestSaleCouponCommon, cls).setUpClass()
+=======
+        super().setUpClass()
+
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
         # set currency to not rely on demo data and avoid possible race condition
         cls.currency_ratio = 1.0
 
         # Set all the existing programs to active=False to avoid interference
         cls.env['loyalty.program'].search([]).sudo().write({'active': False})
+<<<<<<< HEAD
 
         # create partner for sale order.
         cls.steve = cls.env['res.partner'].create({
@@ -31,42 +42,59 @@ class TestSaleCouponCommon(TestSaleProductAttributeValueCommon):
         })
 
         cls.uom_unit = cls.env.ref('uom.product_uom_unit')
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
         # Taxes
+        tax_group_group = cls.env['account.tax.group'].create({
+            'name': 'Test Account Tax Group'
+        })
         cls.tax_15pc_excl = cls.env['account.tax'].create({
             'name': "Tax 15%",
             'amount_type': 'percent',
             'amount': 15,
             'type_tax_use': 'sale',
+            'tax_group_id': tax_group_group.id,
         })
 
         cls.tax_10pc_incl = cls.env['account.tax'].create({
             'name': "10% Tax incl",
             'amount_type': 'percent',
             'amount': 10,
-            'price_include': True,
+            'price_include_override': 'tax_included',
+            'tax_group_id': tax_group_group.id,
         })
 
         cls.tax_10pc_base_incl = cls.env['account.tax'].create({
             'name': "10% Tax incl base amount",
             'amount_type': 'percent',
             'amount': 10,
-            'price_include': True,
+            'price_include_override': 'tax_included',
             'include_base_amount': True,
+            'tax_group_id': tax_group_group.id,
         })
 
         cls.tax_10pc_excl = cls.env['account.tax'].create({
             'name': "10% Tax excl",
             'amount_type': 'percent',
             'amount': 10,
-            'price_include': False,
+            'price_include_override': 'tax_excluded',
+            'tax_group_id': tax_group_group.id,
         })
 
         cls.tax_20pc_excl = cls.env['account.tax'].create({
             'name': "20% Tax excl",
             'amount_type': 'percent',
             'amount': 20,
-            'price_include': False,
+            'price_include_override': 'tax_excluded',
+            'tax_group_id': tax_group_group.id,
+        })
+
+        cls.tax_group = cls.env['account.tax'].create({
+            'name': "tax_group",
+            'amount_type': 'group',
+            'children_tax_ids': [Command.set((cls.tax_10pc_incl + cls.tax_10pc_base_incl).ids)],
+            'tax_group_id': tax_group_group.id,
         })
 
         cls.tax_group = cls.env['account.tax'].create({
@@ -106,7 +134,7 @@ class TestSaleCouponCommon(TestSaleProductAttributeValueCommon):
 
         cls.product_gift_card = cls.env['product.product'].create({
             'name': 'Gift Card 50',
-            'detailed_type': 'service',
+            'type': 'service',
             'list_price': 50,
             'sale_ok': True,
             'taxes_id': False,
@@ -264,14 +292,6 @@ class TestSaleCouponNumbersCommon(TestSaleCouponCommon):
             'name': 'Large Meeting Table',
             'list_price': 40000.0,
             'taxes_id': False,
-        })
-
-        cls.steve = cls.env['res.partner'].create({
-            'name': 'Steve Bucknor',
-            'email': 'steve.bucknor@example.com',
-        })
-        cls.empty_order = cls.env['sale.order'].create({
-            'partner_id': cls.steve.id
         })
 
         cls.p1 = cls.env['loyalty.program'].create({

@@ -2,6 +2,9 @@
 // cause of color issues. It will be reviewed in master (probably removed from
 // backend bundles and simplified).
 
+// Prefix for :root CSS variables
+$variable-prefix: '' !default;
+
 // Automatically update bootstrap colors map (unused by BS itself)
 $colors: () !default;
 @each $name, $color in $o-color-palette {
@@ -94,6 +97,9 @@ $small-font-size: if(
     ($o-small-font-size / $font-size-base) * 1em,
     null
 ) !default;
+<<<<<<< HEAD
 $small-twelve-font-size: ($o-small-twelve-font-size / 1rem) * 1em !default;
 $small-ten-font-size: ($o-small-ten-font-size / 1rem) * 1em !default;
 $small-eight-font-size: ($o-small-eight-font-size / 1rem) * 1em !default;
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8

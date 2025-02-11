@@ -27,7 +27,19 @@ class Rating(http.Controller):
         # This route used to allow sending a rating with a GET, the
         # feature proved incompatible with various email provider URL crawlers and
         # has been removed.
+<<<<<<< HEAD
         rating, _record_sudo = self._get_rating_and_record(token)
+=======
+        rating, record_sudo = self._get_rating_and_record(token)
+
+        if not request.env.user._is_public() and \
+                request.env.user.partner_id.commercial_partner_id != rating.partner_id.commercial_partner_id:
+            return request.render('rating.rating_external_page_invalid_partner', {
+                'model_name': request.env['ir.model']._get(rating.res_model).display_name,
+                'name': record_sudo.display_name,
+                'web_base_url': rating.get_base_url(),
+            })
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
         lang = rating.partner_id.lang or get_lang(request.env).code
         return request.env['ir.ui.view'].with_context(lang=lang)._render_template('rating.rating_external_page_submit', {

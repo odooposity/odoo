@@ -39,11 +39,24 @@ class TestSaleMatrixUi(TestMatrixCommon):
         self.env.ref('base.group_user').implied_ids += (
             self.env.ref('sale_management.group_sale_order_template')
         )
+<<<<<<< HEAD
+=======
+        # While we check the untaxed amounts, the view requires taxes to be present
+        # on the sale order to display the untaxed amount line.
+        self.env['account.tax'].search([]).write({'active': False})
+        tax = self.env['account.tax'].create({
+            'name': '15%',
+            'amount': 15,
+        })
+        self.matrix_template.taxes_id = tax
+        # Also disable all pricelists that could impact the price
+        self.env['product.pricelist'].search([]).write({'active': False})
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
         # Set the template as configurable by matrix.
         self.matrix_template.product_add_mode = "matrix"
 
-        self.start_tour("/web", 'sale_matrix_tour', login='salesman')
+        self.start_tour("/odoo", 'sale_matrix_tour', login='salesman')
 
         # Ensures some dynamic create variants have been created by the matrix
         # Ensures a SO has been created with exactly x lines ...

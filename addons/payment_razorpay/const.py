@@ -99,7 +99,11 @@ SUPPORTED_CURRENCIES = [
 ]
 
 # The codes of the payment methods to activate when Razorpay is activated.
+<<<<<<< HEAD
 DEFAULT_PAYMENT_METHODS_CODES = [
+=======
+DEFAULT_PAYMENT_METHOD_CODES = {
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
     # Primary payment methods.
     'card',
     'netbanking',
@@ -109,11 +113,27 @@ DEFAULT_PAYMENT_METHODS_CODES = [
     'mastercard',
     'amex',
     'discover',
+<<<<<<< HEAD
 ]
+=======
+}
+
+# The codes of payment methods that are not recognized by the orders API.
+FALLBACK_PAYMENT_METHOD_CODES = {
+    'wallets_india',
+    'paylater_india',
+    'emi_india',
+}
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 # Mapping of payment method codes to Razorpay codes.
 PAYMENT_METHODS_MAPPING = {
     'wallets_india': 'wallet',
+<<<<<<< HEAD
+=======
+    'paylater_india': 'paylater',
+    'emi_india': 'emi',
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 }
 
 # The maximum amount in INR that can be paid through an eMandate.

@@ -296,7 +296,7 @@ class TestPartner(TransactionCaseWithUserDemo):
         # Check a partner may be searched when current user has no access but sudo is used
         public_user = self.env.ref('base.public_user')
         with self.assertRaises(AccessError):
-            test_partner.with_user(public_user).check_access_rule('read')
+            test_partner.with_user(public_user).check_access('read')
         ns_res = self.env['res.partner'].with_user(public_user).sudo().name_search('Vlad', args=[('user_ids.email', 'ilike', 'vlad')])
         self.assertEqual(set(i[0] for i in ns_res), set(test_user.partner_id.ids))
 
@@ -312,6 +312,7 @@ class TestPartner(TransactionCaseWithUserDemo):
             "'Destination Contact' name should contain db ID in brackets"
         )
 
+<<<<<<< HEAD
     def test_partner_merge_null_company_property(self):
         """ Check that partner with null company ir.property can be merged """
         partners = self.env['res.partner'].create([
@@ -438,6 +439,27 @@ class TestPartner(TransactionCaseWithUserDemo):
         self.assertEqual([g['title'] for g in groups_data], [(title_sir.id, 'Sir...'), (title_lady.id, 'Lady...')], 'Incorrect ordering of the list')
         self.assertEqual([g['title_count'] for g in groups_data], [2, 4], 'Incorrect number of results')
         self.assertEqual([g['color'] for g in groups_data], [-1, 10], 'Incorrect aggregation of int column')
+=======
+    def test_display_name_translation(self):
+        self.env['res.lang']._activate_lang('fr_FR')
+        self.env.ref('base.module_base')._update_translations(['fr_FR'])
+
+        res_partner = self.env['res.partner']
+
+        parent_contact = res_partner.create({
+            'name': 'Parent',
+            'type': 'contact',
+        })
+
+        child_contact = res_partner.create({
+            'type': 'other',
+            'parent_id': parent_contact.id,
+        })
+
+        self.assertEqual(child_contact.with_context(lang='en_US').display_name, 'Parent, Other Address')
+
+        self.assertEqual(child_contact.with_context(lang='fr_FR').display_name, 'Parent, Autre adresse')
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
     def test_display_name_translation(self):
         self.env['res.lang']._activate_lang('fr_FR')
@@ -855,6 +877,7 @@ class TestPartnerForm(TransactionCase):
             child.name = "Second Child"
             self.assertEqual(child.lang, 'fr_FR', "Child contact's lang should be the same as its parent.")
         partner = partner_form.save()
+        self.assertEqual(partner.child_ids.mapped('lang'), ['de_DE', 'fr_FR'])
 
         # check final values (kept from form input)
         self.assertEqual(partner.lang, 'fr_FR')
@@ -893,8 +916,11 @@ class TestPartnerRecursion(TransactionCase):
         self.p3 = res_partner.create({'name': 'Elmtree Grand-Child 1.1', 'parent_id': self.p2.id})
 
     def test_100_res_partner_recursion(self):
-        self.assertTrue(self.p3._check_recursion())
-        self.assertTrue((self.p1 + self.p2 + self.p3)._check_recursion())
+        self.assertFalse(self.p3._has_cycle())
+        self.assertFalse((self.p1 + self.p2 + self.p3)._has_cycle())
+
+        # special case: empty recordsets don't lead to cycles
+        self.assertFalse(self.env['res.partner']._has_cycle())
 
     # split 101, 102, 103 tests to force SQL rollback between them
 
@@ -916,6 +942,11 @@ class TestPartnerRecursion(TransactionCase):
         with self.assertRaises(ValidationError):
             self.p2.write({'child_ids': [Command.update(self.p3.id, {'parent_id': p3b.id}),
                                          Command.update(p3b.id, {'parent_id': self.p3.id})]})
+
+    def test_105_res_partner_recursion(self):
+        with self.assertRaises(ValidationError):
+            # p3 -> p2 -> p1 -> p2
+            (self.p3 + self.p1).parent_id = self.p2
 
     def test_110_res_partner_recursion_multi_update(self):
         """ multi-write on several partners in same hierarchy must not trigger a false cycle detection """

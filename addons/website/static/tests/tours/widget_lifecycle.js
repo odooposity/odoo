@@ -1,6 +1,15 @@
 /** @odoo-module **/
 
+<<<<<<< HEAD
 import wTourUtils from '@website/js/tours/tour_utils';
+=======
+import {
+    clickOnEditAndWaitEditMode,
+    clickOnSave,
+    insertSnippet,
+    registerWebsitePreviewTour,
+} from '@website/js/tours/tour_utils';
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 // Note: cannot import @website/../tests/tour_utils/widget_lifecycle_dep_widget
 // here because that module requires web.public.widget which is not available
@@ -9,6 +18,7 @@ import wTourUtils from '@website/js/tours/tour_utils';
 // key only.
 const localStorageKey = 'widgetAndWysiwygLifecycle';
 
+<<<<<<< HEAD
 wTourUtils.registerWebsitePreviewTour("widget_lifecycle", {
     test: true,
     url: "/",
@@ -21,12 +31,27 @@ wTourUtils.registerWebsitePreviewTour("widget_lifecycle", {
     {
         content: "Wait for the widget to be started and empty the widgetAndWysiwygLifecycle list",
         trigger: "iframe .s_countdown.public_widget_started",
+=======
+registerWebsitePreviewTour("widget_lifecycle", {
+    url: "/",
+    edition: true,
+}, () => [
+    ...insertSnippet({
+        id: "s_countdown",
+        name: "Countdown",
+        groupName: "Content",
+    }),
+    {
+        content: "Wait for the widget to be started and empty the widgetAndWysiwygLifecycle list",
+        trigger: ":iframe .s_countdown.public_widget_started",
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
         run: () => {
             // Start recording the calls to the "start" and "destroy" method of
             // the widget and the wysiwyg.
             window.localStorage.setItem(localStorageKey, '[]');
         },
     },
+<<<<<<< HEAD
     ...wTourUtils.clickOnSave(),
     {
         content: "Wait for the widget to be started",
@@ -38,6 +63,18 @@ wTourUtils.registerWebsitePreviewTour("widget_lifecycle", {
         content: "Wait for the widget to be started and check the order of the lifecycle method call of the widget and the wysiwyg",
         trigger: "iframe .s_countdown.public_widget_started",
         run: () => {
+=======
+    ...clickOnSave(),
+    {
+        content: "Wait for the widget to be started",
+        trigger: ":iframe .s_countdown.public_widget_started",
+    },
+    ...clickOnEditAndWaitEditMode(),
+    {
+        content: "Wait for the widget to be started and check the order of the lifecycle method call of the widget and the wysiwyg",
+        trigger: ":iframe .s_countdown.public_widget_started",
+        run() {
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
             const result = JSON.parse(window.localStorage.widgetAndWysiwygLifecycle);
             const expected = ["widgetStop", "wysiwygStop", "widgetStart",
                 "widgetStop", "wysiwygStart", "wysiwygStarted", "widgetStart",

@@ -1,11 +1,11 @@
 /** @odoo-module **/
 
 import { _t } from "@web/core/l10n/translation";
-import * as spreadsheet from "@odoo/o-spreadsheet";
+import { helpers, registries, EvaluationError } from "@odoo/o-spreadsheet";
 import { sprintf } from "@web/core/utils/strings";
 
-const { arg, toString, toNumber } = spreadsheet.helpers;
-const { functionRegistry } = spreadsheet.registries;
+const { arg, toString, toNumber } = helpers;
+const { functionRegistry } = registries;
 
 //--------------------------------------------------------------------------
 // Spreadsheet functions
@@ -13,7 +13,7 @@ const { functionRegistry } = spreadsheet.registries;
 
 function assertListsExists(listId, getters) {
     if (!getters.isExistingList(listId)) {
-        throw new Error(sprintf(_t('There is no list with id "%s"'), listId));
+        throw new EvaluationError(sprintf(_t('There is no list with id "%s"'), listId));
     }
 }
 
@@ -28,8 +28,9 @@ const ODOO_LIST = {
     compute: function (listId, index, fieldName) {
         const id = toString(listId);
         const position = toNumber(index, this.locale) - 1;
-        const field = toString(fieldName);
+        const _fieldName = toString(fieldName);
         assertListsExists(id, this.getters);
+<<<<<<< HEAD
         return this.getters.getListCellValue(id, position, field);
     },
     computeFormat: function (listId, index, fieldName) {
@@ -55,6 +56,9 @@ const ODOO_LIST = {
             default:
                 return undefined;
         }
+=======
+        return this.getters.getListCellValueAndFormat(id, position, _fieldName);
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
     },
     returns: ["NUMBER", "STRING"],
 };

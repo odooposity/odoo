@@ -1,14 +1,15 @@
-# -*- coding: utf-8 -*-
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
 
 import itertools
 import logging
+
 from collections import defaultdict
 
-from odoo import api, fields, models, tools, _, SUPERUSER_ID
+from odoo import _, api, fields, models, tools
 from odoo.exceptions import UserError, ValidationError
 from odoo.models import PREFETCH_MAX
 from odoo.osv import expression
+from odoo.tools.image import is_image_size_above
 
 _logger = logging.getLogger(__name__)
 PRICE_CONTEXT_KEYS = ['pricelist', 'quantity', 'uom', 'date']
@@ -18,8 +19,20 @@ class ProductTemplate(models.Model):
     _name = "product.template"
     _inherit = ['mail.thread', 'mail.activity.mixin', 'image.mixin']
     _description = "Product"
+<<<<<<< HEAD
     _order = "priority desc, name"
     _check_company_domain = models.check_company_domain_parent_of
+=======
+    _order = "is_favorite desc, name"
+    _check_company_auto = True
+    _check_company_domain = models.check_company_domain_parent_of
+
+    def default_get(self, fields_list):
+        res = super().default_get(fields_list)
+        if 'uom_id' in fields_list and not res.get('uom_id'):
+            res['uom_id'] = self._get_default_uom_id().id
+        return res
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
     @tools.ormcache()
     def _get_default_category_id(self):
@@ -31,10 +44,14 @@ class ProductTemplate(models.Model):
         # Deletion forbidden (at least through unlink)
         return self.env.ref('uom.product_uom_unit')
 
+<<<<<<< HEAD
     def _read_group_categ_id(self, categories, domain, order):
+=======
+    def _read_group_categ_id(self, categories, domain):
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
         category_ids = self.env.context.get('default_categ_id')
         if not category_ids and self.env.context.get('group_expand'):
-            category_ids = categories._search([], order=order, access_rights_uid=SUPERUSER_ID)
+            category_ids = categories.sudo()._search([], order=categories._order)
         return categories.browse(category_ids)
 
     name = fields.Char('Name', index='trigram', required=True, translate=True)
@@ -47,16 +64,31 @@ class ProductTemplate(models.Model):
         'Sales Description', translate=True,
         help="A description of the Product that you want to communicate to your customers. "
              "This description will be copied to every Sales Order, Delivery Order and Customer Invoice/Credit Note")
-    detailed_type = fields.Selection([
-        ('consu', 'Consumable'),
-        ('service', 'Service')], string='Product Type', default='consu', required=True,
-        help='A storable product is a product for which you manage stock. The Inventory app has to be installed.\n'
-             'A consumable product is a product for which stock is not managed.\n'
-             'A service is a non-material product you provide.')
     type = fields.Selection(
-        [('consu', 'Consumable'),
-         ('service', 'Service')],
-        compute='_compute_type', store=True, readonly=False, precompute=True)
+        string="Product Type",
+        help="Goods are tangible materials and merchandise you provide.\n"
+             "A service is a non-material product you provide.",
+        selection=[
+            ('consu', "Goods"),
+            ('service', "Service"),
+            ('combo', "Combo"),
+        ],
+        required=True,
+        default='consu',
+    )
+    combo_ids = fields.Many2many(
+        string="Combo Choices", comodel_name='product.combo', check_company=True
+    )
+    service_tracking = fields.Selection(selection=[
+            ('no', 'Nothing'),
+        ],
+        string="Create on Order",
+        default="no",
+        compute="_compute_service_tracking",
+        required=True,
+        store=True,
+        readonly=False,
+    )
     categ_id = fields.Many2one(
         'product.category', 'Product Category',
         change_default=True, default=_get_default_category_id, group_expand='_read_group_categ_id',
@@ -71,6 +103,7 @@ class ProductTemplate(models.Model):
     list_price = fields.Float(
         'Sales Price', default=1.0,
         digits='Product Price',
+        tracking=True,
         help="Price at which the product is sold to customers.",
     )
     standard_price = fields.Float(
@@ -89,16 +122,23 @@ class ProductTemplate(models.Model):
         inverse='_set_weight', store=True)
     weight_uom_name = fields.Char(string='Weight unit of measure label', compute='_compute_weight_uom_name')
 
-    sale_ok = fields.Boolean('Can be Sold', default=True)
-    purchase_ok = fields.Boolean('Can be Purchased', default=True)
+    sale_ok = fields.Boolean('Sales', default=True)
+    purchase_ok = fields.Boolean('Purchase', default=True, compute='_compute_purchase_ok', store=True, readonly=False)
     uom_id = fields.Many2one(
         'uom.uom', 'Unit of Measure',
         default=_get_default_uom_id, required=True,
         help="Default unit of measure used for all stock operations.")
     uom_name = fields.Char(string='Unit of Measure Name', related='uom_id.name', readonly=True)
+    uom_category_id = fields.Many2one('uom.category', string='UoM Category', related="uom_id.category_id")
     uom_po_id = fields.Many2one(
+<<<<<<< HEAD
         'uom.uom', 'Purchase UoM',
         compute='_compute_uom_po_id', required=True, readonly=False, store=True, precompute=True,
+=======
+        'uom.uom', 'Purchase Unit',
+        compute='_compute_uom_po_id', required=True, readonly=False, store=True, precompute=True,
+        domain="[('category_id', '=', uom_category_id)]",
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
         help="Default unit of measure used for purchase orders. It must be in the same category as the default unit of measure.")
     company_id = fields.Many2one(
         'res.company', 'Company', index=True)
@@ -145,19 +185,24 @@ class ProductTemplate(models.Model):
 
     product_tooltip = fields.Char(compute='_compute_product_tooltip')
 
-    priority = fields.Selection([
-        ('0', 'Normal'),
-        ('1', 'Favorite'),
-    ], default='0', string="Favorite")
+    is_favorite = fields.Boolean(string="Favorite")
 
     product_tag_ids = fields.Many2many(
-        string="Product Template Tags",
-        comodel_name='product.tag',
-        relation='product_tag_product_template_rel',
+        string="Tags", comodel_name='product.tag', relation='product_tag_product_template_rel'
     )
     # Properties
     product_properties = fields.Properties('Properties', definition='categ_id.product_properties_definition', copy=True)
 
+<<<<<<< HEAD
+=======
+    @api.depends('type')
+    def _compute_service_tracking(self):
+        self.filtered(lambda product: product.type != 'service').service_tracking = 'no'
+
+    def _compute_purchase_ok(self):
+        pass
+
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
     @api.depends('uom_id')
     def _compute_uom_po_id(self):
         for template in self:
@@ -171,10 +216,12 @@ class ProductTemplate(models.Model):
                 '&',
                 '|', ('product_tmpl_id', '=', template.id), ('product_id', 'in', template.product_variant_ids.ids),
                 ('pricelist_id.active', '=', True),
+                ('compute_price', '=', 'fixed'),
             ])
 
     def _compute_product_document_count(self):
         for template in self:
+<<<<<<< HEAD
             template.product_document_count = template.env['product.document'].search_count([
                 '|',
                     '&', ('res_model', '=', 'product.template'), ('res_id', '=', template.id),
@@ -182,11 +229,20 @@ class ProductTemplate(models.Model):
                         ('res_model', '=', 'product.product'),
                         ('res_id', 'in', template.product_variant_ids.ids),
             ])
+=======
+            template.product_document_count = template.env['product.document'].search_count(
+                template._get_product_document_domain()
+            )
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
     @api.depends('image_1920', 'image_1024')
     def _compute_can_image_1024_be_zoomed(self):
         for template in self.with_context(bin_size=False):
+<<<<<<< HEAD
             template.can_image_1024_be_zoomed = template.image_1920 and tools.is_image_size_above(template.image_1920, template.image_1024)
+=======
+            template.can_image_1024_be_zoomed = template.image_1920 and is_image_size_above(template.image_1920, template.image_1024)
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
     @api.depends(
         'attribute_line_ids',
@@ -205,9 +261,13 @@ class ProductTemplate(models.Model):
         for product in self:
             product.has_configurable_attributes = (
                 product.has_dynamic_attributes() or any(
+<<<<<<< HEAD
                     ptal.attribute_id.display_type == 'multi'
                     or len(ptal.value_ids) >= 2
                     or ptal.value_ids.is_custom
+=======
+                    ptal._is_configurable()
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
                     for ptal in product.attribute_line_ids
                 )
             )
@@ -392,7 +452,7 @@ class ProductTemplate(models.Model):
         if self.id.origin:
             domain.append(('id', '!=', self.id.origin))
 
-        if self.env['product.template'].search(domain, limit=1):
+        if self.env['product.template'].search_count(domain, limit=1):
             return {'warning': {
                 'title': _("Note:"),
                 'message': _("The Internal Reference '%s' already exists.", self.default_code),
@@ -420,30 +480,18 @@ class ProductTemplate(models.Model):
 
     @api.depends('type')
     def _compute_product_tooltip(self):
-        for record in self:
-            if record.type == 'consu':
-                record.product_tooltip = _(
-                    "Consumables are physical products for which you don't manage the inventory "
-                    "level: they are always available."
-                )
-            else:
-                record.product_tooltip = ""
+        self.product_tooltip = False
+        for template in self:
+            template.product_tooltip = template._prepare_tooltip()
 
-    def _detailed_type_mapping(self):
-        return {}
-
-    @api.depends('detailed_type')
-    def _compute_type(self):
-        type_mapping = self._detailed_type_mapping()
-        for record in self:
-            record.type = type_mapping.get(record.detailed_type, record.detailed_type)
-
-    @api.constrains('type', 'detailed_type')
-    def _constrains_detailed_type(self):
-        type_mapping = self._detailed_type_mapping()
-        for record in self:
-            if record.type != type_mapping.get(record.detailed_type, record.detailed_type):
-                raise ValidationError(_("The Type of this product doesn't match the Detailed Type"))
+    def _prepare_tooltip(self):
+        self.ensure_one()
+        tooltip = ""
+        if self.type == 'combo':
+            tooltip = _(
+                "Combos allow to choose one product amongst a selection of choices per category."
+            )
+        return tooltip
 
     @api.constrains('uom_id', 'uom_po_id')
     def _check_uom(self):
@@ -457,22 +505,38 @@ class ProductTemplate(models.Model):
 
     @api.onchange('type')
     def _onchange_type(self):
-        # Do nothing but needed for inheritance
+        if self.type == 'combo':
+            if self.attribute_line_ids:
+                raise UserError(_("Combo products can't have attributes."))
+            combo_items = self.env['product.combo.item'].sudo().search([
+                ('product_id', 'in', self.product_variant_ids.ids)
+            ])
+            if combo_items:
+                raise UserError(_(
+                    "This product is part of a combo, so its type can't be changed to \"combo\"."
+                ))
+            self.purchase_ok = False
         return {}
 
-    def _sanitize_vals(self, vals):
-        """Sanitize vales for writing/creating product templates and variants.
+    @api.constrains('type', 'combo_ids')
+    def _check_combo_ids_not_empty(self):
+        for template in self:
+            if template.type == 'combo' and not template.combo_ids:
+                raise ValidationError(_("A combo product must contain at least 1 combo choice."))
 
-        Values need to be sanitized to keep values synchronized, and to be able to preprocess the
-        vals in extensions of create/write.
-        :param vals: create/write values dictionary
-        """
-        if 'type' in vals and 'detailed_type' not in vals:
-            if vals['type'] not in self.mapped('type'):
-                vals['detailed_type'] = vals['type']
-        if 'detailed_type' in vals and 'type' not in vals:
-            type_mapping = self._detailed_type_mapping()
-            vals['type'] = type_mapping.get(vals['detailed_type'], vals['detailed_type'])
+    @api.constrains('type', 'combo_ids', 'sale_ok')
+    def _check_sale_combo_ids(self):
+        for template in self:
+            if (
+                template.type == 'combo'
+                and template.sale_ok
+                and any(
+                    not product.sale_ok for product in template.combo_ids.combo_item_ids.product_id
+                )
+            ):
+                raise ValidationError(
+                    _("A sellable combo product can only contain sellable products.")
+                )
 
     def _get_related_fields_variant_template(self):
         """ Return a list of fields present on template and variants models and that are related"""
@@ -481,8 +545,6 @@ class ProductTemplate(models.Model):
     @api.model_create_multi
     def create(self, vals_list):
         ''' Store the initial standard price in order to be able to retrieve the cost of a product template for a given date'''
-        for vals in vals_list:
-            self._sanitize_vals(vals)
         templates = super(ProductTemplate, self).create(vals_list)
         if self._context.get("create_product_product", True):
             templates._create_variant_ids()
@@ -499,7 +561,10 @@ class ProductTemplate(models.Model):
         return templates
 
     def write(self, vals):
+<<<<<<< HEAD
         self._sanitize_vals(vals)
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
         res = super(ProductTemplate, self).write(vals)
         if self._context.get("create_product_product", True) and 'attribute_line_ids' in vals or (vals.get('active') and len(self.product_variant_ids) == 0):
             self._create_variant_ids()
@@ -516,17 +581,23 @@ class ProductTemplate(models.Model):
             ])
         return res
 
-    @api.returns('self', lambda value: value.id)
-    def copy(self, default=None):
-        # TDE FIXME: should probably be copy_data
-        self.ensure_one()
-        if default is None:
-            default = {}
+    def copy_data(self, default=None):
+        default = dict(default or {})
+        vals_list = super().copy_data(default=default)
         if 'name' not in default:
+<<<<<<< HEAD
             default['name'] = _("%s (copy)", self.name)
 
         res = super().copy(default=default)
 
+=======
+            for template, vals in zip(self, vals_list):
+                vals['name'] = _("%s (copy)", template.name)
+        return vals_list
+
+    def copy(self, default=None):
+        res = super().copy(default=default)
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
         # Since we don't copy the product template attribute values, we need to match the extra prices.
         for ptal, copied_ptal in zip(self.attribute_line_ids, res.attribute_line_ids):
             for ptav, copied_ptav in zip(ptal.product_template_value_ids, copied_ptal.product_template_value_ids):
@@ -546,9 +617,18 @@ class ProductTemplate(models.Model):
                 ))
 
     @api.model
-    def _name_search(self, name, domain=None, operator='ilike', limit=None, order=None):
+    def _search_display_name(self, operator, value):
+        domain = super()._search_display_name(operator, value)
+        if self.env.context.get('search_product_product', bool(value)):
+            combine = expression.OR if operator not in expression.NEGATIVE_TERM_OPERATORS else expression.AND
+            domain = combine([domain, [('product_variant_ids', operator, value)]])
+        return domain
+
+    @api.model
+    def name_search(self, name='', args=None, operator='ilike', limit=100):
         # Only use the product.product heuristics if there is a search term and the domain
         # does not specify a match on `product.template` IDs.
+<<<<<<< HEAD
         domain = domain or []
         if not name or any(term[0] == 'id' for term in domain):
             return super()._name_search(name, domain, operator, limit, order)
@@ -597,6 +677,12 @@ class ProductTemplate(models.Model):
         # re-apply product.template order + display_name
         domain = [('id', 'in', list(searched_ids))]
         return super()._name_search('', domain, 'ilike', limit, order)
+=======
+        self_obj = self
+        if 'search_product_product' not in self.env.context and any(term[0] == 'id' for term in (args or [])):
+            self_obj = self_obj.with_context(search_product_product=False)
+        return super(ProductTemplate, self_obj).name_search(name, args, operator, limit)
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
     #=== ACTION METHODS ===#
 
@@ -609,11 +695,18 @@ class ProductTemplate(models.Model):
         self.ensure_one()
         domain = ['|',
             ('product_tmpl_id', '=', self.id),
-            ('product_id', 'in', self.product_variant_ids.ids)]
+            ('product_id', 'in', self.product_variant_ids.ids),
+            ('compute_price', '=', 'fixed'),
+        ]
         return {
             'name': _('Price Rules'),
+<<<<<<< HEAD
             'view_mode': 'tree,form',
             'views': [(self.env.ref('product.product_pricelist_item_tree_view_from_product').id, 'tree')],
+=======
+            'view_mode': 'list,form',
+            'views': [(self.env.ref('product.product_pricelist_item_tree_view_from_product').id, 'list')],
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
             'res_model': 'product.pricelist.item',
             'type': 'ir.actions.act_window',
             'target': 'current',
@@ -632,12 +725,13 @@ class ProductTemplate(models.Model):
             'name': _('Documents'),
             'type': 'ir.actions.act_window',
             'res_model': 'product.document',
-            'view_mode': 'kanban,tree,form',
+            'view_mode': 'kanban,list,form',
             'context': {
                 'default_res_model': self._name,
                 'default_res_id': self.id,
                 'default_company_id': self.company_id.id,
             },
+<<<<<<< HEAD
             'domain': [
                 '|',
                     '&', ('res_model', '=', 'product.template'), ('res_id', '=', self.id),
@@ -645,6 +739,9 @@ class ProductTemplate(models.Model):
                         ('res_model', '=', 'product.product'),
                         ('res_id', 'in', self.product_variant_ids.ids),
             ],
+=======
+            'domain': self._get_product_document_domain(),
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
             'target': 'current',
             'help': """
                 <p class="o_view_nocontent_smiling_face">
@@ -656,7 +753,11 @@ class ProductTemplate(models.Model):
                     %s
                 </p>
                 <p>
+<<<<<<< HEAD
                     <a class="oe_link" href="https://www.odoo.com/documentation/17.0/_downloads/5f0840ed187116c425fdac2ab4b592e1/pdfquotebuilderexamples.zip">
+=======
+                    <a class="oe_link" href="https://www.odoo.com/documentation/18.0/_downloads/5f0840ed187116c425fdac2ab4b592e1/pdfquotebuilderexamples.zip">
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
                     %s
                     </a>
                 </p>
@@ -807,6 +908,12 @@ class ProductTemplate(models.Model):
             # prevent change if exclusion deleted template by deleting last variant
             if self.exists() != self:
                 raise UserError(_("This configuration of product attributes, values, and exclusions would lead to no possible variant. Please archive or delete your product directly if intended."))
+        for variant in variants_to_unlink:
+            combo_items_to_unlink = self.env['product.combo.item'].search([
+                ('product_id', '=', variant.id)
+            ])
+            # Unlink all combo items which reference unlinked variants.
+            combo_items_to_unlink.unlink()
 
         # prefetched o2m have to be reloaded (because of active_test)
         # (eg. product.template: product_variant_ids)
@@ -1464,3 +1571,45 @@ class ProductTemplate(models.Model):
         This method is meant to be overriden in other standard modules.
         """
         return self.env['product.pricelist'].browse(self.env.context.get('pricelist'))
+
+    def _get_product_document_domain(self):
+        self.ensure_one()
+        return expression.OR([
+            expression.AND([[('res_model', '=', 'product.template')], [('res_id', '=', self.id)]]),
+            expression.AND([
+                [('res_model', '=', 'product.product')],
+                [('res_id', 'in', self.product_variant_ids.ids)],
+            ])
+        ])
+
+    ###################
+    # DEMO DATA SETUP #
+    ###################
+
+    @api.model
+    def _demo_configure_variants(self):
+        acoustic_bloc_screens = self.env.ref(
+            'product.product_template_acoustic_bloc_screens', raise_if_not_found=False
+        )
+        if acoustic_bloc_screens:
+            acoustic_bloc_screens.product_variant_ids[0].default_code = 'FURN_6666'
+            acoustic_bloc_screens.product_variant_ids[1].default_code = 'FURN_6667'
+            self.env['ir.model.data']._update_xmlids([{
+                'xml_id': 'product.product_product_25',
+                'record': acoustic_bloc_screens.product_variant_ids[1],
+                'noupdate': True,
+            }])
+
+    def _get_list_price(self, price):
+        """ Get the product sales price from a public price based on taxes defined on the product.
+        To be overridden in accounting module."""
+        self.ensure_one()
+        return price
+
+    @api.model
+    def _service_tracking_blacklist(self):
+        """ Service tracking field is used to distinguish some specific categories of products.
+        Those products shouldn't be displayed or used in unrelated applications.
+        This method returns a domain targeting all those specific products (events, courses, ...).
+        """
+        return []

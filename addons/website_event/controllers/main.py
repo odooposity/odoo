@@ -6,7 +6,10 @@ import werkzeug
 
 from ast import literal_eval
 from collections import Counter
+<<<<<<< HEAD
 from werkzeug.datastructures import OrderedMultiDict
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 from werkzeug.exceptions import NotFound
 
 from odoo import fields, http, _
@@ -41,8 +44,18 @@ class WebsiteEventController(http.Controller):
             'country': post.get('country'),
         }
 
-    @http.route(['/event', '/event/page/<int:page>', '/events', '/events/page/<int:page>'], type='http', auth="public", website=True, sitemap=sitemap_event)
+    @http.route(['/event', '/event/page/<int:page>', '/events', '/events/page/<int:page>'], type='http', auth="public", website=True, sitemap=sitemap_event, readonly=True)
     def events(self, page=1, **searches):
+        if searches.get('tags', '[]').count(',') > 0 and request.httprequest.method == 'GET' and not searches.get('prevent_redirect'):
+            # Previously, the tags were searched using GET, which caused issues with crawlers (too many hits)
+            # We replaced those with POST to avoid that, but it's not sufficient as bots "remember" crawled pages for a while
+            # This permanent redirect is placed to instruct the bots that this page is no longer valid
+            # Note: We allow a single tag to be GET, to keep crawlers & indexes on those pages
+            # What we really want to avoid is combinatorial explosions
+            # (Tags are formed as a JSON array, so we count ',' to keep it simple)
+            # TODO: remove in a few stable versions (v19?), including the "prevent_redirect" param in templates
+            return request.redirect('/event', code=301)
+
         Event = request.env['event.event']
         SudoEventType = request.env['event.type'].sudo()
 
@@ -131,17 +144,13 @@ class WebsiteEventController(http.Controller):
             'website': website
         }
 
-        if searches['date'] == 'old':
-            # the only way to display this content is to set date=old so it must be canonical
-            values['canonical_params'] = OrderedMultiDict([('date', 'old')])
-
         return request.render("website_event.index", values)
 
     # ------------------------------------------------------------
     # EVENT PAGE
     # ------------------------------------------------------------
 
-    @http.route(['''/event/<model("event.event"):event>/page/<path:page>'''], type='http', auth="public", website=True, sitemap=False)
+    @http.route(['''/event/<model("event.event"):event>/page/<path:page>'''], type='http', auth="public", website=True, sitemap=False, readonly=True)
     def event_page(self, event, page, **post):
         values = {
             'event': event,
@@ -166,7 +175,7 @@ class WebsiteEventController(http.Controller):
 
         return request.render(page, values)
 
-    @http.route(['''/event/<model("event.event"):event>'''], type='http', auth="public", website=True, sitemap=True)
+    @http.route(['''/event/<model("event.event"):event>'''], type='http', auth="public", website=True, sitemap=True, readonly=True)
     def event(self, event, **post):
         if event.menu_id and event.menu_id.child_id:
             target_url = event.menu_id.child_id[0].url
@@ -176,7 +185,7 @@ class WebsiteEventController(http.Controller):
             target_url += '?enable_editor=1'
         return request.redirect(target_url)
 
-    @http.route(['''/event/<model("event.event"):event>/register'''], type='http', auth="public", website=True, sitemap=False)
+    @http.route(['''/event/<model("event.event"):event>/register'''], type='http', auth="public", website=True, sitemap=False, readonly=True)
     def event_register(self, event, **post):
         values = self._prepare_event_register_values(event, **post)
         return request.render("website_event.event_description_full", values)

@@ -489,10 +489,8 @@ class TestAccessFeatures(common.SlidesCase):
             resource1.with_user(self.user_public).write({'name': 'other name'})
             resource3.with_user(self.user_public).write({'name': 'other name'})
 
-        # public access to knowing if there are resources, also by type
-        self.assertTrue(self.slide_3.with_user(self.user_public)._has_additional_resources())
-        self.assertTrue(self.slide_3.with_user(self.user_public)._has_additional_resources('file'))
-        self.assertTrue(self.slide_3.with_user(self.user_public)._has_additional_resources('url'))
+        # public access to knowing if there are resources
+        self.assertTrue(self.slide_3.with_user(self.user_public).sudo().slide_resource_ids)
 
         # No random portal access
         with self.assertRaises(AccessError):
@@ -531,13 +529,20 @@ class TestAccessFeatures(common.SlidesCase):
         self.env['slide.slide.resource'].with_user(self.user_manager).create(resource_values)
 
 
+<<<<<<< HEAD
 @tagged('functional')
 class TestReview(common.SlidesCase, HttpCase):
     @mute_logger('odoo.addons.http_routing.models.ir_http', 'odoo.http')
+=======
+@tagged("functional")
+class TestReview(common.SlidesCase, HttpCase):
+    @mute_logger("odoo.addons.http_routing.models.ir_http", "odoo.http")
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
     def test_channel_multiple_reviews(self):
         self.authenticate("admin", "admin")
 
         res1 = self.opener.post(
+<<<<<<< HEAD
             url='%s/mail/chatter_post' % self.base_url(),
             json={
                 'params': {
@@ -547,6 +552,19 @@ class TestReview(common.SlidesCase, HttpCase):
                     'rating_value': '2',
                     'pid': self.env.user.partner_id.id,
                     'csrf_token': http.Request.csrf_token(self),
+=======
+            url="%s/mail/message/post" % self.base_url(),
+            json={
+                "params": {
+                    "thread_model": "slide.channel",
+                    "thread_id": self.channel.id,
+                    "post_data": {
+                        "body": "My first review :)",
+                        "subtype_xmlid": "mail.mt_comment",
+                        "rating_value": "2",
+                    },
+                    "pid": self.env.user.partner_id.id,
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
                 },
             },
         )
@@ -554,6 +572,7 @@ class TestReview(common.SlidesCase, HttpCase):
 
 
         res2 = self.opener.post(
+<<<<<<< HEAD
             url='%s/mail/chatter_post' % self.base_url(),
             json={
                 'params': {
@@ -563,6 +582,19 @@ class TestReview(common.SlidesCase, HttpCase):
                     'rating_value': '2',
                     'pid': self.env.user.partner_id.id,
                     'csrf_token': http.Request.csrf_token(self),
+=======
+            url="%s/mail/message/post" % self.base_url(),
+            json={
+                "params": {
+                    "thread_model": "slide.channel",
+                    "thread_id": self.channel.id,
+                    "post_data": {
+                        "body": "My second review :)",
+                        "subtype_xmlid": "mail.mt_comment",
+                        "rating_value": "2",
+                    },
+                    "pid": self.env.user.partner_id.id,
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
                 },
             },
         )

@@ -1,5 +1,3 @@
-/** @odoo-module **/
-
 import { Component, onWillStart, onWillUpdateProps } from "@odoo/owl";
 import { getExpressionDisplayedOperators } from "@web/core/expression_editor/expression_editor_operator_editor";
 import {
@@ -14,6 +12,7 @@ import { getDefaultPath } from "@web/core/tree_editor/utils";
 import { ModelFieldSelector } from "@web/core/model_field_selector/model_field_selector";
 import { _t } from "@web/core/l10n/translation";
 
+<<<<<<< HEAD
 function getDefaultCondition(fieldDefs) {
     const defaultPath = getDefaultPath(fieldDefs);
     const fieldDef = fieldDefs[defaultPath];
@@ -22,6 +21,8 @@ function getDefaultCondition(fieldDefs) {
     return condition(fieldDef.name, operator, value);
 }
 
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 export class ExpressionEditor extends Component {
     static template = "web.ExpressionEditor";
     static components = { TreeEditor };
@@ -41,7 +42,10 @@ export class ExpressionEditor extends Component {
         this.filteredFields = Object.fromEntries(
             Object.entries(props.fields).filter(([_, fieldDef]) => fieldDef.type !== "properties")
         );
+<<<<<<< HEAD
         this.defaultCondition = getDefaultCondition(this.filteredFields);
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
         try {
             this.tree = treeFromExpression(props.expression, {
                 getFieldDef: (name) => this.getFieldDef(name, props),
@@ -59,17 +63,29 @@ export class ExpressionEditor extends Component {
         return null;
     }
 
+    getDefaultCondition() {
+        const defaultPath = getDefaultPath(this.filteredFields);
+        const fieldDef = this.filteredFields[defaultPath];
+        const operator = getExpressionDisplayedOperators(fieldDef)[0];
+        const value = getDefaultValue(fieldDef, operator);
+        return condition(fieldDef.name, operator, value);
+    }
+
     getDefaultOperator(fieldDef) {
         return getExpressionDisplayedOperators(fieldDef)[0];
     }
 
-    getOperatorEditorInfo(node) {
-        const fieldDef = this.getFieldDef(node.path);
+    getOperatorEditorInfo(fieldDef) {
         const operators = getExpressionDisplayedOperators(fieldDef);
-        return getOperatorEditorInfo(operators);
+        return getOperatorEditorInfo(operators, fieldDef);
     }
 
-    getPathEditorInfo() {
+    getPathEditorInfo(resModel, defaultCondition) {
+        if (resModel !== this.props.resModel) {
+            throw new Error(
+                `Expression editor doesn't support tree as value so resModel has to be props.resModel`
+            );
+        }
         return {
             component: ModelFieldSelector,
             extractProps: ({ value, update }) => ({
@@ -86,7 +102,11 @@ export class ExpressionEditor extends Component {
             // by construction, all values received by the path editor are O/1 or a field (name) in this.props.fields.
             // (see _leafFromAST in condition_tree.js)
             stringify: (value) => this.props.fields[value].string,
+<<<<<<< HEAD
             defaultValue: () => this.defaultCondition.path,
+=======
+            defaultValue: () => defaultCondition.path,
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
             message: _t("Field properties not supported"),
         };
     }

@@ -3,6 +3,7 @@
 # 	* website_event_track
 # 
 # Translators:
+<<<<<<< HEAD
 # Wil Odoo, 2023
 # Iran Villalobos López, 2023
 # Martin Trigaux, 2024
@@ -16,6 +17,19 @@ msgstr ""
 "POT-Creation-Date: 2024-08-13 10:28+0000\n"
 "PO-Revision-Date: 2023-10-26 23:09+0000\n"
 "Last-Translator: Fernanda Alvarez, 2024\n"
+=======
+# Fernanda Alvarez, 2024
+# Wil Odoo, 2024
+# Patricia Gutiérrez Capetillo <pagc@odoo.com>, 2024
+# 
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 18.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2024-12-16 13:41+0000\n"
+"PO-Revision-Date: 2024-09-25 09:42+0000\n"
+"Last-Translator: Patricia Gutiérrez Capetillo <pagc@odoo.com>, 2024\n"
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 "Language-Team: Spanish (Latin America) (https://app.transifex.com/odoo/teams/41243/es_419/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -24,9 +38,51 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;\n"
 
 #. module: website_event_track
+<<<<<<< HEAD
 #. odoo-python
 #: code:addons/website_event_track/models/website.py:0
 #, python-format
+=======
+#: model:mail.template,body_html:website_event_track.mail_template_data_track_confirmation
+msgid ""
+"\n"
+"    Dear <t t-out=\"object.partner_id.name or object.partner_name or ''\">Brandon Freeman</t><br/>\n"
+"    We are pleased to inform you that your proposal <t t-out=\"object.name or ''\">What This Event Is All About</t> has been accepted and confirmed for the event <t t-out=\"object.event_id.name or ''\">OpenWood Collection Online Reveal</t>.\n"
+"    <br/>\n"
+"    You will find more details here:\n"
+"    <div style=\"margin: 16px 0px 16px 0px;\">\n"
+"        <a t-attf-href=\"/event/{{ object.event_id.id }}/track/{{ object.id }}\" style=\"padding: 8px 16px 8px 16px; font-size: 14px; color: #FFFFFF; text-decoration: none !important; background-color: #875A7B; border: 0px solid #875A7B; border-radius:3px\">\n"
+"            View Talk\n"
+"        </a>\n"
+"    </div>\n"
+"    <br/><br/>\n"
+"    Thank you,\n"
+"    <t t-if=\"user.signature\" data-o-mail-quote-container=\"1\">\n"
+"        <br/>\n"
+"        <t t-out=\"user.signature or ''\" data-o-mail-quote=\"1\">--<br data-o-mail-quote=\"1\"/>Mitchell Admin</t>\n"
+"    </t>\n"
+msgstr ""
+"\n"
+"    Apreciable <t t-out=\"object.partner_id.name or object.partner_name or ''\">Brandon Freeman</t><br/>\n"
+"    Nos complace informarle que se ha aceptado y confirmado su propuesta <t t-out=\"object.name or ''\">De qué trata este evento</t> para el evento <t t-out=\"object.event_id.name or ''\">Presentación en línea de la colección OpenWood</t>.\n"
+"    <br/>\n"
+"    Encontrará más detalles aquí:\n"
+"    <div style=\"margin: 16px 0px 16px 0px;\">\n"
+"        <a t-attf-href=\"/event/{{ object.event_id.id }}/track/{{ object.id }}\" style=\"padding: 8px 16px 8px 16px; font-size: 14px; color: #FFFFFF; text-decoration: none !important; background-color: #875A7B; border: 0px solid #875A7B; border-radius:3px\">\n"
+"            Ver plática\n"
+"        </a>\n"
+"    </div>\n"
+"    <br/><br/>\n"
+"    Gracias,\n"
+"    <t t-if=\"user.signature\" data-o-mail-quote-container=\"1\">\n"
+"        <br/>\n"
+"        <t t-out=\"user.signature or ''\" data-o-mail-quote=\"1\">--<br data-o-mail-quote=\"1\"/>Mitchell Admin</t>\n"
+"    </t>\n"
+
+#. module: website_event_track
+#. odoo-python
+#: code:addons/website_event_track/models/website.py:0
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 msgid "\"Events App Name\" field is required."
 msgstr "El campo \"Nombre de la aplicación de eventos\" es obligatorio."
 
@@ -39,32 +95,53 @@ msgstr "# en la lista de deseos"
 #. module: website_event_track
 #. odoo-python
 #: code:addons/website_event_track/models/event_track.py:0
+<<<<<<< HEAD
 #, python-format
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 msgid "%(name)s from %(company)s"
 msgstr "%(name)s de %(company)s"
 
 #. module: website_event_track
 #. odoo-python
 #: code:addons/website_event_track/models/event_track.py:0
+<<<<<<< HEAD
 #, python-format
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 msgid "%(name)s, %(function)s at %(company)s"
 msgstr "%(name)s, %(function)s en %(company)s"
 
 #. module: website_event_track
 #. odoo-python
 #: code:addons/website_event_track/models/website.py:0
+<<<<<<< HEAD
 #, python-format
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 msgid "%s Events"
 msgstr "%s Eventos"
 
 #. module: website_event_track
 #. odoo-python
 #: code:addons/website_event_track/controllers/webmanifest.py:0
+<<<<<<< HEAD
 #, python-format
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 msgid "%s Online Events Application"
 msgstr "%s Aplicación de eventos en línea"
 
 #. module: website_event_track
+<<<<<<< HEAD
+=======
+#: model_terms:ir.ui.view,arch_db:website_event_track.agenda_main
+#: model_terms:ir.ui.view,arch_db:website_event_track.tracks_display_list
+msgid "(timezone:"
+msgstr "(zona horaria:"
+
+#. module: website_event_track
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 #: model:event.track,name:website_event_track.event_7_track_17
 msgid "10 DIY Furniture Ideas For Absolute Beginners"
 msgstr "10 ideas DIY de muebles para principiantes"
@@ -75,11 +152,14 @@ msgid "6 Woodworking tips and tricks for beginners"
 msgstr "6 consejos y trucos de carpintería para principiantes"
 
 #. module: website_event_track
+<<<<<<< HEAD
 #: model_terms:ir.ui.view,arch_db:website_event_track.event_track_proposal_contact_details
 msgid "<b class=\"fw-normal\">Contact Information</b>"
 msgstr "<b class=\"fw-normal\">Información de contacto</b>"
 
 #. module: website_event_track
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 #: model_terms:ir.ui.view,arch_db:website_event_track.event_track_template_new
 msgid "<b>Mail</b>:"
 msgstr "<b>Correo</b>:"
@@ -105,6 +185,7 @@ msgid "<b>Talk Introduction</b>:"
 msgstr "<b>Introducción de la plática</b>:"
 
 #. module: website_event_track
+<<<<<<< HEAD
 #: model:mail.template,body_html:website_event_track.mail_template_data_track_confirmation
 msgid ""
 "<div>\n"
@@ -144,6 +225,8 @@ msgstr ""
 "</div>"
 
 #. module: website_event_track
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 #: model_terms:ir.ui.view,arch_db:website_event_track.track_card
 msgid "<i class=\"fa fa-ban me-2\"/>Unpublished"
 msgstr "<i class=\"fa fa-ban me-2\"/>No publicado"
@@ -154,6 +237,7 @@ msgid "<i class=\"fa fa-bell mx-2 text-muted\"/> Favorite Talks"
 msgstr "<i class=\"fa fa-bell mx-2 text-muted\"/> Pláticas favoritas"
 
 #. module: website_event_track
+<<<<<<< HEAD
 #: model_terms:ir.ui.view,arch_db:website_event_track.event_track_content
 msgid ""
 "<i class=\"oi oi-fw oi-arrow-right\"/>\n"
@@ -163,6 +247,8 @@ msgstr ""
 "                    Escriba uno."
 
 #. module: website_event_track
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 #: model_terms:ir.ui.view,arch_db:website_event_track.tracks_display_list
 msgid "<span class=\"d-none d-md-block\">&amp;bull;</span>"
 msgstr "<span class=\"d-none d-md-block\">&amp;bull;</span>"
@@ -186,6 +272,7 @@ msgstr "<span class=\"fa fa-plus me-1\"/> Programar sesiones"
 #: model_terms:ir.ui.view,arch_db:website_event_track.event_track_proposal
 msgid ""
 "<span class=\"o_wetrack_proposal_error_section text-danger d-none ml8\">\n"
+<<<<<<< HEAD
 "                                        <i class=\"fa fa-close mr4\" role=\"img\" aria-label=\"Error\" title=\"Error\"/>\n"
 "                                        <span class=\"o_wetrack_proposal_error_message\"/>\n"
 "                                    </span>"
@@ -194,24 +281,53 @@ msgstr ""
 "                                        <i class=\"fa fa-close mr4\" role=\"img\" aria-label=\"Error\" title=\"Error\"/>\n"
 "                                        <span class=\"o_wetrack_proposal_error_message\"/>\n"
 "                                    </span>"
+=======
+"                                    <i class=\"fa fa-close mr4\" role=\"img\" aria-label=\"Error\" title=\"Error\"/>\n"
+"                                    <span class=\"o_wetrack_proposal_error_message\"/>\n"
+"                                </span>"
+msgstr ""
+"<span class=\"o_wetrack_proposal_error_section text-danger d-none ml8\">\n"
+"                                    <i class=\"fa fa-close mr4\" role=\"img\" aria-label=\"Error\" title=\"Error\"/>\n"
+"                                    <span class=\"o_wetrack_proposal_error_message\"/>\n"
+"                                </span>"
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 #. module: website_event_track
 #: model_terms:ir.ui.view,arch_db:website_event_track.event_track_proposal
 msgid ""
 "<span class=\"o_wetrack_proposal_label_content\">Talk Introduction</span>\n"
+<<<<<<< HEAD
 "                                            <span>*</span>"
 msgstr ""
 "<span class=\"o_wetrack_proposal_label_content\">Introducción de la plática</span>\n"
 "                                            <span>*</span>"
+=======
+"                                        <span>*</span>"
+msgstr ""
+"<span class=\"o_wetrack_proposal_label_content\">Plática de introducción</span>\n"
+"                                        <span>*</span>"
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 #. module: website_event_track
 #: model_terms:ir.ui.view,arch_db:website_event_track.event_track_proposal
 msgid ""
 "<span class=\"o_wetrack_proposal_label_content\">Talk Title</span>\n"
+<<<<<<< HEAD
 "                                            <span>*</span>"
 msgstr ""
 "<span class=\"o_wetrack_proposal_label_content\">Título de la plática</span>\n"
 "                                            <span>*</span>"
+=======
+"                                        <span>*</span>"
+msgstr ""
+"<span class=\"o_wetrack_proposal_label_content\">Título de la plática</span>\n"
+"                                        <span>*</span>"
+
+#. module: website_event_track
+#: model_terms:ir.ui.view,arch_db:website_event_track.agenda_main
+msgid "<span class=\"text-muted\"> tracks</span>"
+msgstr "<span class=\"text-muted\"> sesiones</span>"
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 #. module: website_event_track
 #: model_terms:ir.ui.view,arch_db:website_event_track.event_track_proposal_contact_details
@@ -338,7 +454,10 @@ msgstr "Reportes avanzados"
 #. odoo-python
 #: code:addons/website_event_track/models/event_event.py:0
 #: model_terms:ir.ui.view,arch_db:website_event_track.agenda_topbar
+<<<<<<< HEAD
 #, python-format
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 msgid "Agenda"
 msgstr "Agenda"
 
@@ -348,6 +467,10 @@ msgid "Agenda Color"
 msgstr "Color de agenda"
 
 #. module: website_event_track
+<<<<<<< HEAD
+=======
+#: model_terms:ir.ui.view,arch_db:website_event_track.event_track_main
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 #: model_terms:ir.ui.view,arch_db:website_event_track.session_topbar
 msgid "All Talks"
 msgstr "Todas las pláticas"
@@ -360,7 +483,10 @@ msgstr "Permitir propuestas de sesiones"
 #. module: website_event_track
 #. odoo-javascript
 #: code:addons/website_event_track/static/src/js/event_track_reminder.js:0
+<<<<<<< HEAD
 #, python-format
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 msgid "Allow push notifications?"
 msgstr "¿Permitir las notificaciones push?"
 
@@ -387,7 +513,10 @@ msgstr "Anunciado"
 #. module: website_event_track
 #. odoo-javascript
 #: code:addons/website_event_track/static/src/xml/event_track_proposal_templates.xml:0
+<<<<<<< HEAD
 #, python-format
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 msgid "Application"
 msgstr "Aplicación"
 
@@ -436,6 +565,19 @@ msgid "Available Track Tags"
 msgstr "Etiquetas disponibles para sesiones"
 
 #. module: website_event_track
+<<<<<<< HEAD
+=======
+#: model_terms:ir.ui.view,arch_db:website_event_track.agenda_online
+msgid "Available on all event Agenda pages"
+msgstr "Disponible en todas las páginas de agenda en todo el evento"
+
+#. module: website_event_track
+#: model_terms:ir.ui.view,arch_db:website_event_track.event_track_main
+msgid "Back to All Talks"
+msgstr "Regresar a todas las sesiones"
+
+#. module: website_event_track
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 #: model_terms:event.track,description:website_event_track.event_7_track_18
 msgid "Bandy clamp hack"
 msgstr "Truco para prensas de resorte"
@@ -456,11 +598,18 @@ msgstr "Biografía"
 #: model:event.track.stage,legend_blocked:website_event_track.event_track_stage3
 #: model:event.track.stage,legend_blocked:website_event_track.event_track_stage4
 #: model:event.track.stage,legend_blocked:website_event_track.event_track_stage5
+<<<<<<< HEAD
 #, python-format
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 msgid "Blocked"
 msgstr "Bloqueado"
 
 #. module: website_event_track
+<<<<<<< HEAD
+=======
+#: model_terms:ir.ui.view,arch_db:website_event_track.event_confirmation_end_page_hook
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 #: model_terms:ir.ui.view,arch_db:website_event_track.registration_complete
 msgid "Book your seats to the best talks"
 msgstr "Reserve sus lugares para las mejores pláticas"
@@ -501,16 +650,27 @@ msgid "Can Publish"
 msgstr "Puede publicar"
 
 #. module: website_event_track
+<<<<<<< HEAD
 #: model:ir.model.fields,field_description:website_event_track.field_event_track_stage__is_cancel
 msgid "Canceled Stage"
 msgstr "Etapa cancelada"
 
 #. module: website_event_track
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 #: model:event.track.stage,name:website_event_track.event_track_stage5
 msgid "Cancelled"
 msgstr "Cancelado"
 
 #. module: website_event_track
+<<<<<<< HEAD
+=======
+#: model:ir.model.fields,field_description:website_event_track.field_event_track_stage__is_cancel
+msgid "Cancelled Stage"
+msgstr "Etapa cancelada"
+
+#. module: website_event_track
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 #: model_terms:ir.ui.view,arch_db:website_event_track.event_track_proposal
 msgid "Categories"
 msgstr "Categorías"
@@ -543,7 +703,10 @@ msgstr "Índice de color"
 #. module: website_event_track
 #. odoo-python
 #: code:addons/website_event_track/controllers/event_track.py:0
+<<<<<<< HEAD
 #, python-format
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 msgid "Coming soon"
 msgstr "Próximamente"
 
@@ -593,7 +756,10 @@ msgstr ""
 #. odoo-python
 #: code:addons/website_event_track/models/event_track.py:0
 #: model:ir.model.fields,field_description:website_event_track.field_event_track__partner_id
+<<<<<<< HEAD
 #, python-format
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 msgid "Contact"
 msgstr "Contacto"
 
@@ -606,11 +772,22 @@ msgstr "Detalles de contacto"
 #. odoo-python
 #: code:addons/website_event_track/models/event_track.py:0
 #: model:ir.model.fields,field_description:website_event_track.field_event_track__contact_email
+<<<<<<< HEAD
 #, python-format
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 msgid "Contact Email"
 msgstr "Correo electrónico del contacto"
 
 #. module: website_event_track
+<<<<<<< HEAD
+=======
+#: model_terms:ir.ui.view,arch_db:website_event_track.event_track_proposal_contact_details
+msgid "Contact Information"
+msgstr "Información de contacto"
+
+#. module: website_event_track
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 #: model:ir.model.fields,field_description:website_event_track.field_event_track__contact_phone
 msgid "Contact Phone"
 msgstr "Teléfono del contacto"
@@ -667,6 +844,18 @@ msgid "DIY Timber Cladding Project"
 msgstr "Proyecto DIY de revestimiento de madera"
 
 #. module: website_event_track
+<<<<<<< HEAD
+=======
+#: model_terms:ir.ui.view,arch_db:website_event_track.event_track_proposal
+msgid ""
+"DROP BUILDING BLOCKS HERE TO MAKE THEM AVAILABLE ACROSS ALL PROPOSAL PAGES "
+"OF ALL EVENTS"
+msgstr ""
+"ARRASTRE LOS BLOQUES DE CREACIÓN AQUÍ PARA QUE ESTÉN DISPONIBLES PARA TODAS "
+"LAS PÁGINAS DE PROPUESTA PARA TODOS LOS EVENTOS"
+
+#. module: website_event_track
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 #: model_terms:ir.ui.view,arch_db:website_event_track.view_event_track_search
 msgid "Date"
 msgstr "Fecha"
@@ -800,7 +989,10 @@ msgstr "Plantilla de correo electrónico"
 #. module: website_event_track
 #. odoo-javascript
 #: code:addons/website_event_track/static/src/js/event_track_reminder.js:0
+<<<<<<< HEAD
 #, python-format
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 msgid "Error"
 msgstr "Error"
 
@@ -906,9 +1098,13 @@ msgstr "Eventos de aplicación web progresiva"
 #. module: website_event_track
 #. odoo-javascript
 #: code:addons/website_event_track/static/src/js/event_track_reminder.js:0
+<<<<<<< HEAD
 #: code:addons/website_event_track/static/src/js/event_track_reminder.js:0
 #: model_terms:ir.ui.view,arch_db:website_event_track.track_widget_reminder
 #, python-format
+=======
+#: model_terms:ir.ui.view,arch_db:website_event_track.track_widget_reminder
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 msgid "Favorite On"
 msgstr "Marcado como favorito"
 
@@ -918,6 +1114,14 @@ msgid "Favorites"
 msgstr "Favoritos"
 
 #. module: website_event_track
+<<<<<<< HEAD
+=======
+#: model_terms:ir.ui.view,arch_db:website_event_track.agenda_topbar
+msgid "Filter Tracks"
+msgstr "Filtrar sesiones"
+
+#. module: website_event_track
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 #: model_terms:ir.ui.view,arch_db:website_event_track.snippet_options
 msgid "Filter by Tags"
 msgstr "Filtrar por etiquetas"
@@ -973,6 +1177,10 @@ msgid "Future Activities"
 msgstr "Actividades futuras"
 
 #. module: website_event_track
+<<<<<<< HEAD
+=======
+#: model_terms:ir.ui.view,arch_db:website_event_track.event_confirmation_end_page_hook
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 #: model_terms:ir.ui.view,arch_db:website_event_track.registration_complete
 msgid "Get prepared and"
 msgstr "Prepárese y"
@@ -1168,7 +1376,10 @@ msgstr "En"
 #: model:event.track.stage,legend_normal:website_event_track.event_track_stage3
 #: model:event.track.stage,legend_normal:website_event_track.event_track_stage4
 #: model:event.track.stage,legend_normal:website_event_track.event_track_stage5
+<<<<<<< HEAD
 #, python-format
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 msgid "In Progress"
 msgstr "En progreso"
 
@@ -1187,14 +1398,20 @@ msgstr ""
 #. module: website_event_track
 #. odoo-javascript
 #: code:addons/website_event_track/static/src/xml/website_event_pwa.xml:0
+<<<<<<< HEAD
 #, python-format
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 msgid "Install"
 msgstr "Instalar"
 
 #. module: website_event_track
 #. odoo-javascript
 #: code:addons/website_event_track/static/src/xml/website_event_pwa.xml:0
+<<<<<<< HEAD
 #, python-format
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 msgid "Install Application"
 msgstr "Instalar aplicación"
 
@@ -1545,6 +1762,7 @@ msgid "No Track Visitors yet!"
 msgstr "Todavía no hay visitantes en la sesión."
 
 #. module: website_event_track
+<<<<<<< HEAD
 #. odoo-javascript
 #: code:addons/website_event_track/static/src/js/website_event_track_proposal_form_tags.js:0
 #, python-format
@@ -1552,6 +1770,8 @@ msgid "No results found"
 msgstr "No se encontraron resultados"
 
 #. module: website_event_track
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 #: model_terms:ir.actions.act_window,help:website_event_track.event_track_action_from_visitor
 msgid "No track favorited by this visitor"
 msgstr "Ninguna sesión incluida en la lista de favoritos de este visitante"
@@ -1631,7 +1851,10 @@ msgstr ""
 #. module: website_event_track
 #. odoo-javascript
 #: code:addons/website_event_track/static/src/js/website_event_track_proposal_form.js:0
+<<<<<<< HEAD
 #, python-format
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 msgid "Please enter either a contact email address or a contact phone number."
 msgstr ""
 "Introduzca una dirección de correo electrónico o un número de teléfono de "
@@ -1640,7 +1863,10 @@ msgstr ""
 #. module: website_event_track
 #. odoo-javascript
 #: code:addons/website_event_track/static/src/js/website_event_track_proposal_form.js:0
+<<<<<<< HEAD
 #, python-format
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 msgid "Please fill out the form correctly."
 msgstr "Complete el formulario correctamente."
 
@@ -1682,7 +1908,11 @@ msgstr "Propuesta"
 
 #. module: website_event_track
 #: model_terms:ir.ui.view,arch_db:website_event_track.event_track_proposal
+<<<<<<< HEAD
 msgid "Proposals are closed!"
+=======
+msgid "Proposals are closed."
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 msgstr "Ya no se aceptan propuestas."
 
 #. module: website_event_track
@@ -1715,7 +1945,10 @@ msgstr "Calificaciones"
 #: model:event.track.stage,legend_done:website_event_track.event_track_stage3
 #: model:event.track.stage,legend_done:website_event_track.event_track_stage4
 #: model:event.track.stage,legend_done:website_event_track.event_track_stage5
+<<<<<<< HEAD
 #, python-format
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 msgid "Ready for Next Stage"
 msgstr "Listo para la siguiente etapa"
 
@@ -1791,9 +2024,15 @@ msgid "SMS Delivery error"
 msgstr "Error en el envío del SMS"
 
 #. module: website_event_track
+<<<<<<< HEAD
 #: model_terms:ir.ui.view,arch_db:website_event_track.agenda_topbar
 msgid "Search Tracks"
 msgstr "Buscar sesiones"
+=======
+#: model_terms:ir.ui.view,arch_db:website_event_track.session_topbar
+msgid "Search a talk ..."
+msgstr "Busque una plática..."
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 #. module: website_event_track
 #: model:event.track,name:website_event_track.event_7_track_6
@@ -1803,8 +2042,12 @@ msgstr "Cómo asegurar su madera durante el transporte"
 #. module: website_event_track
 #. odoo-javascript
 #: code:addons/website_event_track/static/src/js/website_event_track_proposal_form_tags.js:0
+<<<<<<< HEAD
 #, python-format
 msgid "Select categories"
+=======
+msgid "Select Categories"
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 msgstr "Seleccionar categorías"
 
 #. module: website_event_track
@@ -1832,9 +2075,13 @@ msgstr "Secuencia"
 #. module: website_event_track
 #. odoo-javascript
 #: code:addons/website_event_track/static/src/js/event_track_reminder.js:0
+<<<<<<< HEAD
 #: code:addons/website_event_track/static/src/js/event_track_reminder.js:0
 #: model_terms:ir.ui.view,arch_db:website_event_track.track_widget_reminder
 #, python-format
+=======
+#: model_terms:ir.ui.view,arch_db:website_event_track.track_widget_reminder
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 msgid "Set Favorite"
 msgstr "Marcar como favorito"
 
@@ -1857,6 +2104,10 @@ msgstr "Sesiones de muestra"
 
 #. module: website_event_track
 #: model_terms:ir.ui.view,arch_db:website_event_track.view_event_track_form
+<<<<<<< HEAD
+=======
+#: model_terms:ir.ui.view,arch_db:website_event_track.view_event_track_search
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 msgid "Speaker"
 msgstr "Ponente"
 
@@ -1868,7 +2119,10 @@ msgstr "Biografía del ponente"
 #. module: website_event_track
 #. odoo-python
 #: code:addons/website_event_track/models/event_track.py:0
+<<<<<<< HEAD
 #, python-format
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 msgid "Speaker Email"
 msgstr "Correo electrónico del ponente"
 
@@ -1885,7 +2139,10 @@ msgstr "Perfil del ponente"
 #. module: website_event_track
 #. odoo-python
 #: code:addons/website_event_track/models/event_track.py:0
+<<<<<<< HEAD
 #, python-format
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 msgid "Speakers"
 msgstr "Ponentes"
 
@@ -1968,28 +2225,40 @@ msgstr "Introducción de la plática"
 #. module: website_event_track
 #. odoo-python
 #: code:addons/website_event_track/models/event_event.py:0
+<<<<<<< HEAD
 #, python-format
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 msgid "Talk Proposals"
 msgstr "Propuestas de pláticas"
 
 #. module: website_event_track
 #. odoo-javascript
 #: code:addons/website_event_track/static/src/js/event_track_reminder.js:0
+<<<<<<< HEAD
 #, python-format
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 msgid "Talk added to your Favorites"
 msgstr "Plática añadida a sus favoritos"
 
 #. module: website_event_track
 #. odoo-javascript
 #: code:addons/website_event_track/static/src/js/event_track_reminder.js:0
+<<<<<<< HEAD
 #, python-format
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 msgid "Talk already in your Favorites"
 msgstr "La plática ya está en sus favoritos"
 
 #. module: website_event_track
 #. odoo-javascript
 #: code:addons/website_event_track/static/src/js/event_track_reminder.js:0
+<<<<<<< HEAD
 #, python-format
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 msgid "Talk removed from your Favorites"
 msgstr "Se ha eliminado la plática de sus favoritos"
 
@@ -1998,7 +2267,10 @@ msgstr "Se ha eliminado la plática de sus favoritos"
 #: code:addons/website_event_track/models/event_event.py:0
 #: model_terms:ir.ui.view,arch_db:website_event_track.event_track_aside
 #: model_terms:ir.ui.view,arch_db:website_event_track.session_topbar
+<<<<<<< HEAD
 #, python-format
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 msgid "Talks"
 msgstr "Pláticas"
 
@@ -2021,7 +2293,10 @@ msgstr ""
 #. module: website_event_track
 #. odoo-javascript
 #: code:addons/website_event_track/static/src/xml/event_track_proposal_templates.xml:0
+<<<<<<< HEAD
 #, python-format
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 msgid "Thank you for your proposal."
 msgstr "Gracias por su propuesta."
 
@@ -2085,11 +2360,14 @@ msgstr ""
 " sus eventos."
 
 #. module: website_event_track
+<<<<<<< HEAD
 #: model_terms:ir.ui.view,arch_db:website_event_track.event_track_proposal
 msgid "This event does not accept proposals."
 msgstr "Este evento no acepta propuestas."
 
 #. module: website_event_track
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 #: model:ir.model.fields,help:website_event_track.field_website__app_icon
 msgid ""
 "This field holds the image used as mobile app icon on the website (PNG "
@@ -2332,6 +2610,14 @@ msgid "Type of the exception activity on record."
 msgstr "Tipo de la actividad de excepción registrada."
 
 #. module: website_event_track
+<<<<<<< HEAD
+=======
+#: model_terms:ir.ui.view,arch_db:website_event_track.agenda_main
+msgid "Unknown"
+msgstr "Desconocido"
+
+#. module: website_event_track
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 #: model_terms:ir.ui.view,arch_db:website_event_track.agenda_main_track
 #: model_terms:ir.ui.view,arch_db:website_event_track.event_track_aside_other_track
 #: model_terms:ir.ui.view,arch_db:website_event_track.tracks_display_list
@@ -2428,12 +2714,21 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:website_event_track.event_track_proposal
 msgid ""
 "We will accept a broad range of\n"
+<<<<<<< HEAD
 "                            presentations, from reports on academic and\n"
 "                            commercial projects to tutorials and case\n"
 "                            studies. As long as the presentation is\n"
 "                            interesting and potentially useful to the\n"
 "                            audience, it will be considered for\n"
 "                            inclusion in the programme."
+=======
+"                                presentations, from reports on academic and\n"
+"                                commercial projects to tutorials and case\n"
+"                                studies. As long as the presentation is\n"
+"                                interesting and potentially useful to the\n"
+"                                audience, it will be considered for\n"
+"                                inclusion in the programme."
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 msgstr ""
 "Aceptaremos una amplia variedad de\n"
 "presentaciones, desde reportes sobre proyectos académicos y\n"
@@ -2445,12 +2740,23 @@ msgstr ""
 #. module: website_event_track
 #. odoo-javascript
 #: code:addons/website_event_track/static/src/xml/event_track_proposal_templates.xml:0
+<<<<<<< HEAD
 #, python-format
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 msgid "We will evaluate your proposition and get back to you shortly."
 msgstr ""
 "Evaluaremos su propuesta y nos pondremos en contacto lo más rápido posible."
 
 #. module: website_event_track
+<<<<<<< HEAD
+=======
+#: model_terms:ir.ui.view,arch_db:website_event_track.event_track_proposal
+msgid "We're sorry, this event does not accept proposals anymore"
+msgstr "Ya no se aceptan propuestas para este evento"
+
+#. module: website_event_track
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 #: model:ir.model,name:website_event_track.model_website
 msgid "Website"
 msgstr "Sitio web"
@@ -2568,14 +2874,20 @@ msgstr "Cómo empecé a trabajar con madera."
 #. module: website_event_track
 #. odoo-javascript
 #: code:addons/website_event_track/static/src/js/website_event_track_proposal_form.js:0
+<<<<<<< HEAD
 #, python-format
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 msgid "You cannot access this page."
 msgstr "No puede acceder a esta página."
 
 #. module: website_event_track
 #. odoo-javascript
 #: code:addons/website_event_track/static/src/js/event_track_reminder.js:0
+<<<<<<< HEAD
 #, python-format
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 msgid ""
 "You have to enable push notifications to get reminders for your favorite "
 "tracks."
@@ -2638,7 +2950,10 @@ msgstr "horas"
 #. module: website_event_track
 #. odoo-javascript
 #: code:addons/website_event_track/static/src/js/event_track_timer.js:0
+<<<<<<< HEAD
 #, python-format
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 msgid "in %s"
 msgstr "en %s"
 
@@ -2648,6 +2963,10 @@ msgid "minutes after Track start"
 msgstr "minutos después del inicio de la sesión"
 
 #. module: website_event_track
+<<<<<<< HEAD
+=======
+#: model_terms:ir.ui.view,arch_db:website_event_track.event_confirmation_end_page_hook
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 #: model_terms:ir.ui.view,arch_db:website_event_track.registration_complete
 msgid "register to your favorites talks now."
 msgstr "regístrese en sus pláticas favoritas"
@@ -2661,8 +2980,11 @@ msgstr "comienza en "
 #: model_terms:ir.ui.view,arch_db:website_event_track.event_track_content
 msgid "starts on"
 msgstr "comienza el"
+<<<<<<< HEAD
 
 #. module: website_event_track
 #: model_terms:ir.ui.view,arch_db:website_event_track.agenda_main
 msgid "tracks"
 msgstr "sesiones"
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8

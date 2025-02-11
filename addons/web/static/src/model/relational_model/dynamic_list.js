@@ -1,9 +1,8 @@
-/* @odoo-module */
-
 import { AlertDialog } from "@web/core/confirmation_dialog/confirmation_dialog";
 import { _t } from "@web/core/l10n/translation";
 import { DataPoint } from "./datapoint";
 import { Record } from "./record";
+import { resequence } from "./utils";
 
 const DEFAULT_HANDLE_FIELD = "sequence";
 
@@ -45,6 +44,10 @@ export class DynamicList extends DataPoint {
      */
     get editedRecord() {
         return this.records.find((record) => record.isInEdition);
+    }
+
+    get isRecordCountTrustable() {
+        return true;
     }
 
     get limit() {
@@ -120,7 +123,13 @@ export class DynamicList extends DataPoint {
         if (editedRecord) {
             let canProceed = true;
             if (discard) {
+<<<<<<< HEAD
                 await editedRecord.discard();
+=======
+                this._recordToDiscard = editedRecord;
+                await editedRecord.discard();
+                this._recordToDiscard = null;
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
                 editedRecord = this.editedRecord;
                 if (editedRecord && editedRecord.isNew) {
                     this._removeRecords([editedRecord.id]);
@@ -187,6 +196,7 @@ export class DynamicList extends DataPoint {
     }
 
     toggleSelection() {
+<<<<<<< HEAD
         return this.model.mutex.exec(() => {
             if (this.selection.length === this.records.length) {
                 this.records.forEach((record) => {
@@ -199,6 +209,9 @@ export class DynamicList extends DataPoint {
                 });
             }
         });
+=======
+        return this.model.mutex.exec(() => this._toggleSelection());
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
     }
 
     unarchive(isSelected) {
@@ -217,7 +230,11 @@ export class DynamicList extends DataPoint {
             resIds = await this.getResIds(true);
         }
 
+<<<<<<< HEAD
         const duplicated = await this.model.orm.call(this.resModel, "copy_multi", [resIds], {
+=======
+        const duplicated = await this.model.orm.call(this.resModel, "copy", [resIds], {
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
             context: this.context,
         });
         if (resIds.length > duplicated.length) {
@@ -248,14 +265,17 @@ export class DynamicList extends DataPoint {
             resIds.length < this.count
         ) {
             const msg = _t(
-                `Only the first %s records have been deleted (out of %s selected)`,
-                resIds.length,
-                this.count
+                "Only the first %(count)s records have been deleted (out of %(total)s selected)",
+                { count: resIds.length, total: this.count }
             );
             this.model.notification.add(msg, { title: _t("Warning") });
         }
+<<<<<<< HEAD
         this._removeRecords(records.map((r) => r.id));
         await this._load(this.offset, this.limit, this.orderBy, this.domain);
+=======
+        await this.model.load();
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
         return unlinked;
     }
 
@@ -268,7 +288,7 @@ export class DynamicList extends DataPoint {
 
     async _multiSave(record) {
         const changes = record._getChanges();
-        if (!Object.keys(changes).length) {
+        if (!Object.keys(changes).length || record === this._recordToDiscard) {
             return;
         }
         const validSelection = this.selection.filter((record) => {
@@ -321,17 +341,8 @@ export class DynamicList extends DataPoint {
         }
         const handleField = this.resModel === resModel ? this.handleField : DEFAULT_HANDLE_FIELD;
         const order = this.orderBy.find((o) => o.name === handleField);
-        const asc = !order || order.asc;
-
-        // Find indices
-        const fromIndex = originalList.findIndex((d) => d.id === movedId);
-        let toIndex = 0;
-        if (targetId !== null) {
-            const targetIndex = originalList.findIndex((d) => d.id === targetId);
-            toIndex = fromIndex > targetIndex ? targetIndex + 1 : targetIndex;
-        }
-
         const getSequence = (dp) => dp && this._getDPFieldValue(dp, handleField);
+<<<<<<< HEAD
 
         // Determine which records/groups need to be modified
         const firstIndex = Math.min(fromIndex, toIndex);
@@ -396,18 +407,35 @@ export class DynamicList extends DataPoint {
             originalList.splice(0, originalList.length, ...originalOrder);
             throw error;
         }
-
-        // Read the actual values set by the server and update the records/groups
-        const kwargs = { context: this.context };
-        const result = await this.model.orm.read(resModel, resIds, [handleField], kwargs);
-        for (const dpData of result) {
-            const dp = originalList.find((d) => this._getDPresId(d) === dpData.id);
-            if (dp instanceof Record) {
-                dp._applyValues(dpData);
-            } else {
-                dp[handleField] = dpData[handleField];
+=======
+        const getResId = (dp) => this._getDPresId(dp);
+        const resequencedRecords = await resequence({
+            records: originalList,
+            resModel,
+            movedId,
+            targetId,
+            fieldName: handleField,
+            asc: order?.asc,
+            context: this.context,
+            orm: this.model.orm,
+            getSequence,
+            getResId,
+        });
+        if (resequencedRecords) {
+            for (const dpData of resequencedRecords) {
+                const dp = originalList.find((d) => getResId(d) === dpData.id);
+                if (dp instanceof Record) {
+                    dp._applyValues(dpData);
+                } else {
+                    dp[handleField] = dpData[handleField];
+                }
             }
         }
+    }
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
+
+    _selectDomain(value) {
+        this.isDomainSelected = value;
     }
 
     _selectDomain(value) {
@@ -425,9 +453,11 @@ export class DynamicList extends DataPoint {
             resIds.length < this.count
         ) {
             const msg = _t(
-                "Of the %s records selected, only the first %s have been archived/unarchived.",
-                resIds.length,
-                this.count
+                "Of the %(selectedRecord)s selected records, only the first %(firstRecords)s have been archived/unarchived.",
+                {
+                    selectedRecords: resIds.length,
+                    firstRecords: this.count,
+                }
             );
             this.model.notification.add(msg, { title: _t("Warning") });
         }
@@ -438,6 +468,19 @@ export class DynamicList extends DataPoint {
             });
         } else {
             return reload();
+        }
+    }
+
+    async _toggleSelection() {
+        if (this.selection.length === this.records.length) {
+            this.records.forEach((record) => {
+                record._toggleSelection(false);
+            });
+            this._selectDomain(false);
+        } else {
+            this.records.forEach((record) => {
+                record._toggleSelection(true);
+            });
         }
     }
 }

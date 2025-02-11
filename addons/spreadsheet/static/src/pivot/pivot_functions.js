@@ -1,51 +1,27 @@
 /** @odoo-module **/
+// @ts-check
 
 import { _t } from "@web/core/l10n/translation";
-import { sprintf } from "@web/core/utils/strings";
 
 import * as spreadsheet from "@odoo/o-spreadsheet";
-import { range } from "@web/core/utils/numbers";
-const { arg, toBoolean, toString, toNumber } = spreadsheet.helpers;
+
+const { arg, toString } = spreadsheet.helpers;
 const { functionRegistry } = spreadsheet.registries;
 
 /**
- * @typedef {import("@spreadsheet/pivot/pivot_table.js").SpreadsheetPivotTable} SpreadsheetPivotTable
+ * @typedef {import("@spreadsheet").CustomFunctionDescription} CustomFunctionDescription
+ * @typedef {import("@odoo/o-spreadsheet").FPayload} FPayload
  */
 
 //--------------------------------------------------------------------------
 // Spreadsheet functions
 //--------------------------------------------------------------------------
 
-function assertPivotsExists(pivotId, getters) {
-    if (!getters.isExistingPivot(pivotId)) {
-        throw new Error(sprintf(_t('There is no pivot with id "%s"'), pivotId));
-    }
-}
-
-function assertMeasureExist(pivotId, measure, getters) {
-    const { measures } = getters.getPivotDefinition(pivotId);
-    if (!measures.includes(measure)) {
-        const validMeasures = `(${measures})`;
-        throw new Error(
-            sprintf(
-                _t("The argument %s is not a valid measure. Here are the measures: %s"),
-                measure,
-                validMeasures
-            )
-        );
-    }
-}
-
-function assertDomainLength(domain) {
-    if (domain.length % 2 !== 0) {
-        throw new Error(_t("Function PIVOT takes an even number of arguments."));
-    }
-}
-
-const ODOO_FILTER_VALUE = {
+const ODOO_FILTER_VALUE = /** @satisfies {CustomFunctionDescription} */ ({
     description: _t("Return the current value of a spreadsheet filter."),
     args: [arg("filter_name (string)", _t("The label of the filter whose value to return."))],
     category: "Odoo",
+<<<<<<< HEAD
     computeValueAndFormat: function (filterName) {
         const unEscapedFilterName = toString(filterName.value).replaceAll('\\"', '"');
         return this.getters.getFilterDisplayValue(unEscapedFilterName);
@@ -197,10 +173,17 @@ function getPivotCellValueAndFormat(pivotId, pivotCell) {
         };
     }
 }
+=======
+    /**
+     * @param {FPayload} filterName
+     */
+    compute: function (filterName) {
+        const unEscapedFilterName = toString(filterName).replaceAll('\\"', '"');
+        return this.getters.getFilterDisplayValue(unEscapedFilterName);
+    },
+    returns: ["STRING"],
+});
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 functionRegistry
-    .add("ODOO.FILTER.VALUE", ODOO_FILTER_VALUE)
-    .add("ODOO.PIVOT", ODOO_PIVOT)
-    .add("ODOO.PIVOT.HEADER", ODOO_PIVOT_HEADER)
-    .add("ODOO.PIVOT.POSITION", ODOO_PIVOT_POSITION)
-    .add("ODOO.PIVOT.TABLE", ODOO_PIVOT_TABLE);
+    .add("ODOO.FILTER.VALUE", ODOO_FILTER_VALUE);

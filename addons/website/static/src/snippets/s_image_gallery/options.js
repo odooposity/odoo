@@ -163,6 +163,7 @@ options.registry.GalleryLayout = options.registry.CarouselHandler.extend({
     _slideshow() {
         const imageEls = this._getItemsGallery();
         const imgHolderEls = this._getImgHolderEls();
+<<<<<<< HEAD
         const images = Array.from(imageEls).map((img) => ({
             // Use getAttribute to get the attribute value otherwise .src
             // returns the absolute url.
@@ -172,13 +173,16 @@ options.registry.GalleryLayout = options.registry.CarouselHandler.extend({
             // by the elements of `imgHolderEls`.
             alt: img.getAttribute('alt'),
         }));
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
         var currentInterval = this.$target.find('.carousel:first').attr('data-bs-interval');
-        var params = {
-            images: images,
+        let params = {
+            images: imageEls,
             index: 0,
-            title: "",
             interval: currentInterval || 0,
+            ride: !currentInterval ? "false" : "carousel",
             id: 'slideshow_' + new Date().getTime(),
+<<<<<<< HEAD
             // TODO: in master, remove `attrClass` and `attStyle` from `params`.
             // This is not needed anymore as the images of the rendered
             // `website.gallery.slideshow` are replaced by the elements of
@@ -195,6 +199,21 @@ options.registry.GalleryLayout = options.registry.CarouselHandler.extend({
             // redirected once they click on the image etc...
             imgSlideshowEl.after(imgHolderEls[index]);
             imgSlideshowEl.remove();
+=======
+            hideImage: true,
+        };
+        // Since there is no versioning for this snippet we use the last version
+        // of "website.gallery.slideshow" called "website.s_image_gallery_mirror"
+        if (this.$target[0].dataset.vcss === '002') {
+            let carouselEl = this.$target[0].querySelector('.carousel');
+            params.colorContrast  = carouselEl && carouselEl.classList.contains('carousel-dark') ? 'carousel-dark' : ' ';
+        }
+        let $slideshow = $(renderToElement('website.s_image_gallery_mirror', params));
+        const carouselItemEls = $slideshow[0].querySelectorAll(".carousel-item");
+        carouselItemEls.forEach((carouselItemEl, index) => {
+            // Add the images in the carousel items.
+            carouselItemEl.appendChild(imgHolderEls[index]);
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
         });
         this._replaceContent($slideshow);
         this.$("img").toArray().forEach((img, index) => {
@@ -302,12 +321,22 @@ options.registry.GalleryLayout = options.registry.CarouselHandler.extend({
         $carousel.on("slide.bs.carousel.image_gallery", (ev) => {
             lastSlideTimeStamp = ev.timeStamp;
             const activeImageEl = this.$target[0].querySelector(".carousel-item.active img");
+<<<<<<< HEAD
             for (const editor of this.options.wysiwyg.snippetsMenu.snippetEditors) {
                 if (editor.isShown() && editor.$target[0] === activeImageEl) {
                     _previousEditor = editor;
                     editor.toggleOverlay(false);
                 }
             }
+=======
+            this.trigger_up("is_element_selected", {
+                el: activeImageEl,
+                callback: () => {
+                    _previousEditor = true;
+                },
+            });
+            this.trigger_up("hide_overlay");
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
         });
         $carousel.on("slid.bs.carousel.image_gallery", (ev) => {
             if (!_previousEditor && !_miniatureClicked) {
@@ -511,7 +540,7 @@ options.registry.GalleryImageList = options.registry.GalleryLayout.extend({
                     const imagePromises = [];
                     for (const image of images) {
                         const $img = $('<img/>', {
-                            class: $images.length > 0 ? $images[0].className : 'img img-fluid d-block ',
+                            class: $images.length > 0 ? $images[0].className : 'img img-fluid d-block mh-100 mw-100 mx-auto rounded object-fit-cover',
                             src: image.src,
                             'data-index': ++index,
                             alt: image.alt || '',
@@ -520,7 +549,11 @@ options.registry.GalleryImageList = options.registry.GalleryLayout.extend({
                         }).appendTo($container);
                         const imgEl = $img[0];
                         imagePromises.push(new Promise(resolve => {
+<<<<<<< HEAD
                             loadImageInfo(imgEl, this.rpc).then(() => {
+=======
+                            loadImageInfo(imgEl).then(() => {
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
                                 if (imgEl.dataset.mimetype && ![
                                     "image/gif",
                                     "image/svg+xml",

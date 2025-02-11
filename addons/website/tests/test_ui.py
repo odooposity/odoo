@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
 
 import base64
@@ -139,6 +138,17 @@ class TestUiHtmlEditor(HttpCaseWithUserDemo):
 
         self.start_tour("/", 'website_media_dialog_undraw', login='admin')
 
+    def test_code_editor_usable(self):
+        # TODO: enable debug mode when failing tests have been fixed (props validation)
+        url = '/odoo/action-website.website_preview'
+        self.start_tour(url, 'website_code_editor_usable', login='admin')
+
+
+@odoo.tests.tagged('external', '-standard', '-at_install', 'post_install')
+class TestUiHtmlEditorWithExternal(HttpCaseWithUserDemo):
+    def test_media_dialog_external_library(self):
+        self.start_tour("/", 'website_media_dialog_external_library', login='admin')
+
 
 @odoo.tests.tagged('external', '-standard', '-at_install', 'post_install')
 class TestUiHtmlEditorWithExternal(HttpCaseWithUserDemo):
@@ -216,11 +226,6 @@ class TestUiTranslate(odoo.tests.HttpCase):
                 'Contact us': 'Contact us in Parseltongue'
             }
         })
-        self.env.ref('web_editor.snippets').update_field_translations('arch_db', {
-            fake_user_lang.code: {
-                'Save': 'Save in fu_GB',
-            }
-        })
         website = self.env['website'].create({
             'name': 'website pa_GB',
             'language_ids': [(6, 0, [parseltongue.id])],
@@ -240,7 +245,7 @@ class TestUiTranslate(odoo.tests.HttpCase):
 class TestUi(odoo.tests.HttpCase):
 
     def test_01_admin_tour_homepage(self):
-        self.start_tour("/web", 'homepage', login='admin')
+        self.start_tour("/odoo", 'homepage', login='admin')
 
     def test_02_restricted_editor(self):
         self.restricted_editor = self.env['res.users'].create({
@@ -316,7 +321,7 @@ class TestUi(odoo.tests.HttpCase):
 
     def test_07_snippet_version(self):
         website_snippets = self.env.ref('website.snippets')
-        self.env['ir.ui.view'].create([{
+        view_ids = self.env['ir.ui.view'].create([{
             'name': 'Test snip',
             'type': 'qweb',
             'key': 'website.s_test_snip',
@@ -330,11 +335,46 @@ class TestUi(odoo.tests.HttpCase):
             'inherit_id': website_snippets.id,
             'arch': """
                 <xpath expr="//t[@t-snippet='website.s_parallax']" position="after">
-                    <t t-snippet="website.s_test_snip" t-thumbnail="/website/static/src/img/snippets_thumbs/s_website_form.svg"/>
+                    <t t-snippet="website.s_test_snip" group="content"/>
                 </xpath>
             """,
         }])
-        self.start_tour(self.env['website'].get_client_action_url('/'), 'snippet_version', login='admin')
+        self.start_tour(self.env['website'].get_client_action_url('/'), 'snippet_version_1', login='admin')
+
+        self.env['ir.ui.view'].create([
+            {
+                'name': 'Test snippet version 999',
+                'mode': 'extension',
+                'inherit_id': view_ids[0].id,
+                'arch': """
+                    <xpath expr="//section[hasclass('s_test_snip')]" position="attributes">
+                        <attribute name="data-vjs">999</attribute>
+                    </xpath>
+                """
+            },
+            {
+                'name': 'Share snippet version 999',
+                'mode': 'extension',
+                'inherit_id': self.env.ref("website.s_share").id,
+                'arch': """
+                    <xpath expr="//div" position="attributes">
+                        <attribute name="data-vcss">999</attribute>
+                    </xpath>
+                """
+            },
+            {
+                'name': 's_text_image version 999',
+                'mode': 'extension',
+                'inherit_id': self.env.ref("website.s_text_image").id,
+                'arch': """
+                    <xpath expr="//section[hasclass('s_text_image')]" position="attributes">
+                        <attribute name="data-vxml">999</attribute>
+                    </xpath>
+                """
+            }
+        ])
+
+        self.start_tour(self.env['website'].get_client_action_url('/'), 'snippet_version_2', login='admin')
 
     def test_08_website_style_custo(self):
         self.start_tour(self.env['website'].get_client_action_url('/'), 'website_style_edition', login='admin')
@@ -344,7 +384,7 @@ class TestUi(odoo.tests.HttpCase):
 
     def test_10_website_conditional_visibility(self):
         self.start_tour(self.env['website'].get_client_action_url('/'), 'conditional_visibility_1', login='admin')
-        self.start_tour('/web', 'conditional_visibility_2', login='admin')
+        self.start_tour('/odoo', 'conditional_visibility_2', login='admin')
         self.start_tour(self.env['website'].get_client_action_url('/'), 'conditional_visibility_3', login='admin')
         self.start_tour(self.env['website'].get_client_action_url('/'), 'conditional_visibility_4', login='admin')
         self.start_tour(self.env['website'].get_client_action_url('/'), 'conditional_visibility_5', login='admin')
@@ -392,7 +432,7 @@ class TestUi(odoo.tests.HttpCase):
             'arch': """
                 <data>
                     <xpath expr="//*[@id='snippet_structure']//t[@t-snippet]" position="before">
-                        <t t-snippet="website.s_focusblur"/>
+                        <t t-snippet="website.s_focusblur" group="content"/>
                     </xpath>
                 </data>
             """,
@@ -424,6 +464,9 @@ class TestUi(odoo.tests.HttpCase):
     def test_16_website_edit_megamenu(self):
         self.start_tour(self.env['website'].get_client_action_url('/'), 'edit_megamenu', login='admin')
 
+    def test_website_megamenu_active_nav_link(self):
+        self.start_tour(self.env['website'].get_client_action_url('/'), 'megamenu_active_nav_link', login='admin')
+
     def test_17_website_edit_menus(self):
         self.start_tour(self.env['website'].get_client_action_url('/'), 'edit_menus', login='admin')
 
@@ -431,16 +474,16 @@ class TestUi(odoo.tests.HttpCase):
         self.start_tour('/', 'website_snippets_menu_tabs', login='admin')
 
     def test_19_website_page_options(self):
-        self.start_tour("/web", "website_page_options", login="admin")
+        self.start_tour("/odoo", "website_page_options", login="admin")
 
     def test_20_snippet_editor_panel_options(self):
         self.start_tour('/@/', 'snippet_editor_panel_options', login='admin')
 
     def test_21_website_start_cloned_snippet(self):
-        self.start_tour('/web', 'website_start_cloned_snippet', login='admin')
+        self.start_tour('/odoo', 'website_start_cloned_snippet', login='admin')
 
     def test_22_website_gray_color_palette(self):
-        self.start_tour('/web', 'website_gray_color_palette', login='admin')
+        self.start_tour('/odoo', 'website_gray_color_palette', login='admin')
 
     def test_23_website_multi_edition(self):
         self.start_tour('/@/', 'website_multi_edition', login='admin')
@@ -455,7 +498,7 @@ class TestUi(odoo.tests.HttpCase):
         self.env['ir.ui.view'].with_context(website_id=default_website.id).save_snippet(
             name='custom_snippet_test',
             arch="""
-                <section class="s_text_block">
+                <section class="s_text_block" data-snippet="s_text_block">
                     <div class="custom_snippet_website_1">Custom Snippet Website 1</div>
                 </section>
             """,
@@ -465,15 +508,27 @@ class TestUi(odoo.tests.HttpCase):
         self.start_tour('/@/', 'snippet_cache_across_websites', login='admin', cookies={
             'websiteIdMapping': json.dumps({'Test Website': website.id})
         })
+<<<<<<< HEAD
 
     def test_25_website_edit_discard(self):
         self.start_tour('/web', 'homepage_edit_discard', login='admin')
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
     def test_26_website_media_dialog_icons(self):
+        self.env.ref('website.default_website').write({
+            'social_twitter': 'https://twitter.com/Odoo',
+            'social_facebook': 'https://www.facebook.com/Odoo',
+            'social_linkedin': 'https://www.linkedin.com/company/odoo',
+            'social_youtube': 'https://www.youtube.com/user/OpenERPonline',
+            'social_github': 'https://github.com/odoo',
+            'social_instagram': 'https://www.instagram.com/explore/tags/odoo/',
+            'social_tiktok': 'https://www.tiktok.com/@odoo',
+        })
         self.start_tour("/", 'website_media_dialog_icons', login='admin')
 
     def test_27_website_clicks(self):
-        self.start_tour('/web', 'website_click_tour', login='admin')
+        self.start_tour('/odoo', 'website_click_tour', login='admin')
 
     def test_29_website_text_edition(self):
         self.start_tour('/@/', 'website_text_edition', login='admin')
@@ -557,6 +612,12 @@ class TestUi(odoo.tests.HttpCase):
 
         self.start_tour('/', 'website_no_dirty_page', login='admin')
 
+<<<<<<< HEAD
+=======
+    def test_website_default_snippet_text(self):
+        self.start_tour('/', 'website_default_snippet_text', login='admin')
+
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
     def test_widget_lifecycle(self):
         self.env['ir.asset'].create({
             'name': 'wysiwyg_patch_start_and_destroy',
@@ -583,8 +644,12 @@ class TestUi(odoo.tests.HttpCase):
             'inherit_id': website_snippets.id,
             'arch': """
                 <xpath expr="//t[@t-snippet='website.s_parallax']" position="after">
+<<<<<<< HEAD
                     <t t-snippet="website.s_404_snippet"
                        t-thumbnail="/website/static/src/img/snippets_thumbs/s_website_form.svg"/>
+=======
+                    <t t-snippet="website.s_404_snippet" group="images"/>
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
                 </xpath>
             """,
         }])
@@ -605,6 +670,12 @@ class TestUi(odoo.tests.HttpCase):
     def test_mobile_order_with_drag_and_drop(self):
         self.start_tour(self.env['website'].get_client_action_url('/'), 'website_mobile_order_with_drag_and_drop', login='admin')
 
+<<<<<<< HEAD
+=======
+    def test_powerbox_snippet(self):
+        self.start_tour('/', 'website_powerbox_snippet', login='admin')
+
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
     def test_website_no_dirty_lazy_image(self):
         website = self.env['website'].browse(1)
         # Enable multiple langs to reduce the chance of the test being silently
@@ -654,3 +725,12 @@ class TestUi(odoo.tests.HttpCase):
 
     def test_media_iframe_video(self):
         self.start_tour("/", "website_media_iframe_video", login="admin")
+<<<<<<< HEAD
+=======
+
+    def test_snippet_visibility_option(self):
+        self.start_tour("/", "snippet_visibility_option", login="admin")
+
+    def test_website_font_family(self):
+        self.start_tour("/", "website_font_family", login="admin")
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8

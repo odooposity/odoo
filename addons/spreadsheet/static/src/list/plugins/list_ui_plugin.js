@@ -1,25 +1,39 @@
 /** @odoo-module */
 
 import * as spreadsheet from "@odoo/o-spreadsheet";
-import { getFirstListFunction, getNumberOfListFormulas } from "../list_helpers";
+import { getFirstListFunction } from "../list_helpers";
 import { Domain } from "@web/core/domain";
 import { ListDataSource } from "../list_data_source";
 import { globalFiltersFieldMatchers } from "@spreadsheet/global_filters/plugins/global_filters_core_plugin";
+import { OdooUIPlugin } from "@spreadsheet/plugins";
 
-const { astToFormula } = spreadsheet;
+const { astToFormula, constants } = spreadsheet;
+const { isEvaluationError } = spreadsheet.helpers;
+const { PIVOT_TABLE_CONFIG } = constants;
 
 /**
  * @typedef {import("./list_core_plugin").SpreadsheetList} SpreadsheetList
  */
 
-export class ListUIPlugin extends spreadsheet.UIPlugin {
+export class ListUIPlugin extends OdooUIPlugin {
+    static getters = /** @type {const} */ ([
+        "getListComputedDomain",
+        "getListHeaderValue",
+        "getListIdFromPosition",
+        "getListCellValueAndFormat",
+        "getListDataSource",
+        "getAsyncListDataSource",
+        "isListUnused",
+    ]);
     constructor(config) {
         super(config);
         /** @type {string} */
-        this.selectedListId = undefined;
         this.env = config.custom.env;
 
-        this.dataSources = config.custom.dataSources;
+        /** @type {Record<string, ListDataSource>} */
+        this.lists = {};
+
+        this.custom = config.custom;
 
         globalFiltersFieldMatchers["list"] = {
             ...globalFiltersFieldMatchers["list"],
@@ -48,6 +62,7 @@ export class ListUIPlugin extends spreadsheet.UIPlugin {
      */
     handle(cmd) {
         switch (cmd.type) {
+<<<<<<< HEAD
             case "START":
                 for (const sheetId of this.getters.getSheetIds()) {
                     const cells = this.getters.getCells(sheetId);
@@ -58,14 +73,18 @@ export class ListUIPlugin extends spreadsheet.UIPlugin {
                     }
                 }
                 break;
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
             case "INSERT_ODOO_LIST": {
                 const { id, linesNumber } = cmd;
                 this._setupListDataSource(id, linesNumber);
                 break;
             }
-            case "SELECT_ODOO_LIST":
-                this._selectList(cmd.listId);
+            case "INSERT_ODOO_LIST_WITH_TABLE": {
+                this.dispatch("INSERT_ODOO_LIST", cmd);
+                this._addTable(cmd);
                 break;
+<<<<<<< HEAD
             case "REMOVE_ODOO_LIST":
                 if (cmd.listId === this.selectedListId) {
                     this.selectedListId = undefined;
@@ -73,7 +92,18 @@ export class ListUIPlugin extends spreadsheet.UIPlugin {
                 break;
             case "REFRESH_ODOO_LIST":
                 this._refreshOdooList(cmd.listId);
+=======
+            }
+            case "RE_INSERT_ODOO_LIST_WITH_TABLE": {
+                this.dispatch("RE_INSERT_ODOO_LIST", cmd);
+                this._addTable(cmd);
                 break;
+            }
+            case "DUPLICATE_ODOO_LIST": {
+                this._setupListDataSource(cmd.newListId, 0);
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
+                break;
+            }
             case "REFRESH_ALL_DATA_SOURCES":
                 this._refreshOdooLists();
                 break;
@@ -84,14 +114,23 @@ export class ListUIPlugin extends spreadsheet.UIPlugin {
             case "CLEAR_GLOBAL_FILTER_VALUE":
                 this._addDomains();
                 break;
+            case "UPDATE_ODOO_LIST":
             case "UPDATE_ODOO_LIST_DOMAIN": {
                 const listDefinition = this.getters.getListModelDefinition(cmd.listId);
                 const dataSourceId = this._getListDataSourceId(cmd.listId);
+<<<<<<< HEAD
                 this.dataSources.add(dataSourceId, ListDataSource, listDefinition);
+=======
+                this.lists[dataSourceId] = new ListDataSource(this.custom, listDefinition);
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
                 this._addDomain(cmd.listId);
                 break;
             }
+            case "DELETE_SHEET":
+                this.unusedLists = undefined;
+                break;
             case "UPDATE_CELL":
+<<<<<<< HEAD
                 if (cmd.content) {
                     const position = { sheetId: cmd.sheetId, col: cmd.col, row: cmd.row };
                     const cell = this.getters.getCell(position);
@@ -99,9 +138,13 @@ export class ListUIPlugin extends spreadsheet.UIPlugin {
                         this._addListPositionToDataSource(cell);
                     }
                 }
+=======
+                this.unusedLists = undefined;
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
                 break;
             case "UNDO":
             case "REDO": {
+                this.unusedLists = undefined;
                 if (
                     cmd.commands.find((command) =>
                         [
@@ -114,23 +157,30 @@ export class ListUIPlugin extends spreadsheet.UIPlugin {
                     this._addDomains();
                 }
 
-                const domainEditionCommands = cmd.commands.filter(
+                const updateCommands = cmd.commands.filter(
                     (cmd) =>
-                        cmd.type === "UPDATE_ODOO_LIST_DOMAIN" || cmd.type === "INSERT_ODOO_LIST"
+                        cmd.type === "UPDATE_ODOO_LIST_DOMAIN" ||
+                        cmd.type === "UPDATE_ODOO_LIST" ||
+                        cmd.type === "INSERT_ODOO_LIST"
                 );
-                for (const cmd of domainEditionCommands) {
+                for (const cmd of updateCommands) {
                     if (!this.getters.isExistingList(cmd.listId)) {
                         continue;
                     }
 
                     const listDefinition = this.getters.getListModelDefinition(cmd.listId);
                     const dataSourceId = this._getListDataSourceId(cmd.listId);
+<<<<<<< HEAD
                     this.dataSources.add(dataSourceId, ListDataSource, listDefinition);
                     this._addDomain(cmd.listId);
                 }
 
                 if (!this.getters.getListIds().length) {
                     this.selectedListId = undefined;
+=======
+                    this.lists[dataSourceId] = new ListDataSource(this.custom, listDefinition);
+                    this._addDomain(cmd.listId);
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
                 }
                 break;
             }
@@ -144,11 +194,8 @@ export class ListUIPlugin extends spreadsheet.UIPlugin {
     _setupListDataSource(listId, limit, definition) {
         const dataSourceId = this._getListDataSourceId(listId);
         definition = definition || this.getters.getListModelDefinition(listId);
-        if (!this.dataSources.contains(dataSourceId)) {
-            this.dataSources.add(dataSourceId, ListDataSource, {
-                ...definition,
-                limit,
-            });
+        if (!(dataSourceId in this.lists)) {
+            this.lists[dataSourceId] = new ListDataSource(this.custom, { ...definition, limit });
         }
     }
 
@@ -200,19 +247,11 @@ export class ListUIPlugin extends spreadsheet.UIPlugin {
         }
     }
 
-    /**
-     * Select the given list id. If the id is undefined, it unselect the list.
-     * @param {number|undefined} listId Id of the list, or undefined to remove
-     *                                  the selected list
-     */
-    _selectList(listId) {
-        this.selectedListId = listId;
-    }
-
     _getListDataSourceId(listId) {
         return `list-${listId}`;
     }
 
+<<<<<<< HEAD
     /**
      * Extract the position of the records asked in the given formula and
      * increase the max position of the corresponding data source.
@@ -226,21 +265,69 @@ export class ListUIPlugin extends spreadsheet.UIPlugin {
         const { functionName, args } = getFirstListFunction(cell.compiledFormula.tokens);
         if (functionName !== "ODOO.LIST") {
             return;
+=======
+    _getUnusedLists() {
+        if (this.unusedLists !== undefined) {
+            return this.unusedLists;
         }
-        const [listId, positionArg] = args.map((arg) => arg.value.toString());
+        const unusedLists = new Set(this.getters.getListIds());
+        for (const sheetId of this.getters.getSheetIds()) {
+            for (const cellId in this.getters.getCells(sheetId)) {
+                const position = this.getters.getCellPosition(cellId);
+                const listId = this.getListIdFromPosition(position);
+                if (listId) {
+                    unusedLists.delete(listId);
+                    if (!unusedLists.size) {
+                        this.unusedLists = [];
+                        return this.unusedLists;
+                    }
+                }
+            }
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
+        }
+        this.unusedLists = [...unusedLists];
+        return this.unusedLists;
+    }
 
-        if (!this.getters.getListIds().includes(listId)) {
-            return;
+    _getListFormat(listId, position, field) {
+        const locale = this.getters.getLocale();
+        switch (field?.type) {
+            case "integer":
+                return "0";
+            case "float":
+                return "#,##0.00";
+            case "monetary": {
+                const currency = this.getListCurrency(listId, position, field.currency_field);
+                if (!currency) {
+                    return "#,##0.00";
+                }
+                return this.getters.computeFormatFromCurrency(currency);
+            }
+            case "date":
+                return locale.dateFormat;
+            case "datetime":
+                return locale.dateFormat + " " + locale.timeFormat;
+            case "char":
+            case "text":
+                return "@";
+            default:
+                return undefined;
         }
-        const position = parseInt(positionArg, 10);
-        if (isNaN(position)) {
-            return;
-        }
-        const dataSourceId = this._getListDataSourceId(listId);
-        if (!this.dataSources.get(dataSourceId)) {
-            this._setupListDataSource(listId, 0);
-        }
-        this.dataSources.get(dataSourceId).increaseMaxPosition(position);
+    }
+
+    _addTable({ sheetId, col, row, linesNumber, columns }) {
+        const zone = {
+            left: col,
+            right: col + columns.length - 1,
+            top: row,
+            bottom: row + linesNumber,
+        };
+        this.dispatch("CREATE_TABLE", {
+            tableType: "static",
+            sheetId,
+            ranges: [this.getters.getRangeDataFromZone(sheetId, zone)],
+            config: { ...PIVOT_TABLE_CONFIG, firstColumn: false },
+        });
     }
 
     // -------------------------------------------------------------------------
@@ -266,13 +353,13 @@ export class ListUIPlugin extends spreadsheet.UIPlugin {
      * @returns {string|undefined}
      */
     getListIdFromPosition(position) {
-        const cell = this.getters.getCell(position);
+        const cell = this.getters.getCorrespondingFormulaCell(position);
         const sheetId = position.sheetId;
         if (cell && cell.isFormula) {
             const listFunction = getFirstListFunction(cell.compiledFormula.tokens);
             if (listFunction) {
                 const content = astToFormula(listFunction.args[0]);
-                return this.getters.evaluateFormula(sheetId, content).toString();
+                return this.getters.evaluateFormula(sheetId, content)?.toString();
             }
         }
         return undefined;
@@ -296,12 +383,21 @@ export class ListUIPlugin extends spreadsheet.UIPlugin {
      *
      * @returns {string|undefined}
      */
-    getListCellValue(listId, position, fieldName) {
-        return this.getters.getListDataSource(listId).getListCellValue(position, fieldName);
+    getListCellValueAndFormat(listId, position, fieldName) {
+        const dataSource = this.getters.getListDataSource(listId);
+        dataSource.addFieldToFetch(fieldName);
+        const value = dataSource.getListCellValue(position, fieldName);
+        if (typeof value === "object" && isEvaluationError(value.value)) {
+            return value;
+        }
+        const field = dataSource.getField(fieldName);
+        const format = this._getListFormat(listId, position, field);
+        return { value, format };
     }
 
     getListCurrency(listId, position, fieldName) {
         return this.getters.getListDataSource(listId).getListCurrency(position, fieldName);
+<<<<<<< HEAD
     }
 
     /**
@@ -310,6 +406,8 @@ export class ListUIPlugin extends spreadsheet.UIPlugin {
      */
     getSelectedListId() {
         return this.selectedListId;
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
     }
 
     /**
@@ -318,17 +416,17 @@ export class ListUIPlugin extends spreadsheet.UIPlugin {
      */
     getListDataSource(id) {
         const dataSourceId = this._getListDataSourceId(id);
-        return this.dataSources.get(dataSourceId);
+        return this.lists[dataSourceId];
     }
 
     /**
      * @param {string} id
-     * @returns {Promise<import("@spreadsheet/list/list_data_source").default>}
+     * @returns {Promise<import("@spreadsheet/list/list_data_source").ListDataSource>}
      */
     async getAsyncListDataSource(id) {
-        const dataSourceId = this._getListDataSourceId(id);
-        await this.dataSources.load(dataSourceId);
-        return this.getListDataSource(id);
+        const dataSource = this.getListDataSource(id);
+        await dataSource.load();
+        return dataSource;
     }
 
     /**
@@ -340,8 +438,8 @@ export class ListUIPlugin extends spreadsheet.UIPlugin {
             .getListIds()
             .map((listId) => this.getListDataSource(listId).loadMetadata());
     }
-}
 
+<<<<<<< HEAD
 ListUIPlugin.getters = [
     "getListComputedDomain",
     "getListCurrency",
@@ -352,3 +450,9 @@ ListUIPlugin.getters = [
     "getListDataSource",
     "getAsyncListDataSource",
 ];
+=======
+    isListUnused(listId) {
+        return this._getUnusedLists().includes(listId);
+    }
+}
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8

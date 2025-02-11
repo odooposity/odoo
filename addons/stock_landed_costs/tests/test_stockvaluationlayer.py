@@ -10,12 +10,12 @@ from odoo.addons.stock_landed_costs.tests.common import TestStockLandedCostsComm
 class TestStockValuationLCCommon(TestStockLandedCostsCommon):
 
     @classmethod
-    def setUpClass(cls, chart_template_ref=None):
-        super().setUpClass(chart_template_ref=chart_template_ref)
+    def setUpClass(cls):
+        super().setUpClass()
 
         cls.product1 = cls.env['product.product'].create({
             'name': 'product1',
-            'type': 'product',
+            'is_storable': True,
             'categ_id': cls.stock_account_product_categ.id,
         })
         cls.productlc1 = cls.env['product.product'].create({
@@ -337,9 +337,13 @@ class TestStockValuationLCAVCO(TestStockValuationLCCommon):
         receipt.move_line_ids.quantity = 1
         receipt.button_validate()
 
+<<<<<<< HEAD
         action = po.action_create_invoice()
         bill = self.env['account.move'].browse(action['res_id'])
         bill_form = Form(bill)
+=======
+        bill_form = Form.from_action(self.env, po.action_create_invoice())
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
         bill_form.invoice_date = bill_form.date
         with bill_form.invoice_line_ids.new() as inv_line:
             inv_line.product_id = self.productlc1
@@ -348,8 +352,12 @@ class TestStockValuationLCAVCO(TestStockValuationLCCommon):
         bill = bill_form.save()
         bill.action_post()
 
+<<<<<<< HEAD
         action = bill.button_create_landed_costs()
         lc_form = Form(self.env[action['res_model']].browse(action['res_id']))
+=======
+        lc_form = Form.from_action(self.env, bill.button_create_landed_costs())
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
         lc_form.picking_ids.add(receipt)
         lc = lc_form.save()
         lc.button_validate()
@@ -436,8 +444,7 @@ class TestStockValuationLCFIFOVB(TestStockValuationLCCommon):
         self.assertEqual(payable_aml.debit, 0)
         self.assertEqual(payable_aml.credit, 50)
 
-        action = lcvb.button_create_landed_costs()
-        lc = Form(self.env[action['res_model']].browse(action['res_id']))
+        lc = Form.from_action(self.env, lcvb.button_create_landed_costs())
         lc.picking_ids.add(receipt)
         lc = lc.save()
         lc.button_validate()
@@ -502,8 +509,7 @@ class TestStockValuationLCFIFOVB(TestStockValuationLCCommon):
         vb = vb.save()
         vb.action_post()
 
-        action = vb.button_create_landed_costs()
-        lc = Form(self.env[action['res_model']].browse(action['res_id']))
+        lc = Form.from_action(self.env, vb.button_create_landed_costs())
         lc.picking_ids.add(receipt)
         lc = lc.save()
         lc.button_validate()
@@ -578,8 +584,7 @@ class TestStockValuationLCFIFOVB(TestStockValuationLCCommon):
         self.assertEqual(payable_aml.debit, 0)
         self.assertEqual(payable_aml.credit, 50)
 
-        action = lcvb.button_create_landed_costs()
-        lc = Form(self.env[action['res_model']].browse(action['res_id']))
+        lc = Form.from_action(self.env, lcvb.button_create_landed_costs())
         lc.picking_ids.add(receipt)
         lc = lc.save()
         lc.button_validate()
@@ -600,9 +605,17 @@ class TestStockValuationLCFIFOVB(TestStockValuationLCCommon):
     def test_create_landed_cost_from_bill_multi_currencies(self):
         # create a vendor bill in EUR where base currency in USD
         company = self.env.user.company_id
+<<<<<<< HEAD
         usd_currency = self.env.ref('base.USD')
         eur_currency = self.env.ref('base.EUR')
         eur_currency.active = True  # EUR might not be active
+=======
+        currency_grp = self.env.ref('base.group_multi_currency')
+        self.env.user.write({'groups_id': [(4, currency_grp.id)]})
+        usd_currency = self.env.ref('base.USD')
+        eur_currency = self.env.ref('base.EUR')
+        eur_currency.active = True
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
         company.currency_id = usd_currency
 
@@ -638,7 +651,10 @@ class TestStockValuationLCFIFOVB(TestStockValuationLCCommon):
             po_line.product_id = self.product1
             po_line.product_qty = 1
             po_line.price_unit = 10
+<<<<<<< HEAD
             po_line.taxes_id.clear()
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
         po = po_form.save()
         po.button_confirm()
 
@@ -661,8 +677,12 @@ class TestStockValuationLCFIFOVB(TestStockValuationLCCommon):
         bill = bill_form.save()
         bill.action_post()
 
+<<<<<<< HEAD
         action = bill.button_create_landed_costs()
         lc_form = Form(self.env[action['res_model']].browse(action['res_id']))
+=======
+        lc_form = Form.from_action(self.env, bill.button_create_landed_costs())
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
         lc_form.picking_ids.add(receipt)
         lc = lc_form.save()
         lc.button_validate()

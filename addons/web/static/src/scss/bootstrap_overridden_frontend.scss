@@ -18,16 +18,29 @@ $primary: $blue !default;
 // See https://www.w3.org/TR/WCAG20/#visual-audio-contrast-contrast
 $min-contrast-ratio: $o-frontend-min-contrast-ratio !default;
 
+// Options
+//
+// Quickly modify global styling by enabling or disabling optional features.
+
+$enable-smooth-scroll: false !default;
+
 // Body
 
 $body-bg: $white !default; // BS Default
+<<<<<<< HEAD
 $body-color: $o-main-text-color !default;
+=======
+$body-color: $gray-900 !default; // BS Default
+$body-emphasis-color: $black !default; // BS Default
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 // Components
 //
 // Define common padding and border radius sizes and more.
 
 $border-width: 1px !default; // BS Default
+
+$component-active-bg: $primary !default;
 
 // Fonts
 //
@@ -37,10 +50,7 @@ $font-family-sans-serif: o-add-unicode-support-font($o-system-fonts) !default;
 
 $font-size-base: (14 / 16) * 1rem !default;
 
-// Inherit color for blockquote-footer, use text-muted on top of it if you want
-// a muted one. This is defined here to be consistent in the whole frontend, as
-// when used with background classes, it should not be forced to a gray color.
-$blockquote-small-color: inherit !default;
+$text-muted: mute-color($body-color) !default;
 
 // Link
 $link-decoration: none !default;
@@ -57,6 +67,11 @@ $link-decoration: none !default;
 // colors are a color close to the body text color: the text becomes invisible.
 // We disable this behavior by not forcing a text color for tables.
 $table-color: inherit !default;
+// With BS5.3, $table-bg is set $body-bg by default, and we want it transparent.
+$table-bg: transparent !default;
+
+// Buttons
+$btn-hover-bg-shade-amount: 15% !default;
 
 // Forms
 
@@ -65,6 +80,11 @@ $component-active-bg: $primary !default;
 $input-color: $body-color !default;
 $input-bg: $body-bg !default;
 $input-transition: background-color .05s ease-in-out, border-color .05s ease-in-out, box-shadow .05s ease-in-out !default;
+$input-color: $body-color !default;
+$input-bg: $body-bg !default;
+
+$input-disabled-bg: $gray-200 !default;
+$input-disabled-border-color: rgba($input-color, 0.15) !default;
 
 $input-disabled-bg: $gray-200 !default;
 $input-disabled-border-color: rgba($input-color, 0.15) !default;
@@ -86,6 +106,12 @@ $form-range-thumb-border: $border-width solid $primary !default;
 $form-range-thumb-bg: $body-bg !default;
 $form-range-thumb-active-bg: $primary !default;
 $form-range-thumb-disabled-bg: $input-disabled-bg !default;
+<<<<<<< HEAD
+=======
+
+$form-file-button-bg: mix($input-color, $input-bg, $btn-hover-bg-shade-amount * 0.3) !default;
+$form-file-button-hover-bg: mix($input-color, $input-bg, $btn-hover-bg-shade-amount) !default;
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 // Figures
 
@@ -98,3 +124,19 @@ $figure-caption-color: inherit !default;
 
 $offcanvas-border-width: 0 !default;
 $offcanvas-backdrop-opacity: .3 !default;
+
+// Modal
+
+$modal-content-bg: $body-bg !default;
+
+// Card
+
+$card-bg: $body-bg !default;
+
+// Dropdown
+
+$dropdown-bg: $body-bg !default;
+
+// Navbar
+
+$navbar-light-toggler-border-color: rgba($body-emphasis-color, 0.15) !default;

@@ -4,6 +4,7 @@
 from odoo import api, fields, models, _
 import json
 from collections import defaultdict
+from odoo.tools import convert
 
 
 class PosConfig(models.Model):
@@ -11,11 +12,14 @@ class PosConfig(models.Model):
 
     iface_splitbill = fields.Boolean(string='Bill Splitting', help='Enables Bill Splitting in the Point of Sale.')
     iface_printbill = fields.Boolean(string='Bill Printing', help='Allows to print the Bill before payment.')
+<<<<<<< HEAD
     iface_orderline_notes = fields.Boolean(string='Internal Notes', help='Allow custom Internal notes on Orderlines.')
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
     floor_ids = fields.Many2many('restaurant.floor', string='Restaurant Floors', help='The restaurant floors served by this point of sale.')
     set_tip_after_payment = fields.Boolean('Set Tip After Payment', help="Adjust the amount authorized by payment terminals to add a tip after the customers left or at the end of the day.")
-    module_pos_restaurant = fields.Boolean(default=True)
     module_pos_restaurant_appointment = fields.Boolean("Table Booking")
+<<<<<<< HEAD
 
     def get_tables_order_count_and_printing_changes(self):
         self.ensure_one()
@@ -55,6 +59,14 @@ class PosConfig(models.Model):
         for table in tables:
             result.append({'id': table.id, 'orders': orders_map.get(table.id, 0), 'changes': changes_map.get(table.id, 0), 'skip_changes': skip_changes_map.get(table.id, 0)})
         return result
+=======
+    takeaway = fields.Boolean("Takeaway", help="Allow to create orders for takeaway customers.")
+    takeaway_fp_id = fields.Many2one(
+        'account.fiscal.position',
+        string='Alternative Fiscal Position',
+        help='This is useful for restaurants with onsite and take-away services that imply specific tax rates.',
+    )
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
     def _get_forbidden_change_fields(self):
         forbidden_keys = super(PosConfig, self)._get_forbidden_change_fields()
@@ -64,7 +76,7 @@ class PosConfig(models.Model):
     @api.model_create_multi
     def create(self, vals_list):
         for vals in vals_list:
-            is_restaurant = 'module_pos_restaurant' not in vals or vals['module_pos_restaurant']
+            is_restaurant = 'module_pos_restaurant' in vals and vals['module_pos_restaurant']
             if is_restaurant and 'iface_splitbill' not in vals:
                 vals['iface_splitbill'] = True
             if not is_restaurant or not vals.get('iface_tipproduct', False):
@@ -84,6 +96,7 @@ class PosConfig(models.Model):
 
         if ('module_pos_restaurant' in vals and vals['module_pos_restaurant']):
             self._setup_default_floor(self)
+<<<<<<< HEAD
 
         return super().write(vals)
 
@@ -134,6 +147,10 @@ class PosConfig(models.Model):
             session_count = self.env['pos.session'].search_count([('config_id', '=', shop.id)])
             if session_count == 0:
                 shop.update({'active': False})
+=======
+
+        return super().write(vals)
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
     def _setup_default_floor(self, pos_config):
         if not pos_config.floor_ids:
@@ -142,11 +159,76 @@ class PosConfig(models.Model):
                 'pos_config_ids': [(4, pos_config.id)],
             })
             self.env['restaurant.table'].create({
-                'name': '1',
+                'table_number': 1,
                 'floor_id': main_floor.id,
                 'seats': 1,
                 'position_h': 100,
                 'position_v': 100,
-                'width': 100,
-                'height': 100,
+                'width': 130,
+                'height': 130,
             })
+
+    @api.model
+    def _load_bar_data(self):
+        convert.convert_file(self.env, 'pos_restaurant', 'data/scenarios/bar_data.xml', None, noupdate=True, mode='init', kind='data')
+
+    @api.model
+    def _load_restaurant_data(self):
+        convert.convert_file(self.env, 'pos_restaurant', 'data/scenarios/restaurant_data.xml', None, noupdate=True, mode='init', kind='data')
+
+    @api.model
+    def load_onboarding_bar_scenario(self):
+        ref_name = 'pos_restaurant.pos_config_main_bar'
+        if not self.env.ref(ref_name, raise_if_not_found=False):
+            self._load_bar_data()
+        journal, payment_methods_ids = self._create_journal_and_payment_methods(cash_journal_vals={'name': 'Cash Bar', 'show_on_dashboard': False})
+        bar_categories = self.get_categories([
+            'pos_restaurant.pos_category_cocktails',
+            'pos_restaurant.pos_category_soft_drinks',
+        ])
+        config = self.env['pos.config'].create({
+            'name': 'Bar',
+            'company_id': self.env.company.id,
+            'journal_id': journal.id,
+            'payment_method_ids': payment_methods_ids,
+            'limit_categories': True,
+            'iface_available_categ_ids': bar_categories,
+            'iface_splitbill': True,
+            'module_pos_restaurant': True,
+        })
+        self.env['ir.model.data']._update_xmlids([{
+            'xml_id': self._get_suffixed_ref_name(ref_name),
+            'record': config,
+            'noupdate': True,
+        }])
+
+    @api.model
+    def load_onboarding_restaurant_scenario(self):
+        ref_name = 'pos_restaurant.pos_config_main_restaurant'
+        if not self.env.ref(ref_name, raise_if_not_found=False):
+            self._load_restaurant_data()
+
+        journal, payment_methods_ids = self._create_journal_and_payment_methods(cash_journal_vals={'name': 'Cash Restaurant', 'show_on_dashboard': False})
+        restaurant_categories = self.get_categories([
+            'pos_restaurant.food',
+            'pos_restaurant.drinks',
+        ])
+        config = self.env['pos.config'].create({
+            'name': _('Restaurant'),
+            'company_id': self.env.company.id,
+            'journal_id': journal.id,
+            'payment_method_ids': payment_methods_ids,
+            'limit_categories': True,
+            'iface_available_categ_ids': restaurant_categories,
+            'iface_splitbill': True,
+            'module_pos_restaurant': True,
+        })
+        self.env['ir.model.data']._update_xmlids([{
+            'xml_id': self._get_suffixed_ref_name(ref_name),
+            'record': config,
+            'noupdate': True,
+        }])
+        if self.env.company.id == self.env.ref('base.main_company').id:
+            existing_session = self.env.ref('pos_restaurant.pos_closed_session_3', raise_if_not_found=False)
+            if not existing_session:
+                convert.convert_file(self.env, 'pos_restaurant', 'data/restaurant_session_floor.xml', None, noupdate=True, mode='init', kind='data')

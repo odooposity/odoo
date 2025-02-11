@@ -3,6 +3,7 @@
 from unittest.mock import patch
 
 import odoo.tests
+from odoo.fields import Command
 
 from odoo.addons.website_sale.controllers.delivery import WebsiteSaleDelivery
 
@@ -50,7 +51,25 @@ class TestUi(odoo.tests.HttpCase):
             'delivery_type': 'base_on_rule',
             'product_id': cls.product_delivery_poste.id,
             'website_published': True,
+            'price_rule_ids': [
+                Command.create({
+                    'max_value': 5,
+                    'list_base_price': 20,
+                }),
+                Command.create({
+                    'operator': '>=',
+                    'max_value': 5,
+                    'list_base_price': 50,
+                }),
+                Command.create({
+                    'operator': '>=',
+                    'max_value': 300,
+                    'variable': 'price',
+                    'list_base_price': 0,
+                }),
+            ]
         })
+<<<<<<< HEAD
 
     def test_01_free_delivery_when_exceed_threshold(self):
         if self.env['ir.module.module']._get('payment_custom').state != 'installed':
@@ -79,6 +98,8 @@ class TestUi(odoo.tests.HttpCase):
             'variable': 'price',
             'list_base_price': 0,
         }])
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
         self.start_tour("/", 'check_free_delivery', login="admin")
 

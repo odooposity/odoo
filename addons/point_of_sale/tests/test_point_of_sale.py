@@ -1,6 +1,6 @@
-# -*- coding: utf-8 -*-
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
 
+from odoo.fields import Command
 from odoo.tests.common import TransactionCase
 
 
@@ -25,6 +25,13 @@ class TestPointOfSale(TransactionCase):
             "currency_id": self.currency.id,
             "company_id": self.company2.id,
             "sequence": 1,  # force this pricelist to be first
+        })
+        self.bank_journal = self.env['account.journal'].create({
+            'name': 'Bank',
+            'type': 'bank',
+            'company_id': self.company1.id,
+            'code': 'BNK',
+            'sequence': 11,
         })
 
         self.env.user.company_id = self.company1
@@ -55,6 +62,7 @@ class TestPointOfSale(TransactionCase):
             'available_in_pos': True,
         })
 
+<<<<<<< HEAD
         product_1_combo_line = self.env["pos.combo.line"].create({
                 "product_id": product.id,
         })
@@ -64,6 +72,16 @@ class TestPointOfSale(TransactionCase):
                 "name": "Pos combo",
                 "combo_line_ids": [
                     (6, 0, [product_1_combo_line.id])
+=======
+        product_combo = self.env["product.combo"].create(
+            {
+                "name": "Product combo",
+                "combo_item_ids": [
+                    Command.create({
+                        "product_id": product.id,
+                        "extra_price": 0,
+                    }),
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
                 ],
             }
         )
@@ -80,8 +98,12 @@ class TestPointOfSale(TransactionCase):
             })],
         })
         # Check that original product should not be in combo anymore (replace by variants)
+<<<<<<< HEAD
         self.assertTrue(original_product_id not in pos_combo.combo_line_ids.mapped('product_id').ids, "Original product should not be in combo")
         # Check that variants are in combo
         variant_ids = product_template.product_variant_ids.ids
         for variant_id in variant_ids:
             self.assertIn(variant_id, pos_combo.combo_line_ids.mapped('product_id').ids, "Variant should be in combo")
+=======
+        self.assertTrue(original_product_id not in product_combo.combo_item_ids.mapped('product_id').ids, "Original product should not be in combo")
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8

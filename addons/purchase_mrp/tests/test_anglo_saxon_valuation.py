@@ -12,8 +12,13 @@ from odoo.addons.stock_account.tests.test_stockvaluation import _create_accounti
 class TestAngloSaxonValuationPurchaseMRP(AccountTestInvoicingCommon):
 
     @classmethod
+<<<<<<< HEAD
     def setUpClass(cls, chart_template_ref=None):
         super().setUpClass(chart_template_ref=chart_template_ref)
+=======
+    def setUpClass(cls):
+        super().setUpClass()
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
         cls.vendor01 = cls.env['res.partner'].create({'name': "Super Vendor"})
 
         cls.stock_input_account, cls.stock_output_account, cls.stock_valuation_account, cls.expense_account, cls.stock_journal = _create_accounting_data(cls.env)
@@ -41,7 +46,7 @@ class TestAngloSaxonValuationPurchaseMRP(AccountTestInvoicingCommon):
         kit, compo01, compo02 = self.env['product.product'].create([{
             'name': name,
             'standard_price': price,
-            'type': 'product',
+            'is_storable': True,
             'categ_id': self.avco_category.id,
         } for name, price in [('Kit', 0), ('Compo 01', 10), ('Compo 02', 20)]])
 
@@ -102,7 +107,7 @@ class TestAngloSaxonValuationPurchaseMRP(AccountTestInvoicingCommon):
 
         component01, component02 = self.env['product.product'].create([{
             'name': 'Component %s' % name,
-            'type': 'product',
+            'is_storable': True,
             'categ_id': self.avco_category.id,
             'uom_id': uom_litre.id,
             'uom_po_id': uom_litre.id,
@@ -177,7 +182,8 @@ class TestAngloSaxonValuationPurchaseMRP(AccountTestInvoicingCommon):
 
         wizard_form = Form(self.env['stock.return.picking'].with_context(active_id=delivery.id, active_model='stock.picking'))
         wizard = wizard_form.save()
-        action = wizard.create_returns()
+        wizard.product_return_moves.quantity = 1
+        action = wizard.action_create_returns()
         return_picking = self.env["stock.picking"].browse(action["res_id"])
         return_picking.move_ids.move_line_ids.quantity = 1
         return_picking.button_validate()
@@ -193,7 +199,11 @@ class TestAngloSaxonValuationPurchaseMRP(AccountTestInvoicingCommon):
         kit, cmp = self.env['product.product'].create([{
             'name': name,
             'standard_price': 0,
+<<<<<<< HEAD
             'type': 'product',
+=======
+            'is_storable': True,
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
             'categ_id': self.avco_category.id,
         } for name in ['Kit', 'Cmp']])
 
@@ -307,19 +317,31 @@ class TestAngloSaxonValuationPurchaseMRP(AccountTestInvoicingCommon):
 
         cost_of_production_account = self.env['account.account'].search([
             ('name', '=', 'Cost of Production'),
+<<<<<<< HEAD
             ('company_id', '=', self.env.company.id),
+=======
+            ('company_ids', 'in', self.env.company.id),
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
         ], limit=1)
         self.avco_category.property_stock_account_production_cost_id = cost_of_production_account.id
         final_product = self.env['product.product'].create({
             'name': 'final product',
+<<<<<<< HEAD
             'type': 'product',
+=======
+            'is_storable': True,
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
             'standard_price': 0,
             'categ_id': self.avco_category.id,
             'route_ids': [(6, 0, self.env['stock.route'].search([('name', '=', 'Manufacture')], limit=1).ids)],
         })
         comp_1, comp_2 = self.env['product.product'].create([{
             'name': name,
+<<<<<<< HEAD
             'type': 'product',
+=======
+            'is_storable': True,
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
             'standard_price': 0,
             'categ_id': self.avco_category.id,
             'route_ids': [(4, self.env['stock.route'].search([('name', '=', 'Buy')], limit=1).id)],

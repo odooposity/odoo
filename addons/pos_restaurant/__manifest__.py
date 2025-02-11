@@ -23,10 +23,9 @@ This module adds several features to the Point of Sale that are specific to rest
         'views/pos_order_views.xml',
         'views/pos_restaurant_views.xml',
         'views/res_config_settings_views.xml',
-        'data/pos_restaurant_data.xml',
     ],
     'demo': [
-        'data/pos_restaurant_demo.xml',
+        'data/demo_data.xml',
     ],
     'installable': True,
     'application': True,
@@ -39,6 +38,9 @@ This module adds several features to the Point of Sale that are specific to rest
             'point_of_sale/static/src/scss/pos_dashboard.scss',
         ],
         'web.assets_tests': [
+            'pos_restaurant/static/tests/tours/**/*',
+        ],
+        'point_of_sale.assets_debug': [
             'pos_restaurant/static/tests/tours/**/*',
         ],
     },

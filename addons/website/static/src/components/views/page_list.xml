@@ -7,6 +7,7 @@
             <i class="fa fa-fw fa-home fa-lg" title="Home page of the current website"/>
         </t>
     </xpath>
+<<<<<<< HEAD
     <!-- TODO master: remove this xpath -->
     <xpath expr="//tr[@class='o_data_row']" position="attributes">
         <attribute name="t-if">recordFilter(record, list.records)</attribute>
@@ -19,6 +20,11 @@
     <xpath expr="//t[@t-component='props.Renderer']" position="attributes">
         <attribute name="activeWebsite">state.activeWebsite</attribute>
     </xpath>
+=======
+</t>
+
+<t t-name="website.PageListView" t-inherit="web.ListView">
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
     <xpath expr="//SearchBar" position="inside">
         <t t-set-slot="search-bar-additional-menu">
             <t t-call="website.RecordFilter"/>
@@ -35,9 +41,13 @@
         <t t-foreach="websiteSelection" t-as="website" t-key="website.id">
             <CheckboxItem class="{ 'o_menu_item text-truncate': true, selected: state.activeWebsite.id === website.id }"
                 checked="state.activeWebsite.id === website.id"
-                parentClosingMode="'none'"
+                closingMode="'none'"
                 t-esc="website.name"
+<<<<<<< HEAD
                 title="website.name.length > 15 ? website.name : ''"
+=======
+                attrs=" { title: website.name.length > 15 ? website.name : '' }"
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
                 onSelected="() => this.onSelectWebsite(website)"
             />
             <div t-if="!website.id" class="dropdown-divider"/>

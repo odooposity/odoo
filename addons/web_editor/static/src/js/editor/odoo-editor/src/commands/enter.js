@@ -16,6 +16,10 @@ import {
     descendants,
     isVisibleTextNode,
     nodeSize,
+<<<<<<< HEAD
+=======
+    getTraversedNodes,
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
     setSelection,
 } from '../utils/utils.js';
 
@@ -165,7 +169,13 @@ HTMLQuoteElement.prototype.oEnter = HTMLHeadingElement.prototype.oEnter;
  */
 HTMLLIElement.prototype.oEnter = function () {
     // If not empty list item, regular block split
+<<<<<<< HEAD
     if (this.textContent || this.querySelector('table')) {
+=======
+    const traverseNodes = getTraversedNodes(this);
+    const isContainUnbreakable = traverseNodes.some(isUnbreakable);
+    if (this.textContent || isContainUnbreakable) {
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
         const node = HTMLElement.prototype.oEnter.call(this, ...arguments);
         if (node.classList.contains('o_checked')) {
             toggleClass(node, 'o_checked');

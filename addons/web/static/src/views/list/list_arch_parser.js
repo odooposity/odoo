@@ -1,11 +1,10 @@
-/** @odoo-module */
-
-import { Field } from "@web/views/fields/field";
+import { exprToBoolean } from "@web/core/utils/strings";
 import { visitXML } from "@web/core/utils/xml";
-import { stringToOrderBy } from "@web/search/utils/order_by";
-import { archParseBoolean, getActiveActions, getDecoration, processButton } from "@web/views/utils";
-import { encodeObjectForTemplate } from "@web/views/view_compiler";
 import { combineModifiers } from "@web/model/relational_model/utils";
+import { stringToOrderBy } from "@web/search/utils/order_by";
+import { Field } from "@web/views/fields/field";
+import { getActiveActions, getDecoration, processButton } from "@web/views/utils";
+import { encodeObjectForTemplate } from "@web/views/view_compiler";
 import { Widget } from "@web/views/widgets/widget";
 
 export class GroupListArchParser {
@@ -54,7 +53,7 @@ export class ListArchParser {
         const widgetNodes = {};
         let widgetNextId = 0;
         const columns = [];
-        const fields = models[modelName];
+        const fields = models[modelName].fields;
         let buttonId = 0;
         const groupBy = {
             buttons: {},
@@ -79,7 +78,8 @@ export class ListArchParser {
                     type: "button",
                     id: buttonId++,
                 };
-                if (buttonGroup) {
+                const width = button.attrs.width;
+                if (buttonGroup && !width) {
                     buttonGroup.buttons.push(button);
                     buttonGroup.column_invisible = combineModifiers(
                         buttonGroup.column_invisible,
@@ -95,6 +95,10 @@ export class ListArchParser {
                         column_invisible: node.getAttribute("column_invisible"),
                     };
                     columns.push(buttonGroup);
+                    if (width) {
+                        buttonGroup.attrs = { width };
+                        buttonGroup = undefined;
+                    }
                 }
             } else if (node.tagName === "field") {
                 const fieldInfo = this.parseFieldNode(node, models, modelName);
@@ -114,8 +118,10 @@ export class ListArchParser {
                     className: node.getAttribute("class"), // for oe_edit_only and oe_read_only
                     optional: node.getAttribute("optional") || false,
                     type: "field",
+                    fieldType: fieldInfo.type,
                     hasLabel: !(
-                        archParseBoolean(fieldInfo.attrs.nolabel) || fieldInfo.field.noLabel
+                        fieldInfo.field.label === false ||
+                        exprToBoolean(fieldInfo.attrs.nolabel) === true
                     ),
                     label: (fieldInfo.widget && label && label.toString()) || fieldInfo.string,
                 });
@@ -146,7 +152,7 @@ export class ListArchParser {
                 groupBy.buttons[fieldName] = groupByArchInfo.buttons;
                 groupBy.fields[fieldName] = {
                     fieldNodes: groupByArchInfo.fieldNodes,
-                    fields: models[coModelName],
+                    fields: models[coModelName].fields,
                 };
                 return false;
             } else if (node.tagName === "header") {
@@ -175,10 +181,10 @@ export class ListArchParser {
                     }
                 }
                 return false;
-            } else if (["tree", "list"].includes(node.tagName)) {
+            } else if ("list" === node.tagName) {
                 const activeActions = {
                     ...getActiveActions(xmlDoc),
-                    exportXlsx: archParseBoolean(xmlDoc.getAttribute("export_xlsx"), true),
+                    exportXlsx: exprToBoolean(xmlDoc.getAttribute("export_xlsx"), true),
                 };
                 treeAttr.activeActions = activeActions;
 
@@ -193,11 +199,11 @@ export class ListArchParser {
                 }
                 treeAttr.editable = editableAttr;
                 treeAttr.multiEdit = activeActions.edit
-                    ? archParseBoolean(node.getAttribute("multi_edit") || "")
+                    ? exprToBoolean(node.getAttribute("multi_edit") || "")
                     : false;
 
                 treeAttr.openFormView = treeAttr.editable
-                    ? archParseBoolean(xmlDoc.getAttribute("open_form_view") || "")
+                    ? exprToBoolean(xmlDoc.getAttribute("open_form_view") || "")
                     : false;
 
                 const limitAttr = node.getAttribute("limit");
@@ -209,7 +215,7 @@ export class ListArchParser {
                 const groupsLimitAttr = node.getAttribute("groups_limit");
                 treeAttr.groupsLimit = groupsLimitAttr && parseInt(groupsLimitAttr, 10);
 
-                treeAttr.noOpen = archParseBoolean(node.getAttribute("no_open") || "");
+                treeAttr.noOpen = exprToBoolean(node.getAttribute("no_open") || "");
                 treeAttr.rawExpand = xmlDoc.getAttribute("expand");
                 treeAttr.decorations = getDecoration(xmlDoc);
 

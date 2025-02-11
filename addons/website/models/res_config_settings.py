@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
 
 
@@ -38,7 +37,6 @@ class ResConfigSettings(models.TransientModel):
         readonly=False)
     language_ids = fields.Many2many(
         related='website_id.language_ids',
-        relation='res.lang',
         readonly=False)
     website_language_count = fields.Integer(
         string='Number of languages',
@@ -58,6 +56,10 @@ class ResConfigSettings(models.TransientModel):
         inverse='_inverse_shared_user_account')
     website_cookies_bar = fields.Boolean(
         related='website_id.cookies_bar',
+        readonly=False)
+    website_block_third_party_domains = fields.Boolean(
+        'Block 3rd-party domains',
+        related='website_id.block_third_party_domains',
         readonly=False)
     google_analytics_key = fields.Char(
         'Google Analytics Key',
@@ -227,6 +229,7 @@ class ResConfigSettings(models.TransientModel):
             'target': 'new',
         }
 
+<<<<<<< HEAD
     def action_ping_sitemap(self):
         return {
             'type': 'ir.actions.client',
@@ -235,4 +238,15 @@ class ResConfigSettings(models.TransientModel):
                 'message': _("Google doesn't need to be pinged anymore. It will automatically fetch your /sitemap.xml."),
                 'sticky': True,
             }
+=======
+    def action_open_blocked_third_party_domains(self):
+        self.website_id._force()
+        return {
+            'name': _("Add external websites"),
+            'view_mode': 'form',
+            'res_model': 'website.custom_blocked_third_party_domains',
+            'type': 'ir.actions.act_window',
+            'views': [[False, "form"]],
+            'target': 'new',
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
         }

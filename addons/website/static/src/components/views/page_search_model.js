@@ -13,7 +13,10 @@ export class PageSearchModel extends SearchModel {
         super.setup(...arguments);
         this.website = useService('website');
 
+<<<<<<< HEAD
         this.rpc = useService('rpc');
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
         this.pagesState = useState({
             websiteDomain: false,
         });

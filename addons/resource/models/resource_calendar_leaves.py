@@ -64,20 +64,31 @@ class ResourceCalendarLeaves(models.Model):
     def _compute_date_to(self):
         user_tz = timezone(self.env.user.tz or self._context.get('tz') or self.company_id.resource_calendar_id.tz or 'UTC')
         for leave in self:
+<<<<<<< HEAD
             if not leave.date_from:
                 continue
             date_to_tz = user_tz.localize(leave.date_from) + relativedelta(hour=23, minute=59, second=59)
             leave.date_to = date_to_tz.astimezone(utc).replace(tzinfo=None)
+=======
+            if not leave.date_from or (leave.date_to and leave.date_to > leave.date_from):
+                continue
+            local_date_from = utc.localize(leave.date_from).astimezone(user_tz)
+            local_date_to = local_date_from + relativedelta(hour=23, minute=59, second=59)
+            leave.date_to = local_date_to.astimezone(utc).replace(tzinfo=None)
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
     @api.constrains('date_from', 'date_to')
     def check_dates(self):
         if self.filtered(lambda leave: leave.date_from > leave.date_to):
             raise ValidationError(_('The start date of the time off must be earlier than the end date.'))
 
+<<<<<<< HEAD
     @api.onchange('resource_id')
     def onchange_resource(self):
         pass
 
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
     def _copy_leave_vals(self):
         self.ensure_one()
         return {

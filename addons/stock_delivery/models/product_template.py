@@ -8,7 +8,11 @@ class ProductTemplate(models.Model):
 
     hs_code = fields.Char(
         string="HS Code",
+<<<<<<< HEAD
         help="Standardized code for international shipping and goods declaration. At the moment, only used for FedEx and USPS shipping providers.",
+=======
+        help="Standardized code for international shipping and goods declaration.",
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
     )
     country_of_origin = fields.Many2one(
         'res.country',

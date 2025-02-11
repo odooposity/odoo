@@ -9,12 +9,18 @@ from odoo.addons.base.models.ir_mail_server import extract_rfc2822_addresses
 from odoo.addons.base.models.ir_qweb_fields import nl2br_enclose
 from odoo.tests import tagged
 from odoo.tests.common import BaseCase
-from odoo.tools import (
-    is_html_empty, html_to_inner_content, html_sanitize, append_content_to_html, plaintext2html,
+from odoo.tools import misc
+from odoo.tools.mail import (
+    is_html_empty, html2plaintext, html_to_inner_content, html_sanitize, append_content_to_html, plaintext2html,
     email_domain_normalize, email_normalize, email_re,
     email_split, email_split_and_format, email_split_tuples,
+<<<<<<< HEAD
     single_email_re, html2plaintext,
     misc, formataddr, email_anonymize,
+=======
+    single_email_re,
+    formataddr,
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
     prepend_html_content,
 )
 
@@ -311,6 +317,28 @@ class TestSanitizer(BaseCase):
             new_html = html_sanitize(test)
             for text in in_lst:
                 self.assertIn(text, new_html)
+
+    def test_quote_signature_container_propagation(self):
+        """Test that applying normalization twice doesn't quote more than wanted."""
+        # quote signature with bare signature in main block
+        bare_signature_body = (
+            "<div>"
+            "<div><p>Hello</p><p>Here is your document</p></div>"
+            "<div>--<br>Mark Demo</div>"
+            "<div class=\"bg-300\"></div>"
+            "</div>"
+        )
+        expected_result = (
+            "<div data-o-mail-quote-container=\"1\">"
+            "<div><p>Hello</p><p>Here is your document</p></div>"
+            "<div data-o-mail-quote=\"1\">--<br data-o-mail-quote=\"1\">Mark Demo</div>"
+            "<div class=\"bg-300\" data-o-mail-quote=\"1\"></div>"
+            "</div>"
+        )
+        sanitized_once = html_sanitize(bare_signature_body)
+        sanitized_twice = html_sanitize(sanitized_once)
+        self.assertEqual(sanitized_once, expected_result)
+        self.assertEqual(sanitized_twice, expected_result)
 
     def test_quote_gmail(self):
         html = html_sanitize(test_mail_examples.GMAIL_1)
@@ -853,6 +881,7 @@ class TestEmailTools(BaseCase):
                 'Seems single_email_re is broken with %s (expected %r, received %r)' % (src, exp, res)
             )
 
+<<<<<<< HEAD
     def test_email_anonymize(self):
         cases = [
             # examples
@@ -881,12 +910,18 @@ class TestEmailTools(BaseCase):
                     expected_redacted_domain,
                 )
 
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 class TestMailTools(BaseCase):
     """ Test mail utility methods. """
 
     def test_html2plaintext(self):
+<<<<<<< HEAD
         self.assertEqual(html2plaintext(False), 'False')
+=======
+        self.assertEqual(html2plaintext(False), '')
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
         self.assertEqual(html2plaintext('\t'), '')
         self.assertEqual(html2plaintext('  '), '')
         self.assertEqual(html2plaintext("""<h1>Title</h1>

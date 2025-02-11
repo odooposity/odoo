@@ -1,7 +1,11 @@
+<<<<<<< HEAD
 /** @odoo-module */
 
 import { Component, onMounted, useRef, useState } from "@odoo/owl";
 import { ProductCustomAttribute } from "@point_of_sale/app/store/models/product_custom_attribute";
+=======
+import { Component, onMounted, useRef, useState } from "@odoo/owl";
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 import { useSelfOrder } from "@pos_self_order/app/self_order_service";
 import { attributeFlatter, attributeFormatter } from "@pos_self_order/app/utils";
 import { floatIsZero } from "@web/core/utils/numbers";
@@ -12,15 +16,22 @@ export class AttributeSelection extends Component {
 
     setup() {
         this.selfOrder = useSelfOrder();
-        this.numberOfAttributes = this.props.product.attributes.length;
+        this.numberOfAttributes = this.props.product.attribute_line_ids.length;
         this.currentAttribute = 0;
 
         this.gridsRef = {};
         this.valuesRef = {};
+<<<<<<< HEAD
         for (const attr of this.props.product.attributes) {
             this.gridsRef[attr.id] = useRef(`attribute_grid_${attr.id}`);
             this.valuesRef[attr.id] = {};
             for (const value of attr.values) {
+=======
+        for (const attr of this.props.product.attribute_line_ids) {
+            this.gridsRef[attr.id] = useRef(`attribute_grid_${attr.id}`);
+            this.valuesRef[attr.id] = {};
+            for (const value of attr.product_template_value_ids) {
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
                 this.valuesRef[attr.id][value.id] = useRef(`value_${attr.id}_${value.id}`);
             }
         }
@@ -78,28 +89,31 @@ export class AttributeSelection extends Component {
     get attributeSelected() {
         const flatAttribute = attributeFlatter(this.selectedValues);
         const customAttribute = this.env.customValues;
-        return attributeFormatter(this.selfOrder.attributeById, flatAttribute, customAttribute);
+        return attributeFormatter(
+            this.selfOrder.models["product.attribute"].getAllBy("id"),
+            flatAttribute,
+            customAttribute
+        );
     }
 
     availableAttributeValue(attribute) {
         return this.selfOrder.config.self_ordering_mode === "kiosk"
-            ? attribute.values.filter((a) => !a.is_custom)
-            : attribute.values;
+            ? attribute.product_template_value_ids.filter((a) => !a.is_custom)
+            : attribute.product_template_value_ids;
     }
 
     initAttribute() {
         const initCustomValue = (value) => {
-            let selectedValue = this.selfOrder.editedLine?.custom_attribute_value_ids.find(
+            const selectedValue = this.selfOrder.editedLine?.custom_attribute_value_ids.find(
                 (v) => v.custom_product_template_attribute_value_id === value.id
             );
 
-            if (!selectedValue) {
-                selectedValue = new ProductCustomAttribute({
-                    custom_product_template_attribute_value_id: value.id,
-                });
-            }
-
-            return selectedValue;
+            return {
+                custom_product_template_attribute_value_id: this.selfOrder.models[
+                    "product.template.attribute.value"
+                ].get(value.id),
+                custom_value: selectedValue || "",
+            };
         };
 
         const initValue = (value) => {
@@ -109,11 +123,11 @@ export class AttributeSelection extends Component {
             return false;
         };
 
-        for (const attr of this.props.product.attributes) {
+        for (const attr of this.props.product.attribute_line_ids) {
             this.selectedValues[attr.id] = {};
 
-            for (const value of attr.values) {
-                if (attr.display_type === "multi") {
+            for (const value of attr.product_template_value_ids) {
+                if (attr.attribute_id.display_type === "multi") {
                     this.selectedValues[attr.id][value.id] = initValue(value);
                 } else if (typeof this.selectedValues[attr.id] !== "number") {
                     this.selectedValues[attr.id] = initValue(value);
@@ -127,11 +141,12 @@ export class AttributeSelection extends Component {
     }
 
     isChecked(attribute, value) {
-        return attribute.display_type === "multi"
+        return attribute.attribute_id.display_type === "multi"
             ? this.selectedValues[attribute.id][value.id]
             : parseInt(this.selectedValues[attribute.id]) === value.id;
     }
 
+<<<<<<< HEAD
     _getPriceExtra(value) {
         const isTakeAway = this.selfOrder.take_away;
         const priceExtra = isTakeAway
@@ -142,11 +157,19 @@ export class AttributeSelection extends Component {
 
     shouldShowPriceExtra(value) {
         const priceExtra = this._getPriceExtra(value);
+=======
+    shouldShowPriceExtra(value) {
+        const priceExtra = value.price_extra;
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
         return !floatIsZero(priceExtra, this.selfOrder.config.currency_decimals);
     }
 
     getfPriceExtra(value) {
+<<<<<<< HEAD
         const priceExtra = this._getPriceExtra(value);
+=======
+        const priceExtra = value.price_extra;
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
         const sign = priceExtra < 0 ? "- " : "+ ";
         return sign + this.selfOrder.formatMonetary(Math.abs(priceExtra));
     }

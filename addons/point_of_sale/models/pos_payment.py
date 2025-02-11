@@ -14,24 +14,45 @@ class PosPayment(models.Model):
     _name = "pos.payment"
     _description = "Point of Sale Payments"
     _order = "id desc"
+    _inherit = ['pos.load.mixin']
 
     name = fields.Char(string='Label', readonly=True)
+<<<<<<< HEAD
     pos_order_id = fields.Many2one('pos.order', string='Order', required=True, index=True)
     amount = fields.Monetary(string='Amount', required=True, currency_field='currency_id', readonly=True, help="Total amount of the payment.")
+=======
+    pos_order_id = fields.Many2one('pos.order', string='Order', required=True, index=True, ondelete='cascade')
+    amount = fields.Monetary(string='Amount', required=True, currency_field='currency_id', help="Total amount of the payment.")
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
     payment_method_id = fields.Many2one('pos.payment.method', string='Payment Method', required=True)
     payment_date = fields.Datetime(string='Date', required=True, readonly=True, default=lambda self: fields.Datetime.now())
     currency_id = fields.Many2one('res.currency', string='Currency', related='pos_order_id.currency_id')
     currency_rate = fields.Float(string='Conversion Rate', related='pos_order_id.currency_rate', help='Conversion rate from company currency to order currency.')
     partner_id = fields.Many2one('res.partner', string='Customer', related='pos_order_id.partner_id')
     session_id = fields.Many2one('pos.session', string='Session', related='pos_order_id.session_id', store=True, index=True)
+    user_id = fields.Many2one('res.users', string='Employee', related='session_id.user_id')
     company_id = fields.Many2one('res.company', string='Company', related='pos_order_id.company_id', store=True)
-    card_type = fields.Char('Type of card used')
-    cardholder_name = fields.Char('Cardholder Name')
-    transaction_id = fields.Char('Payment Transaction ID')
-    payment_status = fields.Char('Payment Status')
-    ticket = fields.Char('Payment Receipt Info')
+    card_type = fields.Char(string='Type of card used', help='The type of the payment card (e.g. CREDIT CARD OR DEBIT CARD)')
+    card_brand = fields.Char(string='Brand of card', help='The brand of the payment card (e.g. Visa, AMEX, ...)')
+    card_no = fields.Char(string='Card Number(Last 4 Digit)')
+    cardholder_name = fields.Char(string='Card Owner name')
+    payment_ref_no = fields.Char(string='Payment reference number', help='Payment reference number from payment provider terminal')
+    payment_method_authcode = fields.Char(string='Payment APPR Code')
+    payment_method_issuer_bank = fields.Char(string='Payment Issuer Bank')
+    payment_method_payment_mode = fields.Char(string='Payment Mode')
+    transaction_id = fields.Char(string='Payment Transaction ID')
+    payment_status = fields.Char(string='Payment Status')
+    ticket = fields.Char(string='Payment Receipt Info')
     is_change = fields.Boolean(string='Is this payment change?', default=False)
     account_move_id = fields.Many2one('account.move', index='btree_not_null')
+<<<<<<< HEAD
+=======
+    uuid = fields.Char(string='Uuid', readonly=True, copy=False)
+
+    @api.model
+    def _load_pos_data_domain(self, data):
+        return [('pos_order_id', 'in', [order['id'] for order in data['pos.order']['data']])]
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
     @api.depends('amount', 'currency_id')
     def _compute_display_name(self):
@@ -41,12 +62,19 @@ class PosPayment(models.Model):
             else:
                 payment.display_name = formatLang(self.env, payment.amount, currency_obj=payment.currency_id)
 
+    @api.constrains('amount')
+    def _check_amount(self):
+        for payment in self:
+            if payment.pos_order_id.state in ['invoiced', 'done']:
+                raise ValidationError(_('You cannot edit a payment for a posted order.'))
+
     @api.constrains('payment_method_id')
     def _check_payment_method_id(self):
         for payment in self:
             if payment.payment_method_id not in payment.session_id.config_id.payment_method_ids:
                 raise ValidationError(_('The payment method selected is not allowed in the config of the POS session.'))
 
+<<<<<<< HEAD
     def _export_for_ui(self, payment):
         return {
             'payment_method_id': payment.payment_method_id.id,
@@ -63,6 +91,8 @@ class PosPayment(models.Model):
     def export_for_ui(self):
         return self.mapped(self._export_for_ui) if self else []
 
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
     def _create_payment_moves(self, is_reverse=False):
         result = self.env['account.move']
         credit_line_ids = []
@@ -85,7 +115,11 @@ class PosPayment(models.Model):
             payment_move = self.env['account.move'].with_context(default_journal_id=journal.id).create({
                 'journal_id': journal.id,
                 'date': fields.Date.context_today(order, order.date_order),
+<<<<<<< HEAD
                 'ref': _('Invoice payment for %s (%s) using %s', order.name, order.account_move.name, payment_method.name),
+=======
+                'ref': _('Invoice payment for %(order)s (%(account_move)s) using %(payment_method)s', order=order.name, account_move=order.account_move.name, payment_method=payment_method.name),
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
                 'pos_payment_ids': pos_payment_ids,
             })
             result |= payment_move

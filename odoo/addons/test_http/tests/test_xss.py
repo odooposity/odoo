@@ -6,7 +6,11 @@ from .test_common import TestHttpBase
 class TestXSS(TestHttpBase):
     # In case a XSS isn't filtered, it'll load /test_http/fail which logs an error.
     # browser_js only returns when it finds "test successful" in the logs.
+<<<<<<< HEAD
     fake_success = "console.log('test successfulness cannot be determined via JS')"
+=======
+    fake_success = "console.log('test successful')"
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
     #                            ^^^^^^^^^^^^^^^
 
     def test_xss_static(self):

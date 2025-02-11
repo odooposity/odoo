@@ -5,7 +5,11 @@ import odoo
 
 from odoo.addons.point_of_sale.tests.common import TestPointOfSaleCommon
 from odoo import fields
+<<<<<<< HEAD
 from odoo.tests.common import Form
+=======
+from odoo.tests import Form
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 @odoo.tests.tagged('post_install', '-at_install')
 class TestPosMrp(TestPointOfSaleCommon):
@@ -19,14 +23,14 @@ class TestPosMrp(TestPointOfSaleCommon):
         self.kit = self.env['product.product'].create({
             'name': 'Kit Product',
             'available_in_pos': True,
-            'type': 'product',
+            'is_storable': True,
             'lst_price': 10.0,
             'categ_id': category.id,
         })
 
         self.component_a = self.env['product.product'].create({
             'name': 'Comp A',
-            'type': 'product',
+            'is_storable': True,
             'available_in_pos': True,
             'lst_price': 10.0,
             'standard_price': 5.0,
@@ -34,7 +38,7 @@ class TestPosMrp(TestPointOfSaleCommon):
 
         self.component_b = self.env['product.product'].create({
             'name': 'Comp B',
-            'type': 'product',
+            'is_storable': True,
             'available_in_pos': True,
             'lst_price': 10.0,
             'standard_price': 10.0,
@@ -97,7 +101,11 @@ class TestPosMrp(TestPointOfSaleCommon):
             'available_in_pos': True,
             'categ_id': category.id,
             'taxes_id': False,
+<<<<<<< HEAD
             'type': 'product',
+=======
+            'is_storable': True,
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
         })
 
         self.kit_2 = self.env['product.product'].create({
@@ -105,7 +113,11 @@ class TestPosMrp(TestPointOfSaleCommon):
             'available_in_pos': True,
             'categ_id': category.id,
             'taxes_id': False,
+<<<<<<< HEAD
             'type': 'product',
+=======
+            'is_storable': True,
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
         })
 
         self.subkit1 = self.env['product.product'].create({
@@ -196,6 +208,7 @@ class TestPosMrp(TestPointOfSaleCommon):
         self.final_bom = bom_product_form.save()
 
         self.pos_config.open_ui()
+<<<<<<< HEAD
         order_data = {'data':
         {'to_invoice': True,
         'amount_paid': 2.0,
@@ -219,12 +232,34 @@ class TestPosMrp(TestPointOfSaleCommon):
                   [0,
                     0,
                     {'discount': 0,
+=======
+        order_data = {
+            'to_invoice': True,
+            'amount_paid': 2.0,
+            'amount_return': 0,
+            'amount_tax': 0,
+            'amount_total': 2.0,
+            'date_order': fields.Datetime.to_string(fields.Datetime.now()),
+            'fiscal_position_id': False,
+            'pricelist_id': self.pos_config.pricelist_id.id,
+            'lines': [[0, 0, {
+                'discount': 0,
+                'pack_lot_ids': [],
+                'price_unit': 2,
+                'product_id': self.kit.id,
+                'price_subtotal': 2,
+                'price_subtotal_incl': 2,
+                'qty': 1,
+                'tax_ids': [(6, 0, self.kit.taxes_id.ids)]}], [0, 0, {
+                    'discount': 0,
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
                     'pack_lot_ids': [],
                     'price_unit': 2,
                     'product_id': self.kit_2.id,
                     'price_subtotal': 2,
                     'price_subtotal_incl': 2,
                     'qty': 1,
+<<<<<<< HEAD
                     'tax_ids': [(6, 0, self.kit_2.taxes_id.ids)]}]],
             'name': 'Order 00042-003-0014',
             'partner_id': self.partner1.id,
@@ -240,6 +275,24 @@ class TestPosMrp(TestPointOfSaleCommon):
         }
         order = self.env['pos.order'].create_from_ui([order_data])
         order = self.env['pos.order'].browse(order[0]['id'])
+=======
+                    'tax_ids': [(6, 0, self.kit_2.taxes_id.ids)]}
+            ]],
+            'name': 'Order 00042-003-0014',
+            'partner_id': self.partner1.id,
+            'session_id': self.pos_config.current_session_id.id,
+            'sequence_number': 2,
+            'payment_ids': [[0, 0, {
+                'amount': 2.0,
+                'name': fields.Datetime.now(),
+                'payment_method_id': self.cash_payment_method.id}
+            ]],
+            'uuid': '00042-003-0014',
+            'user_id': self.env.uid
+        }
+        order = self.env['pos.order'].sync_from_ui([order_data])
+        order = self.env['pos.order'].browse(order['pos.order'][0]['id'])
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
         self.assertEqual(order.lines.filtered(lambda l: l.product_id == self.kit).total_cost, 15.0)
         accounts = self.kit.product_tmpl_id.get_product_accounts()
         debit_interim_account = accounts['stock_output']
@@ -271,7 +324,11 @@ class TestPosMrp(TestPointOfSaleCommon):
             'available_in_pos': True,
             'categ_id': category.id,
             'taxes_id': False,
+<<<<<<< HEAD
             'type': 'product',
+=======
+            'is_storable': True,
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
         })
 
         self.component_a = self.env['product.product'].create({
@@ -295,13 +352,20 @@ class TestPosMrp(TestPointOfSaleCommon):
         self.bom_a = bom_product_form.save()
 
         self.pos_config.open_ui()
+<<<<<<< HEAD
         order_data = {'data':
             {'to_invoice': True,
+=======
+        order_data = {'to_invoice': True,
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
             'amount_paid': 2.0,
             'amount_return': 0,
             'amount_tax': 0,
             'amount_total': 2.0,
+<<<<<<< HEAD
             'creation_date': fields.Datetime.to_string(fields.Datetime.now()),
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
             'date_order': fields.Datetime.to_string(fields.Datetime.now()),
             'fiscal_position_id': False,
             'pricelist_id': self.pos_config.pricelist_id.id,
@@ -318,18 +382,31 @@ class TestPosMrp(TestPointOfSaleCommon):
                         ],
                 'name': 'Order 00042-003-0014',
                 'partner_id': self.partner1.id,
+<<<<<<< HEAD
                 'pos_session_id': self.pos_config.current_session_id.id,
                 'sequence_number': 2,
                 'statement_ids': [[0,
+=======
+                'session_id': self.pos_config.current_session_id.id,
+                'sequence_number': 2,
+                'payment_ids': [[0,
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
                                     0,
                                     {'amount': 2.0,
                                     'name': fields.Datetime.now(),
                                     'payment_method_id': self.cash_payment_method.id}]],
+<<<<<<< HEAD
                 'uid': '00042-003-0014',
                 'user_id': self.env.uid},
             }
         order = self.env['pos.order'].create_from_ui([order_data])
         order = self.env['pos.order'].browse(order[0]['id'])
+=======
+                'uuid': '00042-003-0014',
+                'user_id': self.env.uid}
+        order = self.env['pos.order'].sync_from_ui([order_data])
+        order = self.env['pos.order'].browse(order['pos.order'][0]['id'])
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
         accounts = self.kit.product_tmpl_id.get_product_accounts()
         expense_line = order.account_move.line_ids.filtered(lambda l: l.account_id.id == accounts['expense'].id)
         self.assertEqual(expense_line.filtered(lambda l: l.product_id == self.kit).debit, 6000.0)
@@ -345,7 +422,12 @@ class TestPosMrp(TestPointOfSaleCommon):
         kit_1 = self.env['product.product'].create({
             'name': 'Kit Product 1',
             'available_in_pos': True,
+<<<<<<< HEAD
             'type': 'product',
+=======
+            'is_storable': True,
+            'type': 'consu',
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
             'lst_price': 30.0,
             'categ_id': category.id,
         })
@@ -353,14 +435,24 @@ class TestPosMrp(TestPointOfSaleCommon):
         kit_2 = self.env['product.product'].create({
             'name': 'Kit Product 2',
             'available_in_pos': True,
+<<<<<<< HEAD
             'type': 'product',
+=======
+            'is_storable': True,
+            'type': 'consu',
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
             'lst_price': 200.0,
             'categ_id': category.id,
         })
 
         shared_component_a = self.env['product.product'].create({
             'name': 'Shared Comp A',
+<<<<<<< HEAD
             'type': 'product',
+=======
+            'is_storable': True,
+            'type': 'consu',
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
             'available_in_pos': True,
             'lst_price': 10.0,
             'standard_price': 5.0,
@@ -369,7 +461,12 @@ class TestPosMrp(TestPointOfSaleCommon):
 
         other_component_a = self.env['product.product'].create({
             'name': 'Other Comp A',
+<<<<<<< HEAD
             'type': 'product',
+=======
+            'is_storable': True,
+            'type': 'consu',
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
             'available_in_pos': True,
             'lst_price': 20.0,
             'standard_price': 10.0,
@@ -377,7 +474,12 @@ class TestPosMrp(TestPointOfSaleCommon):
 
         other_component_b = self.env['product.product'].create({
             'name': 'Other Comp B',
+<<<<<<< HEAD
             'type': 'product',
+=======
+            'is_storable': True,
+            'type': 'consu',
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
             'available_in_pos': True,
             'lst_price': 30.0,
             'standard_price': 20.0,

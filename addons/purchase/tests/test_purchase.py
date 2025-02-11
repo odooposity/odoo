@@ -3,14 +3,24 @@
 from odoo.addons.account.tests.common import AccountTestInvoicingCommon
 from odoo.tests import tagged, Form
 from odoo import Command, fields
+from odoo.exceptions import UserError
 
 
 from datetime import timedelta
+<<<<<<< HEAD
+=======
+from freezegun import freeze_time
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 import pytz
 
 
 @tagged('-at_install', 'post_install')
 class TestPurchase(AccountTestInvoicingCommon):
+
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
+        cls.company_data_2 = cls.setup_other_company()
 
     def test_date_planned(self):
         """Set a date planned on 2 PO lines. Check that the PO date_planned is the earliest PO line date
@@ -109,8 +119,13 @@ class TestPurchase(AccountTestInvoicingCommon):
         partner.
         """
         # set partner to send reminder in Company 2
+<<<<<<< HEAD
         self.partner_a.with_company(self.env.companies[1]).receipt_reminder_email = True
         self.partner_a.with_company(self.env.companies[1]).reminder_date_before_receipt = 1
+=======
+        self.partner_a.with_company(self.company_data_2['company']).receipt_reminder_email = True
+        self.partner_a.with_company(self.company_data_2['company']).reminder_date_before_receipt = 1
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
         # Create the PO in Company 1
         self.env.user.tz = 'Europe/Brussels'
         po = Form(self.env['purchase.order'])
@@ -129,7 +144,11 @@ class TestPurchase(AccountTestInvoicingCommon):
         po = po.save()
         po.button_confirm()
         # Check that reminder is not set in Company 1 and the mail will not be sent
+<<<<<<< HEAD
         self.assertEqual(po.company_id, self.env.companies[0])
+=======
+        self.assertEqual(po.company_id, self.company)
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
         self.assertFalse(po.receipt_reminder_email)
         self.assertEqual(po.reminder_date_before_receipt, 1, "The default value should be taken from the company")
         old_messages = po.message_ids
@@ -431,6 +450,7 @@ class TestPurchase(AccountTestInvoicingCommon):
             po_line.product_id = product
         purchase_order_usd = po_form.save()
         self.assertEqual(purchase_order_usd.order_line.price_unit, product.standard_price, "Value shouldn't be rounded $")
+        self.assertEqual(purchase_order_usd.amount_total_cc, purchase_order_usd.amount_total, "Company Total should be 0.14$")
 
         po_form = Form(self.env['purchase.order'])
         po_form.partner_id = self.partner_a
@@ -439,6 +459,7 @@ class TestPurchase(AccountTestInvoicingCommon):
             po_line.product_id = product
         purchase_order_coco = po_form.save()
         self.assertEqual(purchase_order_coco.order_line.price_unit, currency_rate.rate * product.standard_price, "Value shouldn't be rounded 🍫")
+        self.assertEqual(purchase_order_coco.amount_total_cc, round(purchase_order_coco.amount_total / currency_rate.rate, 2), "Company Total should be 0.14$, since 1$ = 0.5🍫")
 
         #check if the correct currency is set on the purchase order by comparing the expected price and actual price
 
@@ -482,6 +503,50 @@ class TestPurchase(AccountTestInvoicingCommon):
         })
 
         self.assertEqual(order_b.order_line.price_unit, 10.0, 'The price unit should be 10.0')
+        self.assertEqual(order_b.amount_total_cc, order_b.amount_total, 'Company Total should be 10.0$')
+
+    def test_discount_and_price_update_on_quantity_change(self):
+        """ Purchase order line price and discount should update accordingly based on quantity
+        """
+        product = self.env['product.product'].create({
+            'name': 'Product',
+            'standard_price': 12,
+            'seller_ids': [
+                Command.create({
+                    'partner_id': self.partner_a.id,
+                    'min_qty': 10,
+                    'price': 10,
+                    'discount': 10,
+                }),
+                Command.create({
+                    'partner_id': self.partner_a.id,
+                    'min_qty': 20,
+                    'price': 10,
+                    'discount': 15,
+                })
+            ]
+        })
+
+        purchase_order = self.env['purchase.order'].with_company(self.company_data['company']).create({
+            'partner_id': self.partner_a.id,
+            'order_line': [Command.create({
+                'product_id': product.id,
+                'product_uom': product.uom_po_id.id,
+            })],
+        })
+        po_line = purchase_order.order_line
+
+        po_line.product_qty = 10
+        self.assertEqual(po_line.discount, 10, "first seller should be selected so discount should be 10")
+        self.assertEqual(po_line.price_subtotal, 90, "0.1 discount applied price should be 90")
+
+        po_line.product_qty = 22
+        self.assertEqual(po_line.discount, 15, "second seller should be selected so discount should be 15")
+        self.assertEqual(po_line.price_subtotal, 187, "0.15 discount applied price should be 187")
+
+        po_line.product_qty = 2
+        self.assertEqual(po_line.discount, 0, "no seller should be selected so discount should be 0")
+        self.assertEqual(po_line.price_subtotal, 24, "No seller")
 
     def test_discount_and_price_update_on_quantity_change(self):
         """ Purchase order line price and discount should update accordingly based on quantity
@@ -800,6 +865,102 @@ class TestPurchase(AccountTestInvoicingCommon):
             {'product_id': product_no_tax.id, 'taxes_id': []},
         ])
 
+<<<<<<< HEAD
+=======
+    @freeze_time('2024-07-08')
+    def test_description_price__date_depending_on_vendor(self):
+        """
+        Test that the description and the price are updated accordingly when the vendor is changed.
+        """
+        self.product_a.seller_ids = [
+            Command.create({
+                'partner_id': self.partner_a.id,
+                'min_qty': 1,
+                'price': 5,
+                'product_code': 'Vendor A',
+                'delay': 5,
+            }),
+            Command.create({
+                'partner_id': self.partner_b.id,
+                'min_qty': 1,
+                'price': 10,
+                'product_code': 'Vendor B',
+                'delay': 6,
+            }),
+        ]
+        self.assertFalse(False)
+        # Create PO and set vendor A
+        po_form = Form(self.env['purchase.order'])
+        po_form.partner_id = self.partner_a
+        with po_form.order_line.new() as po_line:
+            po_line.product_id = self.product_a
+            po_line.product_qty = 10
+        po = po_form.save()
+        self.assertEqual(po.order_line.price_unit, 5)
+        self.assertEqual(po.order_line.name, '[Vendor A] product_a')
+        self.assertEqual(po.order_line.product_qty, 10)
+        self.assertEqual(po.order_line.date_planned, fields.Datetime.now() + timedelta(days=5))
+        po.partner_id = self.partner_b
+        self.assertEqual(po.order_line.price_unit, 10)
+        self.assertEqual(po.order_line.name, '[Vendor B] product_a')
+        self.assertEqual(po.order_line.product_qty, 10)
+        self.assertEqual(po.order_line.date_planned, fields.Datetime.now() + timedelta(days=6))
+
+    def test_merge_purchase_order(self):
+        PurchaseOrder = self.env['purchase.order']
+        user_1 = self.env['res.users'].search([])[0]
+        user_2 = self.env['res.users'].search([])[1]
+        payment_term_id_1 = self.env['account.payment.term'].search([])[0]
+        payment_term_id_2 = self.env['account.payment.term'].search([])[1]
+        incoterm_id_1 = self.env['account.incoterms'].search([])[0]
+        incoterm_id_2 = self.env['account.incoterms'].search([])[1]
+
+        po_1 = Form(PurchaseOrder)
+        po_1.partner_id = self.partner_a
+        po_1.partner_ref = "azure"
+        po_1.origin = "s0003"
+        po_1.user_id = user_1
+        po_1.payment_term_id = payment_term_id_1
+        with po_1.order_line.new() as po_line:
+            po_line.product_id = self.product_a
+            po_line.product_qty = 1
+            po_line.price_unit = 100
+        po_1 = po_1.save()
+        po_1.incoterm_id = incoterm_id_1
+
+        po_2 = Form(PurchaseOrder)
+        po_2.partner_id = self.partner_a
+        po_2.partner_ref = "wood corner"
+        po_2.origin = "s0004"
+        po_2.user_id = user_2
+        po_2.payment_term_id = payment_term_id_2
+
+        with po_2.order_line.new() as po_line_1:
+            po_line_1.product_id = self.product_a
+            po_line_1.product_qty = 5
+            po_line_1.price_unit = 100
+        with po_2.order_line.new() as po_line_2:
+            po_line_2.product_id = self.product_b
+            po_line_2.product_qty = 5
+            po_line_2.price_unit = 500
+        po_2 = po_2.save()
+        po_2.incoterm_id = incoterm_id_2
+
+        with self.assertRaises(UserError) as context:
+            PurchaseOrder.browse([po_1.id]).action_merge()
+        self.assertEqual(context.exception.args[0], "Please select at least two purchase orders with state RFQ and RFQ sent to merge.")
+
+        selected_purchase_orders = po_1 | po_2
+        selected_purchase_orders.action_merge()
+        self.assertTrue(po_2.state == 'cancel')
+        self.assertEqual(po_1.order_line[0].product_qty, 6)
+        self.assertEqual(po_1.partner_ref, "azure, wood corner")
+        self.assertEqual(po_1.origin, "s0003, s0004")
+        self.assertEqual(po_1.user_id, user_1)
+        self.assertEqual(po_1.payment_term_id, payment_term_id_1)
+        self.assertEqual(po_1.incoterm_id, incoterm_id_1)
+
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
     def test_vendor_price_by_purchase_order_company(self):
         """
         Test that in case a vendor has multiple price for two company A and B,

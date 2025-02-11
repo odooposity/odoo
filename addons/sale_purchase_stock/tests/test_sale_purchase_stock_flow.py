@@ -2,7 +2,11 @@
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
 
 from odoo import Command
+<<<<<<< HEAD
 from odoo.tests.common import TransactionCase, Form
+=======
+from odoo.tests import Form, TransactionCase
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 
 class TestSalePurchaseStockFlow(TransactionCase):
@@ -21,12 +25,17 @@ class TestSalePurchaseStockFlow(TransactionCase):
 
         cls.mto_product = cls.env['product.product'].create({
             'name': 'SuperProduct',
-            'type': 'product',
+            'is_storable': True,
             'route_ids': [(6, 0, (cls.mto_route + cls.buy_route).ids)],
             'seller_ids': [(0, 0, {
                 'partner_id': cls.vendor.id,
             })],
         })
+        cls.warehouse = cls.env['stock.warehouse'].create({
+            'name': 'Other Warehouse',
+            'code': 'OTH',
+        })
+        cls.mto_route.rule_ids.procure_method = "make_to_order"
 
     def test_cancel_so_with_draft_po(self):
         """
@@ -154,6 +163,33 @@ class TestSalePurchaseStockFlow(TransactionCase):
         self.assertTrue(blue_po)
         self.assertRecordValues(blue_po.order_line, [{'product_id': blue_product.id, 'product_uom_qty': 3, 'price_unit': 10}])
 
+<<<<<<< HEAD
+=======
+    def test_link_sale_purchase_mto_link_multi_step(self):
+        self.warehouse.reception_steps = 'two_steps'
+        sale = self.env['sale.order'].create({
+            'partner_id': self.customer.id,
+            'order_line': [
+                Command.create({
+                    'name': self.mto_product.name,
+                    'product_id': self.mto_product.id,
+                    'product_uom_qty': 1,
+                    'product_uom': self.mto_product.uom_id.id,
+                }),
+            ],
+            'warehouse_id': self.warehouse.id,
+        })
+        sale.action_confirm()
+        self.assertEqual(sale.purchase_order_count, 1)
+        purchase = sale._get_purchase_orders()
+        purchase.button_confirm()
+
+        receipt = purchase.picking_ids
+        receipt.move_ids.write({'quantity': 1, 'picked': True})
+        receipt._action_done()
+        self.assertEqual(sale.purchase_order_count, 1)
+
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
     def test_mto_and_partial_cancel(self):
         """
         First, confirm a SO with two lines with the MTO + Buy routes (the products
@@ -167,7 +203,11 @@ class TestSalePurchaseStockFlow(TransactionCase):
         vendor_2 = self.env['res.partner'].create({'name': 'Lovely Vendor'})
         product_2 = self.env['product.product'].create({
             'name': 'LovelyProduct',
+<<<<<<< HEAD
             'type': 'product',
+=======
+            'is_storable': True,
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
             'route_ids': [Command.set((self.mto_route + self.buy_route).ids)],
             'seller_ids': [Command.create({
                 'partner_id': vendor_2.id,
@@ -244,3 +284,111 @@ class TestSalePurchaseStockFlow(TransactionCase):
         self.assertRecordValues(new_delivery.move_ids, [
             {'product_id': self.mto_product.id, 'product_uom_qty': 1.0},
         ])
+<<<<<<< HEAD
+=======
+
+    def test_cross_dock_flow(self):
+        """
+        Check that the crossdock can be used on sale order line. And that it does not
+        overcome the regular receipt in 2 steps on PO.
+        """
+        customer_loc, supplier_loc = self.env['stock.warehouse']._get_partner_locations()
+        warehouse = self.env['stock.warehouse'].search([('company_id', '=', self.env.company.id)], limit=1)
+        warehouse.write({'reception_steps': 'two_steps', 'delivery_steps': 'pick_ship'})
+        xdock_route = warehouse.crossdock_route_id
+        self.assertRecordValues(xdock_route, [{'product_selectable': False, 'product_categ_selectable': False, 'sale_selectable': True}])
+
+        regular_vendor, xdock_vendor = self.env['res.partner'].create([{'name': 'Regular Vendor'}, {'name': 'Super Vendor'},])
+        product = self.env['product.product'].create({
+            'name': 'Cross-Dockable',
+            'is_storable': True,
+            'route_ids': [],
+            'seller_ids': [Command.create({'partner_id': xdock_vendor.id})],
+        })
+
+        # Check that regular purchase for your crossdock product are received in 2-steps.
+        po = self.env['purchase.order'].create({
+            'partner_id': regular_vendor.id,
+            'order_line': [Command.create({
+                'name': 'Cross-Dockable',
+                'product_id': product.id,
+                'product_qty': 1.0,
+                'product_uom': product.uom_id.id,
+                'price_unit': 50.0}
+            )],
+        })
+        self.assertFalse(po.picking_ids)
+        po.button_confirm()
+        regular_receipt_move = po.picking_ids.move_ids
+        self.assertRecordValues(regular_receipt_move, [{
+            'location_id': supplier_loc.id,
+            'location_dest_id': warehouse.wh_input_stock_loc_id.id,
+            'location_final_id': warehouse.lot_stock_id.id,
+            'picking_type_id': warehouse.in_type_id.id,
+        }])
+        regular_receipt_move.write({'picked': True})
+        regular_receipt_move._action_done()
+
+        regular_store_move = regular_receipt_move.move_dest_ids
+        self.assertRecordValues(regular_store_move, [{
+            'location_id': warehouse.wh_input_stock_loc_id.id,
+            'location_dest_id':  warehouse.lot_stock_id.id,
+            'location_final_id': warehouse.lot_stock_id.id,
+            'picking_type_id': warehouse.store_type_id.id,
+        }])
+
+        # Create a sale order for 5 units and use the cross dock route
+        so = self.env['sale.order'].create({
+            'partner_id': self.customer.id,
+            'order_line': [
+                Command.create({
+                    'name': product.name,
+                    'product_id': product.id,
+                    'product_uom_qty': 5,
+                    'product_uom': product.uom_id.id,
+                    'price_unit': 10,
+                    'route_id': xdock_route.id,
+                }),
+            ],
+        })
+        so.action_confirm()
+        # No move should be created, instead should have created a Purchase Order
+        self.assertRecordValues(so, [{'picking_ids': [], 'purchase_order_count': 1}])
+        po = so._get_purchase_orders()
+        self.assertEqual(po.partner_id, xdock_vendor)
+        po.button_confirm()
+        self.assertEqual(so.picking_ids, po.picking_ids)
+        receipt_move = po.picking_ids.move_ids
+        self.assertRecordValues(receipt_move, [{
+            'location_id': supplier_loc.id,
+            'location_dest_id': warehouse.wh_input_stock_loc_id.id,
+            'location_final_id': customer_loc.id,
+            'picking_type_id': warehouse.in_type_id.id,
+        }])
+
+        # Validate the chain
+        receipt_move.write({'picked': True})
+        receipt_move._action_done()
+
+        cross_dock_move = receipt_move.move_dest_ids
+        self.assertRecordValues(cross_dock_move, [{
+            'location_id': warehouse.wh_input_stock_loc_id.id,
+            'location_dest_id': warehouse.wh_output_stock_loc_id.id,
+            'location_final_id': customer_loc.id,
+            'picking_type_id': warehouse.xdock_type_id.id,
+        }])
+        cross_dock_move.write({'picked': True})
+        cross_dock_move._action_done()
+
+        delivery_move = cross_dock_move.move_dest_ids
+        self.assertRecordValues(delivery_move, [{
+            'location_id': warehouse.wh_output_stock_loc_id.id,
+            'location_dest_id': customer_loc.id,
+            'location_final_id': customer_loc.id,
+            'picking_type_id': warehouse.out_type_id.id,
+        }])
+        delivery_move.write({'picked': True})
+        delivery_move._action_done()
+        self.assertEqual(self.env['stock.quant']._get_available_quantity(product, customer_loc), 5)
+
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8

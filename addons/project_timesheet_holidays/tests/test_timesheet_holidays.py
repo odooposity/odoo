@@ -162,7 +162,7 @@ class TestTimesheetHolidays(TestCommonTimesheet):
         self.env['hr.holidays.cancel.leave'].with_user(self.user_employee).with_context(default_leave_id=holiday.id) \
             .new({'reason': 'Test remove holiday'}) \
             .action_cancel_leave()
-        self.assertFalse(holiday.active, 'The time off should be archived')
+        self.assertEqual(holiday.state, 'cancel', 'The time off should be archived')
         self.assertEqual(len(holiday.timesheet_ids), 0, 'The timesheets generated should be unlink.')
 
     def test_timesheet_time_off_including_public_holiday(self):
@@ -264,6 +264,7 @@ class TestTimesheetHolidays(TestCommonTimesheet):
         # timesheet should be unlinked to the timeoff, and be able to delete it
         timesheets.with_user(SUPERUSER_ID).unlink()
         self.assertFalse(timesheets.exists(), 'Timesheet should be deleted')
+<<<<<<< HEAD
 
     @freeze_time('2018-02-01 08:00:00')
     def test_timesheet_when_archiving_employee(self):
@@ -285,3 +286,5 @@ class TestTimesheetHolidays(TestCommonTimesheet):
         })
         wizard.action_register_departure()
         self.assertEqual(len(holiday.timesheet_ids), 0, 'Timesheets related to the archived employee should have been deleted')
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8

@@ -10,15 +10,16 @@ import {
     click,
     deleteBackward,
     insertText,
-    insertParagraphBreak,
     insertLineBreak,
     testEditor,
+<<<<<<< HEAD
     createLink,
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
     undo,
     nextTick
 } from '../utils.js';
 
-const convertToLink = createLink;
 const unlink = async function (editor) {
     editor.execCommand('unlink');
 };
@@ -151,6 +152,7 @@ describe('Link', () => {
         testUrlRegex(`www.google.com/a!b/c?d,e,f#g!i`, { expectedUrl: 'www.google.com/a!b/c?d,e,f#g!i' });
         testUrlRegex(`www.google.com/a%b%c`, { expectedUrl: 'www.google.com/a%b%c' });
         testUrlRegex(`http://google.com?a.b.c&d!e#e'f`, { expectedUrl: "http://google.com?a.b.c&d!e#e'f" });
+<<<<<<< HEAD
     });
     describe('insert Link', () => {
         describe('range collapsed', () => {
@@ -276,6 +278,8 @@ describe('Link', () => {
                 });
             });
         });
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
     });
     describe('edit link label', () => {
         describe('range collapsed', () => {

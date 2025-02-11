@@ -12,7 +12,11 @@ class Warehouse(models.Model):
         sequence_values = super(Warehouse, self)._get_sequence_values(name=name, code=code)
         sequence_values.update({
             'pos_type_id': {
+<<<<<<< HEAD
                 'name': self.name + ' ' + _('Picking POS'),
+=======
+                'name': _('%(name)s Picking POS', name=self.name),
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
                 'prefix': self.code + '/' + (self.pos_type_id.sequence_code or 'POS') + '/',
                 'padding': 5,
                 'company_id': self.company_id.id,

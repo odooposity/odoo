@@ -3,6 +3,7 @@
 # 	* sales_team
 # 
 # Translators:
+<<<<<<< HEAD
 # Wil Odoo, 2023
 # Ryoko Tsuda <ryoko@quartile.co>, 2023
 # 
@@ -13,6 +14,18 @@ msgstr ""
 "POT-Creation-Date: 2023-10-26 21:55+0000\n"
 "PO-Revision-Date: 2023-10-26 23:09+0000\n"
 "Last-Translator: Ryoko Tsuda <ryoko@quartile.co>, 2023\n"
+=======
+# Wil Odoo, 2024
+# Junko Augias, 2024
+# 
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 18.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2024-12-16 13:40+0000\n"
+"PO-Revision-Date: 2024-09-25 09:41+0000\n"
+"Last-Translator: Junko Augias, 2024\n"
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 "Language-Team: Japanese (https://app.transifex.com/odoo/teams/41243/ja/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -25,11 +38,14 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:sales_team.crm_team_view_form
 msgid "<i class=\"fa fa-envelope me-1\" role=\"img\" aria-label=\"Email\" title=\"Email\"/>"
 msgstr "<i class=\"fa fa-envelope me-1\" role=\"img\" aria-label=\"Email\" title=\"Email\"/>"
+<<<<<<< HEAD
 
 #. module: sales_team
 #: model_terms:ir.ui.view,arch_db:sales_team.crm_team_member_view_kanban
 msgid "<span class=\"text-bg-danger\">Archived</span>"
 msgstr "<span class=\"text-bg-danger\">アーカイブ済</span>"
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 #. module: sales_team
 #: model_terms:ir.ui.view,arch_db:sales_team.crm_team_view_kanban_dashboard
@@ -73,6 +89,7 @@ msgstr "チームメンバーを追加"
 msgid ""
 "Add members to automatically assign their documents to this sales team."
 msgstr "メンバーを追加して、そのドキュメントをこの販売チームに自動的に割り当てます。"
+<<<<<<< HEAD
 
 #. module: sales_team
 #. odoo-python
@@ -82,24 +99,41 @@ msgid ""
 "Adding %(user_name)s in this team would remove him/her from its current team"
 " %(team_name)s."
 msgstr "%(user_name)s をこのチームに追加すると彼/彼女を現在のチーム%(team_name)sから移動することになります。"
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 #. module: sales_team
 #. odoo-python
 #: code:addons/sales_team/models/crm_team_member.py:0
+<<<<<<< HEAD
 #, python-format
 msgid ""
 "Adding %(user_name)s in this team would remove him/her from its current "
 "teams %(team_names)s."
 msgstr " %(user_name)sをこのチームに追加すると彼/彼女を現在のチーム%(team_names)sから移動することになります。"
+=======
+msgid ""
+"Adding %(user_name)s in this team will remove them from %(team_names)s. "
+"Working in multiple teams? Activate the option under Configuration>Settings."
+msgstr ""
+"%(user_name)s をこのチームに追加すると %(team_names)sからは削除されます。複数のチームで業務を行いますか? "
+"設定>管理設定からオプションを有効化して下さい。"
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 #. module: sales_team
 #. odoo-python
 #: code:addons/sales_team/models/crm_team.py:0
+<<<<<<< HEAD
 #, python-format
 msgid ""
 "Adding %(user_names)s in this team would remove them from their current "
 "teams (%(team_names)s)."
 msgstr " %(user_names)sをこのチームに追加すると彼らを現在のチーム（%(team_names)s）から移動することになります。"
+=======
+msgid ""
+"Adding %(user_names)s in this team will remove them from %(team_names)s."
+msgstr "%(user_names)s をこのチームに追加すると、%(team_names)sから削除されます。"
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 #. module: sales_team
 #: model:res.groups,name:sales_team.group_sale_manager
@@ -108,6 +142,7 @@ msgstr "管理者"
 
 #. module: sales_team
 #: model_terms:ir.ui.view,arch_db:sales_team.crm_team_member_view_form
+#: model_terms:ir.ui.view,arch_db:sales_team.crm_team_member_view_kanban
 #: model_terms:ir.ui.view,arch_db:sales_team.crm_team_member_view_search
 #: model_terms:ir.ui.view,arch_db:sales_team.crm_team_view_form
 #: model_terms:ir.ui.view,arch_db:sales_team.crm_team_view_search
@@ -129,7 +164,6 @@ msgstr "アバター"
 #. module: sales_team
 #. odoo-python
 #: code:addons/sales_team/models/crm_team.py:0
-#, python-format
 msgid "Big Pretty Button :)"
 msgstr "大きく見栄えの良いボタン :)"
 
@@ -141,7 +175,6 @@ msgstr "CRMタグ"
 #. module: sales_team
 #. odoo-python
 #: code:addons/sales_team/models/crm_team.py:0
-#, python-format
 msgid "Cannot delete default team \"%s\""
 msgstr "デフォルトチーム\"%s\"を削除できません"
 
@@ -173,11 +206,6 @@ msgid "Consulting"
 msgstr "コンサルティング"
 
 #. module: sales_team
-#: model:ir.model,name:sales_team.model_res_partner
-msgid "Contact"
-msgstr "連絡先"
-
-#. module: sales_team
 #: model_terms:ir.actions.act_window,help:sales_team.sales_team_crm_tag_action
 msgid "Create CRM Tags"
 msgstr "CRMタグを作成する"
@@ -190,7 +218,11 @@ msgstr "販売チームを作成する"
 #. module: sales_team
 #: model_terms:ir.actions.act_window,help:sales_team.mail_activity_type_action_config_sales
 msgid "Create an Activity Type"
+<<<<<<< HEAD
 msgstr "アクティビティタイプを作成する"
+=======
+msgstr "活動タイプを作成する"
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 #. module: sales_team
 #: model:ir.model.fields,field_description:sales_team.field_crm_tag__create_uid
@@ -254,6 +286,7 @@ msgstr "お気に入りメンバー"
 msgid ""
 "Favorite teams to display them in the dashboard and access them easily."
 msgstr "お気に入りのチームをダッシュボードに表示して簡単にアクセスする"
+<<<<<<< HEAD
 
 #. module: sales_team
 #: model_terms:ir.ui.view,arch_db:sales_team.crm_team_view_form
@@ -261,6 +294,8 @@ msgid ""
 "Follow this salesteam to automatically track the events associated to users "
 "of this team."
 msgstr "この販売チームに従って、このチームのユーザに関連付けられたイベントを自動的に追跡します。"
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 #. module: sales_team
 #: model:ir.model.fields,field_description:sales_team.field_crm_team__message_follower_ids
@@ -303,7 +338,11 @@ msgstr "ID"
 msgid ""
 "If True, users may belong to several sales teams. Otherwise membership is "
 "limited to a single sales team."
+<<<<<<< HEAD
 msgstr "True の場合、ユーザーは複数の販売チームに所属できます。そうでない場合は、メンバーシップは1つの販売チームに限定されます。"
+=======
+msgstr "True の場合、ユーザは複数の販売チームに所属できます。そうでない場合は、会員資格は1つの販売チームに限定されます。"
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 #. module: sales_team
 #: model:ir.model.fields,help:sales_team.field_crm_team__message_needaction
@@ -316,6 +355,7 @@ msgstr "チェックした場合は、新しいメッセージに注意が必要
 #: model:ir.model.fields,help:sales_team.field_crm_team_member__message_has_error
 msgid "If checked, some messages have a delivery error."
 msgstr "チェックした場合は、一部のメッセージに配信エラーが発生されました。"
+<<<<<<< HEAD
 
 #. module: sales_team
 #: model:ir.model.fields,help:sales_team.field_res_partner__team_id
@@ -324,6 +364,8 @@ msgid ""
 "If set, this Sales Team will be used for sales and assignments related to "
 "this partner"
 msgstr "設定されている場合、この販売チームは、この取引先に関連する販売および割り当てに使用されます。"
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 #. module: sales_team
 #: model:ir.model.fields,help:sales_team.field_crm_team__active
@@ -392,7 +434,11 @@ msgstr "メンバー"
 #. module: sales_team
 #: model:ir.model.fields,field_description:sales_team.field_crm_team__member_warning
 msgid "Membership Issue Warning"
+<<<<<<< HEAD
 msgstr "メンバーシップの問題警告"
+=======
+msgstr "会員資格の問題警告"
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 #. module: sales_team
 #: model:ir.model.fields,field_description:sales_team.field_crm_team__message_has_error
@@ -415,7 +461,11 @@ msgstr "モバイル"
 #: model:ir.model.fields,field_description:sales_team.field_crm_team__is_membership_multi
 #: model:ir.model.fields,field_description:sales_team.field_crm_team_member__is_membership_multi
 msgid "Multiple Memberships Allowed"
+<<<<<<< HEAD
 msgstr "複数メンバーシップを許可"
+=======
+msgstr "複数会員資格を許可"
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 #. module: sales_team
 #: model:ir.model.fields,field_description:sales_team.field_crm_team_member__name
@@ -497,8 +547,6 @@ msgstr "営業担当者"
 #: model:ir.model,name:sales_team.model_crm_team
 #: model:ir.model.fields,field_description:sales_team.field_crm_team__name
 #: model:ir.model.fields,field_description:sales_team.field_crm_team_member__crm_team_id
-#: model:ir.model.fields,field_description:sales_team.field_res_partner__team_id
-#: model:ir.model.fields,field_description:sales_team.field_res_users__team_id
 #: model_terms:ir.ui.view,arch_db:sales_team.crm_team_member_view_search
 #: model_terms:ir.ui.view,arch_db:sales_team.crm_team_view_form
 #: model_terms:ir.ui.view,arch_db:sales_team.crm_team_view_tree
@@ -546,7 +594,6 @@ msgstr "販売チーム検索"
 #. module: sales_team
 #. odoo-python
 #: code:addons/sales_team/models/crm_team.py:0
-#, python-format
 msgid "Sample data"
 msgstr "サンプルデータ"
 
@@ -629,6 +676,7 @@ msgid ""
 "Those represent the different categories of things you have to do (e.g. "
 "\"Call\" or \"Prepare meeting\")."
 msgstr "これらは、やるべきことの様々なカテゴリを表します（例「電話」や「会議の準備」）"
+<<<<<<< HEAD
 
 #. module: sales_team
 #. odoo-python
@@ -638,6 +686,8 @@ msgid ""
 "To add a Salesperson into multiple Teams, activate the Multi-Team option in "
 "settings."
 msgstr "販売担当者を複数のチームに追加するには、設定でマルチチームオプションを有効にします。"
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 #. module: sales_team
 #: model:crm.tag,name:sales_team.categ_oppor6
@@ -659,8 +709,11 @@ msgstr "UX：チーム会社に限定するか、会社がない場合はすべ�
 #. module: sales_team
 #. odoo-python
 #: code:addons/sales_team/models/crm_team.py:0
+<<<<<<< HEAD
 #: code:addons/sales_team/models/crm_team.py:0
 #, python-format
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 msgid "Undefined graph model for Sales Team: %s"
 msgstr "販売チームのグラフモデルが未定義：%s"
 
@@ -729,12 +782,26 @@ msgstr "ウェブサイト"
 
 #. module: sales_team
 #. odoo-python
+#: code:addons/sales_team/models/crm_team.py:0
+msgid ""
+"Working in multiple teams? Activate the option under Configuration>Settings."
+msgstr "複数のチームで業務を行いますか? 設定>管理設定からオプションを有効化して下さい。"
+
+#. module: sales_team
+#. odoo-python
 #: code:addons/sales_team/models/crm_team_member.py:0
+<<<<<<< HEAD
 #, python-format
 msgid ""
 "You are trying to create duplicate membership(s). We found that "
 "%(duplicates)s already exist(s)."
 msgstr "重複したメンバーシップを作成しようとしています。%(duplicates)sはすでに存在しています。"
+=======
+msgid ""
+"You are trying to create duplicate membership(s). We found that "
+"%(duplicates)s already exist(s)."
+msgstr "重複した会員資格を作成しようとしています。%(duplicates)sはすでに存在しています。"
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 #. module: sales_team
 #: model_terms:ir.ui.view,arch_db:sales_team.crm_team_view_form
@@ -745,11 +812,14 @@ msgstr "e.g. 北アメリカ"
 #: model_terms:ir.ui.view,arch_db:sales_team.sales_team_crm_tag_view_form
 msgid "e.g. Services"
 msgstr "e.g. サービス"
+<<<<<<< HEAD
 
 #. module: sales_team
 #: model:crm.team,name:sales_team.ebay_sales_team
 msgid "eBay"
 msgstr "eBay"
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 #. module: sales_team
 #: model:res.groups,comment:sales_team.group_sale_salesman_all_leads

@@ -1,11 +1,18 @@
-/** @odoo-module **/
+import {
+    BUTTON_HANDLER_SELECTOR,
+    makeAsyncHandler,
+    makeButtonHandler,
+} from '@web/legacy/js/public/minimal_dom';
 
+<<<<<<< HEAD
 import {
     BUTTON_HANDLER_SELECTOR,
     makeAsyncHandler,
     makeButtonHandler,
 } from '@web/legacy/js/core/minimal_dom';
 
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 // Track when all JS files have been lazy loaded. Will allow to unblock the
 // related DOM sections when the whole JS have been loaded and executed.
 let allScriptsLoadedResolve = null;
@@ -40,6 +47,7 @@ async function waitForLazyAndRetrigger(ev) {
         }
     }, 0);
 }
+<<<<<<< HEAD
 
 const loadingEffectHandlers = [];
 /**
@@ -54,12 +62,37 @@ function registerLoadingEffectHandler(el, type, handler) {
     loadingEffectHandlers.push({el, type, handler});
 }
 
+=======
+
+const loadingEffectHandlers = [];
+/**
+ * Adds the given event listener and saves it for later removal.
+ *
+ * @param {HTMLElement} el
+ * @param {string} type
+ * @param {Function} handler
+ */
+function registerLoadingEffectHandler(el, type, handler) {
+    el.addEventListener(type, handler, {capture: true});
+    loadingEffectHandlers.push({el, type, handler});
+}
+
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 let waitingLazy = false;
 
 /**
  * Automatically adds a loading effect on clicked buttons (that were not marked
  * with a specific class). Once the whole JS has been loaded, the events will be
  * triggered again.
+<<<<<<< HEAD
+=======
+ *
+ * For forms, we automatically prevent submit events (since can be triggered
+ * without click on a button) but we do not retrigger them (could be duplicate
+ * with re-trigger of a click on a submit button otherwise). However, submitting
+ * a form in any way should most of the time simulate a click on the submit
+ * button if any anyway.
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
  *
  * For forms, we automatically prevent submit events (since can be triggered
  * without click on a button) but we do not retrigger them (could be duplicate
@@ -106,6 +139,7 @@ function waitLazy() {
     for (const buttonEl of loadingEffectButtonEls) {
         for (const eventType of loadingEffectEventTypes) {
             const loadingEffectHandler = eventType === 'click'
+<<<<<<< HEAD
                 ? makeButtonHandler.call({
                     '__makeButtonHandler_preventDefault': true,
                     '__makeButtonHandler_stopImmediatePropagation': true,
@@ -113,6 +147,10 @@ function waitLazy() {
                 : makeAsyncHandler.call({
                     '__makeAsyncHandler_stopImmediatePropagation': true,
                 }, waitForLazyAndRetrigger, true);
+=======
+                ? makeButtonHandler(waitForLazyAndRetrigger, true, true, true)
+                : makeAsyncHandler(waitForLazyAndRetrigger, true, true, true);
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
             registerLoadingEffectHandler(buttonEl, eventType, loadingEffectHandler);
         }
     }

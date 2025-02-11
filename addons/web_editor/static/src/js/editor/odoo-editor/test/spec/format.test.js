@@ -847,7 +847,11 @@ describe('Format', () => {
                     await editor.execCommand('underline');
                     await editor.execCommand('insert', 'C');
                 },
+<<<<<<< HEAD
                 contentAfterEdit: `<p>ab${u(s(`cd`))}${s(`A${u("B")}C[]`)}${u(s(`ef`))}</p>`,
+=======
+                contentAfterEdit: `<p>ab${u(s(`cd`))}${s(`A${u(`B`, 'first')}C[]\u200B`, 'first')}${u(s(`ef`))}</p>`,
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
             });
         });
         it('should remove only underline decoration on a span', async () => {

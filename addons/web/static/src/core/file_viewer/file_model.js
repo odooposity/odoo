@@ -1,10 +1,12 @@
-/* @odoo-module */
-
 import { url } from "@web/core/utils/urls";
 
 export const FileModelMixin = (T) =>
     class extends T {
+<<<<<<< HEAD
         accessToken;
+=======
+        access_token;
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
         checksum;
         extension;
         filename;
@@ -111,7 +113,11 @@ export const FileModelMixin = (T) =>
                 return {};
             }
             const params = {
+<<<<<<< HEAD
                 access_token: this.accessToken,
+=======
+                access_token: this.access_token,
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
                 filename: this.name,
                 unique: this.checksum,
             };

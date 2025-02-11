@@ -54,7 +54,11 @@ patch(LinkTools.prototype, {
     _adaptPageAnchor() {
         const urlInputValue = this.$el.find('input[name="url"]').val();
         const $pageAnchor = this.$el.find('.o_link_dialog_page_anchor');
+<<<<<<< HEAD
         const showAnchorSelector = urlInputValue[0] === '/';
+=======
+        const showAnchorSelector = (urlInputValue[0] === '/') && (!urlInputValue.startsWith("/web/content/"));
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
         const $selectMenu = this.$el.find('we-selection-items[name="link_anchor"]');
 
         if ($selectMenu.data("anchor-for") !== urlInputValue) { // avoid useless query

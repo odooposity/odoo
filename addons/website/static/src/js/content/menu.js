@@ -4,6 +4,7 @@ import publicWidget from "@web/legacy/js/public/public_widget";
 import animations from "@website/js/content/snippets.animation";
 export const extraMenuUpdateCallbacks = [];
 import { SIZES, utils as uiUtils } from "@web/core/ui/ui_service";
+import { compensateScrollbar } from "@web/core/utils/scrolling";
 
 // The header height may vary with sections hidden on scroll (see the class
 // `o_header_hide_on_scroll`). To avoid scroll jumps, we cache the value.
@@ -37,7 +38,10 @@ const BaseAnimatedHeader = animations.Animation.extend({
     start: function () {
         this.$main = this.$el.next('main');
         this.isOverlayHeader = !!this.$el.closest('.o_header_overlay, .o_header_overlay_theme').length;
+<<<<<<< HEAD
         this.$dropdowns = this.$el.find('.dropdown, .dropdown-menu'); // TODO remove in master
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
         this.hiddenOnScrollEl = this.el.querySelector(".o_header_hide_on_scroll");
 
         // While scrolling through navbar menus on medium devices, body should
@@ -96,7 +100,11 @@ const BaseAnimatedHeader = animations.Animation.extend({
      * @private
      */
     _adaptFixedHeaderPosition() {
+<<<<<<< HEAD
         $(this.el).compensateScrollbar(this.fixedHeader, false, 'right');
+=======
+        compensateScrollbar(this.el, this.fixedHeader, false, 'right');
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
     },
     /**
      * @private
@@ -104,7 +112,7 @@ const BaseAnimatedHeader = animations.Animation.extend({
     _adaptToHeaderChange: function () {
         this.options.wysiwyg && this.options.wysiwyg.odooEditor.observerUnactive();
         this._updateMainPaddingTop();
-        // Take menu into account when `dom.scrollTo()` is used whenever it is
+        // Take menu into account when `scrollTo()` is used whenever it is
         // visible - be it floating, fully displayed or partially hidden.
         this.el.classList.toggle('o_top_fixed_element', this._isShown());
 
@@ -301,7 +309,10 @@ publicWidget.registry.StandardAffixedHeader = BaseAnimatedHeader.extend({
      * @override
      */
     destroy() {
+        this.options.wysiwyg?.odooEditor.observerUnactive("destroyStandardHeader");
         this.$el.css('transform', '');
+        this.el.classList.remove("o_transformed_not_affixed");
+        this.options.wysiwyg?.odooEditor.observerActive("destroyStandardHeader");
         this._super(...arguments);
     },
 
@@ -329,7 +340,11 @@ publicWidget.registry.StandardAffixedHeader = BaseAnimatedHeader.extend({
         const fixedUpdate = (this.fixedHeader !== mainPosScrolled);
         const showUpdate = (this.fixedHeaderShow !== reachPosScrolled);
 
+        this.options.wysiwyg?.odooEditor.observerUnactive("updateHeaderOnScroll");
         if (fixedUpdate || showUpdate) {
+            if (fixedUpdate && (reachPosScrolled || mainPosScrolled)) {
+                this.el.classList.add("o_transformed_not_affixed");
+            }
             this.$el.css('transform',
                 reachPosScrolled
                 ? `translate(0, -${this.topGap}px)`
@@ -344,9 +359,11 @@ publicWidget.registry.StandardAffixedHeader = BaseAnimatedHeader.extend({
 
         if (fixedUpdate) {
             this._toggleFixedHeader(mainPosScrolled);
+            this.el.classList.remove("o_transformed_not_affixed");
         } else if (showUpdate) {
             this._adaptToHeaderChange();
         }
+        this.options.wysiwyg?.odooEditor.observerActive("updateHeaderOnScroll");
     },
 });
 
@@ -451,12 +468,53 @@ publicWidget.registry.FixedHeader = BaseAnimatedHeader.extend({
                     headerHeight = this.el.getBoundingClientRect().height;
                     this._updateMainPaddingTop();
                 }
+<<<<<<< HEAD
+            }
+            if (!this.fixedHeader && this.dropdownClickedEl) {
+                const dropdown = Dropdown.getOrCreateInstance(this.dropdownClickedEl);
+                dropdown.show();
+                this.dropdownClickedEl = null;
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
             }
             if (!this.fixedHeader && this.dropdownClickedEl) {
                 const dropdown = Dropdown.getOrCreateInstance(this.dropdownClickedEl);
                 dropdown.show();
                 this.dropdownClickedEl = null;
             }
+        }
+    },
+    /**
+     * Called when a dropdown within 'this.hiddenOnScrollEl' is clicked.
+     *
+     * @private
+     * @param {Event} ev
+     */
+    _onDropdownShow(ev) {
+        // If a dropdown inside the element 'this.hiddenOnScrollEl' is clicked
+        // while the header is fixed, we need to scroll the page up so that the
+        // 'this.hiddenOnScrollEl' element is no longer overflow hidden. Without
+        // this, the dropdown would be invisible.
+        if (this.fixedHeader) {
+            ev.preventDefault();
+            this.scrollableEl.scrollTo({ top: 0, behavior: "smooth" });
+            this.dropdownClickedEl = ev.currentTarget;
+        }
+    },
+    /**
+     * Called when a searchbar within 'this.hiddenOnScrollEl' receives input.
+     *
+     * @private
+     * @param {Event} ev
+     */
+    _onSearchbarInput(ev) {
+        // Prevents the dropdown with search results from being hidden when the
+        // header is fixed (see comment in '_onDropdownClick').
+        // The scroll animation is instantaneous because the dropdown could open
+        // before reaching the top of the page, which would result in an
+        // incorrect calculated height of the header.
+        if (this.fixedHeader) {
+            this.scrollableEl.scrollTo({ top: 0 });
         }
     },
     /**
@@ -673,6 +731,7 @@ publicWidget.registry.hoverableDropdown = animations.Animation.extend({
         }
     },
     /**
+<<<<<<< HEAD
      * Hides all opened dropdowns.
      *
      * TODO: Remove in master.
@@ -684,6 +743,8 @@ publicWidget.registry.hoverableDropdown = animations.Animation.extend({
         }
     },
     /**
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
      * @private
      * @param {Event} ev
      * @param {boolean} [doShow=true] true to show, false to hide
@@ -752,6 +813,7 @@ publicWidget.registry.hoverableDropdown = animations.Animation.extend({
         }
         this._updateDropdownVisibility(ev, false);
     },
+<<<<<<< HEAD
     /**
      * Called when the page is clicked anywhere.
      * Closes the shown dropdown if the click is outside of it.
@@ -766,10 +828,13 @@ publicWidget.registry.hoverableDropdown = animations.Animation.extend({
         }
         this._hideDropdowns();
     },
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 });
 
 publicWidget.registry.MegaMenuDropdown = publicWidget.Widget.extend({
     selector: "header#top",
+<<<<<<< HEAD
     disabledInEditableMode: false,
     events: {
         "mousedown .o_mega_menu_toggle": "_onMegaMenuClick",
@@ -902,12 +967,22 @@ publicWidget.registry.HeaderGeneral = publicWidget.Widget.extend({
         "hidden.bs.offcanvas #top_menu_collapse, #top_menu_collapse_mobile": "_onCollapseHidden",
         "shown.bs.offcanvas #top_menu_collapse_mobile": "_onMobileMenuToggled",
         "hidden.bs.offcanvas #top_menu_collapse_mobile": "_onMobileMenuToggled",
+=======
+    disabledInEditableMode: false,
+    events: {
+        "mousedown .o_mega_menu_toggle": "_onMegaMenuClick",
+        "mouseenter .o_mega_menu_toggle": "_onMegaMenuHover",
+        "mousedown .o_extra_menu_items": "_onExtraMenuClick",
+        "keyup .o_mega_menu_toggle": "_onMegaMenuClick",
+        "keyup .o_extra_menu_items": "_onExtraMenuClick",
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
     },
 
     /**
      * @override
      */
     start() {
+<<<<<<< HEAD
         this.searchModalEl = document.querySelector("#o_search_modal_block");
         if (this.searchModalEl) {
             // Fix in stable because we moved '#o_search_modal' within
@@ -930,6 +1005,185 @@ publicWidget.registry.HeaderGeneral = publicWidget.Widget.extend({
             this.searchModalEl.removeEventListener("shown.bs.modal", this.__onSearchModalShown);
         }
         this._super(...arguments);
+=======
+        const toggleEls = this.el.querySelectorAll(".o_mega_menu_toggle");
+        this.desktopMegaMenuToggleEls = [];
+        this.mobileMegaMenuToggleEls = [];
+        for (const el of toggleEls) {
+            if (el.closest(".o_header_mobile")) {
+                this.mobileMegaMenuToggleEls.push(el);
+            } else {
+                this.desktopMegaMenuToggleEls.push(el);
+            }
+        }
+
+        this._updateActiveMenuLinks();
+        return this._super(...arguments);
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
+    },
+
+    //--------------------------------------------------------------------------
+    // Private
+    //--------------------------------------------------------------------------
+
+    /**
+     * If the mega menu dropdown on which we are clicking/hovering does not have
+     * a mega menu (i.e. it is in the other navbar), brings the corresponding
+     * mega menu into it.
+     *
+     * @private
+     * @param {Element} megaMenuToggleEl the clicked/hovered mega menu dropdown
+     */
+<<<<<<< HEAD
+    _onCollapseShow() {
+        this.options.wysiwyg?.odooEditor.observerUnactive("addCollapseClass");
+        this.el.classList.add('o_top_menu_collapse_shown');
+        this.options.wysiwyg?.odooEditor.observerActive("addCollapseClass");
+=======
+    _moveMegaMenu(megaMenuToggleEl) {
+        const hasMegaMenu = !!megaMenuToggleEl.parentElement.querySelector(".o_mega_menu");
+        if (hasMegaMenu) {
+            return;
+        }
+        this.options.wysiwyg?.odooEditor.observerUnactive("moveMegaMenu");
+        const isMobileNavbar = !!megaMenuToggleEl.closest(".o_header_mobile");
+        const currentNavbarToggleEls = isMobileNavbar ?
+            this.mobileMegaMenuToggleEls : this.desktopMegaMenuToggleEls;
+        const otherNavbarToggleEls = isMobileNavbar ?
+            this.desktopMegaMenuToggleEls : this.mobileMegaMenuToggleEls;
+        const megaMenuToggleIndex = currentNavbarToggleEls.indexOf(megaMenuToggleEl);
+        const previousMegaMenuToggleEl = otherNavbarToggleEls[megaMenuToggleIndex];
+        const megaMenuEl = previousMegaMenuToggleEl.parentElement.querySelector(".o_mega_menu");
+        // Hiding the dropdown where the mega menu comes from before moving it,
+        // so everything is in a consistent state.
+        Dropdown.getOrCreateInstance(previousMegaMenuToggleEl).hide();
+        megaMenuToggleEl.insertAdjacentElement("afterend", megaMenuEl);
+        this.options.wysiwyg?.odooEditor.observerActive("moveMegaMenu");
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
+    },
+
+    /**
+     * @private
+     */
+<<<<<<< HEAD
+    _onCollapseHidden() {
+        this.options.wysiwyg?.odooEditor.observerUnactive("removeCollapseClass");
+        if (!this.el.querySelector("#top_menu_collapse_mobile.show")) {
+            this.el.classList.remove('o_top_menu_collapse_shown');
+        }
+        this.options.wysiwyg?.odooEditor.observerActive("removeCollapseClass");
+    },
+    /**
+     * @private
+     */
+    _onMobileMenuToggled(ev) {
+        // TODO: Fix for Safari. Once the scroll is moved back from the
+        //       #wrapwrap to the body, this code should not be needed anymore.
+        document.querySelector("#wrapwrap").classList.toggle("overflow-hidden");
+=======
+    _updateActiveMenuLinks() {
+        // Prevent having several active links in the menu.
+        if (this.el.querySelector(".navbar #top_menu a.nav-link.active")) {
+            return;
+        }
+        const currentHrefWithoutHash = `${window.location.origin}${window.location.pathname}`;
+        // Check and update the active state of menu items based on the current
+        // page
+        const megaMenuEls = this.el.querySelectorAll(".o_mega_menu");
+        let matchingLink = null;
+        megaMenuEls.forEach((megaMenuEl, position) => {
+            const linkEls = Array.from(megaMenuEl.querySelectorAll(`a[href]:not([href="#"])`));
+            matchingLink = linkEls.find((linkEl) => {
+                try {
+                    const url = new URL(linkEl.href);
+                    return `${url.origin}${url.pathname}` === currentHrefWithoutHash;
+                } catch {
+                    return false;
+                }
+            });
+            if (matchingLink) {
+                const megaMenuToggleEl = megaMenuEl
+                    .closest(".nav-item")
+                    .querySelector(".o_mega_menu_toggle");
+                // Target the corresponding link in the mobile navigation. Since the
+                // mega-menu for mobile is dynamically rendered, it is not
+                // accessible at this moment.
+                const mobileMegaMenuToggleEl = this.el.querySelectorAll(
+                    "#top_menu_collapse_mobile .top_menu .o_mega_menu_toggle"
+                )[position];
+                megaMenuToggleEl.classList.add("active");
+                mobileMegaMenuToggleEl.classList.add("active");
+            }
+        });
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
+    },
+
+    //--------------------------------------------------------------------------
+    // Handlers
+    //--------------------------------------------------------------------------
+
+    /**
+     * Called when a mega menu dropdown is clicked/key pressed.
+     *
+     * @private
+     * @param {Event} ev
+     */
+    _onMegaMenuClick(ev) {
+        const megaMenuToggleEl = ev.currentTarget;
+        // Ignore the event if the menus are hoverable and in desktop view (the
+        // hoverable menus are clicked on mobile view), but not if we used the
+        // keyboard.
+        if (this.el.classList.contains("o_hoverable_dropdown")
+                && !megaMenuToggleEl.closest(".o_header_mobile") && ev.type !== "keyup") {
+            return;
+        }
+        this._moveMegaMenu(megaMenuToggleEl);
+    },
+    /**
+     * Called when a mega menu dropdown is hovered.
+     *
+     * @private
+     * @param {Event} ev
+     */
+<<<<<<< HEAD
+    _onSearchModalShown(ev) {
+        this.searchModalEl.querySelector(".search-query").focus();
+    },
+});
+
+// Kept for stability but this widget is now useless with the new headers.
+publicWidget.registry.navbarDropdown = animations.Animation.extend({
+    selector: "header .navbar",
+=======
+    _onMegaMenuHover(ev) {
+        const megaMenuToggleEl = ev.currentTarget;
+        // Ignore the event if the menus are not hoverable or if we are in
+        // mobile view (again, the hoverable menus are clicked on mobile view).
+        if (!this.el.classList.contains("o_hoverable_dropdown")
+                || megaMenuToggleEl.closest(".o_header_mobile")) {
+            return;
+        }
+        this._moveMegaMenu(megaMenuToggleEl);
+    },
+    /**
+     * Called when the extra menu (+) dropdown is clicked/key pressed.
+     *
+     * @private
+     * @param {Event} ev
+     */
+    _onExtraMenuClick(ev) {
+        const megaMenuToggleEls = ev.currentTarget.querySelectorAll(".o_mega_menu_toggle");
+        megaMenuToggleEls.forEach(megaMenuToggleEl => this._moveMegaMenu(megaMenuToggleEl));
+    },
+});
+
+publicWidget.registry.HeaderGeneral = publicWidget.Widget.extend({
+    selector: 'header#top',
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
+    disabledInEditableMode: false,
+    events: {
+        "show.bs.offcanvas #top_menu_collapse, #top_menu_collapse_mobile": "_onCollapseShow",
+        "hidden.bs.offcanvas #top_menu_collapse, #top_menu_collapse_mobile": "_onCollapseHidden",
     },
 
     //--------------------------------------------------------------------------
@@ -949,19 +1203,26 @@ publicWidget.registry.HeaderGeneral = publicWidget.Widget.extend({
      */
     _onCollapseHidden() {
         this.options.wysiwyg?.odooEditor.observerUnactive("removeCollapseClass");
-        if (!this.el.querySelector("#top_menu_collapse_mobile.show")) {
-            this.el.classList.remove('o_top_menu_collapse_shown');
+        const mobileNavbarEl = this.el.querySelector("#top_menu_collapse_mobile");
+        if (!mobileNavbarEl.matches(".show, .showing")) {
+            this.el.classList.remove("o_top_menu_collapse_shown");
         }
         this.options.wysiwyg?.odooEditor.observerActive("removeCollapseClass");
     },
-    /**
-     * @private
-     */
-    _onMobileMenuToggled(ev) {
-        // TODO: Fix for Safari. Once the scroll is moved back from the
-        //       #wrapwrap to the body, this code should not be needed anymore.
-        document.querySelector("#wrapwrap").classList.toggle("overflow-hidden");
+});
+
+publicWidget.registry.SearchModal = publicWidget.Widget.extend({
+    selector: "#o_search_modal_block #o_search_modal",
+    disabledInEditableMode: false,
+    events: {
+        "show.bs.modal": "_onSearchModalShow",
+        "shown.bs.modal": "_onSearchModalShown",
     },
+
+    //--------------------------------------------------------------------------
+    // Handlers
+    //--------------------------------------------------------------------------
+
     /**
      * @private
      */
@@ -974,53 +1235,7 @@ publicWidget.registry.HeaderGeneral = publicWidget.Widget.extend({
      * @private
      */
     _onSearchModalShown(ev) {
-        this.searchModalEl.querySelector(".search-query").focus();
-    },
-});
-
-// Kept for stability but this widget is now useless with the new headers.
-publicWidget.registry.navbarDropdown = animations.Animation.extend({
-    selector: "header .navbar",
-    disabledInEditableMode: false,
-    events: {
-        "shown.bs.collapse": "_onCollapseShown",
-        "hidden.bs.collapse": "_onCollapseHidden",
-    },
-
-    //--------------------------------------------------------------------------
-    // Private
-    //--------------------------------------------------------------------------
-
-    /**
-     * Updates the Dropdowns to trigger the "_detectNavbar" function from the
-     * Bootstrap Dropdown class. This allows the dropdowns to adapt based on
-     * whether they are located within a hamburger menu. If they are not inside
-     * an "hamburger" style menu, automatic dropdown positioning is enabled
-     * using popper.js.
-     *
-     * @private
-     */
-    _updateDropdowns() {
-        for (const toggleEl of this.el.querySelectorAll(".nav .dropdown-toggle")) {
-            Dropdown.getOrCreateInstance(toggleEl).update();
-        }
-    },
-
-    //--------------------------------------------------------------------------
-    // Handlers
-    //--------------------------------------------------------------------------
-
-    /**
-     * @private
-     */
-    _onCollapseShown() {
-        this._updateDropdowns();
-    },
-    /**
-     * @private
-     */
-    _onCollapseHidden() {
-        this._updateDropdowns();
+        this.el.querySelector(".search-query").focus();
     },
 });
 

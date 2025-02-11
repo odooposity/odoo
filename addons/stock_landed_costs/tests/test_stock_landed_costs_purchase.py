@@ -290,7 +290,7 @@ class TestLandedCosts(TestStockLandedCostsCommon):
                 {'name': 'equal split - Refrigerator: 2.0 already out',         'debit': 0.0,   'credit': 1.0},
             ]
         self.assertRecordValues(
-            sorted(stock_negative_landed_cost.account_move_id.line_ids, key=lambda d: (d['name'], d['debit'])),
+            stock_negative_landed_cost.account_move_id.line_ids.sorted(lambda d: (d['name'], d['debit'])),
             sorted(move_lines, key=lambda d: (d['name'], d['debit'])),
         )
 
@@ -435,7 +435,11 @@ class TestLandedCostsWithPurchaseAndInv(TestStockValuationLCCommon):
         self.landed_cost.split_method_landed_cost = 'by_quantity'
         product2 = self.env['product.product'].create({
             'name': 'product2',
+<<<<<<< HEAD
             'type': 'product',
+=======
+            'is_storable': True,
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
             'categ_id': self.stock_account_product_categ.id,
         })
         products = self.product1 | product2

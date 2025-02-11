@@ -1,13 +1,12 @@
 # -*- coding: utf-8 -*-
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
 
-import threading
-
 from contextlib import contextmanager
 from unittest.mock import patch, Mock
 
-from odoo.tests.common import TransactionCase, HttpCase
-from odoo import Command
+from odoo import Command, modules
+from odoo.tests.common import new_test_user, TransactionCase, HttpCase
+from odoo.tools.mail import email_split_and_format
 
 DISABLED_MAIL_CONTEXT = {
     'tracking_disable': True,
@@ -27,12 +26,72 @@ class BaseCommon(TransactionCase):
         # Mail logic won't be tested by default in other modules.
         # Mail API overrides should be tested with dedicated tests on purpose
         # Hack to use with_context and avoid manual context dict modification
-        cls.env = cls.env['base'].with_context(**DISABLED_MAIL_CONTEXT).env
+        cls.env = cls.env['base'].with_context(**cls.default_env_context()).env
+
+        independent_user = cls.setup_independent_user()
+        if independent_user:
+            cls.env = cls.env(user=independent_user)
+            cls.user = cls.env.user
+
+        independent_company = cls.setup_independent_company()
+        if independent_company:
+            # avoid using the context to assign companies
+            cls.env.user.company_id = independent_company
+            cls.env.user.company_ids = [Command.set(independent_company.ids)]
+        else:
+            cls.setup_main_company()
+
+        # Make sure all class variables have the same env.
+        # Do not specify any class variables before the env changes.
+        cls.company = cls.env.company
+        cls.currency = cls.env.company.currency_id
 
         cls.partner = cls.env['res.partner'].create({
             'name': 'Test Partner',
         })
-        cls.currency = cls.env.company.currency_id
+
+        cls.group_portal = cls.env.ref('base.group_portal')
+        cls.group_user = cls.env.ref('base.group_user')
+        cls.group_system = cls.env.ref('base.group_system')
+
+    @classmethod
+    def default_env_context(cls):
+        """ To Override to reactivate the tracking """
+        return {**DISABLED_MAIL_CONTEXT}
+
+    @classmethod
+    def setup_other_currency(cls, code, **kwargs):
+        rates = kwargs.pop('rates', [])
+        currency = cls.env['res.currency'].with_context(active_test=False).search([('name', '=', code)], limit=1)
+        currency.rate_ids.unlink()
+        currency.write({
+            'active': True,
+            'rate_ids': [Command.create(
+                {
+                    'name': rate_date,
+                    'rate': rate,
+                    'company_id': cls.env.company.id,
+                }
+            ) for rate_date, rate in rates],
+            **kwargs,
+        })
+        return currency
+
+    @classmethod
+    def setup_independent_company(cls, **kwargs):
+        return None
+
+    @classmethod
+    def setup_independent_user(cls):
+        return None
+
+    @classmethod
+    def get_default_groups(cls):
+        return cls.env['res.users']._default_groups()
+
+    @classmethod
+    def setup_main_company(cls, currency_code='USD'):
+        cls._use_currency(cls.env.company, currency_code)
 
     @classmethod
     def _enable_currency(cls, currency_code):
@@ -43,15 +102,49 @@ class BaseCommon(TransactionCase):
         return currency
 
     @classmethod
-    def _use_currency(cls, currency_code):
+    def _use_currency(cls, company, currency_code):
         # Enforce constant currency
         currency = cls._enable_currency(currency_code)
-        if not cls.env.company.currency_id == currency:
+        if company.currency_id != currency:
             cls.env.transaction.cache.set(cls.env.company, type(cls.env.company).currency_id, currency.id, dirty=True)
             # this is equivalent to cls.env.company.currency_id = currency but without triggering buisness code checks.
             # The value is added in cache, and the cache value is set as dirty so that that
             # the value will be written to the database on next flush.
             # this was needed because some journal entries may exist when running tests, especially l10n demo data.
+
+    @classmethod
+    def _create_partner(cls, **create_values):
+        return cls.env['res.partner'].create({
+            'name': "Test Partner",
+            'company_id': False,
+            **create_values,
+        })
+
+    @classmethod
+    def _create_company(cls, **create_values):
+        company = cls.env['res.company'].create({
+            'name': "Test Company",
+            **create_values,
+        })
+        cls.env.user.company_ids = [Command.link(company.id)]
+        # cls.env.context['allowed_company_ids'].append(company.id)
+        return company
+
+    @classmethod
+    def _create_new_internal_user(cls, **kwargs):
+        return new_test_user(
+            cls.env,
+            **({'login': 'internal_user'} | kwargs),
+        )
+
+    @classmethod
+    def _create_new_portal_user(cls, **kwargs):
+        return new_test_user(
+            cls.env,
+            groups='base.group_portal',
+            **({'login': 'portal_user'} | kwargs),
+        )
+
 
 class BaseUsersCommon(BaseCommon):
 
@@ -59,24 +152,8 @@ class BaseUsersCommon(BaseCommon):
     def setUpClass(cls):
         super().setUpClass()
 
-        cls.group_portal = cls.env.ref('base.group_portal')
-        cls.group_user = cls.env.ref('base.group_user')
-
-        cls.user_portal = cls.env['res.users'].create({
-            'name': 'Test Portal User',
-            'login': 'portal_user',
-            'password': 'portal_user',
-            'email': 'portal_user@gladys.portal',
-            'groups_id': [Command.set([cls.group_portal.id])],
-        })
-
-        cls.user_internal = cls.env['res.users'].create({
-            'name': 'Test Internal User',
-            'login': 'internal_user',
-            'password': 'internal_user',
-            'email': 'mark.brown23@example.com',
-            'groups_id': [Command.set([cls.group_user.id])],
-        })
+        cls.user_portal = cls._create_new_portal_user()
+        cls.user_internal = cls._create_new_internal_user()
 
 
 class TransactionCaseWithUserDemo(TransactionCase):
@@ -323,9 +400,9 @@ class MockSmtplibCase:
 
             def send_message(self, message, smtp_from, smtp_to_list):
                 origin.emails.append({
-                    'smtp_from': smtp_from,
-                    'smtp_to_list': smtp_to_list,
+                    # message
                     'message': message.as_string(),
+<<<<<<< HEAD
                     'msg_from': message['From'],
                     'from_filter': self.from_filter,
                 })
@@ -336,6 +413,15 @@ class MockSmtplibCase:
                     'smtp_to_list': smtp_to_list,
                     'message': message_str,
                     'msg_from': None,  # to fix if necessary
+=======
+                    'msg_cc': message['Cc'],
+                    'msg_from': message['From'],
+                    'msg_from_fmt': email_split_and_format(message['From'])[0],
+                    'msg_to': message['To'],
+                    # smtp
+                    'smtp_from': smtp_from,
+                    'smtp_to_list': smtp_to_list,
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
                     'from_filter': self.from_filter,
                 })
 
@@ -370,7 +456,7 @@ class MockSmtplibCase:
 
         with patch('smtplib.SMTP_SSL', side_effect=lambda *args, **kwargs: self.testing_smtp_session), \
              patch('smtplib.SMTP', side_effect=lambda *args, **kwargs: self.testing_smtp_session), \
-             patch.object(type(IrMailServer), '_is_test_mode', lambda self: False), \
+             patch.object(modules.module, 'current_test', False), \
              patch.object(type(IrMailServer), 'connect', mock_function(connect_origin)) as connect_mocked, \
              patch.object(type(IrMailServer), '_find_mail_server', mock_function(find_mail_server_origin)) as find_mail_server_mocked:
             self.connect_mocked = connect_mocked.mock
@@ -378,23 +464,27 @@ class MockSmtplibCase:
             yield
 
     def _build_email(self, mail_from, return_path=None, **kwargs):
+        headers = {'Return-Path': return_path} if return_path else {}
+        headers.update(**kwargs.pop('headers', {}))
         return self.env['ir.mail_server'].build_email(
             mail_from,
             kwargs.pop('email_to', 'dest@example-é.com'),
             kwargs.pop('subject', 'subject'),
             kwargs.pop('body', 'body'),
-            headers={'Return-Path': return_path} if return_path else None,
+            headers=headers,
             **kwargs,
         )
 
     def _send_email(self, msg, smtp_session):
-        with patch.object(threading.current_thread(), 'testing', False):
+        with patch.object(modules.module, 'current_test', False):
             self.env['ir.mail_server'].send_email(msg, smtp_session=smtp_session)
         return smtp_session.messages.pop()
 
-    def assertSMTPEmailsSent(self, smtp_from=None, smtp_to_list=None, message_from=None,
+    def assertSMTPEmailsSent(self, smtp_from=None, smtp_to_list=None,
+                             message_from=None, msg_from=None,
                              mail_server=None, from_filter=None,
-                             emails_count=1):
+                             emails_count=1,
+                             msg_cc_lst=None, msg_to_lst=None):
         """Check that the given email has been sent. If one of the parameter is
         None it is just ignored and not used to retrieve the email.
 
@@ -406,40 +496,47 @@ class MockSmtplibCase:
         :param from_filter: from_filter of the <ir.mail_server> used to send the
           email. False means 'match everything';'
         :param emails_count: the number of emails which should match the condition
+        :param msg_cc: optional check msg_cc value of email;
+        :param msg_to: optional check msg_to value of email;
+
         :return: True if at least one email has been found with those parameters
         """
         if from_filter is not None and mail_server:
             raise ValueError('Invalid usage: use either from_filter either mail_server')
+
         if from_filter is None and mail_server is not None:
             from_filter = mail_server.from_filter
-        matching_emails = filter(
+        matching_emails = list(filter(
             lambda email:
                 (smtp_from is None or smtp_from == email['smtp_from'])
                 and (smtp_to_list is None or smtp_to_list == email['smtp_to_list'])
                 and (message_from is None or 'From: %s' % message_from in email['message'])
+                # might have header being name <email> instead of "name" <email>, to check
+                and (msg_from is None or (msg_from == email['msg_from'] or msg_from == email['msg_from_fmt']))
                 and (from_filter is None or from_filter == email['from_filter']),
             self.emails,
-        )
+        ))
 
         debug_info = ''
-        matching_emails_count = len(list(matching_emails))
+        matching_emails_count = len(matching_emails)
         if matching_emails_count != emails_count:
-            emails_from = []
-            for email in self.emails:
-                from_found = next((
-                    line.split('From:')[1].strip() for line in email['message'].splitlines()
-                    if line.startswith('From:')), '')
-                emails_from.append(from_found)
             debug_info = '\n'.join(
-                f"SMTP-From: {email['smtp_from']}, SMTP-To: {email['smtp_to_list']}, Msg-From: {email_msg_from}, From_filter: {email['from_filter']})"
-                for email, email_msg_from in zip(self.emails, emails_from)
+                f"SMTP-From: {email['smtp_from']}, SMTP-To: {email['smtp_to_list']}, "
+                f"Msg-From: {email['msg_from']}, From_filter: {email['from_filter']})"
+                for email in self.emails
             )
         self.assertEqual(
             matching_emails_count, emails_count,
             msg=f'Incorrect emails sent: {matching_emails_count} found, {emails_count} expected'
-                f'\nConditions\nSMTP-From: {smtp_from}, SMTP-To: {smtp_to_list}, Msg-From: {message_from}, From_filter: {from_filter}'
+                f'\nConditions\nSMTP-From: {smtp_from}, SMTP-To: {smtp_to_list}, Msg-From: {message_from or msg_from}, From_filter: {from_filter}'
                 f'\nNot found in\n{debug_info}'
         )
+        if msg_to_lst is not None:
+            for email in matching_emails:
+                self.assertListEqual(sorted(email_split_and_format(email['msg_to'])), sorted(msg_to_lst))
+        if msg_cc_lst is not None:
+            for email in matching_emails:
+                self.assertListEqual(sorted(email_split_and_format(email['msg_cc'])), sorted(msg_cc_lst))
 
     @classmethod
     def _init_mail_gateway(cls):

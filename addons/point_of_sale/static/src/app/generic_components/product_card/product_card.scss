@@ -1,10 +1,21 @@
-.product:hover {
-    border: 1px solid $o-gray-100;
+.product {
+    --btn-border-color: #{$o-gray-200};
+
+    &:hover {
+        border: 1px solid $o-gray-100;
+    }
 }
 
 .product-img img {
+<<<<<<< HEAD
     height: 100px;
     object-fit: contain;
+=======
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+    border-top-right-radius: $border-radius-lg;
+    border-top-left-radius: $border-radius-lg;
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 }
 
 .pos-receipt {
@@ -23,6 +34,7 @@
 
     &.no-image {
         -webkit-line-clamp: 7;
+        aspect-ratio: 4 / 3;
     }
 }
 
@@ -43,10 +55,14 @@
     right: 0;
     color: white;
     text-align: center;
+    border-top-right-radius: $border-radius-lg;
 }
 
 .product-information-tag-logo {
     position: absolute;
     left: 19px;
     top: 3px;
+}
+.red-tag {
+    border-color: transparent #e75b5b63 transparent transparent;
 }

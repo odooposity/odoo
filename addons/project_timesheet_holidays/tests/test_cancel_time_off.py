@@ -54,14 +54,25 @@ class TestCancelTimeOff(TransactionCase):
         """
         time_off = self.env['hr.leave'].create({
             'name': 'Test Time Off',
+<<<<<<< HEAD
             'holiday_type': 'employee',
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
             'holiday_status_id': self.generic_time_off_type.id,
             'employee_id': self.employee.id,
             'date_from': '2020-01-07 08:00:00',
             'date_to': '2020-01-09 17:00:00',
         })
         time_off.action_validate()
+<<<<<<< HEAD
+=======
+        self.assertEqual(time_off.state, 'validate')
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
         HrHolidaysCancelLeave = self.env[
             'hr.holidays.cancel.leave'].with_user(self.employee_user).with_company(self.company.id)
         HrHolidaysCancelLeave.create({
             'leave_id': time_off.id, 'reason': 'Test Reason'}).action_cancel_leave()
+<<<<<<< HEAD
+=======
+        self.assertEqual(time_off.state, 'cancel')
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8

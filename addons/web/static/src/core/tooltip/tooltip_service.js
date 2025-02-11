@@ -1,5 +1,3 @@
-/** @odoo-module **/
-
 import { browser } from "@web/core/browser/browser";
 import { registry } from "@web/core/registry";
 import { Tooltip } from "./tooltip";
@@ -41,17 +39,22 @@ import { whenReady } from "@odoo/owl";
  * with "info" being a stringified object with two keys "x" and "y".
  */
 
-const OPEN_DELAY = 400;
-const CLOSE_DELAY = 200;
+export const OPEN_DELAY = 400;
+export const CLOSE_DELAY = 200;
+export const SHOW_AFTER_DELAY = 250;
 
 export const tooltipService = {
     dependencies: ["popover"],
     start(env, { popover }) {
         let openTooltipTimeout;
         let closeTooltip;
+        let showTimer;
         let target = null;
+<<<<<<< HEAD
         let touchPressed;
         let mouseEntered;
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
         const elementsWithTooltips = new WeakMap();
 
         /**
@@ -78,9 +81,12 @@ export const tooltipService = {
             if (!document.body.contains(target)) {
                 return true; // target is no longer in the DOM
             }
+<<<<<<< HEAD
             if (hasTouch() && !mouseEntered) {
                 return !touchPressed;
             }
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
             return false;
         }
 
@@ -135,10 +141,14 @@ export const tooltipService = {
             if (el.nodeType === Node.TEXT_NODE) {
                 return;
             }
+<<<<<<< HEAD
+=======
+            const element = el.closest("[data-tooltip], [data-tooltip-template]");
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
             if (elementsWithTooltips.has(el)) {
                 openTooltip(el, elementsWithTooltips.get(el));
-            } else if (el.matches("[data-tooltip], [data-tooltip-template]")) {
-                const dataset = el.dataset;
+            } else if (element) {
+                const dataset = element.dataset;
                 const params = {
                     tooltip: dataset.tooltip,
                     template: dataset.tooltipTemplate,
@@ -150,7 +160,7 @@ export const tooltipService = {
                 if (dataset.tooltipDelay) {
                     params.delay = parseInt(dataset.tooltipDelay, 10);
                 }
-                openTooltip(el, params);
+                openTooltip(element, params);
             }
         }
 
@@ -166,9 +176,14 @@ export const tooltipService = {
             openElementsTooltip(ev.target);
         }
 
+<<<<<<< HEAD
         function onMouseleave(ev) {
             if (target === ev.target) {
                 mouseEntered = false;
+=======
+        function cleanupTooltip(ev) {
+            if (target === ev.target.closest("[data-tooltip], [data-tooltip-template]")) {
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
                 cleanup();
             }
         }
@@ -180,8 +195,11 @@ export const tooltipService = {
          * @param {TouchEvent} ev a "touchstart" event
          */
         function onTouchStart(ev) {
-            touchPressed = true;
-            openElementsTooltip(ev.target);
+            cleanup();
+
+            showTimer = browser.setTimeout(() => {
+                openElementsTooltip(ev.target);
+            }, SHOW_AFTER_DELAY);
         }
 
         whenReady(() => {
@@ -196,17 +214,18 @@ export const tooltipService = {
                 document.body.addEventListener("touchstart", onTouchStart);
 
                 document.body.addEventListener("touchend", (ev) => {
-                    if (ev.target.matches("[data-tooltip], [data-tooltip-template]")) {
+                    if (ev.target.closest("[data-tooltip], [data-tooltip-template]")) {
                         if (!ev.target.dataset.tooltipTouchTapToShow) {
-                            touchPressed = false;
+                            browser.clearTimeout(showTimer);
+                            browser.clearTimeout(openTooltipTimeout);
                         }
                     }
                 });
-
                 document.body.addEventListener("touchcancel", (ev) => {
-                    if (ev.target.matches("[data-tooltip], [data-tooltip-template]")) {
+                    if (ev.target.closest("[data-tooltip], [data-tooltip-template]")) {
                         if (!ev.target.dataset.tooltipTouchTapToShow) {
-                            touchPressed = false;
+                            browser.clearTimeout(showTimer);
+                            browser.clearTimeout(openTooltipTimeout);
                         }
                     }
                 });
@@ -215,7 +234,8 @@ export const tooltipService = {
             // Listen (using event delegation) to "mouseenter" events to open the tooltip if any
             document.body.addEventListener("mouseenter", onMouseenter, { capture: true });
             // Listen (using event delegation) to "mouseleave" events to close the tooltip if any
-            document.body.addEventListener("mouseleave", onMouseleave, { capture: true });
+            document.body.addEventListener("mouseleave", cleanupTooltip, { capture: true });
+            document.body.addEventListener("click", cleanupTooltip, { capture: true });
         });
 
         return {

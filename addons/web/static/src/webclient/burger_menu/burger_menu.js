@@ -1,7 +1,9 @@
-/** @odoo-module **/
-
 import { registry } from "@web/core/registry";
 import { Transition } from "@web/core/transition";
+<<<<<<< HEAD
+=======
+import { user } from "@web/core/user";
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 import { useBus, useService } from "@web/core/utils/hooks";
 import { BurgerUserMenu } from "./burger_user_menu/burger_user_menu";
 import { MobileSwitchCompanyMenu } from "./mobile_switch_company_menu/mobile_switch_company_menu";
@@ -16,12 +18,18 @@ import { Component, useState } from "@odoo/owl";
 const SWIPE_ACTIVATION_THRESHOLD = 100;
 
 export class BurgerMenu extends Component {
+    static template = "web.BurgerMenu";
+    static props = {};
+    static components = {
+        BurgerUserMenu,
+        MobileSwitchCompanyMenu,
+        Transition,
+    };
+
     setup() {
         this.company = useService("company");
-        this.user = useService("user");
-        this.menuRepo = useService("menu");
+        this.user = user;
         this.state = useState({
-            isUserMenuOpened: false,
             isBurgerOpened: false,
         });
         this.swipeStartX = null;
@@ -34,33 +42,11 @@ export class BurgerMenu extends Component {
             }
         });
     }
-    get currentApp() {
-        return this.menuRepo.getCurrentApp();
-    }
-    get currentAppSections() {
-        return (
-            (this.currentApp && this.menuRepo.getMenuAsTree(this.currentApp.id).childrenTree) || []
-        );
-    }
-    get isUserMenuUnfolded() {
-        return !this.isUserMenuTogglable || this.state.isUserMenuOpened;
-    }
-    get isUserMenuTogglable() {
-        return this.currentApp && this.currentAppSections.length > 0;
-    }
     _closeBurger() {
-        this.state.isUserMenuOpened = false;
         this.state.isBurgerOpened = false;
     }
     _openBurger() {
         this.state.isBurgerOpened = true;
-    }
-    _toggleUserMenu() {
-        this.state.isUserMenuOpened = !this.state.isUserMenuOpened;
-    }
-    async _onMenuClicked(menu) {
-        await this.menuRepo.selectMenu(menu);
-        this._closeBurger();
     }
     _onSwipeStart(ev) {
         this.swipeStartX = ev.changedTouches[0].clientX;
@@ -77,13 +63,6 @@ export class BurgerMenu extends Component {
         this.swipeStartX = null;
     }
 }
-BurgerMenu.template = "web.BurgerMenu";
-BurgerMenu.components = {
-    BurgerUserMenu,
-    MobileSwitchCompanyMenu,
-    Transition,
-};
-BurgerMenu.props = {};
 
 const systrayItem = {
     Component: BurgerMenu,

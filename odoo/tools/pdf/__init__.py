@@ -2,6 +2,10 @@
 import importlib
 import io
 import re
+<<<<<<< HEAD
+=======
+import unicodedata
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 import sys
 from datetime import datetime
 from hashlib import md5
@@ -14,6 +18,10 @@ from reportlab.lib.units import cm
 from reportlab.lib.utils import ImageReader
 from reportlab.pdfgen import canvas
 
+<<<<<<< HEAD
+=======
+from odoo.tools.arabic_reshaper import reshape
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 from odoo.tools.parse_version import parse_version
 from odoo.tools.misc import file_open
 
@@ -23,6 +31,27 @@ try:
 except ImportError:
     TTFont = None
 
+<<<<<<< HEAD
+=======
+# ----------------------------------------------------------
+# PyPDF2 hack
+# ensure that zlib does not throw error -5 when decompressing
+# because some pdf won't fit into allocated memory
+# https://docs.python.org/3/library/zlib.html#zlib.decompressobj
+# ----------------------------------------------------------
+try:
+    import zlib
+
+    def _decompress(data):
+        zobj = zlib.decompressobj()
+        return zobj.decompress(data)
+
+    import PyPDF2.filters  # needed after PyPDF2 2.0.0 and before 2.11.0
+    PyPDF2.filters.decompress = _decompress
+except ImportError:
+    pass  # no fix required
+
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 # might be a good case for exception groups
 error = None
@@ -173,6 +202,7 @@ def fill_form_fields_pdf(writer, form_fields):
                     _logger.info("Fields couldn't be filled in this page.")
                     continue
 
+<<<<<<< HEAD
         for raw_annot in page.get('/Annots', []):
             annot = raw_annot.getObject()
             for field in form_fields:
@@ -183,6 +213,8 @@ def fill_form_fields_pdf(writer, form_fields):
                     new_flags = form_flags | readonly_flag
                     annot.update({NameObject("/Ff"): NumberObject(new_flags)})
 
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 def rotate_pdf(pdf):
     ''' Rotate clockwise PDF (90°) into a new PDF.
@@ -276,6 +308,41 @@ def add_banner(pdf_stream, text=None, logo=False, thickness=2 * cm):
     return output
 
 
+<<<<<<< HEAD
+=======
+def reshape_text(text):
+    """
+    Display the text based on his first character unicode name to choose Right-to-left or Left-to-right
+    This is just a hotfix to make things work
+    In the future the clean way be to use arabic-reshaper and python3-bidi libraries
+
+
+    Here we want to check the text is in a right-to-left language and if then, flip before returning it.
+    Depending on the language, the type should be Left-to-Right, Right-to-Left, or Right-to-Left Arabic
+    (Refer to this https://www.unicode.org/reports/tr9/#Bidirectional_Character_Types)
+    The base module ```unicodedata``` with his function ```bidirectional(str)``` helps us by taking a character in
+    argument and returns his type:
+    - 'L' for Left-to-Right character
+    - 'R' or 'AL' for Right-to-Left character
+
+    So we have to check if the first character of the text is of type 'R' or 'AL', and check that there is no
+    character in the rest of the text that is of type 'L'. Based on that we can confirm we have a fully Right-to-Left language,
+    then we can flip the text before returning it.
+    """
+    if not text:
+        return ''
+    maybe_rtl_letter = text.lstrip()[:1] or ' '
+    maybe_ltr_text = text[1:]
+    first_letter_is_rtl = unicodedata.bidirectional(maybe_rtl_letter) in ('AL', 'R')
+    no_letter_is_ltr = not any(unicodedata.bidirectional(letter) == 'L' for letter in maybe_ltr_text)
+    if first_letter_is_rtl and no_letter_is_ltr:
+        text = reshape(text)
+        text = text[::-1]
+
+    return text
+
+
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 class OdooPdfFileReader(PdfFileReader):
     # OVERRIDE of PdfFileReader to add the management of multiple embedded files.
 

@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 /** @odoo-module **/
 
 /**
@@ -37,3 +38,7 @@ export function pyToJsLocale(locale) {
     }
     return subtags.join("-");
 }
+=======
+export * from "@web/core/l10n/utils/format_list";
+export * from "@web/core/l10n/utils/locales";
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8

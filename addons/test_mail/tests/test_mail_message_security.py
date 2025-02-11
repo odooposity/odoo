@@ -344,11 +344,19 @@ class TestMailMessageAccess(MessageAccessCommon):
         )
         # portal user have no rights to read the message
         with self.assertRaises(AccessError):
+<<<<<<< HEAD
             message.with_user(self.user_portal).read(['subject, body'])
 
         with patch.object(MailTestSimple, 'check_access_rights', return_value=True):
             with self.assertRaises(AccessError):
                 message.with_user(self.user_portal).read(['subject, body'])
+=======
+            message.with_user(self.user_portal).read(['subject', 'body'])
+
+        with patch.object(MailTestSimple, '_check_access', return_value=None):
+            with self.assertRaises(AccessError):
+                message.with_user(self.user_portal).read(['subject', 'body'])
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
             # parent message is accessible to references notification mail values
             # for _notify method and portal user have no rights to send the message for this model
@@ -605,6 +613,7 @@ class TestMailMessageAccess(MessageAccessCommon):
         """ Test updating message envelope require some privileges """
         message = self.record_internal.with_user(self.user_employee).message_ids[0]
         message.write({'body': 'Update Me'})
+<<<<<<< HEAD
         # To change in 18+
         message.write({'model': 'res.partner'})
         message.sudo().write({'model': self.record_internal._name})  # back to original model
@@ -612,6 +621,14 @@ class TestMailMessageAccess(MessageAccessCommon):
         message.write({'partner_ids': [(4, self.user_portal_2.partner_id.id)]})
         # To change in 18+
         message.write({'res_id': self.record_public.id})
+=======
+        with self.assertRaises(AccessError):
+            message.write({'model': 'res.partner'})
+        # To change in 18+
+        message.write({'partner_ids': [(4, self.user_portal_2.partner_id.id)]})
+        with self.assertRaises(AccessError):
+            message.write({'res_id': self.record_public.id})
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
         # To change in 18+
         message.write({'notification_ids': [
             (0, 0, {'res_partner_id': self.user_portal_2.partner_id.id})
@@ -780,7 +797,12 @@ class TestMessageSubModelAccess(MessageAccessCommon):
     @mute_logger('odoo.addons.base.models.ir_model')
     def test_mail_notification_portal(self):
         """ In any case, portal should not modify notifications """
+<<<<<<< HEAD
         self.assertFalse(self.env['mail.notification'].with_user(self.user_portal).check_access_rights('write', raise_exception=False))
+=======
+        with self.assertRaises(AccessError):
+            self.assertFalse(self.env['mail.notification'].with_user(self.user_portal).check_access('write'))
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
         portal_record = self.record_portal.with_user(self.user_portal)
         message = portal_record.message_post(
             body='Hello People',

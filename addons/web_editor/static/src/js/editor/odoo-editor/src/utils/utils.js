@@ -952,7 +952,14 @@ export function getDeepRange(editable, { range, sel, splitText, select, correctT
         correctTripleClick &&
         !endOffset &&
         (start !== end || startOffset !== endOffset) &&
+<<<<<<< HEAD
         (!beforeEnd || (beforeEnd.nodeType === Node.TEXT_NODE && !isVisibleTextNode(beforeEnd) && !isZWS(beforeEnd))) &&
+=======
+        (!beforeEnd ||
+            (beforeEnd.nodeType === Node.TEXT_NODE &&
+                !isVisibleTextNode(beforeEnd) &&
+                !isZWS(beforeEnd))) &&
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
         !closestElement(endLeaf, 'table') &&
         !isInsideColumn
     ) {
@@ -1699,6 +1706,7 @@ export function containsUnbreakable(node) {
     }
     return isUnbreakable(node) || containsUnbreakable(node.firstChild);
 }
+<<<<<<< HEAD
 // TODO rename this function in master: it also handles Odoo icons, not only
 // font awesome ones. Also maybe just use the ICON_SELECTOR and `matches`?
 const iconTags = ['I', 'SPAN'];
@@ -1706,6 +1714,20 @@ const iconClasses = ['fa', 'fab', 'fad', 'far', 'oi'];
 export function isFontAwesome(node) {
     // See ICON_SELECTOR
     return (
+=======
+
+const iconTags = ['I', 'SPAN'];
+const iconClasses = ['fa', 'fab', 'fad', 'far', 'oi'];
+/**
+ * Indicates if the given node is an icon element.
+ *
+ * @see ICON_SELECTOR
+ * @param {?Node} [node]
+ * @returns {boolean}
+ */
+export function isIconElement(node) {
+    return !!(
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
         node &&
         iconTags.includes(node.nodeName) &&
         iconClasses.some(cls => node.classList.contains(cls))
@@ -1740,7 +1762,7 @@ export function isEditorTab(node) {
 }
 export function isMediaElement(node) {
     return (
-        isFontAwesome(node) ||
+        isIconElement(node) ||
         (node.classList &&
             (node.classList.contains('o_image') || node.classList.contains('media_iframe_video')))
     );
@@ -1946,7 +1968,11 @@ export function isVisible(node) {
         (node.nodeType === Node.ELEMENT_NODE &&
             (node.getAttribute("t-esc") || node.getAttribute("t-out"))) ||
         isSelfClosingElement(node) ||
+<<<<<<< HEAD
         isFontAwesome(node) ||
+=======
+        isIconElement(node) ||
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
         hasVisibleContent(node)
     );
 }
@@ -2159,7 +2185,11 @@ export function isEmptyBlock(blockEl) {
     if (!blockEl || blockEl.nodeType !== Node.ELEMENT_NODE) {
         return false;
     }
+<<<<<<< HEAD
     if (isFontAwesome(blockEl) || visibleCharRegex.test(blockEl.textContent)) {
+=======
+    if (isIconElement(blockEl) || visibleCharRegex.test(blockEl.textContent)) {
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
         return false;
     }
     if (blockEl.querySelectorAll('br').length >= 2) {
@@ -2169,7 +2199,7 @@ export function isEmptyBlock(blockEl) {
     for (const node of nodes) {
         // There is no text and no double BR, the only thing that could make
         // this visible is a "visible empty" node like an image.
-        if (node.nodeName != 'BR' && (isSelfClosingElement(node) || isFontAwesome(node))) {
+        if (node.nodeName != 'BR' && (isSelfClosingElement(node) || isIconElement(node))) {
             return false;
         }
     }
@@ -2440,7 +2470,11 @@ export function fillEmpty(el) {
         blockEl.appendChild(br);
         fillers.br = br;
     }
+<<<<<<< HEAD
     if (!isTangible(el) && !el.hasAttribute("data-oe-zws-empty-inline") && isEmptyBlock(el)) {
+=======
+    if (!isTangible(el) && !el.hasAttribute("data-oe-zws-empty-inline") && !el.hasChildNodes()) {
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
         // As soon as there is actual content in the node, the zero-width space
         // is removed by the sanitize function.
         const zws = document.createTextNode('\u200B');
@@ -2488,6 +2522,10 @@ export function setTagName(el, newTagName) {
     }
     const n = document.createElement(newTagName);
     if (el.nodeName !== 'LI') {
+<<<<<<< HEAD
+=======
+        el.style.removeProperty('list-style');
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
         const attributes = el.attributes;
         for (const attr of attributes) {
             n.setAttribute(attr.name, attr.value);

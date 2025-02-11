@@ -1,14 +1,18 @@
-# -*- coding: utf-8 -*-
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
 
+<<<<<<< HEAD
 from odoo import models
 from odoo.osv.expression import OR
 import ast
 import json
+=======
+from odoo import models, api
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 class PosSession(models.Model):
     _inherit = 'pos.session'
 
+<<<<<<< HEAD
     def _pos_ui_models_to_load(self):
         result = super()._pos_ui_models_to_load()
         if self.config_id._get_program_ids():
@@ -153,3 +157,10 @@ class PosSession(models.Model):
         # this is usefull to evaluate reward domain in frontend
         params['search_params']['fields'].append('all_product_tag_ids')
         return params
+=======
+    @api.model
+    def _load_pos_data_models(self, config_id):
+        data = super()._load_pos_data_models(config_id)
+        data += ['loyalty.program', 'loyalty.rule', 'loyalty.reward', 'loyalty.card']
+        return data
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8

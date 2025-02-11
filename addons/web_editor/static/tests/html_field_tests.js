@@ -27,7 +27,10 @@ async function iframeReady(iframe) {
     await nextTick(); // ensure document is loaded
 }
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 const pasteImage = async (editor, base64ImageData) => {
     // Create image file.
     const binaryImageData = atob(base64ImageData);
@@ -68,7 +71,11 @@ const pasteImage = async (editor, base64ImageData) => {
     const img = await pasteImagePromise;
     observer.disconnect();
     return img;
+<<<<<<< HEAD
 }
+=======
+};
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
 QUnit.module("WebEditor.HtmlField", ({ beforeEach }) => {
     let serverData;
@@ -128,7 +135,7 @@ QUnit.module("WebEditor.HtmlField", ({ beforeEach }) => {
             serverData,
             arch: `
                 <form>
-                    <field name="txt" widget="html"/>
+                    <field name="txt" widget="html_legacy"/>
                 </form>`,
         });
         await wysiwygPromise;
@@ -163,7 +170,11 @@ QUnit.module("WebEditor.HtmlField", ({ beforeEach }) => {
             arch: `
                 <form>
                     <field name="m2o" />
+<<<<<<< HEAD
                     <field name="txt" widget="html"/>
+=======
+                    <field name="txt" widget="html_legacy"/>
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
                 </form>`,
         });
 
@@ -182,7 +193,11 @@ QUnit.module("WebEditor.HtmlField", ({ beforeEach }) => {
         range.setStart(target.querySelector(".insideoftfield"), 0);
         sel.addRange(range);
         await nextTick();
+<<<<<<< HEAD
         assert.strictEqual(sel.anchorNode, target.querySelector(".o_field_html p"));
+=======
+        assert.strictEqual(sel.anchorNode, target.querySelector(".o_field_html_legacy p"));
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
         sel.removeAllRanges();
 
         range = new Range();
@@ -225,7 +240,11 @@ QUnit.module("WebEditor.HtmlField", ({ beforeEach }) => {
             serverData,
             arch: `
                 <form>
+<<<<<<< HEAD
                     <field name="txt" widget="html" options="{'style-inline' : true}"/>
+=======
+                    <field name="txt" widget="html_legacy" options="{'style-inline' : true}"/>
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
                 </form>`,
         });
         await wysiwygPromise;
@@ -266,7 +285,11 @@ QUnit.module("WebEditor.HtmlField", ({ beforeEach }) => {
             serverData,
             arch: `
                 <form>
+<<<<<<< HEAD
                     <field name="txt" widget="html"/>
+=======
+                    <field name="txt" widget="html_legacy"/>
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
                 </form>`,
         });
         await wysiwygPromise;
@@ -291,7 +314,10 @@ QUnit.module("WebEditor.HtmlField", ({ beforeEach }) => {
         assert.strictEqual(editable.innerHTML, `<p>first</p>`);
     });
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
     QUnit.module('Sandboxed Preview');
 
     QUnit.test("complex html is automatically in sandboxed preview mode", async (assert) => {
@@ -323,11 +349,11 @@ QUnit.module("WebEditor.HtmlField", ({ beforeEach }) => {
             serverData,
             arch: `
                 <form>
-                    <field name="txt" widget="html"/>
+                    <field name="txt" widget="html_legacy"/>
                 </form>`,
         });
 
-        assert.containsOnce(target, '.o_field_html[name="txt"] iframe[sandbox="allow-same-origin allow-popups allow-popups-to-escape-sandbox"]');
+        assert.containsOnce(target, '.o_field_html_legacy[name="txt"] iframe[sandbox="allow-same-origin allow-popups allow-popups-to-escape-sandbox"]');
     });
 
     QUnit.test("readonly sandboxed preview", async (assert) => {
@@ -358,11 +384,11 @@ QUnit.module("WebEditor.HtmlField", ({ beforeEach }) => {
             serverData,
             arch: `
                 <form string="Partner">
-                    <field name="txt" widget="html" readonly="1" options="{'sandboxedPreview': true}"/>
+                    <field name="txt" widget="html_legacy" readonly="1" options="{'sandboxedPreview': true}"/>
                 </form>`,
         });
 
-        const readonlyIframe = target.querySelector('.o_field_html[name="txt"] iframe[sandbox="allow-same-origin allow-popups allow-popups-to-escape-sandbox"]');
+        const readonlyIframe = target.querySelector('.o_field_html_legacy[name="txt"] iframe[sandbox="allow-same-origin allow-popups allow-popups-to-escape-sandbox"]');
         assert.ok(readonlyIframe);
         await iframeReady(readonlyIframe);
         assert.strictEqual(readonlyIframe.contentDocument.body.innerText, 'Hello');
@@ -415,7 +441,7 @@ QUnit.module("WebEditor.HtmlField", ({ beforeEach }) => {
                     <sheet>
                         <notebook>
                                 <page string="Body" name="body">
-                                    <field name="txt" widget="html" options="{'sandboxedPreview': true}"/>
+                                    <field name="txt" widget="html_legacy" options="{'sandboxedPreview': true}"/>
                                 </page>
                         </notebook>
                     </sheet>
@@ -429,7 +455,7 @@ QUnit.module("WebEditor.HtmlField", ({ beforeEach }) => {
         });
 
         // check original displayed content
-        let iframe = target.querySelector('.o_field_html[name="txt"] iframe[sandbox="allow-same-origin allow-popups allow-popups-to-escape-sandbox"]');
+        let iframe = target.querySelector('.o_field_html_legacy[name="txt"] iframe[sandbox="allow-same-origin allow-popups allow-popups-to-escape-sandbox"]');
         assert.ok(iframe, 'Should use a sanboxed iframe');
         await iframeReady(iframe);
         assert.strictEqual(iframe.contentDocument.body.textContent.trim(), 'Hello');
@@ -442,12 +468,12 @@ QUnit.module("WebEditor.HtmlField", ({ beforeEach }) => {
         await click(target, '#codeview-btn-group > button');
         await togglePromises[togglePromiseId];
         togglePromiseId++;
-        assert.containsOnce(target, '.o_field_html[name="txt"] textarea');
-        await editInput(target, '.o_field_html[name="txt"] textarea', htmlDocumentTextTemplate('Hi', 'blue'));
+        assert.containsOnce(target, '.o_field_html_legacy[name="txt"] textarea');
+        await editInput(target, '.o_field_html_legacy[name="txt"] textarea', htmlDocumentTextTemplate('Hi', 'blue'));
         await click(target, '#codeview-btn-group > button');
         await togglePromises[togglePromiseId];
         // check dispayed content after edit
-        iframe = target.querySelector('.o_field_html[name="txt"] iframe[sandbox="allow-same-origin allow-popups allow-popups-to-escape-sandbox"]');
+        iframe = target.querySelector('.o_field_html_legacy[name="txt"] iframe[sandbox="allow-same-origin allow-popups allow-popups-to-escape-sandbox"]');
         await iframeReady(iframe);
         assert.strictEqual(iframe.contentDocument.body.textContent.trim(), 'Hi');
         assert.strictEqual(iframe.contentDocument.head.querySelector('style').textContent.trim().replace(/\s/g, ''),
@@ -478,12 +504,12 @@ QUnit.module("WebEditor.HtmlField", ({ beforeEach }) => {
             serverData,
             arch: `
                 <form>
-                    <field name="txt" widget="html"/>
+                    <field name="txt" widget="html_legacy"/>
                 </form>`,
         });
 
-        assert.containsN(target, '.o_field_html[name="txt"] iframe[sandbox]', 0);
-        assert.containsN(target, '.o_field_html[name="txt"] textarea', 0);
+        assert.containsN(target, '.o_field_html_legacy[name="txt"] iframe[sandbox]', 0);
+        assert.containsN(target, '.o_field_html_legacy[name="txt"] textarea', 0);
     });
 
     QUnit.test("sandboxed preview option applies even for simple text", async (assert) => {
@@ -500,11 +526,11 @@ QUnit.module("WebEditor.HtmlField", ({ beforeEach }) => {
             serverData,
             arch: `
                 <form>
-                    <field name="txt" widget="html" options="{'sandboxedPreview': true}"/>
+                    <field name="txt" widget="html_legacy" options="{'sandboxedPreview': true}"/>
                 </form>`,
         });
 
-        assert.containsOnce(target, '.o_field_html[name="txt"] iframe[sandbox="allow-same-origin allow-popups allow-popups-to-escape-sandbox"]');
+        assert.containsOnce(target, '.o_field_html_legacy[name="txt"] iframe[sandbox="allow-same-origin allow-popups allow-popups-to-escape-sandbox"]');
     });
 
     QUnit.module('Readonly mode');
@@ -527,7 +553,7 @@ QUnit.module("WebEditor.HtmlField", ({ beforeEach }) => {
             serverData,
             arch: `
                 <form>
-                    <field name="txt" widget="html" readonly="1"/>
+                    <field name="txt" widget="html_legacy" readonly="1"/>
                 </form>`,
         });
 
@@ -656,7 +682,7 @@ QUnit.module("WebEditor.HtmlField", ({ beforeEach }) => {
             serverData,
             arch: `
                 <form>
-                    <field name="txt" widget="html"/>
+                    <field name="txt" widget="html_legacy"/>
                 </form>`,
             mockRPC: mockRPC,
         });
@@ -732,7 +758,7 @@ QUnit.module("WebEditor.HtmlField", ({ beforeEach }) => {
             serverData,
             arch: `
                 <form>
-                    <field name="txt" widget="html"/>
+                    <field name="txt" widget="html_legacy"/>
                 </form>`,
             mockRPC: mockRPC,
         });
@@ -796,7 +822,11 @@ QUnit.module("WebEditor.HtmlField", ({ beforeEach }) => {
             serverData,
             arch: `
                 <form>
+<<<<<<< HEAD
                     <field name="txt" widget="html"/>
+=======
+                    <field name="txt" widget="html_legacy"/>
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
                 </form>`,
             mockRPC: mockRPC,
         });
@@ -872,7 +902,7 @@ QUnit.module("WebEditor.HtmlField", ({ beforeEach }) => {
             serverData,
             arch: `
                 <form>
-                    <field name="txt" widget="html"/>
+                    <field name="txt" widget="html_legacy"/>
                 </form>`,
         });
 
@@ -935,7 +965,7 @@ QUnit.module("WebEditor.HtmlField", ({ beforeEach }) => {
             serverData,
             arch: `
                 <form>
-                    <field name="txt" widget="html"/>
+                    <field name="txt" widget="html_legacy"/>
                 </form>`,
         });
 
@@ -998,7 +1028,7 @@ QUnit.module("WebEditor.HtmlField", ({ beforeEach }) => {
             serverData,
             arch: `
                 <form>
-                    <field name="txt" widget="html"/>
+                    <field name="txt" widget="html_legacy"/>
                 </form>`,
         });
 
@@ -1041,7 +1071,11 @@ QUnit.module("WebEditor.HtmlField", ({ beforeEach }) => {
             serverData,
             arch: `
                 <form>
+<<<<<<< HEAD
                     <field name="txt" widget="html" options="{'allowCommandVideo': true}"/>
+=======
+                    <field name="txt" widget="html_legacy" options="{'allowCommandVideo': true}"/>
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
                 </form>`,
             mockRPC: mockRPC,
         });
@@ -1086,7 +1120,11 @@ QUnit.module("WebEditor.HtmlField", ({ beforeEach }) => {
             serverData,
             arch: `
                 <form>
+<<<<<<< HEAD
                     <field name="txt" widget="html"/>
+=======
+                    <field name="txt" widget="html_legacy"/>
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
                 </form>`,
         });
 
@@ -1160,7 +1198,11 @@ QUnit.module("WebEditor.HtmlField", ({ beforeEach }) => {
             serverData,
             arch: `
                 <form>
+<<<<<<< HEAD
                     <field name="txt" widget="html"/>
+=======
+                    <field name="txt" widget="html_legacy"/>
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
                 </form>`,
         });
         await wysiwygPromise;
@@ -1224,7 +1266,11 @@ QUnit.module("WebEditor.HtmlField", ({ beforeEach }) => {
             serverData,
             arch: `
                 <form>
+<<<<<<< HEAD
                     <field name="txt" widget="html"/>
+=======
+                    <field name="txt" widget="html_legacy"/>
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
                 </form>`,
         });
         await wysiwygPromise;
@@ -1305,6 +1351,76 @@ QUnit.module("WebEditor.HtmlField", ({ beforeEach }) => {
         assert.notOk(isRotated, "The image should not be rotated");
     });
 
+<<<<<<< HEAD
+=======
+    QUnit.module("Responsive fontsize");
+
+    QUnit.test("Apply responsive fontsize on table selection", async (assert) => {
+        assert.expect(2);
+        serverData.models.partner.records.push({
+            id: 1,
+            txt: `<table>
+                    <tbody>
+                        <tr>
+                            <td class="1"><p>ab</p></td>
+                            <td class="2"><p>cd</p></td>
+                        </tr>
+                        <tr>
+                            <td class="3"><p>ef</p></td>
+                            <td class="4"><p>hg</p></td>
+                        </tr>
+                    </tbody>
+                </table>`,
+        });
+        let htmlField;
+        const wysiwygPromise = makeDeferred();
+        patchWithCleanup(HtmlField.prototype, {
+            async startWysiwyg() {
+                await super.startWysiwyg(...arguments);
+                htmlField = this;
+                wysiwygPromise.resolve();
+            },
+        });
+
+        await makeView({
+            type: "form",
+            resId: 1,
+            resModel: "partner",
+            serverData,
+            arch: `
+                <form>
+                    <field name="txt" widget="html_legacy"/>
+                </form>`,
+        });
+        await wysiwygPromise;
+        const editor = htmlField.wysiwyg.odooEditor;
+        const table = editor.editable.querySelector("table");
+        const firstp = table.firstElementChild.firstElementChild.firstElementChild.firstElementChild;
+        const lastp = table.firstElementChild.lastElementChild.lastElementChild.firstElementChild;
+        // we need the selection in middle of the text nodes of the table cells
+        setSelection(firstp.firstChild, 1, lastp.firstChild, 1);
+        await nextTick();
+        assert.ok(
+            document.querySelector('div#toolbar[style*="visibility: visible"]'),
+            "Toolbar should be visible"
+        );
+        const fontSizeOptionButtonFS3 = document.querySelector(
+            "#toolbar #font-size .dropdown-item[data-apply-class='display-3-fs']"
+        );
+        const event = new MouseEvent("mousedown", {
+            bubbles: true,
+            cancelable: true,
+            view: window,
+            button: 0, // Left mouse button (0: left, 1: middle, 2: right)
+        });
+        // we need to have a mutation when applying fontsize change for the issue to occur
+        // so we change it first and then we change it again.
+        fontSizeOptionButtonFS3.dispatchEvent(event);
+        await nextTick();
+        assert.containsN(editor.editable, "td span.display-3-fs", 4);
+    });
+
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
     QUnit.module("Image Delete");
 
     QUnit.test("Image should delete without making any element", async (assert) => {
@@ -1332,7 +1448,11 @@ QUnit.module("WebEditor.HtmlField", ({ beforeEach }) => {
             serverData,
             arch: `
                 <form>
+<<<<<<< HEAD
                     <field name="txt" widget="html"/>
+=======
+                    <field name="txt" widget="html_legacy"/>
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
                 </form>`,
         });
         await wysiwygPromise;
@@ -1456,7 +1576,11 @@ export const uploadTestModule = QUnit.module(
                 "mail.compose.message,false,search": "<search></search>",
                 "mail.compose.message,false,form": `
                     <form>
+<<<<<<< HEAD
                         <field name="body" type="html"/>
+=======
+                        <field name="body" type="html" widget="html_legacy"/>
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
                         <field name="attachment_ids" widget="many2many_binary"/>
                     </form>`,
             };
@@ -1496,7 +1620,11 @@ export const uploadTestModule = QUnit.module(
             await doAction(webClient, 1);
             //trigger wysiwyg mediadialog
             const fixture = getFixture();
+<<<<<<< HEAD
             const formField = fixture.querySelector('.o_field_html[name="body"]');
+=======
+            const formField = fixture.querySelector('.o_field_html_legacy[name="body"]');
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
             const textInput = formField.querySelector(".note-editable p");
             textInput.innerText = "test";
             const pText = $(textInput).contents()[0];

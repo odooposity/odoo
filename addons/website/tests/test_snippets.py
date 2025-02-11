@@ -1,11 +1,10 @@
-# -*- coding: utf-8 -*-
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
 
 from lxml import html
 from werkzeug.urls import url_encode
 
 from odoo.tests import HttpCase, tagged
-from odoo.addons.website.tools import MockRequest
+from odoo.addons.website.tools import MockRequest, create_image_attachment
 from odoo.tests.common import HOST
 from odoo.tools import config
 
@@ -23,13 +22,19 @@ class TestSnippets(HttpCase):
         with MockRequest(self.env, website=self.env['website'].browse(1)):
             snippets_template = self.env['ir.ui.view'].render_public_asset('website.snippets')
         html_template = html.fromstring(snippets_template)
-        data_snippet_els = html_template.xpath("//*[@class='o_panel' and not(contains(@class, 'd-none'))]//*[@data-snippet]")
+        data_snippet_els = html_template.xpath("//*[snippets and not(contains(@class, 'd-none'))]//*[@data-oe-type='snippet']/*[@data-snippet]")
         blacklist = [
             's_facebook_page',  # avoid call to external services (facebook.com)
             's_map',  # avoid call to maps.google.com
             's_instagram_page',  # avoid call to instagram.com
+            's_image',  # Avoid specific case where the media dialog opens on drop
+            's_snippet_group',  # Snippet groups are not snippets
         ]
-        snippets_names = ','.join(set(el.attrib['data-snippet'] for el in data_snippet_els if el.attrib['data-snippet'] not in blacklist))
+        snippets_names = ','.join({
+            f"{el.attrib['data-snippet']}:{el.getparent().attrib.get('data-o-group', '')}"
+            for el in data_snippet_els
+            if el.attrib['data-snippet'] not in blacklist
+        })
         snippets_names_encoded = url_encode({'snippets_names': snippets_names})
         path = url_encode({
             'path': '/?' + snippets_names_encoded
@@ -39,7 +44,11 @@ class TestSnippets(HttpCase):
                 'name': 'My Mail Group',
                 'alias_name': 'my_mail_group',
             })
+<<<<<<< HEAD
         self.start_tour("/web#action=website.website_preview&%s" % path, "snippets_all_drag_and_drop", login='admin', timeout=300)
+=======
+        self.start_tour(f"/odoo/action-website.website_preview?{path}", "snippets_all_drag_and_drop", login='admin', timeout=600)
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
     def test_04_countdown_preview(self):
         self.start_tour(self.env['website'].get_client_action_url('/'), 'snippet_countdown', login='admin')
@@ -54,6 +63,7 @@ class TestSnippets(HttpCase):
             'social_instagram': 'https://www.instagram.com/explore/tags/odoo/',
             'social_tiktok': 'https://www.tiktok.com/@odoo',
         })
+<<<<<<< HEAD
         IrAttachment = self.env['ir.attachment']
         base = "http://%s:%s" % (HOST, config['http_port'])
         IrAttachment.create({
@@ -62,6 +72,9 @@ class TestSnippets(HttpCase):
             'type': 'url',
             'url': base + '/web/image/website.s_banner_default_image',
         })
+=======
+        create_image_attachment(self.env, '/web/image/website.s_banner_default_image', 's_banner_default_image.jpg')
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
         self.start_tour(self.env['website'].get_client_action_url('/'), 'snippet_social_media', login="admin")
         self.assertEqual(
             self.env['website'].browse(1).social_instagram,
@@ -79,20 +92,8 @@ class TestSnippets(HttpCase):
         self.start_tour(self.env['website'].get_client_action_url('/'), 'snippet_table_of_content', login='admin')
 
     def test_09_snippet_image_gallery(self):
-        IrAttachment = self.env['ir.attachment']
-        base = "http://%s:%s" % (HOST, config['http_port'])
-        IrAttachment.create({
-            'public': True,
-            'name': 's_default_image.jpg',
-            'type': 'url',
-            'url': base + '/web/image/website.s_banner_default_image.jpg',
-        })
-        IrAttachment.create({
-            'public': True,
-            'name': 's_default_image2.jpg',
-            'type': 'url',
-            'url': base + '/web/image/website.s_banner_default_image.jpg',
-        })
+        create_image_attachment(self.env, '/web/image/website.s_banner_default_image.jpg', 's_default_image.jpg')
+        create_image_attachment(self.env, '/web/image/website.s_banner_default_image.jpg', 's_default_image2.jpg')
         self.start_tour("/", "snippet_image_gallery_remove", login='admin')
 
     def test_10_parallax(self):
@@ -108,7 +109,11 @@ class TestSnippets(HttpCase):
         website = self.env.ref('website.default_website')
         website.cookies_bar = True
         self.start_tour(self.env['website'].get_client_action_url('/'), 'snippet_popup_and_scrollbar', login='admin')
+<<<<<<< HEAD
         self.start_tour(self.env['website'].get_client_action_url('/'), 'snippet_popup_and_animations', login='admin')
+=======
+        self.start_tour(self.env['website'].get_client_action_url('/'), 'snippet_popup_and_animations', login='admin', timeout=90)
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
     def test_drag_and_drop_on_non_editable(self):
         self.start_tour(self.env['website'].get_client_action_url('/'), 'test_drag_and_drop_on_non_editable', login='admin')
@@ -117,6 +122,7 @@ class TestSnippets(HttpCase):
         self.start_tour(self.env['website'].get_client_action_url('/'), "snippet_image_gallery_reorder", login='admin')
 
     def test_snippet_image_gallery_thumbnail_update(self):
+<<<<<<< HEAD
         IrAttachment = self.env['ir.attachment']
         base = 'http://%s:%s' % (HOST, config['http_port'])
         IrAttachment.create({
@@ -129,3 +135,19 @@ class TestSnippets(HttpCase):
 
     def test_dropdowns_and_header_hide_on_scroll(self):
         self.start_tour(self.env['website'].get_client_action_url('/'), 'dropdowns_and_header_hide_on_scroll', login='admin')
+=======
+        create_image_attachment(self.env, '/web/image/website.s_banner_default_image', 's_default_image.jpg')
+        self.start_tour(self.env['website'].get_client_action_url('/'), 'snippet_image_gallery_thumbnail_update', login='admin')
+
+    def test_dropdowns_and_header_hide_on_scroll(self):
+        admin_user = self.env['res.partner'].search([("email", "ilike", "admin")])
+        admin_user.name = "mitchell admin" # We need to force Admin user name for no-demo cases
+        self.start_tour(self.env['website'].get_client_action_url('/'), 'dropdowns_and_header_hide_on_scroll', login='admin')
+
+    def test_snippet_image(self):
+        create_image_attachment(self.env, '/web/image/website.s_banner_default_image', 's_default_image.jpg')
+        self.start_tour(self.env['website'].get_client_action_url('/'), 'snippet_image', login='admin')
+
+    def test_rating_snippet(self):
+        self.start_tour(self.env["website"].get_client_action_url("/"), "snippet_rating", login="admin")
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8

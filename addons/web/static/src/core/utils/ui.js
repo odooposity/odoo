@@ -1,5 +1,3 @@
-/** @odoo-module **/
-
 /**
  * @typedef Position
  * @property {number} x
@@ -46,42 +44,6 @@ export function isVisible(el) {
         // for example, svgelements
         const rect = el.getBoundingClientRect();
         _isVisible = rect.width > 0 && rect.height > 0;
-    }
-    if (!_isVisible && getComputedStyle(el).display === "contents") {
-        for (const child of el.children) {
-            if (isVisible(child)) {
-                return true;
-            }
-        }
-    }
-    return _isVisible;
-}
-
-/**
- * This function only exists because some tours currently rely on the fact that
- * we can click on elements with a non null width *xor* height (not both). However,
- * if one of these is 0, the element is not visible. We thus keep this function
- * to ease the transition to the more robust "isVisible" helper, which requires
- * both a non null width *and* height.
- *
- * @deprecated use isVisible instead
- * @param {Element} el
- * @returns {boolean}
- */
-export function _legacyIsVisible(el) {
-    if (el === document || el === window) {
-        return true;
-    }
-    if (!el) {
-        return false;
-    }
-    let _isVisible = false;
-    if ("offsetWidth" in el && "offsetHeight" in el) {
-        _isVisible = el.offsetWidth > 0 || el.offsetHeight > 0;
-    } else if ("getBoundingClientRect" in el) {
-        // for example, svgelements
-        const rect = el.getBoundingClientRect();
-        _isVisible = rect.width > 0 || rect.height > 0;
     }
     if (!_isVisible && getComputedStyle(el).display === "contents") {
         for (const child of el.children) {
@@ -205,4 +167,27 @@ export function getPreviousTabableElement(container = document.body) {
     return index === -1
         ? tabableElements[tabableElements.length - 1]
         : tabableElements[index - 1] || null;
+}
+
+/**
+ * Gives the button a loading effect by disabling it and adding a `fa` spinner
+ * icon. The existing button `fa` icons will be hidden through css.
+ *
+ * @param {HTMLElement} btnEl - the button to disable/load
+ * @return {function} a callback function that will restore the button to its
+ *         initial state
+ */
+export function addLoadingEffect(btnEl) {
+    // Note that pe-none is used alongside "disabled" so that the behavior is
+    // the same on links not using the "btn" class -> pointer-events disabled.
+    btnEl.classList.add("o_btn_loading", "disabled", "pe-none");
+    btnEl.disabled = true;
+    const loaderEl = document.createElement("span");
+    loaderEl.classList.add("fa", "fa-refresh", "fa-spin", "me-2");
+    btnEl.prepend(loaderEl);
+    return () => {
+        btnEl.classList.remove("o_btn_loading", "disabled", "pe-none");
+        btnEl.disabled = false;
+        loaderEl.remove();
+    };
 }

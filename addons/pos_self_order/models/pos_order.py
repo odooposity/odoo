@@ -1,17 +1,14 @@
 # -*- coding: utf-8 -*-
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
 
-from typing import Dict
-
-from odoo import models, fields, api
+from odoo import models, fields, api, _
+from odoo.exceptions import UserError
 
 
 class PosOrderLine(models.Model):
     _inherit = "pos.order.line"
 
-    combo_parent_id = fields.Many2one('pos.order.line', string='Combo Parent')
-    combo_line_ids = fields.One2many('pos.order.line', 'combo_parent_id', string='Combo Lines')
-    combo_id = fields.Many2one('pos.combo', string='Combo line reference')
+    combo_id = fields.Many2one('product.combo', string='Combo reference')
 
     @api.model_create_multi
     def create(self, vals_list):
@@ -37,6 +34,7 @@ class PosOrder(models.Model):
     _inherit = "pos.order"
 
     table_stand_number = fields.Char(string="Table Stand Number")
+<<<<<<< HEAD
     take_away = fields.Boolean(string="Take Away", default=False)
 
     def _compute_tax_details(self):
@@ -71,6 +69,33 @@ class PosOrder(models.Model):
                     order['data']['take_away'] = old_order.take_away
 
         return super().create_from_ui(orders, draft)
+=======
+
+    @api.model
+    def _load_pos_self_data_domain(self, data):
+        return [('id', '=', False)]
+
+    @api.model
+    def sync_from_ui(self, orders):
+        for order in orders:
+            if order.get('id'):
+                order_id = order['id']
+
+                if isinstance(order_id, int):
+                    old_order = self.env['pos.order'].browse(order_id)
+                    if old_order.takeaway:
+                        order['takeaway'] = old_order.takeaway
+
+        return super().sync_from_ui(orders)
+
+    def _get_open_order(self, order):
+        open_order = super()._get_open_order(order)
+        if not self.env.context.get('from_self'):
+            return open_order
+        elif open_order:
+            del order['table_id']
+        return self.env['pos.order'].search([('uuid', '=', order.get('uuid'))], limit=1)
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
 
     def _process_saved_order(self, draft):
         res = super()._process_saved_order(draft)
@@ -85,19 +110,11 @@ class PosOrder(models.Model):
         order_ids = self.env['pos.order'].browse(server_ids)
         order_ids.state = 'cancel'
         self._send_notification(order_ids)
-
         return super().remove_from_ui(server_ids)
-
-    def _order_fields(self, ui_order):
-        fields = super()._order_fields(ui_order)
-        fields.update({
-            'take_away': ui_order.get('take_away'),
-            'table_stand_number': ui_order.get('table_stand_number'),
-        })
-        return fields
 
     def _send_notification(self, order_ids):
         for order in order_ids:
+<<<<<<< HEAD
             if order.access_token and order.state != 'draft':
                 self.env['bus.bus']._sendone(f'self_order-{order.access_token}', 'ORDER_STATE_CHANGED', {
                     'access_token': order.access_token,
@@ -165,3 +182,12 @@ class PosOrder(models.Model):
         orders = super().export_for_ui_table_draft(table_ids)
         self_orders = self.get_standalone_self_order().export_for_ui()
         return orders + self_orders
+=======
+            order._notify('ORDER_STATE_CHANGED', {
+                'pos.order': order.read(order._load_pos_self_data_fields(order.config_id.id), load=False),
+                'pos.order.line': order.lines.read(order._load_pos_self_data_fields(order.config_id.id), load=False),
+                'pos.payment': order.payment_ids.read(order.payment_ids._load_pos_data_fields(order.config_id.id), load=False),
+                'pos.payment.method': order.payment_ids.mapped('payment_method_id').read(self.env['pos.payment.method']._load_pos_data_fields(order.config_id.id), load=False),
+                'product.attribute.custom.value':  order.lines.custom_attribute_value_ids.read(order.lines.custom_attribute_value_ids._load_pos_data_fields(order.config_id.id), load=False),
+            })
+>>>>>>> 06627dce7193576dd948aba13dceb28c33506fc8
